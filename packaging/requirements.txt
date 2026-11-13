@@ -1,0 +1,2 @@
+# Dépendance de construction uniquement, sans effet sur l'environnement du joueur.
+pyinstaller>=6,<7

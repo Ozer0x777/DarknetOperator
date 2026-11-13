@@ -1,0 +1,75 @@
+{
+  "scenario_id": "ravelle_current",
+  "name": "Sous recommandation — Ravelle",
+  "description": "Vérifier le site du cabinet Ravelle, puis livrer le mandat RAV-26-001 courant. Une source publique ne prouve pas un accès administrateur.",
+  "hosts": [
+    {
+      "id": "ravelle-public",
+      "hostname": "RAVELLE-PUBLIC",
+      "ip": "51.91.204.27",
+      "os": "Linux Debian 12",
+      "services": [
+        {
+          "name": "HTTP",
+          "port": 80,
+          "version": "nginx 1.24"
+        }
+      ],
+      "files": {
+        "/srv/www/index.txt": "Cabinet Ravelle et Associés — www.ravelle-associes.fr\nIdentité : /mentions.txt\nDocuments courants : /documents/RAV-26-001.txt\nArchives : /archives/RAV-24-001.txt\n",
+        "/srv/www/mentions.txt": "Cabinet Ravelle et Associés — comptabilité. Registre publié le 12 novembre 2026.\n",
+        "/srv/www/current.txt": "REFERENCE: RAV-26-001\nDATE: 2026-11-12\nCLIENT: Cabinet Ravelle et Associés\nSTATUT: mandat courant\n",
+        "/srv/www/archive.txt": "REFERENCE: RAV-24-001\nDATE: 2024-02-12\nSTATUT: archive\n"
+      }
+    }
+  ],
+  "users": [],
+  "initially_discovered": [
+    "ravelle-public"
+  ],
+  "initially_scanned": [],
+  "objectives": [
+    {
+      "type": "investigation_step",
+      "step": "ravelle_livre"
+    }
+  ],
+  "max_ticks": 3000,
+  "rng_seed": 0,
+  "available_abilities": {
+    "red": [
+      "red.recon_scan",
+      "red.exfiltrate"
+    ],
+    "blue": []
+  },
+  "domain": {
+    "name": "ravelle-associes.fr",
+    "sid": "S-1-5-21-100-200-300"
+  },
+  "environment": {
+    "organization": "Cabinet Ravelle et Associés",
+    "sector": "Cabinet comptable",
+    "timezone": "Europe/Paris",
+    "business_hours": "09:00–18:00",
+    "initial_time": "09:00",
+    "briefing_host": "ravelle-public",
+    "known_contact": "k0rvid",
+    "context": "Vérifier le site du cabinet Ravelle, puis livrer le mandat RAV-26-001 courant. Une source publique ne prouve pas un accès administrateur.",
+    "http_routes": {
+      "ravelle-public": {
+        "/": "/srv/www/index.txt",
+        "/mentions.txt": "/srv/www/mentions.txt",
+        "/documents/RAV-26-001.txt": "/srv/www/current.txt",
+        "/archives/RAV-24-001.txt": "/srv/www/archive.txt"
+      }
+    },
+    "dns": {
+      "www.ravelle-associes.fr": "ravelle-public",
+      "ravelle-associes.fr": "ravelle-public"
+    }
+  },
+  "defender": {
+    "enabled": false
+  }
+}

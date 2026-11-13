@@ -1,0 +1,53 @@
+{
+  "scenario_id": "side_contacts",
+  "name": "Retrouver un contact",
+  "description": "Retrouver un contact",
+  "hosts": [
+    {
+      "id": "atelier",
+      "hostname": "ATELIER",
+      "ip": "10.62.0.1",
+      "os": "Linux Debian 12",
+      "services": [],
+      "files": {}
+    }
+  ],
+  "users": [],
+  "initially_discovered": [
+    "atelier"
+  ],
+  "initially_scanned": [],
+  "objectives": [
+    {
+      "type": "investigation_step",
+      "step": "quickwin"
+    }
+  ],
+  "max_ticks": 3000,
+  "rng_seed": 0,
+  "available_abilities": {
+    "red": [
+      "red.recon_scan",
+      "red.exfiltrate",
+      "red.crack_hash"
+    ],
+    "blue": []
+  },
+  "domain": {
+    "name": "act1.lab",
+    "sid": "S-1-5-21-100-200-300"
+  },
+  "environment": {
+    "organization": "Retrouver un contact",
+    "sector": "Dossier de laboratoire",
+    "timezone": "Europe/Paris",
+    "business_hours": "09:00–18:00",
+    "initial_time": "09:00",
+    "briefing_host": "atelier",
+    "known_contact": "miette",
+    "context": "Retrouver un contact : les pièces sont fournies. Paiement unique, aucun effet sur l’ordre des chapitres."
+  },
+  "defender": {
+    "enabled": false
+  }
+}

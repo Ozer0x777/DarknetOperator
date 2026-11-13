@@ -1,0 +1,88 @@
+{
+  "scenario_id": "mvp_demo",
+  "name": "The Silent Insider — MVP (3 hosts)",
+  "hosts": [
+    {
+      "id": "pc-01",
+      "hostname": "PC-01",
+      "ip": "192.168.1.101",
+      "services": [],
+      "edr_agent": false,
+      "admin_users": [],
+      "primary_user": "jdoe",
+      "cached_logons": [
+        "svc_backup",
+        "admin1"
+      ]
+    },
+    {
+      "id": "file-01",
+      "hostname": "FILE-01",
+      "ip": "192.168.1.20",
+      "services": [
+        {
+          "name": "SMB",
+          "port": 445,
+          "version": "Microsoft Windows SMB"
+        }
+      ],
+      "edr_agent": true,
+      "admin_users": [
+        "svc_backup"
+      ]
+    },
+    {
+      "id": "dc-01",
+      "hostname": "DC-01",
+      "ip": "192.168.1.10",
+      "services": [
+        {
+          "name": "LDAP",
+          "port": 389,
+          "version": "Microsoft Windows Active Directory LDAP"
+        }
+      ],
+      "edr_agent": false,
+      "admin_users": [],
+      "is_domain_controller": true
+    }
+  ],
+  "users": [
+    {
+      "username": "jdoe",
+      "is_domain_admin": false,
+      "has_dcsync_rights": false
+    },
+    {
+      "username": "svc_backup",
+      "is_domain_admin": false,
+      "has_dcsync_rights": true
+    },
+    {
+      "username": "admin1",
+      "is_domain_admin": true,
+      "has_dcsync_rights": false
+    }
+  ],
+  "max_ticks": 60,
+  "available_abilities": {
+    "red": [
+      "red.recon_scan",
+      "red.phishing_initial_access",
+      "red.mimikatz_dump",
+      "red.psexec_lateral",
+      "red.dcsync",
+      "red.golden_ticket"
+    ],
+    "blue": [
+      "blue.acknowledge_alert",
+      "blue.isolate_host",
+      "blue.disable_user",
+      "blue.block_ip"
+    ]
+  },
+  "domain": {
+    "name": "ravelle.lab",
+    "sid": "S-1-5-21-100000001-100000002-100000003"
+  }
+}

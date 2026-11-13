@@ -1,0 +1,124 @@
+{
+  "contract_id": "act1_boutique",
+  "scenario": "act1_boutique",
+  "tier": 1,
+  "channel": "chordly",
+  "client": {
+    "handle": "hexcache",
+    "forum_rep": 42,
+    "account_age_days": 284
+  },
+  "bounty": {
+    "forum": "breachboard",
+    "title": "04 — Derrière la boutique",
+    "body": "Pivoine : récupérer les commandes courantes, sans le personnel ni les archives. Mon vérificateur exige un CSV correspondant au contenu courant."
+  },
+  "brief": "Pivoine : livrer les commandes courantes, sans personnel ni archives, dans un CSV complet et relu. Cible : 10.61.4.20.\n\nNouveau : SQLmap sur un paramètre du site. Le contrôle se déroule en deux temps : identifier la page et son paramètre, puis examiner les bases, tables et colonnes avant l’export. Lis le fil Pivoine, observe le site, puis consulte `help sqlmap` ou ~/mission/reperes.txt pour la syntaxe. Une réponse de recherche ne prouve pas une injection.\n\nRéutilise les vérifications de l’échantillon : bonnes données, bon périmètre, relecture. Le nom de l’export dans ~/loot est libre. Confirme la livraison PV-26 des commandes ; indice et rappel détaillé restent disponibles.",
+  "reward": 380,
+  "reputation": 45,
+  "required_items": [],
+  "success_message": "Livraison vérifiée. {reward} ₵ annoncés au contrat ; le règlement exact figure dans ton profil. Merci {handle}, je conserve tes preuves.",
+  "failure_message": "Dossier interrompu. Reprends une sauvegarde ou relance le contrat pour retenter le parcours.",
+  "guide": [],
+  "investigation_steps": [
+    {
+      "id": "commandes_livrees",
+      "tokens": [
+        "livraison",
+        "PV-26",
+        "commandes"
+      ],
+      "requires": [
+        {
+          "type": "forum_read",
+          "thread": "act1-pivoine"
+        },
+        {
+          "type": "tool_fact",
+          "key": "sqlmap:injection:pivoine-web"
+        },
+        {
+          "type": "table_export",
+          "database": "pivoine",
+          "table": "commandes",
+          "path": "/home/operator/loot/sqlmap/10.61.4.20/dump/pivoine/commandes.csv",
+          "any_path": true,
+          "inspected": true
+        }
+      ],
+      "response": "Les commandes courantes sont vérifiées. Leur structure et leurs dates correspondent au besoin. Je te présente 0xvanta, qui travaille sur un portail documentaire.",
+      "missing": "Il manque une observation vérifiable. Teste /produit?id=1 avec sqlmap -u URL -p id --batch --dbs, puis -D pivoine --tables, -T commandes --columns et --dump. Lis le CSV indiqué dans la sortie.",
+      "already": "Cette étape est déjà enregistrée.",
+      "hint": "Teste /produit?id=1 avec sqlmap -u URL -p id --batch --dbs, puis -D pivoine --tables, -T commandes --columns et --dump. Lis le CSV indiqué dans la sortie.",
+      "hints": [
+        "Distingue la recherche de la fiche produit. Il faut les commandes courantes, sans personnel ni archives.",
+        "Vérifie le paramètre de la fiche produit, identifie la table commandes et exporte ses colonnes complètes ; relis le CSV dans ~/loot."
+      ],
+      "help_stages": [
+        {
+          "id": "perimetre",
+          "requires": [
+            {
+              "type": "forum_read",
+              "thread": "act1-pivoine"
+            }
+          ],
+          "hints": [
+            "Lis d’abord les limites du contrat ; toutes les tables ne sont pas demandées.",
+            "Le fil Pivoine distingue recherche et fiche produit. Observe ensuite le site."
+          ],
+          "hint": "Lis le fil Pivoine dans BreachBoard, puis `curl http://10.61.4.20/`. La fiche produit et la recherche ne traitent pas le même paramètre."
+        },
+        {
+          "id": "parametre",
+          "requires": [
+            {
+              "type": "tool_fact",
+              "key": "sqlmap:injection:pivoine-web"
+            }
+          ],
+          "hints": [
+            "Vérifie le paramètre avant de demander des données. Une page ouverte ne prouve pas une injection.",
+            "La fiche produit utilise id. `help sqlmap` explique -u et -p."
+          ],
+          "hint": "Dans Kali : `sqlmap -u \"http://10.61.4.20/produit?id=1\" -p id --batch --dbs`. Lis la réponse avant de choisir la base."
+        },
+        {
+          "id": "export",
+          "requires": [
+            {
+              "type": "table_export",
+              "database": "pivoine",
+              "table": "commandes",
+              "path": "/home/operator/loot/sqlmap/10.61.4.20/dump/pivoine/commandes.csv",
+              "any_path": true,
+              "inspected": true
+            }
+          ],
+          "hints": [
+            "Réutilise le périmètre demandé : commandes courantes, toutes leurs colonnes, sans personnel.",
+            "Inspecte les tables et colonnes avant --dump ; le chemin du CSV figure dans la sortie."
+          ],
+          "hint": "Explore avec `sqlmap -u \"http://10.61.4.20/produit?id=1\" -D pivoine --tables --batch`, puis -T commandes --columns. Exporte la table avec --dump --output-dir=/home/operator/loot/sqlmap. Relis le CSV annoncé dans la sortie avant de confirmer la livraison PV-26 des commandes."
+        }
+      ]
+    }
+  ],
+  "local_files": {
+    "/home/operator/mission/reperes.txt": "SQLmap : --dbs, -D BASE --tables, -D BASE -T TABLE --columns, puis --dump. --output-dir choisit un répertoire local. Observe les noms avant de les réutiliser.\n\nIndice : une piste de raisonnement puis une aide concrète. Rappel détaillé : les commandes de la phase actuelle. L’aide ne retire aucune prime. Les commandes se saisissent dans les consoles du jeu, une par une.\n"
+  },
+  "investigation_threads": [
+    "act1-partages",
+    "act1-echantillon-annonce",
+    "act1-pivoine"
+  ],
+  "private_offer": true,
+  "intro": "On m’a recommandé ton pseudo. Pivoine : récupérer les commandes courantes, sans le personnel ni les archives. Mon vérificateur exige un CSV correspondant au contenu courant. Ouvre le dossier pour recevoir les pièces ; la suite se passe dans notre conversation Chordly.",
+  "relaxed_clock": true,
+  "side_job": false,
+  "chapter": 4,
+  "required_completed": [
+    "act1_echantillon"
+  ],
+  "terminal_revision": 2
+}

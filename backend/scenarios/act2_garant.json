@@ -1,0 +1,454 @@
+{
+  "scenario_id": "act2_garant",
+  "name": "La passation douteuse",
+  "description": "Un vendeur promet un administrateur de domaine. Vérifie la portée réelle du reçu AC-26-209. Tu peux refuser cette annonce ou renégocier une délégation limitée ; les deux choix règlent le dossier.",
+  "hosts": [
+    {
+      "id": "bridge",
+      "hostname": "ORBE-RELAIS",
+      "ip": "10.71.1.10",
+      "os": "Linux Debian 11",
+      "services": [
+        {
+          "name": "SSH",
+          "port": 22,
+          "version": "OpenSSH 9.2"
+        }
+      ],
+      "files": {
+        "/etc/os-release": "ID=debian\nVERSION_ID=\"11\"\nPRETTY_NAME=\"Debian GNU/Linux 11\"\n",
+        "/srv/exports/CT-26-201.txt": "CT-26-201;2026-11-12;Orbe;valide\n",
+        "/root/passation.txt": "OR-ROOT-203 — passation reservée à root.\n",
+        "/home/ops/README.txt": "Passation Orbe. Le compte ops lit /srv/exports, pas /root.\n",
+        "/home/ops/cve-2021-4034.c": "VIRTUAL-SOURCE:CVE-2021-4034\n",
+        "/usr/bin/pkexec": "VIRTUAL-ELF:pkexec\n",
+        "/home/ops/reseau.txt": "Le réseau 10.72.0.0/24 est joignable depuis ce relais. Le portail interne écoute en HTTP sur 10.72.0.20:80.\n",
+        "/home/ops/recu.txt": "AC-26-209 : délégation SSH de lecture, pas administrateur du domaine.\n"
+      },
+      "primary_user": "ops",
+      "admin_users": []
+    },
+    {
+      "id": "fixed",
+      "hostname": "ORBE-CORRIGE",
+      "ip": "10.71.1.11",
+      "os": "Linux Debian 11",
+      "services": [
+        {
+          "name": "SSH",
+          "port": 22,
+          "version": "OpenSSH 9.2"
+        }
+      ],
+      "files": {
+        "/etc/os-release": "ID=debian\nVERSION_ID=\"11\"\n",
+        "/usr/bin/pkexec": "VIRTUAL-ELF:pkexec\n",
+        "/home/ops/cve-2021-4034.c": "VIRTUAL-SOURCE:CVE-2021-4034\n",
+        "/home/ops/correctifs.txt": "CVE-2021-4034 : correctif rétroporté dans policykit-1 0.105-31+deb11u1.\n"
+      },
+      "primary_user": "ops",
+      "admin_users": []
+    },
+    {
+      "id": "intranet",
+      "hostname": "ORBE-INTRANET",
+      "ip": "10.72.0.20",
+      "os": "Linux Debian 12",
+      "services": [
+        {
+          "name": "HTTP",
+          "port": 80,
+          "version": "nginx 1.24"
+        }
+      ],
+      "files": {
+        "/srv/web/index.txt": "Orbe — intranet\nRegistre : /registre.txt\nPassation finale : /bordereau.csv\n",
+        "/srv/web/registre.txt": "OR-NET-205 — registre interne actuel.\n",
+        "/srv/web/bordereau.csv": "REF;DATE;CLIENT;STATUT\nOR-26-210;2026-11-12;Orbe;valide\n",
+        "/srv/web/garant.txt": "AC-26-209 : délégation de lecture, aucun droit administrateur du domaine.\n"
+      },
+      "primary_user": "ops",
+      "admin_users": []
+    },
+    {
+      "id": "dc",
+      "hostname": "ORBE-DC",
+      "ip": "10.71.2.10",
+      "os": "Windows Server 2022",
+      "services": [
+        {
+          "name": "LDAP",
+          "port": 389,
+          "version": "Microsoft AD LDAP"
+        },
+        {
+          "name": "Kerberos",
+          "port": 88,
+          "version": "Microsoft Kerberos"
+        },
+        {
+          "name": "SMB",
+          "port": 445,
+          "version": "Microsoft SMB"
+        }
+      ],
+      "files": {},
+      "primary_user": "audit",
+      "admin_users": []
+    },
+    {
+      "id": "win",
+      "hostname": "ORBE-POSTE",
+      "ip": "10.71.2.21",
+      "os": "Windows 11 Pro",
+      "services": [
+        {
+          "name": "SSH",
+          "port": 22,
+          "version": "OpenSSH 9.2"
+        },
+        {
+          "name": "SMB",
+          "port": 445,
+          "version": "Microsoft SMB"
+        }
+      ],
+      "files": {
+        "/Users/audit/README.txt": "Poste de collecte du domaine ORBE. Le contrôleur est 10.71.2.10.\n"
+      },
+      "primary_user": "audit",
+      "admin_users": []
+    },
+    {
+      "id": "archive",
+      "hostname": "ORBE-ARCHIVE",
+      "ip": "10.71.2.30",
+      "os": "Windows Server 2022",
+      "services": [
+        {
+          "name": "SMB",
+          "port": 445,
+          "version": "Microsoft SMB"
+        }
+      ],
+      "files": {
+        "/srv/exports/OR-26-208.txt": "OR-26-208 — reçu vérifié par le service sauvegarde.\n",
+        "/srv/exports/OR-26-210.csv": "REF;DATE;CLIENT;STATUT\nOR-26-210;2026-11-12;Orbe;valide\n",
+        "/Users/svc.backup/note.txt": "Compte de sauvegarde local au serveur ; aucun droit administrateur du domaine.\n"
+      },
+      "primary_user": "svc.backup",
+      "admin_users": [
+        "svc.backup"
+      ]
+    }
+  ],
+  "users": [
+    {
+      "username": "ops",
+      "password": "Relais2026!"
+    },
+    {
+      "username": "audit",
+      "password": "Audit2026!"
+    },
+    {
+      "username": "svc.backup",
+      "password": "Service2026!"
+    }
+  ],
+  "initially_discovered": [
+    "bridge"
+  ],
+  "initially_scanned": [],
+  "objectives": [
+    {
+      "type": "decision_made",
+      "group": "act2_garant"
+    }
+  ],
+  "max_ticks": 5000,
+  "rng_seed": 0,
+  "available_abilities": {
+    "red": [
+      "red.recon_scan",
+      "red.exfiltrate",
+      "red.crack_hash",
+      "red.psexec_lateral"
+    ],
+    "blue": []
+  },
+  "domain": {
+    "name": "orbe.lab",
+    "sid": "S-1-5-21-710-720-730"
+  },
+  "environment": {
+    "organization": "Orbe Prestations",
+    "sector": "Maintenance interentreprises",
+    "timezone": "Europe/Paris",
+    "business_hours": "09:00–18:00",
+    "initial_time": "10:00",
+    "briefing_host": "bridge",
+    "systems": {
+      "bridge": {
+        "kernel": "5.10.0-20-amd64",
+        "groups": [
+          "ops"
+        ],
+        "packages": {
+          "policykit-1": "0.105-31"
+        },
+        "polkit_version": "0.105",
+        "polkit_vulnerable": true,
+        "files": {
+          "/usr/bin/pkexec": {
+            "owner": "root",
+            "mode": "4755",
+            "suid": true
+          }
+        },
+        "routes": [
+          "10.71.1.0/24 dev eth0 proto kernel scope link",
+          "10.72.0.0/24 dev eth1 proto kernel scope link"
+        ],
+        "services": {
+          "ssh": "active (running)"
+        },
+        "processes": [
+          "root 301 /usr/sbin/sshd",
+          "ops 904 sshd: ops"
+        ],
+        "installed_tools": [
+          "ssh",
+          "scp",
+          "gcc",
+          "pkexec",
+          "curl",
+          "getcap"
+        ]
+      },
+      "fixed": {
+        "kernel": "5.10.0-20-amd64",
+        "groups": [
+          "ops"
+        ],
+        "packages": {
+          "policykit-1": "0.105-31+deb11u1"
+        },
+        "polkit_version": "0.105",
+        "polkit_vulnerable": false,
+        "files": {
+          "/usr/bin/pkexec": {
+            "owner": "root",
+            "mode": "4755",
+            "suid": true
+          }
+        },
+        "routes": [
+          "10.71.1.0/24 dev eth0 proto kernel scope link",
+          "10.72.0.0/24 dev eth1 proto kernel scope link"
+        ],
+        "services": {
+          "ssh": "active (running)"
+        },
+        "processes": [
+          "root 301 /usr/sbin/sshd",
+          "ops 904 sshd: ops"
+        ],
+        "installed_tools": [
+          "ssh",
+          "scp",
+          "gcc",
+          "pkexec",
+          "curl",
+          "getcap"
+        ]
+      },
+      "win": {
+        "build": "10.0.22621.2428",
+        "groups": [
+          "ORBE\\Domain Users",
+          "ORBE\\Opérateurs"
+        ],
+        "privileges": [
+          "SeChangeNotifyPrivilege Enabled"
+        ],
+        "hotfixes": [
+          "KB5031354"
+        ],
+        "services": {
+          "LanmanServer": "RUNNING",
+          "sshd": "RUNNING"
+        },
+        "processes": [
+          "System 4",
+          "svchost.exe 880"
+        ],
+        "routes": [
+          "10.71.2.0 255.255.255.0 On-link"
+        ]
+      },
+      "archive": {
+        "build": "10.0.20348.1970",
+        "groups": [
+          "ORBE\\Domain Users",
+          "ORBE\\Opérateurs"
+        ],
+        "privileges": [
+          "SeChangeNotifyPrivilege Enabled"
+        ],
+        "hotfixes": [
+          "KB5030216"
+        ],
+        "services": {
+          "LanmanServer": "RUNNING"
+        },
+        "processes": [
+          "System 4",
+          "svchost.exe 880"
+        ],
+        "routes": [
+          "10.71.2.0 255.255.255.0 On-link"
+        ]
+      },
+      "dc": {
+        "build": "10.0.20348.1970",
+        "groups": [
+          "ORBE\\Domain Users",
+          "ORBE\\Opérateurs"
+        ],
+        "privileges": [
+          "SeChangeNotifyPrivilege Enabled"
+        ],
+        "hotfixes": [
+          "KB5030216"
+        ],
+        "services": {
+          "LanmanServer": "RUNNING"
+        },
+        "processes": [
+          "System 4",
+          "svchost.exe 880"
+        ],
+        "routes": [
+          "10.71.2.0 255.255.255.0 On-link"
+        ]
+      }
+    },
+    "file_permissions": {
+      "bridge": {
+        "/root": [
+          "root"
+        ]
+      },
+      "fixed": {
+        "/root": [
+          "root"
+        ]
+      }
+    },
+    "network_rules": [
+      {
+        "source": "bridge",
+        "target": "intranet",
+        "port": 80,
+        "action": "allow"
+      },
+      {
+        "source": "*",
+        "target": "intranet",
+        "port": 80,
+        "action": "deny"
+      }
+    ],
+    "http_routes": {
+      "intranet": {
+        "/": "/srv/web/index.txt",
+        "/registre.txt": "/srv/web/registre.txt",
+        "/bordereau.csv": "/srv/web/bordereau.csv",
+        "/garant.txt": "/srv/web/garant.txt"
+      }
+    },
+    "directory": {
+      "host": "10.71.2.10",
+      "base": "DC=orbe,DC=lab",
+      "entries": [
+        {
+          "dn": "CN=audit,CN=Users,DC=orbe,DC=lab",
+          "objectClass": [
+            "top",
+            "person",
+            "user"
+          ],
+          "sAMAccountName": "audit",
+          "cn": "audit",
+          "objectSid": "S-1-5-21-710-720-730-1100",
+          "memberOf": [
+            "CN=Opérateurs,CN=Users,DC=orbe,DC=lab"
+          ]
+        },
+        {
+          "dn": "CN=svc.backup,CN=Users,DC=orbe,DC=lab",
+          "objectClass": [
+            "top",
+            "person",
+            "user"
+          ],
+          "sAMAccountName": "svc.backup",
+          "cn": "svc.backup",
+          "objectSid": "S-1-5-21-710-720-730-1101",
+          "memberOf": [
+            "CN=Opérateurs,CN=Users,DC=orbe,DC=lab"
+          ],
+          "servicePrincipalName": [
+            "MSSQLSvc/archive.orbe.lab:1433"
+          ]
+        },
+        {
+          "dn": "CN=Opérateurs,CN=Users,DC=orbe,DC=lab",
+          "objectClass": [
+            "top",
+            "group"
+          ],
+          "cn": "Opérateurs",
+          "objectSid": "S-1-5-21-710-720-730-2100",
+          "member": [
+            "CN=audit,CN=Users,DC=orbe,DC=lab",
+            "CN=svc.backup,CN=Users,DC=orbe,DC=lab"
+          ]
+        },
+        {
+          "dn": "CN=ORBE-ARCHIVE,CN=Computers,DC=orbe,DC=lab",
+          "objectClass": [
+            "top",
+            "computer"
+          ],
+          "cn": "ORBE-ARCHIVE",
+          "objectSid": "S-1-5-21-710-720-730-3100"
+        }
+      ],
+      "groups": [
+        "Opérateurs"
+      ],
+      "edges": [
+        {
+          "source": "S-1-5-21-710-720-730-1101",
+          "target": "S-1-5-21-710-720-730-3100",
+          "type": "AdminTo"
+        }
+      ],
+      "spns": [
+        {
+          "user": "svc.backup",
+          "spn": "MSSQLSvc/archive.orbe.lab:1433",
+          "group": "Opérateurs",
+          "etype": 23
+        }
+      ]
+    },
+    "known_contact": "relay",
+    "context": "Un vendeur promet un administrateur de domaine. Vérifie la portée réelle du reçu AC-26-209. Tu peux refuser cette annonce ou renégocier une délégation limitée ; les deux choix règlent le dossier."
+  },
+  "defender": {
+    "enabled": false
+  }
+}

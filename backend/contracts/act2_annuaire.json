@@ -1,0 +1,70 @@
+{
+  "contract_id": "act2_annuaire",
+  "scenario": "act2_annuaire",
+  "tier": 2,
+  "act": 2,
+  "act_chapter": 6,
+  "channel": "telegrid",
+  "client": {
+    "handle": "iris",
+    "forum_rep": 80,
+    "account_age_days": 650
+  },
+  "bounty": {
+    "forum": "exployt",
+    "title": "06 — Le réseau du prestataire",
+    "body": "Consulte l’annuaire orbe.lab au contrôleur 10.71.2.10 avec le compte audit. Prépare une collecte SharpHound depuis ORBE-POSTE 10.71.2.21, récupère l’archive et examine ses relations dans BloodHound."
+  },
+  "brief": "Consulte l’annuaire orbe.lab au contrôleur 10.71.2.10 avec le compte audit. Prépare une collecte SharpHound depuis ORBE-POSTE 10.71.2.21, récupère l’archive et examine ses relations dans BloodHound.\n\nLes pièces sont dans ~/mission. Écris indice pour une piste ou rappel détaillé pour les commandes de ce dossier. Aucun achat de matériel requis.",
+  "reward": 360,
+  "reputation": 20,
+  "required_items": [],
+  "required_completed": [
+    "act2_pivot"
+  ],
+  "success_message": "Preuves vérifiées. {reward} ₵ réglés dans ColdVault ; tes choix sont conservés.",
+  "failure_message": "Dossier interrompu, sans prime. Les accès acquis et les observations sauvegardées restent disponibles pour une reprise.",
+  "guide": [],
+  "investigation_steps": [
+    {
+      "id": "annuaire",
+      "tokens": [
+        "rapport",
+        "OR-AD-206"
+      ],
+      "requires": [
+        {
+          "type": "tool_fact",
+          "key": "ldap:search"
+        },
+        {
+          "type": "tool_fact",
+          "key": "sharphound:collection"
+        },
+        {
+          "type": "tool_fact",
+          "key": "bloodhound:import"
+        }
+      ],
+      "response": "Collecte et analyse reçues ; les relations du graphe restent à vérifier sur les machines.",
+      "already": "Cette preuve est déjà enregistrée.",
+      "missing": "Vérifie les observations et la version des pièces ; demande indice si nécessaire.",
+      "hint": "LDAP : `ldapsearch -x -H ldap://10.71.2.10 -D audit@orbe.lab -W -b \"DC=orbe,DC=lab\" \"(objectClass=*)\"`. Le secret audit est dans ~/mission/acces.txt. Transfère ~/tools/sharphound.exe vers C:/Users/audit/sharphound.exe par SCP puis ouvre SSH audit@10.71.2.21. Lance `C:\\Users\\audit\\sharphound.exe --CollectionMethods Group,ObjectProps --OutputDirectory C:\\Users\\audit --ZipFileName orbe.zip`. Récupère C:/Users/audit/orbe.zip dans ~/loot, importe-la dans BloodHound puis confirme OR-AD-206.",
+      "hints": [
+        "Commence par vérifier le périmètre, les droits et les sources fournis.",
+        "Le rappel détaillé donne les commandes du laboratoire ; une déclaration ne remplace pas une preuve."
+      ]
+    }
+  ],
+  "local_files": {
+    "/home/operator/mission/passation.txt": "OR-26-201 : compte ops, relais 10.71.1.10 ; le secret de la passation est à vérifier hors ligne.\n",
+    "/home/operator/mission/ops.ntlm": "4f9a8fd0784f9ca033b21e81f0037dec\n",
+    "/home/operator/mission/mots.txt": "Relais2024!\nRelais2025!\nRelais2026!\n",
+    "/home/operator/mission/acces.txt": "Compte de consultation fourni pour le domaine : audit / Audit2026!\nORBE-POSTE : 10.71.2.21 ; contrôleur : 10.71.2.10.\n",
+    "/home/operator/mission/brief-act2.txt": "Consulte l’annuaire orbe.lab au contrôleur 10.71.2.10 avec le compte audit. Prépare une collecte SharpHound depuis ORBE-POSTE 10.71.2.21, récupère l’archive et examine ses relations dans BloodHound.\n"
+  },
+  "private_offer": true,
+  "intro": "Consulte l’annuaire orbe.lab au contrôleur 10.71.2.10 avec le compte audit. Prépare une collecte SharpHound depuis ORBE-POSTE 10.71.2.21, récupère l’archive et examine ses relations dans BloodHound. Ouvre le dossier pour recevoir les pièces ; les échanges se font ici, sur Telegrid.",
+  "relaxed_clock": true,
+  "terminal_revision": 1
+}

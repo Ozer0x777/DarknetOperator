@@ -1,0 +1,17 @@
+__pycache__/
+*.pyc
+.venv/
+node_modules/
+*.db
+
+.pytest_cache/
+
+.godot/
+build/
+dist/
+*.spec
+
+# Musique source et album découpé : fichiers locaux, hors dépôt
+/SourcePlay.mp3
+/musique-source.mp3
+game/assets/audio/chapter-album/

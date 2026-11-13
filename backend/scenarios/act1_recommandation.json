@@ -1,0 +1,171 @@
+{
+  "scenario_id": "act1_recommandation",
+  "name": "10 — Quelqu’un répond de toi",
+  "description": "Quelqu’un répond de toi",
+  "hosts": [
+    {
+      "id": "boreal-web",
+      "hostname": "BOREAL-WEB",
+      "ip": "10.61.10.20",
+      "os": "Linux Debian 12",
+      "services": [
+        {
+          "name": "HTTP",
+          "port": 80,
+          "version": "Portail Boreal 1.8"
+        }
+      ],
+      "files": {
+        "/web/index": "Boreal — bordereaux /bordereau?id=1 ; fichiers de support /support/\n",
+        "/web/robots": "User-agent: *\nDisallow: /support/\n",
+        "/web/config.old": "SQL_HOST=10.61.10.10\nSQL_DATABASE=boreal\nSQL_USER=boreal_ro\nSQL_PASSWORD=BorealRead2026!\n"
+      }
+    },
+    {
+      "id": "boreal-db",
+      "hostname": "BOREAL-DB",
+      "ip": "10.61.10.10",
+      "os": "Linux Debian 12",
+      "services": [
+        {
+          "name": "MYSQL",
+          "port": 3306,
+          "version": "MySQL 8.0"
+        }
+      ],
+      "files": {}
+    }
+  ],
+  "users": [],
+  "initially_discovered": [
+    "boreal-web"
+  ],
+  "initially_scanned": [],
+  "objectives": [
+    {
+      "type": "decision_made",
+      "group": "finale"
+    }
+  ],
+  "max_ticks": 3000,
+  "rng_seed": 0,
+  "available_abilities": {
+    "red": [
+      "red.recon_scan",
+      "red.exfiltrate",
+      "red.crack_hash"
+    ],
+    "blue": []
+  },
+  "domain": {
+    "name": "act1.lab",
+    "sid": "S-1-5-21-100-200-300"
+  },
+  "environment": {
+    "organization": "Quelqu’un répond de toi",
+    "sector": "Dossier de laboratoire",
+    "timezone": "Europe/Paris",
+    "business_hours": "09:00–18:00",
+    "initial_time": "09:00",
+    "briefing_host": "boreal-web",
+    "known_contact": "bytewarden",
+    "context": "k0rvid, hexcache et nullroute proposent de répondre de toi. Dernier dossier : vérifier et livrer les bordereaux BR-26 valides, puis nous déciderons de l’invitation.",
+    "databases": {
+      "boreal": {
+        "engine": "MySQL",
+        "host": "boreal-db",
+        "accounts": {
+          "boreal_ro": {
+            "password": "BorealRead2026!",
+            "tables": [
+              "bordereaux"
+            ]
+          }
+        },
+        "tables": {
+          "bordereaux": {
+            "columns": [
+              [
+                "id",
+                "INTEGER"
+              ],
+              [
+                "reference",
+                "TEXT"
+              ],
+              [
+                "date",
+                "TEXT"
+              ],
+              [
+                "statut",
+                "TEXT"
+              ]
+            ],
+            "rows": [
+              [
+                1,
+                "BR-26-501",
+                "2026-11-08",
+                "valide"
+              ],
+              [
+                2,
+                "BR-26-502",
+                "2026-11-08",
+                "valide"
+              ],
+              [
+                3,
+                "BR-24-001",
+                "2024-01-01",
+                "archive"
+              ]
+            ]
+          },
+          "personnel": {
+            "columns": [
+              [
+                "id",
+                "INTEGER"
+              ],
+              [
+                "nom",
+                "TEXT"
+              ]
+            ],
+            "rows": [
+              [
+                1,
+                "Hors périmètre"
+              ]
+            ]
+          }
+        }
+      }
+    },
+    "http_routes": {
+      "boreal-web": {
+        "/": "/web/index",
+        "/robots.txt": "/web/robots",
+        "/support/database.env.old": "/web/config.old",
+        "/bordereau": "/web/index"
+      }
+    },
+    "sql_surfaces": {
+      "boreal-web": {
+        "/bordereau": {
+          "parameter": "id",
+          "vulnerable": true,
+          "database": "boreal",
+          "tables": [
+            "bordereaux"
+          ]
+        }
+      }
+    }
+  },
+  "defender": {
+    "enabled": false
+  }
+}

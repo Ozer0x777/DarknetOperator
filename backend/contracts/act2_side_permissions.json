@@ -1,0 +1,66 @@
+{
+  "contract_id": "act2_side_permissions",
+  "scenario": "act2_side_permissions",
+  "tier": 2,
+  "act": 2,
+  "act_chapter": null,
+  "channel": "telegrid",
+  "client": {
+    "handle": "cendre",
+    "forum_rep": 80,
+    "account_age_days": 650
+  },
+  "bounty": {
+    "forum": "exployt",
+    "title": "Droits annoncés",
+    "body": "Contre-vérification ciblée, après act2_compte. Réutilise les commandes déjà rencontrées, puis confirme « rapport act2_side_permissions ». Aucun nouveau logiciel requis."
+  },
+  "brief": "Contre-vérification ciblée, après act2_compte. Réutilise les commandes déjà rencontrées, puis confirme « rapport act2_side_permissions ». Aucun nouveau logiciel requis.",
+  "reward": 80,
+  "reputation": 5,
+  "required_items": [],
+  "required_completed": [
+    "act2_compte"
+  ],
+  "success_message": "Preuves vérifiées. {reward} ₵ réglés dans ColdVault ; tes choix sont conservés.",
+  "failure_message": "Dossier interrompu, sans prime. Les accès acquis et les observations sauvegardées restent disponibles pour une reprise.",
+  "guide": [],
+  "investigation_steps": [
+    {
+      "id": "controle",
+      "tokens": [
+        "rapport",
+        "act2_side_permissions"
+      ],
+      "requires": [
+        {
+          "type": "tool_fact",
+          "key": "system:bridge:id"
+        },
+        {
+          "type": "tool_fact",
+          "key": "system:bridge:sudo"
+        }
+      ],
+      "response": "Contre-vérification reçue.",
+      "already": "Cette preuve est déjà enregistrée.",
+      "missing": "Vérifie les observations et la version des pièces ; demande indice si nécessaire.",
+      "hint": "`ssh ops@10.71.1.10`, saisis le résultat de la passation. Dans la session : `id`, `uname -a`, `sudo -l`, `cat /home/ops/README.txt`. Depuis une console Kali : `scp ops@10.71.1.10:/srv/exports/CT-26-201.txt ~/loot/compte.txt`, puis lis ta copie et confirme CT-26-201. Puis confirme « rapport act2_side_permissions ».",
+      "hints": [
+        "Commence par vérifier le périmètre, les droits et les sources fournis.",
+        "Le rappel détaillé donne les commandes du laboratoire ; une déclaration ne remplace pas une preuve."
+      ]
+    }
+  ],
+  "local_files": {
+    "/home/operator/mission/passation.txt": "OR-26-201 : compte ops, relais 10.71.1.10 ; le secret de la passation est à vérifier hors ligne.\n",
+    "/home/operator/mission/ops.ntlm": "4f9a8fd0784f9ca033b21e81f0037dec\n",
+    "/home/operator/mission/mots.txt": "Relais2024!\nRelais2025!\nRelais2026!\n",
+    "/home/operator/mission/brief-act2.txt": "Teste le compte ops sur 10.71.1.10. Vérifie identité, version du système et droits, puis récupère seulement CT-26-201 dans ~/loot.\n"
+  },
+  "private_offer": true,
+  "intro": "Contre-vérification ciblée, après act2_compte. Réutilise les commandes déjà rencontrées, puis confirme « rapport act2_side_permissions ». Aucun nouveau logiciel requis.",
+  "relaxed_clock": true,
+  "terminal_revision": 1,
+  "side_job": true
+}

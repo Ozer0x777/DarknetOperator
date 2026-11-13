@@ -1,0 +1,138 @@
+CARNET — COMPRENDRE LE PREMIER CONTRAT
+
+1. POURQUOI NMAP ?
+Nous connaissons un poste, pas encore les autres machines ni leurs services.
+nmap -sV 10.20.0.0/24 inspecte le sous-réseau du scénario. /24 décrit le périmètre ;
+-sV demande les versions des services que le modèle sait identifier.
+Lis d'abord les noms et adresses. Host is up indique une machine répondante.
+open indique un service joignable, closed un port sans service et filtered un
+filtrage empêchant de conclure. Un port ouvert ne prouve pas une vulnérabilité.
+22/SSH et 445/SMB sont des points d'accès potentiels, pas des droits acquis.
+Ce scan prépare une décision ; il ne récupère aucun mot de passe.
+
+2. POURQUOI GOPHISH ?
+Le scan ne donne pas d'identifiants. La mission propose une campagne fictive
+auprès du contact d'accueil connu. GoPhish gère l'envoi et les événements de
+cette campagne. Il ne compromet pas automatiquement une machine.
+Le destinataire du tutoriel peut soumettre son compte ; un autre scénario peut
+produire une absence de réponse ou un signalement.
+
+3. LES DEUX FICHIERS À NE PAS CONFONDRE
+cat /opt/gophish/config.json
+Ce fichier règle les serveurs : admin_server est l'administration locale sur
+127.0.0.1:3333 avec TLS ; phish_server est le serveur de pages du laboratoire.
+0.0.0.0:80 désigne une écoute sur les interfaces du monde simulé. Aucun port réel
+n'est ouvert par ces outils virtuels. db_name et db_path désignent la base du
+logiciel représenté ; ils ne choisissent pas les destinataires.
+--config indique quel fichier de configuration lire au démarrage.
+
+cat ~/gophish/campaign.json
+Ce fichier décrit une campagne : groups référence les destinataires, template
+le message, page la page affichée, smtp le profil d'envoi, url l'adresse utilisée
+dans le message. Les ressources Briefing sont déjà préparées pour cette mission.
+La page fournie active la capture des champs et du mot de passe. Une page qui
+ne capture pas ce champ peut enregistrer une visite sans fournir d'identifiant.
+Lire ce JSON n'envoie rien. C'est la requête POST de création qui lance la campagne.
+
+4. POURQUOI DEUX CONSOLES ?
+GoPhish reste au premier plan dans sa console. Une autre console Kali envoie les
+requêtes curl à son API. API_KEY autorise l'accès à cette API, pas aux postes Windows.
+La variable reste locale à la console. -H ajoute les en-têtes, -d @fichier envoie
+le JSON contenu dans le fichier. -k accepte le certificat local de démonstration.
+Queued signifie campagne créée et en attente : ce n'est pas un compte récupéré.
+
+5. POURQUOI TRANSFÉRER UN OUTIL PUIS UTILISER IMPACKET ?
+Un programme sur Kali n'est pas automatiquement présent sur Windows. SCP ou SMB
+copie l'artefact virtuel ; une connexion distincte ouvre la session distante.
+Le compte m.leroux est administrateur de son poste dans ce scénario, mais pas du
+serveur. PsExec utilise les droits du compte et crée un service distant dans le
+modèle. whoami et hostname permettent de vérifier le contexte avant d'agir.
+Kali, cmd et PowerShell ont des commandes et des chemins différents.
+
+6. POURQUOI LA MÉMOIRE DU POSTE ?
+Le scénario place un identifiant de prestataire en mémoire après une maintenance.
+L'action Mimikatz lit cette mémoire dans une session SYSTEM, pas dans n'importe
+quelle session. Le résultat est un hash NTLM : ce n'est pas le mot de passe en clair.
+Son utilisation n'accorde que les droits du compte concerné. Les traces du service
+et de la lecture mémoire restent dans le rapport du moteur.
+
+7. QUAND EST-CE TERMINÉ ?
+Le contrat demande une connexion administrateur au serveur de fichiers.
+Un scan, un identifiant dans le butin ou un outil copié ne suffit pas.
+Sur le serveur, une authentification acceptée avec le compte de maintenance
+valide l'objectif du tutoriel. Le rapport explique ensuite les traces produites.
+
+8. DÉCOMPOSER LES COMMANDES DU TUTORIEL
+
+cat CHEMIN : affiche un fichier texte dans Kali. Il ne l'exécute pas.
+~/ signifie /home/operator/ dans la console locale du jeu.
+help OUTIL : décrit le sous-ensemble que ce simulateur prend en charge.
+whoami : identité de la session actuelle ; hostname : nom de sa machine.
+dir C:\Data : liste le dossier de données dans cmd. type CHEMIN y lit un fichier.
+Dans PowerShell, Get-ChildItem et Get-Content sont les commandes correspondantes.
+
+nmap -sV 10.20.0.0/24
+nmap est l'outil ; -sV active l'identification des services ; l'argument final
+est le périmètre de découverte. Cherche SRV-FICHIERS et son port SMB, mais garde
+le poste d'accueil comme point de départ : le réseau découvert ne donne aucun compte.
+
+gophish --config /opt/gophish/config.json
+Le nom de fichier est un argument de configuration, pas une commande à exécuter.
+Le processus reste au premier plan. Ctrl+C l'arrête ; les requêtes suivantes
+échoueraient si le serveur n'était plus disponible. Ouvre donc une autre console.
+
+API_KEY=$(cat ~/gophish/api-key.txt)
+cat lit la clé fournie ; $(...) récupère sa sortie ; API_KEY= la place dans une
+variable de ce shell. L'absence de sortie est normale. Aucun mot de passe de
+victime n'est créé par cette affectation.
+
+curl -k -H "Authorization: $API_KEY" https://127.0.0.1:3333/api/groups/
+curl est un client HTTP. Sans -d ni -X, cette requête est un GET : elle consulte
+les groupes sans lancer une campagne. 127.0.0.1 vise l'administration locale.
+-H ajoute l'en-tête d'authentification. $API_KEY est remplacé par la variable de
+cette console. -k accepte le certificat de démonstration, il ne contourne pas
+l'authentification. Lire le JSON permet de vérifier le destinataire et le groupe.
+
+curl -k -H "Authorization: $API_KEY" -H "Content-Type: application/json" -d @/home/operator/gophish/campaign.json https://127.0.0.1:3333/api/campaigns/
+Content-Type décrit le format envoyé. -d fournit les données et fait utiliser
+POST ; @ signifie lire leur contenu dans ce fichier, pas envoyer son nom.
+/api/campaigns/ est la ressource de création. L'id retourné identifie la campagne.
+Queued n'est qu'un état d'attente : attendre l'événement de soumission et le butin.
+
+scp ~/tools/mimikatz.exe m.leroux@10.20.0.21:C:/Tools/mimikatz.exe
+scp utilise ici le service SSH simulé pour copier un fichier. Premier argument :
+source locale ; second : compte@machine:chemin destination. Le : sépare la machine
+du chemin, C: désigne le lecteur Windows. La demande de mot de passe appartient
+au transfert. Une ligne 100% indique la copie ; le programme ne s'est pas exécuté.
+
+impacket-psexec m.leroux@10.20.0.21
+Le client est installé sur Kali. L'identité est utilisateur@cible ; sans mot de
+passe écrit dans la commande, il demande Password:. Le modèle vérifie le service
+SMB, le filtrage, le secret et les droits administrateur sur cette machine.
+Le service distant de ce parcours ouvre une session SYSTEM. Son invite C:\...
+indique que les commandes suivantes concernent Windows, pas Kali.
+
+C:\Tools\mimikatz.exe "privilege::debug" "sekurlsa::logonpasswords" exit
+Le chemin désigne le fichier copié. Les arguments entre guillemets sont des
+sous-commandes du programme. privilege::debug représente l'activation du privilège
+de débogage nécessaire ; sekurlsa::logonpasswords représente la lecture des
+identifiants présents en mémoire. Dans ce moteur, une session SYSTEM est requise.
+L'argument exit termine Mimikatz, pas la session cmd qui l'a lancé.
+La sortie du prestataire est un hash NTLM, pas un mot de passe affiché en clair.
+Le résultat vient des comptes mis en mémoire par le scénario, pas d'un tirage arbitraire.
+
+impacket-psexec -hashes :HASH_NT it.presta@10.20.0.10
+HASH_NT est ici un repère explicatif à remplacer par le hash obtenu ; ce mot
+n'est pas une valeur valide à recopier. -hashes attend LM:NT ; le champ LM vide
+explique le deux-points initial. On utilise l'empreinte comme identifiant dans
+l'authentification modélisée, sans prétendre avoir retrouvé le mot de passe.
+Le compte it.presta a les droits sur ce serveur dans le scénario. Cette étape
+n'est donc pas une répétition de la connexion de m.leroux sur son propre poste.
+
+powershell : ouvre PowerShell depuis cmd. exit quitte ce shell et revient à son
+parent. Un second exit depuis la session distante revient à Kali. Toujours
+vérifier la machine et le shell avant d'interpréter une erreur de commande.
+
+Hashcat n'est pas nécessaire pour finir Ravelle : le contrat accepte ce compte
+par hash. Il intervient dans les missions où un mot de passe en clair est demandé.
+Le tutoriel ne doit pas faire exécuter des outils sans lien avec son objectif.

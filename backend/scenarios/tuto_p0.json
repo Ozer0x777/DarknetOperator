@@ -1,0 +1,128 @@
+{
+  "scenario_id": "tuto_p0",
+  "name": "Tutoriel — Cabinet Ravelle & Associés",
+  "description": "Accueil et comptabilité sur un LAN ancien. Le prestataire a ouvert une session de maintenance sur le poste d’accueil.",
+  "hosts": [
+    {
+      "id": "poste-accueil",
+      "hostname": "POSTE-ACCUEIL",
+      "ip": "10.20.0.21",
+      "services": [
+        {
+          "name": "SMB",
+          "port": 445,
+          "version": "Microsoft Windows SMB"
+        },
+        {
+          "name": "SSH",
+          "port": 22,
+          "version": "OpenSSH for_Windows 9.5"
+        }
+      ],
+      "edr_agent": false,
+      "admin_users": [
+        "m.leroux"
+      ],
+      "primary_user": "m.leroux",
+      "cached_logons": [
+        "it.presta"
+      ],
+      "os": "Windows 11 Pro",
+      "is_domain_controller": false,
+      "role": "Poste accueil / maintenance",
+      "phishing": {
+        "response": "submitted",
+        "delay_ticks": 2,
+        "reason": "Destinataire disponible au créneau de la mission."
+      }
+    },
+    {
+      "id": "poste-compta",
+      "hostname": "POSTE-COMPTA",
+      "ip": "10.20.0.22",
+      "services": [],
+      "edr_agent": false,
+      "admin_users": [],
+      "primary_user": "s.benali",
+      "os": "Windows 11 Pro",
+      "is_domain_controller": false,
+      "role": "Poste comptabilité",
+      "phishing": {
+        "response": "ignored",
+        "delay_ticks": 2,
+        "reason": "Le destinataire ne fournit pas ses identifiants ; vérifier les résultats de campagne."
+      }
+    },
+    {
+      "id": "srv-fichiers",
+      "hostname": "SRV-FICHIERS",
+      "ip": "10.20.0.10",
+      "services": [
+        {
+          "name": "SMB",
+          "port": 445,
+          "version": "Microsoft Windows SMB"
+        }
+      ],
+      "edr_agent": false,
+      "admin_users": [
+        "it.presta"
+      ],
+      "os": "Windows Server 2022",
+      "is_domain_controller": false,
+      "role": "Serveur documentaire"
+    }
+  ],
+  "users": [
+    {
+      "username": "m.leroux",
+      "has_dcsync_rights": false,
+      "password": "Password123!"
+    },
+    {
+      "username": "s.benali",
+      "has_dcsync_rights": false,
+      "password": "Password123!"
+    },
+    {
+      "username": "it.presta",
+      "has_dcsync_rights": false,
+      "password": "Maintenance2026!"
+    }
+  ],
+  "initially_discovered": [
+    "poste-accueil"
+  ],
+  "initially_scanned": [],
+  "objectives": [
+    {
+      "type": "host_compromised",
+      "host": "srv-fichiers"
+    }
+  ],
+  "max_ticks": 40,
+  "rng_seed": 0,
+  "available_abilities": {
+    "red": [
+      "red.recon_scan",
+      "red.phishing_initial_access",
+      "red.mimikatz_dump",
+      "red.psexec_lateral"
+    ],
+    "blue": []
+  },
+  "domain": {
+    "name": "ravelle.lab",
+    "sid": "S-1-5-21-100000001-100000002-100000003"
+  },
+  "environment": {
+    "organization": "Ravelle & Associés",
+    "sector": "Cabinet comptable, 12 personnes",
+    "timezone": "Europe/Paris",
+    "business_hours": "09:00–18:00",
+    "context": "Accueil et comptabilité sur un LAN ancien. Le prestataire a ouvert une session de maintenance sur le poste d’accueil.",
+    "initial_time": "09:00",
+    "known_contact": "m.leroux@ravelle.lab",
+    "briefing_host": "poste-accueil"
+  }
+}

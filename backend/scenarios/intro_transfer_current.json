@@ -1,0 +1,84 @@
+{
+  "scenario_id": "intro_transfer_current",
+  "name": "Un document, pas tout le serveur",
+  "description": "Transférer et relire une seule pièce dans les droits de son propriétaire.",
+  "hosts": [
+    {
+      "id": "poste-accueil",
+      "hostname": "POSTE-ACCUEIL",
+      "ip": "10.20.0.21",
+      "services": [
+        {
+          "name": "SMB",
+          "port": 445,
+          "version": "Microsoft Windows SMB"
+        },
+        {
+          "name": "SSH",
+          "port": 22,
+          "version": "OpenSSH for_Windows 9.5"
+        }
+      ],
+      "edr_agent": false,
+      "admin_users": [],
+      "primary_user": "m.leroux",
+      "cached_logons": [],
+      "os": "Windows 11 Pro",
+      "is_domain_controller": false,
+      "role": "Poste accueil / maintenance",
+      "phishing": {
+        "response": "submitted",
+        "delay_ticks": 2,
+        "reason": "Destinataire disponible au créneau de la mission."
+      },
+      "files": {
+        "/Users/m.leroux/Documents/transfert.txt": "TRANSFERT-26 — document de l’exercice, périmètre utilisateur.\n"
+      }
+    }
+  ],
+  "users": [
+    {
+      "username": "m.leroux",
+      "has_dcsync_rights": false,
+      "password": "Password123!"
+    }
+  ],
+  "initially_discovered": [
+    "poste-accueil"
+  ],
+  "initially_scanned": [],
+  "objectives": [
+    {
+      "type": "intact_download",
+      "host": "poste-accueil",
+      "file": "/Users/m.leroux/Documents/transfert.txt",
+      "inspected": true
+    }
+  ],
+  "max_ticks": 600,
+  "rng_seed": 0,
+  "available_abilities": {
+    "red": [
+      "red.recon_scan",
+      "red.exfiltrate"
+    ],
+    "blue": []
+  },
+  "domain": {
+    "name": "ravelle.lab",
+    "sid": "S-1-5-21-100000001-100000002-100000003"
+  },
+  "environment": {
+    "organization": "Atelier de préparation de k0rvid",
+    "sector": "Cabinet comptable, 12 personnes",
+    "timezone": "Europe/Paris",
+    "business_hours": "09:00–18:00",
+    "context": "Transférer uniquement le document demandé.",
+    "initial_time": "09:00",
+    "known_contact": "m.leroux@ravelle.lab",
+    "briefing_host": "poste-accueil"
+  },
+  "defender": {
+    "enabled": false
+  }
+}

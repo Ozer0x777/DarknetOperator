@@ -1,0 +1,77 @@
+{
+  "contract_id": "tuto_p0",
+  "scenario": "ravelle_current",
+  "tier": 0,
+  "channel": "chordly",
+  "client": {
+    "handle": "k0rvid",
+    "forum_rep": 38,
+    "account_age_days": 412
+  },
+  "bounty": {
+    "forum": "breachboard",
+    "title": "[Débutants] Ravelle — vérifier un mandat public",
+    "body": "Vérifier le site du cabinet Ravelle, puis livrer le mandat RAV-26-001 courant. Une source publique ne prouve pas un accès administrateur."
+  },
+  "intro": "Je te confie une première vérification pour Ravelle : identifier la source et livrer la bonne version du mandat. Ouvre le dossier ; les pièces sont publiques et le périmètre est limité.",
+  "brief": "Salut {handle}. Premier contrat : le cabinet Ravelle et Associés. Je veux le mandat RAV-26-001 de novembre 2026, pris sur leur site public. Attention : une archive porte une référence proche. Aucun identifiant à collecter, aucun accès administrateur demandé.\n\nUn site, c’est un nom et une adresse. Le nom de domaine (www.ravelle-associes.fr) sert aux humains ; les machines se parlent avec une adresse IP. Le DNS fait le lien entre les deux, comme un annuaire. Ce site est hébergé sur Internet, donc son IP est publique ; les adresses 10.x ou 192.168.x ne sont joignables que dans un réseau interne.\n\nÉtapes, une commande par Entrée dans le terminal Kali (Ctrl+Alt+T) :\n\n1. Demander au DNS l’adresse du site :\n`host www.ravelle-associes.fr`\nAttendu : www.ravelle-associes.fr has address 51.91.204.27.\n\n2. Vérifier les services de cette machine :\n`nmap -sV 51.91.204.27`\nAttendu : 80/tcp open http. Un port ouvert prouve qu’un service répond, pas qu’on a des droits.\n\n3. Aller voir le site. curl affiche la page dans le terminal, comme un navigateur sans mise en forme ; le nom et l’IP mènent au même serveur :\n`curl http://www.ravelle-associes.fr/`\nAttendu : la page d’accueil et les chemins Identité, Documents courants et Archives.\n\n4. Vérifier l’identité du cabinet :\n`curl http://www.ravelle-associes.fr/mentions.txt`\n\n5. Télécharger le mandat courant dans ton butin (-o enregistre la réponse dans un fichier) :\n`curl -o ~/loot/ravelle.txt http://www.ravelle-associes.fr/documents/RAV-26-001.txt`\n\n6. Relire la copie et vérifier la référence, la date (2026) et le statut :\n`cat ~/loot/ravelle.txt`\n\nQuand tu as fini, écris-moi ici exactement :\n`livraison RAV-26-001`\nJe vérifie ta copie et je règle la prime. Si tu bloques, écris aide.",
+  "guide": [],
+  "reward": 300,
+  "bonus": null,
+  "sting": false,
+  "required_items": [],
+  "success_message": "Mandat vérifié. {reward} ₵ réglés dans ColdVault ; ton accès à BreachBoard est ouvert.",
+  "failure_message": "Le dossier est interrompu, sans prime. Reprends les pièces une à une ; k0rvid peut rappeler l’objectif et donner un indice.",
+  "debrief_hints": [
+    "Lire une source publique ne donne aucun droit administrateur. Le dossier porte sur l’identité du cabinet et le mandat courant.",
+    "Une archive peut porter une référence proche : recoupe la date et le statut avant de livrer.",
+    "Conserve une copie intacte dans ~/loot et relis-la. Le compte rendu confirme des preuves observées ; il ne les remplace pas."
+  ],
+  "unlocks_tier": 1,
+  "reputation": 0,
+  "terminal_revision": 6,
+  "dialogue": {
+    "greeting": "Salut {handle}. Je suis là. On garde un objectif à la fois. Dis-moi ce qui te bloque.",
+    "ack": "Reçu. Prends le temps de vérifier le résultat avant d’enchaîner."
+  },
+  "hints": [
+    "Commence par le site www.ravelle-associes.fr : `host` donne son adresse, curl affiche ses pages.",
+    "La pièce demandée est le mandat RAV-26-001 de novembre 2026. Compare sa référence et sa date, conserve la copie dans ~/loot puis relis-la. Ensuite, écris livraison RAV-26-001 ici."
+  ],
+  "curriculum_version": 4,
+  "local_files": {
+    "/home/operator/mission/ravelle.txt": "RAV-26-001 — Cabinet Ravelle et Associés. Mandat de novembre 2026 demandé ; une archive de 2024 ne convient pas.\nSite public : www.ravelle-associes.fr (DNS : `host www.ravelle-associes.fr`).\nLivraison : écrire « livraison RAV-26-001 » à k0rvid sur Chordly.\n"
+  },
+  "investigation_threads": [],
+  "investigation_steps": [
+    {
+      "id": "ravelle_livre",
+      "tokens": [
+        "livraison",
+        "RAV-26-001"
+      ],
+      "requires": [
+        {
+          "type": "http_read",
+          "host": "ravelle-public",
+          "path": "/mentions.txt"
+        },
+        {
+          "type": "export_matches",
+          "key": "http:ravelle-public:/documents/RAV-26-001.txt",
+          "path": "/home/operator/loot/ravelle.txt",
+          "any_path": true,
+          "inspected": true
+        }
+      ],
+      "hints": [
+        "Vérifie l’identité du site avant de choisir une pièce. Un nom de fichier seul ne prouve pas qu’elle est actuelle.",
+        "Le site donne les chemins des mentions, des archives et des documents actuels. Une copie dans ~/loot doit être relue."
+      ],
+      "hint": "Dans Kali : `curl http://www.ravelle-associes.fr/mentions.txt`, puis `curl -o ~/loot/ravelle.txt http://www.ravelle-associes.fr/documents/RAV-26-001.txt` et `cat ~/loot/ravelle.txt`. Quand c’est fait, écris-moi `livraison RAV-26-001`.",
+      "response": "L’identité du cabinet et le mandat courant sont vérifiés. Je réponds de cette première livraison.",
+      "missing": "Il manque une observation vérifiable avant la livraison : lis les mentions du site, enregistre le mandat dans ~/loot et relis-le, puis écris de nouveau livraison RAV-26-001. Écris aide pour l’étape suivante.",
+      "already": "Cette étape est déjà enregistrée."
+    }
+  ]
+}

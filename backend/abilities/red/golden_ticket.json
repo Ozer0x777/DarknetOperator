@@ -1,0 +1,30 @@
+{
+  "id": "red.golden_ticket",
+  "team": "red",
+  "name": "ticketer (ticket forgé)",
+  "command": "impacket-ticketer -nthash HASH -domain-sid SID -domain DOMAINE utilisateur",
+  "help": "Crée un fichier de ticket hors ligne. Une authentification ultérieure doit encore être vérifiée.",
+  "tier": 1,
+  "requires": [
+    {
+      "type": "target_discovered"
+    },
+    {
+      "type": "target_status_not",
+      "value": "ISOLATED"
+    },
+    {
+      "type": "credential_is_krbtgt_hash"
+    }
+  ],
+  "noise": 40,
+  "cooldown": 0,
+  "points": 35,
+  "critical": false,
+  "effects": [
+    {
+      "type": "forge_ticket"
+    }
+  ],
+  "artifacts": []
+}

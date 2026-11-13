@@ -1,0 +1,31 @@
+{
+  "sample_rate": 44100,
+  "original": true,
+  "tracks": [
+    {
+      "file": "neon-dreams.ogg",
+      "bpm": 88,
+      "seconds": 87.273,
+      "style": "dream",
+      "peak": 0.657,
+      "rms": 0.135
+    },
+    {
+      "file": "afterhours-grid.ogg",
+      "bpm": 96,
+      "seconds": 120.0,
+      "style": "chill",
+      "peak": 0.6059,
+      "rms": 0.135
+    },
+    {
+      "file": "night-runner.ogg",
+      "bpm": 108,
+      "seconds": 106.667,
+      "style": "cyber",
+      "peak": 0.6776,
+      "rms": 0.135
+    }
+  ],
+  "effects": 12
+}

@@ -1,0 +1,38 @@
+{
+  "id": "red.mimikatz_dump",
+  "team": "red",
+  "name": "mimikatz (vol d'identifiants)",
+  "command": "C:\\Tools\\mimikatz.exe \"privilege::debug\" \"sekurlsa::logonpasswords\" exit",
+  "help": "Extrait les identifiants en mémoire de la machine cible.",
+  "tier": 0,
+  "requires": [
+    {
+      "type": "target_discovered"
+    },
+    {
+      "type": "target_status_not",
+      "value": "ISOLATED"
+    },
+    {
+      "type": "target_system_session"
+    }
+  ],
+  "noise": 85,
+  "cooldown": 0,
+  "points": 20,
+  "effects": [
+    {
+      "type": "add_cached_credentials",
+      "cred_type": "NTLM_HASH"
+    }
+  ],
+  "artifacts": [
+    {
+      "event_id": "4663",
+      "data": {
+        "TargetObject": "C:\\Windows\\System32\\lsass.exe",
+        "ProcessName": "mimikatz.exe"
+      }
+    }
+  ]
+}

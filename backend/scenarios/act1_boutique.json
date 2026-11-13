@@ -1,0 +1,255 @@
+{
+  "scenario_id": "act1_boutique",
+  "name": "04 — Derrière la boutique",
+  "description": "Derrière la boutique",
+  "hosts": [
+    {
+      "id": "pivoine-web",
+      "hostname": "PIVOINE-WEB",
+      "ip": "10.61.4.20",
+      "os": "Linux Debian 12",
+      "services": [
+        {
+          "name": "HTTP",
+          "port": 80,
+          "version": "nginx 1.24"
+        }
+      ],
+      "files": {
+        "/web/index": "Boutique Pivoine. Catalogue : /produit?id=1 ; recherche : /recherche?q=rose\n"
+      }
+    }
+  ],
+  "users": [],
+  "initially_discovered": [
+    "pivoine-web"
+  ],
+  "initially_scanned": [],
+  "objectives": [
+    {
+      "type": "investigation_step",
+      "step": "commandes_livrees"
+    }
+  ],
+  "max_ticks": 3000,
+  "rng_seed": 0,
+  "available_abilities": {
+    "red": [
+      "red.recon_scan",
+      "red.exfiltrate",
+      "red.crack_hash"
+    ],
+    "blue": []
+  },
+  "domain": {
+    "name": "act1.lab",
+    "sid": "S-1-5-21-100-200-300"
+  },
+  "environment": {
+    "organization": "Derrière la boutique",
+    "sector": "Dossier de laboratoire",
+    "timezone": "Europe/Paris",
+    "business_hours": "09:00–18:00",
+    "initial_time": "09:00",
+    "briefing_host": "pivoine-web",
+    "known_contact": "hexcache",
+    "context": "Pivoine : récupérer les commandes courantes, sans le personnel ni les archives. Mon vérificateur exige un CSV correspondant au contenu courant.",
+    "http_routes": {
+      "pivoine-web": {
+        "/": "/web/index",
+        "/produit": "/web/index",
+        "/recherche": "/web/index"
+      }
+    },
+    "databases": {
+      "pivoine": {
+        "engine": "MySQL",
+        "host": "pivoine-web",
+        "tables": {
+          "commandes": {
+            "columns": [
+              [
+                "id",
+                "INTEGER"
+              ],
+              [
+                "reference",
+                "TEXT"
+              ],
+              [
+                "date",
+                "TEXT"
+              ],
+              [
+                "client",
+                "TEXT"
+              ],
+              [
+                "montant",
+                "REAL"
+              ]
+            ],
+            "rows": [
+              [
+                1,
+                "PV-26-101",
+                "2026-11-06",
+                "Client fictif 1",
+                103.5
+              ],
+              [
+                2,
+                "PV-26-102",
+                "2026-11-06",
+                "Client fictif 2",
+                107.0
+              ],
+              [
+                3,
+                "PV-26-103",
+                "2026-11-06",
+                "Client fictif 3",
+                110.5
+              ],
+              [
+                4,
+                "PV-26-104",
+                "2026-11-06",
+                "Client fictif 4",
+                114.0
+              ],
+              [
+                5,
+                "PV-26-105",
+                "2026-11-06",
+                "Client fictif 5",
+                117.5
+              ],
+              [
+                6,
+                "PV-26-106",
+                "2026-11-06",
+                "Client fictif 6",
+                121.0
+              ],
+              [
+                7,
+                "PV-26-107",
+                "2026-11-06",
+                "Client fictif 7",
+                124.5
+              ],
+              [
+                8,
+                "PV-26-108",
+                "2026-11-06",
+                "Client fictif 8",
+                128.0
+              ],
+              [
+                9,
+                "PV-26-109",
+                "2026-11-06",
+                "Client fictif 9",
+                131.5
+              ],
+              [
+                10,
+                "PV-26-110",
+                "2026-11-06",
+                "Client fictif 10",
+                135.0
+              ],
+              [
+                11,
+                "PV-26-111",
+                "2026-11-06",
+                "Client fictif 11",
+                138.5
+              ],
+              [
+                12,
+                "PV-26-112",
+                "2026-11-06",
+                "Client fictif 12",
+                142.0
+              ]
+            ]
+          },
+          "archives": {
+            "columns": [
+              [
+                "id",
+                "INTEGER"
+              ],
+              [
+                "reference",
+                "TEXT"
+              ],
+              [
+                "date",
+                "TEXT"
+              ],
+              [
+                "client",
+                "TEXT"
+              ],
+              [
+                "montant",
+                "REAL"
+              ]
+            ],
+            "rows": [
+              [
+                1,
+                "PV-24-001",
+                "2024-01-03",
+                "Archive",
+                80
+              ]
+            ]
+          },
+          "personnel": {
+            "columns": [
+              [
+                "id",
+                "INTEGER"
+              ],
+              [
+                "nom",
+                "TEXT"
+              ]
+            ],
+            "rows": [
+              [
+                1,
+                "Employé fictif"
+              ]
+            ]
+          }
+        }
+      }
+    },
+    "sql_surfaces": {
+      "pivoine-web": {
+        "/produit": {
+          "parameter": "id",
+          "vulnerable": true,
+          "database": "pivoine",
+          "tables": [
+            "commandes",
+            "archives"
+          ]
+        },
+        "/recherche": {
+          "parameter": "q",
+          "vulnerable": false,
+          "database": "pivoine"
+        }
+      }
+    }
+  },
+  "defender": {
+    "enabled": false
+  }
+}

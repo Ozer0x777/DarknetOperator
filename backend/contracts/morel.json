@@ -1,0 +1,59 @@
+{
+  "contract_id": "morel",
+  "scenario": "morel",
+  "tier": 1,
+  "channel": "chordly",
+  "client": {
+    "handle": "k0rvid",
+    "forum_rep": 38,
+    "account_age_days": 412
+  },
+  "bounty": {
+    "forum": "breachboard",
+    "title": "Le cabinet Morel",
+    "body": "Récupérer contrats_2026.xlsx sur le serveur. Bonus si aucune alerte critique."
+  },
+  "brief": "Morel Expertise. Adresse connue : 10.31.4.21. Je veux uniquement contrats_2026.xlsx sur le serveur documentaire. La présence d’un accès ne suffit pas : vérifie le transfert du fichier. Ne chiffre rien.\n\nLis `cat ~/mission/briefing.txt` pour le contexte et les limites connues. Les horaires sont accélérés ; le réseau continue de vivre pendant tes recherches. Si tu veux un indice facultatif, écris aide ici. Je ne te donnerai pas les droits ou les secrets que tu n’as pas encore découverts. Les exécutables Windows du laboratoire sont dans ~/tools ; leur guide décrit le transfert et les droits requis.",
+  "reward": 350,
+  "reputation": 50,
+  "required_rep": 0,
+  "required_items": [],
+  "success_message": "Le fichier demandé a bien été reçu. Je règle selon les conditions du contrat ; le montant exact est dans ton profil.",
+  "failure_message": "Le contrat s’arrête ici. Le rapport distingue la déconnexion, la fin du délai et la réaction de la défense. Aucun objectif non vérifié ne sera considéré comme rempli.",
+  "guide": [
+    {
+      "when": {
+        "type": "host_discovered",
+        "host": "srv-fichiers"
+      },
+      "message": "Le réseau découvert appartient à Morel Expertise. Compare les services et les droits disponibles avec l’objectif. Un compte récupéré ne donne pas automatiquement une session sur les machines. Écris aide si tu veux relire ce point."
+    },
+    {
+      "when": {
+        "type": "credential_owned",
+        "username": "a.morel"
+      },
+      "message": "Le compte a.morel est disponible dans ton butin. Avant un outil Windows, prépare son fichier depuis Kali : `cat ~/tools/README.txt`. SCP utilise le service SSH du poste ; SMB exige les droits du partage. Les clients Impacket restent dans une console Kali séparée. Une session Windows SYSTEM se vérifie avec whoami ; PowerShell s’ouvre avec powershell et exit revient à cmd. Les identifiants récupérés ne donnent pas des droits sur toutes les machines."
+    },
+    {
+      "when": {
+        "type": "credential_owned",
+        "username": "support.morel"
+      },
+      "message": "Le compte support.morel figure maintenant dans ton butin. Vérifie le type d’identifiant récupéré et les droits de la cible ; un hash et un mot de passe ne se passent pas de la même façon aux outils."
+    }
+  ],
+  "debrief_hints": [
+    "Serveur documentaire central. Un compte de support local est réutilisé ; aucune délégation de réplication du domaine.",
+    "Une authentification valide ne donne que les droits du compte utilisé. Les services ouverts ne prouvent pas qu’un compte est administrateur.",
+    "Le temps, les réactions humaines et la défense sont accélérés dans ce laboratoire ; les durées ne représentent pas des mesures réelles."
+  ],
+  "bonus": {
+    "no_critical": true
+  },
+  "terminal_revision": 5,
+  "dialogue": {
+    "greeting": "Salut {handle}. Je suis là. On garde un objectif à la fois. Dis-moi ce qui te bloque.",
+    "ack": "Reçu. Prends le temps de vérifier le résultat avant d’enchaîner."
+  }
+}

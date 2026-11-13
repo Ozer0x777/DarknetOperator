@@ -1,0 +1,97 @@
+{
+  "contract_id": "act2_binome",
+  "scenario": "act2_binome",
+  "tier": 2,
+  "act": 2,
+  "act_chapter": 10,
+  "channel": "telegrid",
+  "client": {
+    "handle": "quartz",
+    "forum_rep": 80,
+    "account_age_days": 650
+  },
+  "bounty": {
+    "forum": "exployt",
+    "title": "10 — Premier travail en binôme",
+    "body": "Livre seulement le bordereau OR-26-210 valide. Choisis le portail interne via le passage SSH ou le partage du serveur de sauvegarde avec les droits vérifiés. Ton partenaire reprendra la même limite d’accès."
+  },
+  "brief": "Livre seulement le bordereau OR-26-210 valide. Choisis le portail interne via le passage SSH ou le partage du serveur de sauvegarde avec les droits vérifiés. Ton partenaire reprendra la même limite d’accès.\n\nLes pièces sont dans ~/mission. Écris indice pour une piste ou rappel détaillé pour les commandes de ce dossier. Aucun achat de matériel requis.",
+  "reward": 480,
+  "reputation": 20,
+  "required_items": [],
+  "required_completed": [
+    "act2_garant"
+  ],
+  "success_message": "Preuves vérifiées. {reward} ₵ réglés dans ColdVault ; tes choix sont conservés.",
+  "failure_message": "Dossier interrompu, sans prime. Les accès acquis et les observations sauvegardées restent disponibles pour une reprise.",
+  "guide": [],
+  "investigation_steps": [
+    {
+      "id": "binome_pivot",
+      "tokens": [
+        "livraison",
+        "OR-26-210",
+        "pivot"
+      ],
+      "requires": [
+        {
+          "type": "tool_fact",
+          "key": "http:pivot:intranet"
+        },
+        {
+          "type": "export_matches",
+          "key": "http:intranet:/bordereau.csv",
+          "path": "/home/operator/loot/binome.csv",
+          "any_path": true,
+          "inspected": true
+        }
+      ],
+      "response": "Passation reçue par le réseau interne.",
+      "already": "Cette preuve est déjà enregistrée.",
+      "missing": "Vérifie les observations et la version des pièces ; demande indice si nécessaire.",
+      "hint": "Une seule voie suffit. Pivot : garde un tunnel SSH vers le portail, puis `curl -o ~/loot/binome.csv http://127.0.0.1:8080/bordereau.csv`. SMB : `smbclient //10.71.2.30/C$ -U svc.backup%Service2026! -c \"get Data/exports/OR-26-210.csv /home/operator/loot/binome.csv\"`. Relis ta copie puis confirme OR-26-210 en précisant pivot ou smb.",
+      "hints": [
+        "Commence par vérifier le périmètre, les droits et les sources fournis.",
+        "Le rappel détaillé donne les commandes du laboratoire ; une déclaration ne remplace pas une preuve."
+      ],
+      "exclusive_group": "act2_binome"
+    },
+    {
+      "id": "binome_smb",
+      "tokens": [
+        "livraison",
+        "OR-26-210",
+        "smb"
+      ],
+      "requires": [
+        {
+          "type": "intact_download",
+          "host": "archive",
+          "file": "/srv/exports/OR-26-210.csv",
+          "inspected": true
+        }
+      ],
+      "response": "Passation reçue par le partage autorisé.",
+      "already": "Cette preuve est déjà enregistrée.",
+      "missing": "Vérifie les observations et la version des pièces ; demande indice si nécessaire.",
+      "hint": "Une seule voie suffit. Pivot : garde un tunnel SSH vers le portail, puis `curl -o ~/loot/binome.csv http://127.0.0.1:8080/bordereau.csv`. SMB : `smbclient //10.71.2.30/C$ -U svc.backup%Service2026! -c \"get Data/exports/OR-26-210.csv /home/operator/loot/binome.csv\"`. Relis ta copie puis confirme OR-26-210 en précisant pivot ou smb.",
+      "hints": [
+        "Commence par vérifier le périmètre, les droits et les sources fournis.",
+        "Le rappel détaillé donne les commandes du laboratoire ; une déclaration ne remplace pas une preuve."
+      ],
+      "exclusive_group": "act2_binome"
+    }
+  ],
+  "local_files": {
+    "/home/operator/mission/passation.txt": "OR-26-201 : compte ops, relais 10.71.1.10 ; le secret de la passation est à vérifier hors ligne.\n",
+    "/home/operator/mission/ops.ntlm": "4f9a8fd0784f9ca033b21e81f0037dec\n",
+    "/home/operator/mission/mots.txt": "Relais2024!\nRelais2025!\nRelais2026!\n",
+    "/home/operator/mission/services.txt": "Service2024!\nService2025!\nService2026!\n",
+    "/home/operator/mission/acces.txt": "Compte de consultation fourni pour le domaine : audit / Audit2026!\nORBE-POSTE : 10.71.2.21 ; contrôleur : 10.71.2.10.\n",
+    "/home/operator/mission/brief-act2.txt": "Livre seulement le bordereau OR-26-210 valide. Choisis le portail interne via le passage SSH ou le partage du serveur de sauvegarde avec les droits vérifiés. Ton partenaire reprendra la même limite d’accès.\n"
+  },
+  "private_offer": true,
+  "intro": "Livre seulement le bordereau OR-26-210 valide. Choisis le portail interne via le passage SSH ou le partage du serveur de sauvegarde avec les droits vérifiés. Ton partenaire reprendra la même limite d’accès. Ouvre le dossier pour recevoir les pièces ; les échanges se font ici, sur Telegrid.",
+  "relaxed_clock": true,
+  "terminal_revision": 1
+}

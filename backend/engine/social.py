@@ -1,0 +1,279 @@
+"""Communauté locale persistante : conversations, présences et événements écrits.
+
+L'horloge avance uniquement quand le jeu tourne. Un tick social représente une
+minute fictive pour six secondes réelles. Aucun rattrapage pendant la fermeture,
+aucun accès réseau, aucun contenu généré au hasard à chaque rafraîchissement.
+"""
+from __future__ import annotations
+
+from copy import deepcopy
+from datetime import datetime, timedelta
+from functools import lru_cache
+from .world_time import wait_until_available
+from pathlib import Path
+import json
+import time
+
+EPOCH = datetime(2026, 11, 9, 9, 0)
+FORUM_TIERS = {'breachboard': 0, 'exployt': 2, 'xsx': 3}
+
+
+@lru_cache(maxsize=1)
+def content() -> dict:
+    return json.loads((Path(__file__).parents[1] / 'data/social_world.json').read_text())
+
+
+def stamp(minute: int) -> str:
+    return (EPOCH + timedelta(minutes=minute)).strftime('%d/%m %H:%M')
+
+
+def prepare(career) -> dict:
+    world = career.data.setdefault('social', {'minute': 0, 'sequence': 0, 'published': [], 'pending': [], 'seen': {}, 'milestones': []})
+    unlocked_at = world.setdefault('unlocked_at', {})
+    for contact in contacts(career): unlocked_at.setdefault('chat:' + contact['id'], world['minute'])
+    for forum in FORUM_TIERS:
+        if forum_allowed(career, forum): unlocked_at.setdefault('forum:' + forum, world['minute'])
+    for thread in content()['threads']:
+        posts = career.data.setdefault('forum_posts', {}).setdefault(thread['id'], [])
+        for index, post in enumerate(thread.get('posts', [])):
+            ident = f"seed:{thread['id']}:{index}"
+            if any(p.get('id') == ident for p in posts):
+                continue
+            posts.insert(index, _post(ident, post['author'], post['text'], post['minute']))
+    archive = career.data.setdefault('conversations', {})
+    from .campaign import enabled
+    if enabled(career.data) and career.data.get('play_mode') == 'demo':
+        archive.setdefault('journey:welcome', _message('journey:welcome', 'k0rvid', 'chordly', 'k0rvid', 'Bienvenue dans la démo : trois exercices courts, puis miette te confiera un dossier ouvert. Tu choisis tes preuves et ta conclusion. Aucun achat requis ; écris aide si tu bloques. Tu pourras continuer la campagne sur cette sauvegarde.', 0))
+    if enabled(career.data) and career.data.get('play_mode') != 'demo':
+        from .onboarding import stages
+        count=len(stages(career.data))-1
+        archive.setdefault('journey:welcome', _message('journey:welcome', 'k0rvid', 'chordly', 'k0rvid', f'Bienvenue. On commence par {count} exercices courts, puis un premier dossier complet pour le cabinet Ravelle. Ouvre la carte ci-dessous pour recevoir les pièces. Aucun achat n’est nécessaire ; écris aide pendant un dossier si tu bloques. Les primes arrivent dans ColdVault, hors des forums. Tu peux fermer le jeu et reprendre ta mission.', 0))
+    from .curriculum import current
+    if current(career.data) and career.data.get('forum_invitation_accepted'):
+        ident='act2:introduction'
+        archive.setdefault(ident,_message(ident,'cendre','telegrid','cendre','bytewarden m’a transmis ta recommandation. Je suis Cendre : je recoupe les passations et l’état des machines. On commencera par une empreinte et une petite liste fournie, sans achat de GPU. Une correspondance ne prouve pas un accès : nous le vérifierons ensuite. Configure VPN + Tor avec l’accès NullVad gratuit, puis ouvre « Une vieille passation » ici. Tes primes restent dans ColdVault ; ta réputation Exployt se construit séparément de BreachBoard.',world['minute']))
+    for contact in contacts(career):
+        if contact['kind'] != 'group': continue
+        ident = 'group:' + contact['id']
+        archive.setdefault(ident, _message(ident, contact['id'], contact['channel'], contact['members'][0], contact['bio'], -60))
+    return world
+
+
+def _post(ident: str, author: str, text: str, minute: int) -> dict:
+    profile = content()['profiles'].get(author, {})
+    return dict(id=ident, author=author, text=text, minute=minute, time=stamp(minute),
+                reputation=profile.get('reputation', 0), age=profile.get('age', 1), role=profile.get('role', 'Membre'))
+
+
+def _message(ident: str, peer: str, channel: str, sender: str, text: str, minute: int, **extra) -> dict:
+    return dict(id=ident, peer=peer, channel=channel, sender=sender, text=text, minute=minute,
+                time=stamp(minute), status='sent', **extra)
+
+
+def contacts(career) -> list[dict]:
+    from .onboarding import forum_unlocked
+    if not forum_unlocked(career.data):
+        ids = {'k0rvid'}
+        if career.data.get('play_mode') == 'demo' and 'intro_evidence' in career.data['completed']: ids.add('miette')
+        return [deepcopy(c) for c in content()['contacts'] if c['id'] in ids]
+    return [deepcopy(c) for c in content()['contacts'] if c['tier'] <= career.data['tier'] and all(cid in career.data['completed'] for cid in c.get('requires_completed', [])) and (not c.get('requires_any_completed') or any(cid in career.data['completed'] for cid in c['requires_any_completed']))]
+
+
+def forum_allowed(career, forum: str) -> bool:
+    from .community import forum_reason
+    return not forum_reason(career.data, forum)
+
+
+def advance(career, minutes: int = 1) -> None:
+    """Avance explicite pour tests et horloge ; idempotence assurée par les ids."""
+    world = prepare(career)
+    world['minute'] += max(0, minutes)
+    minute = world['minute']
+    unlocked = {c['id']: c for c in contacts(career)}
+    for event in content()['events']:
+        if event['id'] in world['published'] or event['after'] > minute: continue
+        author_ready = event['after'] + wait_until_available(event['after'], content()['profiles'].get(event['author'], {}).get('availability'))
+        if author_ready > minute: continue
+        if event['kind'] == 'chat':
+            if event['target'] not in unlocked: continue
+            contact = unlocked[event['target']]
+            message = _message(event['id'], contact['id'], contact['channel'], event['author'], event['text'], max(author_ready, world['unlocked_at'].get('chat:' + contact['id'], minute)))
+            career.data['conversations'].setdefault(event['id'], message)
+        else:
+            thread = next(t for t in content()['threads'] if t['id'] == event['target'])
+            if not forum_allowed(career, thread['forum']): continue
+            posted_at = max(author_ready, world['unlocked_at'].get('forum:' + thread['forum'], minute))
+            career.data['forum_posts'][thread['id']].append(_post(event['id'], event['author'], event['text'], posted_at))
+        world['published'].append(event['id'])
+    due = [event for event in world['pending'] if event['due'] <= minute]
+    world['pending'] = [event for event in world['pending'] if event['due'] > minute]
+    for event in due:
+        if event['kind'] == 'forum':
+            post = _post(event['id'], event['author'], event['text'], event['due'])
+            if event.get('response_to'): post['response_to'] = event['response_to']
+            career.data['forum_posts'].setdefault(event['target'], []).append(post)
+        else:
+            career.data['conversations'].setdefault(event['id'], _message(event['id'], event['target'], event['channel'], event['author'], event['text'], event['due']))
+            original = career.data['conversations'].get(event.get('reply_to'))
+            if original: original['status'] = 'read'
+    for cid in career.data['completed']:
+        if cid in world['milestones']: continue
+        world['milestones'].append(cid)
+        followups = {
+            'tuto_p0': ('miette', 'chordly', 'J’ai vu que ton profil avait changé de palier. Bien joué. Tu gardes tes notes pour la suite ?'),
+            'morel': ('k0rvid', 'chordly', 'Le document est reçu. Garde une copie de ta chronologie : je préfère pouvoir vérifier le transfert plutôt qu’avoir un simple « terminé ».'),
+            'rival': ('k0rvid', 'chordly', 'Le contrat de passage est réglé. Les discussions de relay sont sur Telegrid. Les règles d’Exployt se lisent avant de publier.'),
+            'varenne': ('relay', 'telegrid', 'J’ai archivé la vérification de l’accès. La création du ticket et son utilisation sont deux étapes distinctes dans le compte rendu.'),
+            'affiliation': ('relay', 'telegrid', 'Le règlement de l’affiliation figure sur ton profil. Spectre demande des passations datées ; précise toujours les limites de l’accès fourni.'),
+            'grand_compte': ('spectre', 'sessyon', 'Dossier clos. Les conditions vérifiées et le montant réglé sont archivés. Une isolation ultérieure ne restaure pas les fichiers chiffrés.'),
+        }
+        if cid in followups:
+            author, channel, text = followups[cid]
+            _schedule(career, kind='chat', target=author, channel=channel, author=author, text=text, delay=3)
+
+
+def refresh(career, now: float | None = None) -> None:
+    """Le nombre de requêtes ne change pas la vitesse de l'horloge."""
+    now = time.monotonic() if now is None else now
+    prepare(career)
+    previous = getattr(career, '_social_time', now)
+    elapsed = max(0, int((now - previous) // 6))
+    if not hasattr(career, '_social_time'):
+        career._social_time = now
+    elif elapsed:
+        career._social_time = previous + elapsed * 6
+        advance(career, min(elapsed, 10))
+    career.save()
+
+
+def _schedule(career, *, kind, target, author, text, delay=2, **extra):
+    world = prepare(career)
+    world['sequence'] += 1
+    ident = f"social:{world['sequence']}"
+    due = world['minute'] + delay
+    due += wait_until_available(due, content()['profiles'].get(author, {}).get('availability'))
+    event = dict(id=ident, kind=kind, target=target, author=author, text=text, due=due, **extra)
+    world['pending'].append(event)
+    return ident
+
+
+def queue_chat(career, channel: str, peer: str, handle: str, text: str) -> None:
+    world = prepare(career)
+    contact = next((c for c in contacts(career) if c['id'] == peer and c['channel'] == channel), None)
+    if not contact: raise ValueError('Ce contact n’est pas disponible dans cette messagerie.')
+    if len(world['pending']) >= 50: raise ValueError('Attends la réponse aux messages précédents.')
+    if sum(m.get('peer') == peer and m.get('sender') == handle for m in career.data['conversations'].values()) >= 100:
+        raise ValueError('La limite de cette conversation est atteinte.')
+    world['sequence'] += 1
+    ident = f"social:{world['sequence']}"
+    career.data['conversations'][ident] = _message(ident, peer, channel, handle, text, world['minute'])
+    pending = next((e for e in world['pending'] if e['kind'] == 'chat' and e['target'] == peer), None)
+    if pending: return  # Pas une réponse identique pour chaque pression sur Entrée.
+    previous = [m for m in career.data['conversations'].values() if m.get('peer') == peer and m.get('sender') == contact['response_author']]
+    response = contact['response'].replace('{handle}', handle) if not previous else {
+        'miette': 'Je t’ai lu. Je termine mes notes ; je n’ai pas d’autre information sur ta mission.',
+        'relay': 'Message reçu. Je reviens quand j’ai une disponibilité confirmée.',
+        'packetloss': 'Je garde ton message dans le fil. Pour avancer, il me faut des observations datées.',
+        'spectre': 'Lu. Je te recontacte si les conditions de la passation évoluent.',
+    }.get(contact['response_author'], 'Bien reçu.')
+    # Réponses thématiques écrites : aucune invention de secrets ou de paiement.
+    topic = text.casefold()
+    if any(word in topic for word in ('rançon', 'rancon', 'ransom', 'chiffrement', 'sauvegarde')):
+        response = "Le dossier doit séparer fichiers chiffrés, copies transférées et sauvegardes externes. Une demande de rançon ne prouve pas un paiement ; ton règlement de contrat reste distinct. Lis le fil Après le chiffrement dans le salon privé quand il sera accessible."
+    elif any(word in topic for word in ('escrow', 'litige', 'arnaque', 'vendeur')):
+        response = "Le fil Litige distingue l’annonce, la preuve datée et la décision de modération. Une bonne réputation ne valide pas les droits annoncés ; ne considère pas un litige comme résolu sans mise à jour."
+    elif any(word in topic for word in ('edr', 'pare-feu', 'firewall')):
+        response = "Observe le résultat et sa date : un port filtré, une authentification refusée et une exécution bloquée sont des causes différentes. Les politiques de maintenance changent selon la machine ; les documents du support peuvent être anciens."
+    from .relationships import view as relationship_view
+    relation = relationship_view(career.data).get(peer)
+    if relation and (any(word in topic for word in ('confiance', 'relation', 'contretemps', 'ct-26-071')) or (peer == 'bytewarden' and 'litige' in topic) or (peer == 'nullroute' and 'af-26-118' in topic)):
+        response = relation['label'] + '. ' + relation['detail']
+    _schedule(career, kind='chat', target=peer, channel=channel, author=contact['response_author'], text=response, reply_to=ident, delay=2 if contact['response_author'] == 'miette' else 4)
+
+
+def queue_forum_reply(career, thread_id: str, handle: str) -> None:
+    world = prepare(career)
+    topic = next((t for t in content()['threads'] if t['id'] == thread_id), None)
+    if not topic or not topic.get('response'): return
+    if any(e['kind'] == 'forum' and e['target'] == thread_id for e in world['pending']): return
+    # Un membre ne répète pas le même accueil indéfiniment.
+    if any(p.get('response_to') == handle for p in career.data['forum_posts'][thread_id]): return
+    response = topic['response']
+    ident = _schedule(career, kind='forum', target=thread_id, author=response['author'], text=response['text'].replace('{handle}', handle), delay=3)
+    # La marque reste dans la file puis dans la réponse publiée.
+    next(e for e in world['pending'] if e['id'] == ident)['response_to'] = handle
+
+
+def mark_read(career, channel: str, peer: str) -> None:
+    world = prepare(career)
+    world['seen'][f'{channel}:{peer}'] = world['minute']
+
+
+def view(career, contracts: dict | None = None) -> dict:
+    world = prepare(career)
+    profiles = deepcopy(content()['profiles'])
+    threads = []
+    for topic in content()['threads']:
+        if not forum_allowed(career, topic['forum']): continue
+        entry = {k: deepcopy(v) for k, v in topic.items() if k not in {'posts', 'response'}}
+        author_profile = profiles.get(topic['author'], {})
+        entry.setdefault('reputation', author_profile.get('reputation', 0))
+        entry.setdefault('age', author_profile.get('age', 1))
+        posts = career.data['forum_posts'][topic['id']]
+        entry.update(views=topic.get('views',0)+career.data.get('thread_views',{}).get(topic['id'],0), count=len(posts), last_author=posts[-1]['author'] if posts else topic['author'],
+                     last_time=posts[-1]['time'] if posts else stamp(topic['created_minute']), last_minute=posts[-1].get('minute', 0) if posts else topic['created_minute'], created_time=stamp(topic['created_minute']))
+        threads.append(entry)
+    peers = contacts(career)
+    for contract in (contracts or {}).values():
+        author = contract['client']['handle']
+        profiles.setdefault(author, dict(role='Membre', reputation=contract['client']['forum_rep'], age=contract['client']['account_age_days'], bio='Conditions de mission dans la conversation privée.'))
+        # Ne crée pas de conversation privée avec un inconnu avant la rencontre.
+        if any(m.get('peer') == author and m.get('channel') == contract['channel'] for m in career.data['conversations'].values()):
+            peers.append(dict(id=author, name=author, channel=contract['channel'], kind='direct', members=[author], bio=profiles[author]['bio']))
+    peers = list({(c['channel'], c['id']): c for c in peers}.values())
+    for contact in peers:
+        member = contact['members'][0]
+        remaining = wait_until_available(world['minute'], profiles.get(member, {}).get('availability'))
+        contact['presence'] = 'online' if remaining == 0 else 'offline'
+        contact['status_text'] = 'En ligne' if remaining == 0 else f'Absent · prochain passage dans {remaining} min de jeu'
+        pending = next((e for e in world['pending'] if e['kind'] == 'chat' and e['target'] == contact['id']), None)
+        contact['typing'] = bool(remaining == 0 and pending and pending['due'] - world['minute'] <= 1)
+    from .onboarding import enabled, next_stage
+    offers=[]
+    if enabled(career.data) and next_stage(career.data) and contracts:
+        contract=contracts.get(next_stage(career.data))
+        if contract and not career.lock_reason(contract):
+            offers=[{'id':contract['contract_id'],'peer':contract['client']['handle'],'title':contract['bounty']['title'],'text':contract['bounty']['body'],'reward':contract['reward'],'channel':contract['channel']}]
+    for contract in (contracts or {}).values():
+        if not contract.get('private_offer') or career.lock_reason(contract): continue
+        cid = contract['contract_id']
+        if cid in career.data['completed']: continue
+        peer = contract['client']['handle']
+        if contract.get('offer_channel')=='forum':
+            career.data.setdefault('forum_messages',{}).setdefault('offer:'+cid,dict(id='offer:'+cid,forum='breachboard',author=peer,subject=contract['bounty']['title'],body=contract['intro'],minute=world['minute'],read=False,contract_id=cid))
+            career.data['forum_messages']['offer:'+cid]['body'] = contract['intro']
+            continue
+        ident = 'offer:'+cid
+        message = _message(ident, peer, contract['channel'], peer, contract['intro'], world['minute'])
+        if ident in career.data['conversations']:
+            career.data['conversations'][ident]['text'] = contract['intro']
+        career.data['conversations'].setdefault(ident, message)
+        if not any(c['id']==peer and c['channel']==contract['channel'] for c in peers):
+            peers.append(dict(id=peer,name=peer,channel=contract['channel'],kind='direct',members=[peer],bio=profiles.get(peer,{}).get('bio','Conditions du dossier dans cette conversation privée.'),presence='online',status_text='En ligne',typing=False))
+        offers = [offer for offer in offers if offer['id'] != cid]
+        offers.append({'id':cid,'peer':peer,'title':contract['bounty']['title'],'text':contract['bounty']['body'],'reward':contract['reward'],'channel':contract['channel']})
+    active=career.data.get('active') or {}
+    for offer in offers:
+        offer['active']=active.get('status')=='RUNNING' and (active.get('contract') or {}).get('contract_id')==offer['id']
+        offer['side_job']=bool((contracts or {}).get(offer['id'],{}).get('side_job'))
+        offer['reason']='Un autre dossier est en cours. Reprends-le ou termine-le avant d’en ouvrir un nouveau.' if active.get('status')=='RUNNING' and not offer['active'] else ''
+    from .relationships import view as relationship_view
+    relations = relationship_view(career.data)
+    for contact in peers:
+        relation = relations.get(contact['id'])
+        if relation:
+            contact['bio'] = contact.get('bio', '') + '\n' + relation['label'] + ' — ' + relation['detail']
+            profiles.setdefault(contact['id'], {}).update(relationship=relation)
+    from .journey import view as next_step
+    return dict(journey=next_step(career.data),forum_messages=list(career.data.get('forum_messages',{}).values()),offers=offers, minute=world['minute'], time=stamp(world['minute']), threads=threads, profiles=profiles, contacts=peers,
+                messages=list(career.data['conversations'].values()), forum_counts={k: len(v) for k, v in career.data['forum_posts'].items()})

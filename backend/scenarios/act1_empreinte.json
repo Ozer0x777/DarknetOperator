@@ -1,0 +1,79 @@
+{
+  "scenario_id": "act1_empreinte",
+  "name": "06 — Le mot de passe de trop",
+  "description": "Le mot de passe de trop",
+  "hosts": [
+    {
+      "id": "orme-ssh",
+      "hostname": "ORME-SSH",
+      "ip": "10.61.6.21",
+      "os": "Linux Debian 12",
+      "services": [
+        {
+          "name": "SSH",
+          "port": 22,
+          "version": "OpenSSH 9.6"
+        }
+      ],
+      "files": {
+        "/home/planning/README.txt": "Le planning courant est /srv/planning/OR-26-311.csv ; le répertoire /root est privé.\n",
+        "/srv/planning/OR-26-311.csv": "reference;date;objet\nOR-26-311;2026-11-07;Planning courant\n",
+        "/root/secrets.txt": "Ce fichier ne fait pas partie du périmètre.\n"
+      },
+      "primary_user": "planning",
+      "admin_users": []
+    }
+  ],
+  "users": [
+    {
+      "username": "planning",
+      "password": "Atelier2026!"
+    },
+    {
+      "username": "planning.old",
+      "password": "Atelier2024!"
+    }
+  ],
+  "initially_discovered": [
+    "orme-ssh"
+  ],
+  "initially_scanned": [],
+  "objectives": [
+    {
+      "type": "investigation_step",
+      "step": "planning_livre"
+    }
+  ],
+  "max_ticks": 3000,
+  "rng_seed": 0,
+  "available_abilities": {
+    "red": [
+      "red.recon_scan",
+      "red.exfiltrate",
+      "red.crack_hash"
+    ],
+    "blue": []
+  },
+  "domain": {
+    "name": "act1.lab",
+    "sid": "S-1-5-21-100-200-300"
+  },
+  "environment": {
+    "organization": "Le mot de passe de trop",
+    "sector": "Dossier de laboratoire",
+    "timezone": "Europe/Paris",
+    "business_hours": "09:00–18:00",
+    "initial_time": "09:00",
+    "briefing_host": "orme-ssh",
+    "known_contact": "0xvanta",
+    "context": "Un hash du compte planning apparaît dans une ancienne passation. Retrouve le mot de passe si le dictionnaire le permet, puis vérifie si l’accès fonctionne encore.",
+    "file_permissions": {
+      "orme-ssh": {
+        "/root": []
+      }
+    }
+  },
+  "defender": {
+    "enabled": false
+  }
+}

@@ -1,0 +1,41 @@
+"""
+Bruit de fond — §5.5 du blueprint, réduit à l'essentiel pour le MVP.
+
+Génère, à chaque tick, des logs "légitimes" qui ne correspondent à AUCUNE
+règle SIEM (siem.py) : logons normaux, accès SMB normaux. Ça peuple le flux
+de logs vu par Blue avec autre chose que les vraies actions Red, pour que
+trier devienne un minimum nécessaire (plutôt que "toute alerte = une attaque").
+"""
+from __future__ import annotations
+
+from .models import GameState, LogEvent
+
+LEGITIMATE_LOGON_CHANCE = 0.25   # par tick, par host non compromis/isolé
+LEGITIMATE_SMB_CHANCE = 0.15
+
+
+def generate(state: GameState) -> list[LogEvent]:
+    noise_logs: list[LogEvent] = []
+
+    for host in state.hosts.values():
+        if host.status in ("ISOLATED", "ENCRYPTED"):
+            continue  # un host coupé du réseau n'a plus d'activité normale
+
+        if state.rng.random() < LEGITIMATE_LOGON_CHANCE:
+            noise_logs.append(LogEvent(
+                event_id="4624",
+                host_id=host.id,
+                tick=state.tick,
+                data={"LogonType": 2, "LogonProcessName": "User32", "note": "logon interactif normal"},
+            ))
+
+        if host.has_service("SMB", 445) and state.rng.random() < LEGITIMATE_SMB_CHANCE:
+            noise_logs.append(LogEvent(
+                event_id="5140",
+                host_id=host.id,
+                tick=state.tick,
+                data={"ShareName": "DATA", "note": "accès partage normal"},
+            ))
+
+    state.logs.extend(noise_logs)
+    return noise_logs

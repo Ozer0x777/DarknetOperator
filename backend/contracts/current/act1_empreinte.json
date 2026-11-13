@@ -1,0 +1,72 @@
+{
+  "contract_id": "act1_empreinte",
+  "scenario": "act1_empreinte",
+  "tier": 1,
+  "channel": "chordly",
+  "client": {
+    "handle": "0xvanta",
+    "forum_rep": 42,
+    "account_age_days": 284
+  },
+  "bounty": {
+    "forum": "breachboard",
+    "title": "06 — Une passation à vérifier",
+    "body": "Vérifier un compte de lecture fourni, puis livrer le planning courant OR-26-311."
+  },
+  "brief": "Une passation fournit un compte de lecture pour le planning : planning / Atelier2026!, serveur 10.61.6.21. Vérifie qu’il fonctionne encore et qu’il donne accès au document demandé, sans supposer des droits administrateur.\n\nLis ~/mission/passation.txt. Tu connais SSH et SCP : ouvre la session, vérifie ton identité, puis transfère le planning courant OR-26-311 dans ~/loot depuis une autre console Kali. Relis la copie avant de confirmer la livraison. Aucun cassage de mot de passe demandé ; le secret est fourni par le client.",
+  "reward": 320,
+  "reputation": 45,
+  "required_items": [],
+  "success_message": "Livraison vérifiée. {reward} ₵ annoncés au contrat ; le règlement exact figure dans ton profil. Merci {handle}, je conserve tes preuves.",
+  "failure_message": "Dossier interrompu. Reprends une sauvegarde ou relance le contrat pour retenter le parcours.",
+  "guide": [],
+  "investigation_steps": [
+    {
+      "id": "planning_livre",
+      "tokens": [
+        "livraison",
+        "OR-26-311"
+      ],
+      "requires": [
+        {
+          "type": "host_compromised",
+          "host": "orme-ssh"
+        },
+        {
+          "type": "intact_download",
+          "host": "orme-ssh",
+          "file": "/srv/planning/OR-26-311.csv",
+          "inspected": true
+        }
+      ],
+      "response": "L’accès de lecture fonctionne et le planning courant est reçu. La passation a été vérifiée sans étendre les droits.",
+      "missing": "Il faut vérifier l’accès fourni, transférer le planning actuel et relire sa copie.",
+      "already": "Cette étape est déjà enregistrée.",
+      "hint": "Dans Kali : `ssh planning@10.61.6.21`, puis le secret fourni. Vérifie `whoami`. Dans une autre console Kali : `scp planning@10.61.6.21:/srv/planning/OR-26-311.csv ~/loot/planning.csv`, saisis le secret puis `cat ~/loot/planning.csv`. Confirme livraison OR-26-311.",
+      "hints": [
+        "Un compte donné par le client reste à tester ; il ne prouve pas des droits étendus.",
+        "Vérifie l’identité dans la session, puis transfère et relis la seule pièce courante."
+      ]
+    }
+  ],
+  "local_files": {
+    "/home/operator/mission/passation.txt": "OR-26-311 — SSH 10.61.6.21\nCompte fourni : planning / Atelier2026!\nPièce : /srv/planning/OR-26-311.csv\nLa passation n’accorde pas des droits administrateur.\n",
+    "/home/operator/mission/reperes.txt": "SSH ouvre une session utilisateur. whoami vérifie le compte. SCP se lance depuis Kali pour copier un seul fichier. Relire la copie et comparer la référence avant de livrer.\n"
+  },
+  "investigation_threads": [
+    "act1-partages",
+    "act1-echantillon-annonce",
+    "act1-pivoine",
+    "act1-verre"
+  ],
+  "private_offer": true,
+  "intro": "J’ai une passation de lecture à revérifier. Le compte est fourni ; je veux une preuve d’accès et la bonne version du planning, pas une élévation de privilèges.",
+  "relaxed_clock": true,
+  "side_job": false,
+  "chapter": 6,
+  "required_completed": [
+    "act1_portail"
+  ],
+  "terminal_revision": 4,
+  "curriculum_version": 4
+}

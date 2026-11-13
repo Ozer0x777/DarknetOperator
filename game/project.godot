@@ -1,0 +1,23 @@
+config_version=5
+
+[application]
+config/name="RedTeamSimulator"
+config/version="0.5.3-dev"
+config/description="Darknet Operator — simulation d’opérations cyber"
+config/icon="res://assets/icons/terminal.svg"
+run/main_scene="res://scenes/main_menu.tscn"
+config/features=PackedStringArray("4.4", "GL Compatibility")
+
+[autoload]
+Audio="*res://scripts/audio_manager.gd"
+
+[display]
+window/size/viewport_width=1440
+window/size/viewport_height=900
+window/size/window_width_override=1280
+window/size/window_height_override=800
+window/stretch/mode="canvas_items"
+
+[rendering]
+renderer/rendering_method="gl_compatibility"
+environment/defaults/default_clear_color=Color(0.035, 0.055, 0.09, 1)

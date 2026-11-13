@@ -1,0 +1,41 @@
+{
+  "id": "red.dcsync",
+  "team": "red",
+  "name": "secretsdump (secrets du domaine)",
+  "command": "impacket-secretsdump -just-dc utilisateur:mot_de_passe@controleur",
+  "help": "Récupère les secrets du domaine avec un compte qui a les droits de réplication.",
+  "tier": 1,
+  "requires": [
+    {
+      "type": "target_discovered"
+    },
+    {
+      "type": "target_status_not",
+      "value": "ISOLATED"
+    },
+    {
+      "type": "credential_has_dcsync_rights"
+    },
+    {
+      "type": "target_is_domain_controller"
+    }
+  ],
+  "noise": 90,
+  "cooldown": 0,
+  "points": 30,
+  "effects": [
+    {
+      "type": "add_credential",
+      "username": "krbtgt",
+      "cred_type": "KRBTGT_HASH"
+    }
+  ],
+  "artifacts": [
+    {
+      "event_id": "4662",
+      "data": {
+        "ObjectType": "DS-Replication-Get-Changes"
+      }
+    }
+  ]
+}

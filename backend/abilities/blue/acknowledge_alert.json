@@ -1,0 +1,15 @@
+{
+  "id": "blue.acknowledge_alert",
+  "team": "blue",
+  "name": "Acknowledge Alert",
+  "requires": [
+    {"type": "always_true"}
+  ],
+  "noise": 0,
+  "cooldown": 0,
+  "points": 10,
+  "effects": [
+    {"type": "acknowledge_alert"}
+  ],
+  "artifacts": []
+}

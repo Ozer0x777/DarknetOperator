@@ -1,0 +1,39 @@
+{
+  "id": "red.phishing_initial_access",
+  "team": "red",
+  "name": "GoPhish (collecte d’identifiants)",
+  "command": "gophish --config /opt/gophish/config.json",
+  "help": "Campagne simulée : la soumission d’identifiants ne fournit pas une session distante.",
+  "tier": 0,
+  "requires": [
+    {
+      "type": "target_discovered"
+    },
+    {
+      "type": "target_has_primary_user"
+    },
+    {
+      "type": "target_status_not",
+      "value": "ISOLATED"
+    }
+  ],
+  "noise": 20,
+  "cooldown": 0,
+  "points": 15,
+  "effects": [
+    {
+      "type": "add_primary_user_credential",
+      "cred_type": "PLAINTEXT",
+      "value_template": "Password123!"
+    }
+  ],
+  "artifacts": [
+    {
+      "event_id": "MAIL-SUBMISSION",
+      "data": {
+        "source": "gophish",
+        "note": "Soumission au formulaire du laboratoire ; aucun processus exécuté sur le poste."
+      }
+    }
+  ]
+}

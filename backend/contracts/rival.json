@@ -1,0 +1,57 @@
+{
+  "contract_id": "rival",
+  "scenario": "rival",
+  "tier": 1,
+  "channel": "chordly",
+  "client": {
+    "handle": "k0rvid",
+    "forum_rep": 38,
+    "account_age_days": 412
+  },
+  "bounty": {
+    "forum": "breachboard",
+    "title": "Un concurrent jaloux",
+    "body": "Retrouver le mot de passe du prestataire. Contrat de passage au palier 2."
+  },
+  "brief": "Atelier Dumas. Adresse connue : 10.42.8.21. Je veux le mot de passe en clair du compte maintenance.dumas. Un hash NTLM seul ne valide pas le contrat. Ne touche pas aux fichiers du serveur.\n\nLis `cat ~/mission/briefing.txt` pour le contexte et les limites connues. Les horaires sont accélérés ; le réseau continue de vivre pendant tes recherches. Si tu veux un indice facultatif, écris aide ici. Je ne te donnerai pas les droits ou les secrets que tu n’as pas encore découverts. Les exécutables Windows du laboratoire sont dans ~/tools ; leur guide décrit le transfert et les droits requis.",
+  "reward": 450,
+  "reputation": 50,
+  "required_rep": 50,
+  "required_items": [],
+  "success_message": "Le mot de passe en clair est récupéré. Le contrat est rempli ; garde le compte rendu, pas seulement la valeur.",
+  "failure_message": "Le contrat s’arrête ici. Le rapport distingue la déconnexion, la fin du délai et la réaction de la défense. Aucun objectif non vérifié ne sera considéré comme rempli.",
+  "guide": [
+    {
+      "when": {
+        "type": "host_discovered",
+        "host": "srv-fichiers"
+      },
+      "message": "Le réseau découvert appartient à Atelier Dumas. Compare les services et les droits disponibles avec l’objectif. Un compte récupéré ne donne pas automatiquement une session sur les machines. Écris aide si tu veux relire ce point."
+    },
+    {
+      "when": {
+        "type": "credential_owned",
+        "username": "l.dumas"
+      },
+      "message": "Le compte l.dumas est disponible dans ton butin. Avant un outil Windows, prépare son fichier depuis Kali : `cat ~/tools/README.txt`. SCP utilise le service SSH du poste ; SMB exige les droits du partage. Les clients Impacket restent dans une console Kali séparée. Une session Windows SYSTEM se vérifie avec whoami ; PowerShell s’ouvre avec powershell et exit revient à cmd. Les identifiants récupérés ne donnent pas des droits sur toutes les machines."
+    },
+    {
+      "when": {
+        "type": "credential_owned",
+        "username": "maintenance.dumas"
+      },
+      "message": "Le compte maintenance.dumas figure maintenant dans ton butin. Vérifie le type d’identifiant récupéré et les droits de la cible ; un hash et un mot de passe ne se passent pas de la même façon aux outils."
+    }
+  ],
+  "debrief_hints": [
+    "La mission porte sur un compte de maintenance. Le mot de passe peut être retrouvé hors ligne ; un hash ne constitue pas le mot de passe demandé.",
+    "Une authentification valide ne donne que les droits du compte utilisé. Les services ouverts ne prouvent pas qu’un compte est administrateur.",
+    "Le temps, les réactions humaines et la défense sont accélérés dans ce laboratoire ; les durées ne représentent pas des mesures réelles."
+  ],
+  "unlocks_tier": 2,
+  "terminal_revision": 5,
+  "dialogue": {
+    "greeting": "Salut {handle}. Je suis là. On garde un objectif à la fois. Dis-moi ce qui te bloque.",
+    "ack": "Reçu. Prends le temps de vérifier le résultat avant d’enchaîner."
+  }
+}

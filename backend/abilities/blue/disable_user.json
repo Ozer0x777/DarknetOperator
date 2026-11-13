@@ -1,0 +1,17 @@
+{
+  "id": "blue.disable_user",
+  "team": "blue",
+  "name": "Disable User",
+  "requires": [
+    {"type": "always_true"}
+  ],
+  "noise": 0,
+  "cooldown": 7,
+  "points": 10,
+  "effects": [
+    {"type": "disable_user"}
+  ],
+  "artifacts": [
+    {"event_id": "4725", "data": {"note": "compte désactivé par un analyste"}}
+  ]
+}

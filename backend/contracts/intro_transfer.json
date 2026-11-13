@@ -1,0 +1,33 @@
+{
+  "contract_id": "intro_transfer",
+  "scenario": "intro_transfer",
+  "tier": 0,
+  "channel": "chordly",
+  "client": {
+    "handle": "k0rvid",
+    "forum_rep": 38,
+    "account_age_days": 412
+  },
+  "bounty": {
+    "forum": "breachboard",
+    "title": "04 — Un document, pas tout le serveur",
+    "body": "Transférer uniquement le document demandé."
+  },
+  "brief": "Le périmètre est déjà identifié et un accès de maintenance est fourni : it.presta, mot de passe Maintenance2026!, serveur 10.20.0.10. Depuis Kali : `smbclient //10.20.0.10/C$ -U it.presta%Maintenance2026! -c \"get Data/contrats_2026.xlsx /home/operator/loot/contrats_2026.xlsx\"`. //cible/C$ désigne le partage administratif ; -U fournit le compte ; -c exécute ici get, qui copie la source distante vers la destination locale. Ce partage exige des droits administrateur. Une connexion réussie seule n’est pas le transfert demandé.",
+  "reward": 40,
+  "reputation": 5,
+  "required_items": [],
+  "guide": [],
+  "onboarding": true,
+  "success_message": "Résultat vérifié. {reward} ₵ réglés ; ton prochain dossier est disponible dans cette conversation. Garde tes notes, on réutilisera cette compétence.",
+  "failure_message": "On reprend ce dossier à ton rythme ; vérifie le résultat avant de conclure.",
+  "debrief_hints": [
+    "Transférer uniquement le document demandé.",
+    "Une nouvelle compétence à la fois ; la réussite est vérifiée dans le monde simulé."
+  ],
+  "terminal_revision": 1,
+  "hints": [
+    "Le fichier doit arriver dans ~/loot sur Kali. Être connecté au partage ne suffit pas : il faut exécuter get.",
+    "Relis la commande smbclient du brief : la première adresse est la source distante, /home/operator/loot/contrats_2026.xlsx est la destination locale. Exécute-la depuis Kali, pas depuis une session Windows."
+  ]
+}

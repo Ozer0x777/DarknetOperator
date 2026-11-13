@@ -1,0 +1,71 @@
+{
+  "contract_id": "act2_service",
+  "scenario": "act2_service",
+  "tier": 2,
+  "act": 2,
+  "act_chapter": 7,
+  "channel": "telegrid",
+  "client": {
+    "handle": "iris",
+    "forum_rep": 80,
+    "account_age_days": 650
+  },
+  "bounty": {
+    "forum": "exployt",
+    "title": "07 — Un service trop privilégié",
+    "body": "Le compte audit peut consulter les SPN. Vérifie les services, demande le ticket du laboratoire puis teste le dictionnaire local. Une correspondance ne prouve pas les droits administrateur du domaine."
+  },
+  "brief": "Le compte audit peut consulter les SPN. Vérifie les services, demande le ticket du laboratoire puis teste le dictionnaire local. Une correspondance ne prouve pas les droits administrateur du domaine.\n\nLes pièces sont dans ~/mission. Écris indice pour une piste ou rappel détaillé pour les commandes de ce dossier. Aucun achat de matériel requis.",
+  "reward": 390,
+  "reputation": 20,
+  "required_items": [],
+  "required_completed": [
+    "act2_annuaire"
+  ],
+  "success_message": "Preuves vérifiées. {reward} ₵ réglés dans ColdVault ; tes choix sont conservés.",
+  "failure_message": "Dossier interrompu, sans prime. Les accès acquis et les observations sauvegardées restent disponibles pour une reprise.",
+  "guide": [],
+  "investigation_steps": [
+    {
+      "id": "service",
+      "tokens": [
+        "rapport",
+        "OR-SPN-207"
+      ],
+      "requires": [
+        {
+          "type": "tool_fact",
+          "key": "kerberos:spns"
+        },
+        {
+          "type": "tool_fact",
+          "key": "kerberos:tgs"
+        },
+        {
+          "type": "tool_fact",
+          "key": "hashcat:tgs"
+        }
+      ],
+      "response": "La correspondance hors ligne est reçue ; Quartz vérifiera l’usage du compte.",
+      "already": "Cette preuve est déjà enregistrée.",
+      "missing": "Vérifie les observations et la version des pièces ; demande indice si nécessaire.",
+      "hint": "Depuis Kali : `impacket-GetUserSPNs orbe.lab/audit:Audit2026! -dc-ip 10.71.2.10`, puis ajoute `-request -outputfile /home/operator/loot/tickets.txt`. Lance `hashcat -m 13100 ~/loot/tickets.txt ~/mission/services.txt`, puis `hashcat -m 13100 --show ~/loot/tickets.txt`. Confirme OR-SPN-207.",
+      "hints": [
+        "Commence par vérifier le périmètre, les droits et les sources fournis.",
+        "Le rappel détaillé donne les commandes du laboratoire ; une déclaration ne remplace pas une preuve."
+      ]
+    }
+  ],
+  "local_files": {
+    "/home/operator/mission/passation.txt": "OR-26-201 : compte ops, relais 10.71.1.10 ; le secret de la passation est à vérifier hors ligne.\n",
+    "/home/operator/mission/ops.ntlm": "4f9a8fd0784f9ca033b21e81f0037dec\n",
+    "/home/operator/mission/mots.txt": "Relais2024!\nRelais2025!\nRelais2026!\n",
+    "/home/operator/mission/services.txt": "Service2024!\nService2025!\nService2026!\n",
+    "/home/operator/mission/acces.txt": "Compte de consultation fourni pour le domaine : audit / Audit2026!\nORBE-POSTE : 10.71.2.21 ; contrôleur : 10.71.2.10.\n",
+    "/home/operator/mission/brief-act2.txt": "Le compte audit peut consulter les SPN. Vérifie les services, demande le ticket du laboratoire puis teste le dictionnaire local. Une correspondance ne prouve pas les droits administrateur du domaine.\n"
+  },
+  "private_offer": true,
+  "intro": "Le compte audit peut consulter les SPN. Vérifie les services, demande le ticket du laboratoire puis teste le dictionnaire local. Une correspondance ne prouve pas les droits administrateur du domaine. Ouvre le dossier pour recevoir les pièces ; les échanges se font ici, sur Telegrid.",
+  "relaxed_clock": true,
+  "terminal_revision": 1
+}

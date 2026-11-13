@@ -1,0 +1,70 @@
+Darknet Operator — version de développement 0.5.3
+Paquet portable Linux x86_64, construit depuis les sources du 12 novembre 2026.
+
+JOUER
+Extraire TOUTE l’archive, ouvrir son dossier puis lancer :
+  ./Jouer.sh
+Si le gestionnaire de fichiers ne conserve pas le droit d’exécution :
+  chmod +x Jouer.sh runtime/ld-linux-x86-64.so.2 runtime/python/bin/python3 runtime/godot
+  ./Jouer.sh
+
+Python, Godot et les bibliothèques principales sont inclus. Aucun téléchargement
+ni installation de paquet n’est effectué au lancement. Linux x86_64, une session
+graphique et un pilote OpenGL compatible avec Godot restent nécessaires.
+Conserver ensemble Jouer.sh, launcher.py, runtime, engine et game.
+Le moteur ouvre uniquement un port local sur 127.0.0.1 ; un environnement qui
+interdit les connexions locales ne permet pas de jouer.
+
+SOLUTION COMPLÈTE — SPOILERS
+Ouvrir Solution/SOLUTION_COMPLETE.html dans un navigateur.
+Le document contient le prélude Chordly, les dix chapitres de l’acte I, les deux
+voies finales, les sept petits contrats actuels et les anciens scénarios de campagne.
+Les documents Markdown d’origine sont dans Solution/docs/.
+Toutes les commandes du guide concernent les terminaux du jeu.
+L’acte II comprend dix dossiers principaux et six contrats facultatifs.
+Quatre nouveaux contacts apparaissent au fil de la progression sur Telegrid.
+Les actes III et IV restent à préparer.
+
+SAUVEGARDES
+Les parties restent dans le dossier habituel RedTeamSimulator des données locales
+(~/.local/share/RedTeamSimulator sous Linux, ou RVB_SAVE_DIR si défini).
+Cette archive n’inclut aucune partie ni identité personnelle de son créateur.
+Pour un essai avec une carrière indépendante :
+  RVB_SAVE_DIR="$HOME/.local/share/DarknetOperator-Essai" ./Jouer.sh
+Les préférences et brouillons du client utilisent le dossier de données Godot.
+
+VÉRIFIER ET DIAGNOSTIQUER
+  ./Verifier.sh
+Vérifie les campagnes par l’API en mémoire et les interfaces Godot headless.
+Les profils de test sont temporaires, séparés de la carrière du joueur.
+  ./Jouer.sh --headless --smoke-test
+Teste le démarrage réel du moteur local et du menu sans affichage.
+Un lancement normal reste nécessaire pour vérifier l’affichage et le son.
+
+PAQUET DE DÉVELOPPEMENT
+Cette distribution embarque le binaire Godot disponible, pas un export release
+réduit. Les sources du jeu et les licences des composants sont présentes.
+L’archive n’est ni un paquet Steam ni une certification de toutes les distributions
+Linux. Voir VALIDATION.txt pour les vérifications réellement effectuées.
+
+NOUVEAUTÉS 0.4.1
+La boutique est débloquée après Ravelle. Les forums exigent progression,
+réputation locale et recommandation. Les soldes ont été retirés des forums.
+Ouvrir ColdVault depuis Applications pour consulter les fonds et le journal.
+Après un achat payant, connecter, déverrouiller et confirmer sur l’appareil
+simulé ; un service gratuit est activé directement. Les anciennes parties
+conservent leur argent ; les scores sont répartis selon les dossiers terminés.
+
+SON ET MUSIQUE
+Trois compositions originales rétro/électroniques et douze effets sont inclus.
+Régler les volumes général, musique et effets dans Paramètres, au menu ou sur
+le bureau. Le bouton ♪ coupe ou rétablit tous les sons. Le choix d’ambiance
+peut rester automatique ou être fixé à un morceau. Aucun réseau n’est requis.
+
+MUSIQUE
+Le bouton ♪ ouvre le lecteur : précédent, pause/reprise, suivant, volume et playlist.
+Les réussites et nouvelles missions ne redémarrent plus le morceau en cours.
+L’album YouTube demandé n’est pas inclus (téléchargement bloqué par le DNS).
+Les trois compositions originales restent disponibles. Pour un fichier source local,
+voir Solution/docs/SON_ET_MUSIQUE.md et scripts/import_chapter_music.py :
+Wake Sequence est réservé au menu, les onze autres chapitres s’enchaînent en jeu.

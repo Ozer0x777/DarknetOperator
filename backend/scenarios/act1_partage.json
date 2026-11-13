@@ -1,0 +1,79 @@
+{
+  "scenario_id": "act1_partage",
+  "name": "02 — Une porte oubliée",
+  "description": "Une porte oubliée",
+  "hosts": [
+    {
+      "id": "nacre-fichiers",
+      "hostname": "NACRE-FICHIERS",
+      "ip": "10.61.2.10",
+      "os": "Linux Debian 12",
+      "services": [
+        {
+          "name": "SMB",
+          "port": 445,
+          "version": "Samba 4.19"
+        }
+      ],
+      "files": {
+        "/srv/public/README.txt": "Index publié par erreur. Les versions actives sont dans courant/ ; archives/ contient les anciennes pièces.\n",
+        "/srv/public/archives/bon.txt": "REFERENCE: NC-24-041\nDATE: 2024-02-12\nCLIENT: Nacre Atelier\nLOT: atelier-nord\nSTATUT: valide\n",
+        "/srv/public/courant/NC-26-041.txt": "REFERENCE: NC-26-041\nDATE: 2026-11-06\nCLIENT: Nacre Atelier\nLOT: atelier-nord\nSTATUT: valide\n",
+        "/srv/prive/comptes.txt": "Dossier privé ; inaccessible au compte invité.\n"
+      }
+    }
+  ],
+  "users": [],
+  "initially_discovered": [
+    "nacre-fichiers"
+  ],
+  "initially_scanned": [],
+  "objectives": [
+    {
+      "type": "investigation_step",
+      "step": "partage_livre"
+    }
+  ],
+  "max_ticks": 3000,
+  "rng_seed": 0,
+  "available_abilities": {
+    "red": [
+      "red.recon_scan",
+      "red.exfiltrate",
+      "red.crack_hash"
+    ],
+    "blue": []
+  },
+  "domain": {
+    "name": "act1.lab",
+    "sid": "S-1-5-21-100-200-300"
+  },
+  "environment": {
+    "organization": "Une porte oubliée",
+    "sector": "Dossier de laboratoire",
+    "timezone": "Europe/Paris",
+    "business_hours": "09:00–18:00",
+    "initial_time": "09:00",
+    "briefing_host": "nacre-fichiers",
+    "known_contact": "k0rvid",
+    "context": "Retrouver le bon NC-26-041 de novembre sur le partage annoncé à 10.61.2.10. Une ancienne version ne convient pas.",
+    "shares": {
+      "nacre-fichiers": {
+        "public": {
+          "path": "/srv/public",
+          "users": [
+            "*"
+          ]
+        }
+      }
+    },
+    "file_permissions": {
+      "nacre-fichiers": {
+        "/srv/prive": []
+      }
+    }
+  },
+  "defender": {
+    "enabled": false
+  }
+}

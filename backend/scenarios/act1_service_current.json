@@ -1,0 +1,202 @@
+{
+  "scenario_id": "act1_service_current",
+  "name": "Un service, des permissions",
+  "description": "Vérifier le contexte d’un service et livrer ses tickets avec le compte de lecture fourni.",
+  "hosts": [
+    {
+      "id": "ticket-app",
+      "hostname": "TICKET-APP",
+      "ip": "10.61.7.30",
+      "os": "Linux Debian 12",
+      "services": [
+        {
+          "name": "TICKETD",
+          "port": 5000,
+          "version": "ticketd 0.9"
+        },
+        {
+          "name": "SSH",
+          "port": 22,
+          "version": "OpenSSH 9.2"
+        }
+      ],
+      "files": {
+        "/home/svc.ticket/README.txt": "Application ticketd. Configuration du connecteur : /etc/ticketd/database.ini\n",
+        "/etc/ticketd/database.ini": "host=10.61.7.10\ndatabase=ticketing\nuser=ticket_ro\npassword=TicketRead2026!\nLe compte ne lit que tickets.\n",
+        "/root/master.key": "Privé, non lisible par svc.ticket.\n"
+      },
+      "primary_user": "svc.ticket"
+    },
+    {
+      "id": "ticket-db",
+      "hostname": "TICKET-DB",
+      "ip": "10.61.7.10",
+      "os": "Linux Debian 12",
+      "services": [
+        {
+          "name": "MYSQL",
+          "port": 3306,
+          "version": "MySQL 8.0"
+        }
+      ],
+      "files": {}
+    }
+  ],
+  "users": [
+    {
+      "username": "svc.ticket",
+      "password": "Maintenance2026!"
+    }
+  ],
+  "initially_discovered": [
+    "ticket-app"
+  ],
+  "initially_scanned": [],
+  "objectives": [
+    {
+      "type": "investigation_step",
+      "step": "tickets_livres"
+    }
+  ],
+  "max_ticks": 3000,
+  "rng_seed": 0,
+  "available_abilities": {
+    "red": [
+      "red.recon_scan",
+      "red.exfiltrate"
+    ],
+    "blue": []
+  },
+  "domain": {
+    "name": "act1.lab",
+    "sid": "S-1-5-21-100-200-300"
+  },
+  "environment": {
+    "organization": "Un service fragile",
+    "sector": "Dossier de laboratoire",
+    "timezone": "Europe/Paris",
+    "business_hours": "09:00–18:00",
+    "initial_time": "09:00",
+    "briefing_host": "ticket-app",
+    "known_contact": "nullroute",
+    "context": "Vérifier le contexte d’un service et livrer ses tickets avec le compte de lecture fourni.",
+    "databases": {
+      "ticketing": {
+        "engine": "MySQL",
+        "host": "ticket-db",
+        "accounts": {
+          "ticket_ro": {
+            "password": "TicketRead2026!",
+            "tables": [
+              "tickets"
+            ]
+          }
+        },
+        "tables": {
+          "tickets": {
+            "columns": [
+              [
+                "id",
+                "INTEGER"
+              ],
+              [
+                "reference",
+                "TEXT"
+              ],
+              [
+                "date",
+                "TEXT"
+              ],
+              [
+                "statut",
+                "TEXT"
+              ]
+            ],
+            "rows": [
+              [
+                1,
+                "TK-26-1",
+                "2026-11-07",
+                "clos"
+              ],
+              [
+                2,
+                "TK-26-2",
+                "2026-11-07",
+                "clos"
+              ],
+              [
+                3,
+                "TK-26-3",
+                "2026-11-07",
+                "clos"
+              ],
+              [
+                4,
+                "TK-26-4",
+                "2026-11-07",
+                "ouvert"
+              ],
+              [
+                5,
+                "TK-26-5",
+                "2026-11-07",
+                "ouvert"
+              ],
+              [
+                6,
+                "TK-26-6",
+                "2026-11-07",
+                "ouvert"
+              ]
+            ]
+          },
+          "salaires": {
+            "columns": [
+              [
+                "id",
+                "INTEGER"
+              ],
+              [
+                "montant",
+                "INTEGER"
+              ]
+            ],
+            "rows": [
+              [
+                1,
+                3100
+              ]
+            ]
+          }
+        }
+      }
+    },
+    "file_permissions": {
+      "ticket-app": {
+        "/root": [],
+        "/etc/ticketd": [
+          "svc.ticket"
+        ]
+      }
+    },
+    "systems": {
+      "ticket-app": {
+        "kernel": "6.1.0-amd64",
+        "services": {
+          "ticketd": "active (running)",
+          "ssh": "active (running)"
+        },
+        "groups": [
+          "svc.ticket"
+        ],
+        "processes": [
+          "svc.ticket 401 /usr/local/bin/ticketd"
+        ]
+      }
+    }
+  },
+  "defender": {
+    "enabled": false
+  }
+}

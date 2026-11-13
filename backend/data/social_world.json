@@ -1,0 +1,1413 @@
+{
+  "version": 1,
+  "profiles": {
+    "bytewarden": {
+      "role": "Administrateur",
+      "reputation": 214,
+      "age": 1240,
+      "bio": "Je maintiens le forum. Les règles s’appliquent aussi aux anciens.",
+      "availability": [
+        {
+          "start": 480,
+          "end": 1080
+        }
+      ]
+    },
+    "mod_echo": {
+      "role": "Modération",
+      "reputation": 380,
+      "age": 930,
+      "bio": "Litiges et signalements. Je ne négocie jamais par message privé.",
+      "availability": [
+        {
+          "start": 540,
+          "end": 1140
+        }
+      ]
+    },
+    "nullpointer": {
+      "role": "Membre",
+      "reputation": 73,
+      "age": 286,
+      "bio": "Matériel d’occasion, Linux et café froid.",
+      "availability": [
+        {
+          "start": 540,
+          "end": 720
+        },
+        {
+          "start": 840,
+          "end": 1200
+        }
+      ]
+    },
+    "packetloss": {
+      "role": "Membre confirmé",
+      "reputation": 221,
+      "age": 712,
+      "bio": "Je préfère une chronologie propre à une conclusion trop rapide.",
+      "availability": [
+        {
+          "start": 480,
+          "end": 720
+        },
+        {
+          "start": 840,
+          "end": 1080
+        }
+      ]
+    },
+    "relay": {
+      "role": "Membre confirmé",
+      "reputation": 412,
+      "age": 1100,
+      "bio": "Support des accès relais. Réponses en différé.",
+      "availability": [
+        {
+          "start": 480,
+          "end": 660
+        },
+        {
+          "start": 960,
+          "end": 1200
+        }
+      ]
+    },
+    "spectre": {
+      "role": "Membre invité",
+      "reputation": 680,
+      "age": 1680,
+      "bio": "Peu de messages. Des conditions écrites.",
+      "availability": [
+        {
+          "start": 540,
+          "end": 660
+        },
+        {
+          "start": 1140,
+          "end": 1380
+        }
+      ]
+    },
+    "miette": {
+      "role": "Membre",
+      "reputation": 29,
+      "age": 94,
+      "bio": "J’apprends. Mes notes sont meilleures que ma mémoire.",
+      "availability": [
+        {
+          "start": 540,
+          "end": 720
+        },
+        {
+          "start": 840,
+          "end": 1020
+        }
+      ]
+    },
+    "hexane": {
+      "role": "Membre",
+      "reputation": 116,
+      "age": 467,
+      "bio": "Atelier matériel. Pas de disponibilité permanente.",
+      "availability": [
+        {
+          "start": 480,
+          "end": 960
+        }
+      ]
+    },
+    "sable": {
+      "role": "Membre confirmé",
+      "reputation": 193,
+      "age": 630,
+      "bio": "Archives, documentation et vieux portables.",
+      "availability": [
+        {
+          "start": 480,
+          "end": 1080
+        }
+      ]
+    },
+    "k0rvid": {
+      "role": "Membre",
+      "reputation": 38,
+      "age": 412,
+      "bio": "Petits contrats, objectifs précis. Demande de l’aide si tu bloques.",
+      "availability": [
+        {
+          "start": 540,
+          "end": 1200
+        }
+      ]
+    },
+    "nullroute": {
+      "role": "Membre",
+      "reputation": 42,
+      "age": 284,
+      "bio": "Des preuves datées avant les promesses.",
+      "availability": [
+        {
+          "start": 480,
+          "end": 1380
+        }
+      ]
+    },
+    "0xvanta": {
+      "role": "Membre",
+      "reputation": 42,
+      "age": 284,
+      "bio": "En ligne tard, réponses en différé.",
+      "availability": [
+        {
+          "start": 480,
+          "end": 1380
+        }
+      ]
+    },
+    "hexcache": {
+      "role": "Membre",
+      "reputation": 42,
+      "age": 284,
+      "bio": "Je garde mes notes et je relis mes erreurs.",
+      "availability": [
+        {
+          "start": 480,
+          "end": 1380
+        }
+      ]
+    },
+    "cendre": {
+      "role": "Opérateur Linux",
+      "reputation": 80,
+      "age": 650,
+      "bio": "Je maintiens des relais et je vérifie les passations. Une version affichée ne prouve pas qu’une machine est vulnérable.",
+      "availability": [
+        {
+          "start": 0,
+          "end": 1440
+        }
+      ]
+    },
+    "traverse": {
+      "role": "Accès réseau",
+      "reputation": 80,
+      "age": 650,
+      "bio": "Je prépare les passages entre réseaux. Je veux savoir depuis quelle machine un service répond.",
+      "availability": [
+        {
+          "start": 0,
+          "end": 1440
+        }
+      ]
+    },
+    "iris": {
+      "role": "Analyste annuaire",
+      "reputation": 80,
+      "age": 650,
+      "bio": "Je recoupe comptes, groupes et délégations. Un chemin dans un graphe reste une hypothèse tant que les droits ne sont pas vérifiés.",
+      "availability": [
+        {
+          "start": 0,
+          "end": 1440
+        }
+      ]
+    },
+    "quartz": {
+      "role": "Partenaire de livraison",
+      "reputation": 80,
+      "age": 650,
+      "bio": "Je reprends des dossiers en binôme. Donne-moi les limites observées, pas seulement un secret.",
+      "availability": [
+        {
+          "start": 0,
+          "end": 1440
+        }
+      ]
+    }
+  },
+  "threads": [
+    {
+      "id": "welcome",
+      "forum": "breachboard",
+      "section": "Discussion",
+      "title": "Bienvenue — présentez-vous et lisez les règles",
+      "author": "bytewarden",
+      "reputation": 214,
+      "body": "Bienvenue sur BreachBoard. Commencez dans la section Débutants. Un client sans historique, une prime démesurée et une urgence inhabituelle sont des raisons de prendre du recul.\n\nPrésentez-vous ici si vous venez d'arriver.",
+      "pinned": true,
+      "age": 1240,
+      "role": "Administrateur",
+      "created_minute": -2350,
+      "locked": false,
+      "posts": [
+        {
+          "author": "miette",
+          "text": "Salut, nouvelle ici. Je vais commencer par les sujets épinglés.",
+          "minute": -2340
+        },
+        {
+          "author": "mod_echo",
+          "text": "Bienvenue. Cherche d’abord un sujet existant avant d’en ouvrir un autre.",
+          "minute": -2317
+        }
+      ],
+      "response": {
+        "author": "mod_echo",
+        "text": "Bienvenue {handle}. Les règles sont épinglées ; pour une question précise, indique ce que tu as déjà essayé."
+      },
+      "views": 84
+    },
+    {
+      "id": "escrow",
+      "forum": "breachboard",
+      "section": "Discussion",
+      "title": "Avant d'accepter un contrat : vérifier le client",
+      "author": "mod_echo",
+      "reputation": 380,
+      "body": "Lisez la date d'inscription et la réputation. La prime affichée ne remplace jamais un historique fiable. Le paiement et la progression de vos missions apparaissent sur votre compte.",
+      "pinned": true,
+      "age": 930,
+      "role": "Modération",
+      "created_minute": -3783,
+      "locked": false,
+      "posts": [
+        {
+          "author": "sable",
+          "text": "Pensez aussi à regarder les anciens messages, pas seulement le chiffre de réputation.",
+          "minute": -3773
+        },
+        {
+          "author": "mod_echo",
+          "text": "Exact. Les signalements se font avec une référence et une chronologie, pas une accusation sans élément.",
+          "minute": -3750
+        }
+      ],
+      "response": {
+        "author": "mod_echo",
+        "text": "{handle}, conserve les références et les horaires si tu signales un problème. Je peux traiter un dossier, pas une rumeur."
+      },
+      "views": 121
+    },
+    {
+      "id": "hardware",
+      "forum": "breachboard",
+      "section": "Marché",
+      "title": "GPU et listes de mots — où investir ses premiers crédits ?",
+      "author": "nullpointer",
+      "reputation": 73,
+      "body": "Le matériel réduit le temps de traitement hors ligne. Gardez aussi de quoi financer la route du prochain contrat. Le catalogue Services et matériel est accessible depuis la boutique.",
+      "age": 286,
+      "role": "Membre",
+      "created_minute": -5216,
+      "locked": false,
+      "posts": [
+        {
+          "author": "hexane",
+          "text": "Garde de la marge pour le prochain contrat. Un GPU ne remplace pas une liste de mots adaptée.",
+          "minute": -5206
+        },
+        {
+          "author": "nullpointer",
+          "text": "Merci, je diffère l’achat et je mesure déjà mon temps de traitement.",
+          "minute": -5183
+        }
+      ],
+      "response": {
+        "author": "hexane",
+        "text": "{handle}, compare d’abord le temps mesuré et ton budget restant. Les fiches du catalogue précisent le gain du matériel."
+      },
+      "views": 158
+    },
+    {
+      "id": "tor",
+      "forum": "exployt",
+      "section": "Discussion",
+      "title": "Accès au forum et règles de confidentialité",
+      "author": "relay",
+      "reputation": 412,
+      "body": "Ce forum est réservé aux membres confirmés. Activez une route Tor avant de consulter les annonces. Le détail de votre route reste visible dans le centre d'opération.",
+      "pinned": true,
+      "age": 1100,
+      "role": "Membre confirmé",
+      "created_minute": -6649,
+      "locked": false,
+      "posts": [
+        {
+          "author": "packetloss",
+          "text": "Si la route change, vérifiez de nouveau votre accès au forum avant de publier.",
+          "minute": -6639
+        }
+      ],
+      "response": {
+        "author": "relay",
+        "text": "{handle}, vérifie la route active avant de retenter l’accès. Je ne peux pas la configurer à ta place."
+      },
+      "views": 195
+    },
+    {
+      "id": "debrief",
+      "forum": "exployt",
+      "section": "Discussion",
+      "title": "Vos débriefings : comprendre ce que la défense a vu",
+      "author": "packetloss",
+      "reputation": 221,
+      "body": "Après chaque contrat, relisez la chronologie. Une alerte déclenche une réaction avec un délai ; une enquête peut continuer même après l'accusé de réception d'une alerte.",
+      "age": 712,
+      "role": "Membre confirmé",
+      "created_minute": -8082,
+      "locked": false,
+      "posts": [
+        {
+          "author": "sable",
+          "text": "Une alerte acquittée ne signifie pas que l’incident est clos.",
+          "minute": -8072
+        },
+        {
+          "author": "packetloss",
+          "text": "Oui. Distinguez la détection, la qualification et la réponse.",
+          "minute": -8049
+        }
+      ],
+      "response": {
+        "author": "packetloss",
+        "text": "{handle}, commence par l’horodatage du premier événement visible. On comparera ensuite avec la première alerte."
+      },
+      "views": 232
+    },
+    {
+      "id": "private",
+      "forum": "xsx",
+      "section": "Discussion",
+      "title": "Salon privé — charte des membres invités",
+      "author": "spectre",
+      "reputation": 680,
+      "body": "L'accès est accordé après le contrat de passage. Les accès relais sont consommables : préparez le suivant avant de commencer une nouvelle mission.",
+      "pinned": true,
+      "age": 1680,
+      "role": "Membre invité",
+      "created_minute": -9515,
+      "locked": false,
+      "posts": [
+        {
+          "author": "relay",
+          "text": "Charte lue. Je mettrai les limites de chaque accès dans la passation.",
+          "minute": -9505
+        }
+      ],
+      "response": {
+        "author": "spectre",
+        "text": "Lu, {handle}. Garde les échanges de mission dans la conversation concernée."
+      },
+      "views": 269
+    },
+    {
+      "id": "introductions",
+      "forum": "breachboard",
+      "section": "Discussion",
+      "title": "Vos premières semaines sur le forum",
+      "author": "miette",
+      "body": "J’ai passé plus de temps à lire les sujets épinglés qu’à poster. Vous preniez des notes comment, au début ?",
+      "pinned": false,
+      "reputation": 29,
+      "age": 94,
+      "role": "Membre",
+      "created_minute": -10948,
+      "locked": false,
+      "posts": [
+        {
+          "author": "nullpointer",
+          "text": "Un fichier texte par mission, sauvegardé après chaque étape.",
+          "minute": -10938
+        },
+        {
+          "author": "miette",
+          "text": "Je vais ajouter une colonne résultat attendu / résultat observé.",
+          "minute": -10915
+        }
+      ],
+      "response": {
+        "author": "miette",
+        "text": "Bienvenue {handle}. Je note aussi mes erreurs maintenant ; ça m’évite de refaire le même essai."
+      },
+      "views": 306
+    },
+    {
+      "id": "maintenance",
+      "forum": "breachboard",
+      "section": "Discussion",
+      "title": "Maintenance du forum jeudi à 02:00",
+      "author": "bytewarden",
+      "body": "L’index de recherche sera reconstruit cette nuit. Les messages resteront accessibles ; évitez simplement les doubles publications.",
+      "pinned": false,
+      "reputation": 214,
+      "age": 1240,
+      "role": "Administrateur",
+      "created_minute": -2301,
+      "locked": true,
+      "posts": [
+        {
+          "author": "mod_echo",
+          "text": "Sujet verrouillé pour les annonces. Les questions vont dans la discussion générale.",
+          "minute": -2291
+        }
+      ],
+      "views": 343
+    },
+    {
+      "id": "notes",
+      "forum": "breachboard",
+      "section": "Discussion",
+      "title": "Un carnet de mission lisible après trois jours",
+      "author": "sable",
+      "body": "Je note l’heure, ce que je savais avant l’essai et le résultat exact. Sinon je ne sais plus distinguer une observation d’une hypothèse.",
+      "pinned": false,
+      "reputation": 193,
+      "age": 630,
+      "role": "Membre confirmé",
+      "created_minute": -3734,
+      "locked": false,
+      "posts": [
+        {
+          "author": "packetloss",
+          "text": "Et garde les erreurs. Elles expliquent parfois mieux la suite que les essais réussis.",
+          "minute": -3724
+        }
+      ],
+      "response": {
+        "author": "sable",
+        "text": "{handle}, sépare ce que tu observes de ce que tu supposes. Ton toi de demain te remerciera."
+      },
+      "views": 380
+    },
+    {
+      "id": "workbench",
+      "forum": "breachboard",
+      "section": "Marché",
+      "title": "[Vendu] Portable de travail, batterie à remplacer",
+      "author": "hexane",
+      "body": "Machine vendue à nullpointer. Annonce conservée pour l’historique ; aucun acompte supplémentaire à envoyer.",
+      "pinned": false,
+      "reputation": 116,
+      "age": 467,
+      "role": "Membre",
+      "created_minute": -5167,
+      "locked": true,
+      "posts": [
+        {
+          "author": "nullpointer",
+          "text": "Bien reçu. Je confirme l’achat et l’état de la batterie.",
+          "minute": -5157
+        }
+      ],
+      "views": 417
+    },
+    {
+      "id": "gpu-prices",
+      "forum": "breachboard",
+      "section": "Marché",
+      "title": "GPU d’occasion : vos températures en charge ?",
+      "author": "nullpointer",
+      "body": "Sur ma carte, les performances baissent après vingt minutes. Je vais refaire la ventilation avant d’acheter autre chose.",
+      "pinned": false,
+      "reputation": 73,
+      "age": 286,
+      "role": "Membre",
+      "created_minute": -6600,
+      "locked": false,
+      "posts": [
+        {
+          "author": "hexane",
+          "text": "Compare les températures à fréquence constante. Une mesure de trente secondes cache la baisse en charge.",
+          "minute": -6590
+        }
+      ],
+      "response": {
+        "author": "hexane",
+        "text": "{handle}, indique la durée de charge et la température ambiante pour qu’on puisse comparer."
+      },
+      "views": 454
+    },
+    {
+      "id": "timezones",
+      "forum": "exployt",
+      "section": "Discussion",
+      "title": "Les horodatages sans fuseau sont inutilisables",
+      "author": "packetloss",
+      "body": "Merci de conserver le fuseau dans vos comptes rendus. 14:00 sans date ni fuseau ne permet pas de recouper deux événements.",
+      "pinned": false,
+      "reputation": 221,
+      "age": 712,
+      "role": "Membre confirmé",
+      "created_minute": -8033,
+      "locked": false,
+      "posts": [
+        {
+          "author": "relay",
+          "text": "J’indique UTC dans mes passations. Ça évite les conversions implicites.",
+          "minute": -8023
+        }
+      ],
+      "response": {
+        "author": "packetloss",
+        "text": "{handle}, ajoute le fuseau à ton exemple et on pourra recouper les horaires."
+      },
+      "views": 491
+    },
+    {
+      "id": "relay-stock",
+      "forum": "exployt",
+      "section": "Marché",
+      "title": "Disponibilités et renouvellement des relais",
+      "author": "relay",
+      "body": "Les accès ont une durée limitée. Un accès consommé ne se renouvelle pas seul ; confirmez les conditions avant l’achat.",
+      "pinned": false,
+      "reputation": 412,
+      "age": 1100,
+      "role": "Membre confirmé",
+      "created_minute": -9466,
+      "locked": false,
+      "posts": [
+        {
+          "author": "spectre",
+          "text": "Ajoutez la date de vérification à chaque passation, merci.",
+          "minute": -9456
+        }
+      ],
+      "response": {
+        "author": "relay",
+        "text": "{handle}, les disponibilités sont dans le catalogue. Je confirme les conditions avant une nouvelle passation."
+      },
+      "views": 528
+    },
+    {
+      "id": "handover",
+      "forum": "xsx",
+      "section": "Discussion",
+      "title": "Passation : documenter l’accès fourni",
+      "author": "spectre",
+      "body": "Une passation doit préciser les droits, la machine, la date de vérification et les limites connues. Ne supposez pas qu’un accès ancien fonctionne encore.",
+      "pinned": false,
+      "reputation": 680,
+      "age": 1680,
+      "role": "Membre invité",
+      "created_minute": -10899,
+      "locked": false,
+      "posts": [
+        {
+          "author": "spectre",
+          "text": "Les identifiants et les droits sont deux informations différentes. Vérifiez les deux.",
+          "minute": -10889
+        }
+      ],
+      "response": {
+        "author": "spectre",
+        "text": "{handle}, une vérification datée et les limites connues suffisent. Évite de promettre des droits non vérifiés."
+      },
+      "views": 565
+    },
+    {
+      "id": "private-market",
+      "forum": "xsx",
+      "section": "Marché",
+      "title": "Demandes de services : conditions écrites obligatoires",
+      "author": "spectre",
+      "body": "Le périmètre et le règlement doivent être confirmés avant toute prestation. Les messages privés sans référence ne constituent pas une annonce vérifiée.",
+      "pinned": false,
+      "reputation": 680,
+      "age": 1680,
+      "role": "Membre invité",
+      "created_minute": -2252,
+      "locked": false,
+      "posts": [
+        {
+          "author": "relay",
+          "text": "Les demandes incomplètes seront renvoyées à leur auteur.",
+          "minute": -2242
+        }
+      ],
+      "response": {
+        "author": "spectre",
+        "text": "{handle}, précise le périmètre et le délai attendu avant de demander une confirmation."
+      },
+      "views": 602
+    },
+    {
+      "id": "seller-dispute",
+      "forum": "breachboard",
+      "title": "[Litige] Accès annoncé administrateur, droits limités",
+      "author": "mod_echo",
+      "created_minute": -45,
+      "pinned": false,
+      "locked": false,
+      "posts": [
+        {
+          "author": "nullpointer",
+          "text": "L'annonce parlait d'un accès administrateur. La preuve montre seulement une connexion utilisateur sur une machine ; le vendeur a changé de pseudo depuis.",
+          "minute": -40
+        },
+        {
+          "author": "packetloss",
+          "text": "Connexion réussie, droits administrateur et accès à d'autres machines sont trois affirmations différentes. Le relevé est ancien : l'accès peut aussi avoir expiré.",
+          "minute": -35
+        },
+        {
+          "author": "mod_echo",
+          "text": "Litige ouvert. L'annonce est suspendue ; aucune réputation ne remplace les preuves datées. Les messages privés ne valent pas décision de modération.",
+          "minute": -30
+        }
+      ],
+      "response": {
+        "author": "mod_echo",
+        "text": "Reçu {handle}. Ajoute les observations et leur date ; une affirmation sans preuve reste une affirmation."
+      },
+      "section": "Discussion",
+      "body": "Suivi public du litige L-026 : le statut reste ouvert tant que les preuves manquent. Les annonces et les droits effectivement vérifiés sont conservés séparément.",
+      "reputation": 380,
+      "age": 930,
+      "role": "Modération",
+      "views": 639
+    },
+    {
+      "id": "affiliate-terms",
+      "forum": "exployt",
+      "title": "Affiliation : part opérateur, responsabilité et désaccords",
+      "author": "relay",
+      "created_minute": -45,
+      "pinned": false,
+      "locked": false,
+      "posts": [
+        {
+          "author": "relay",
+          "text": "Dans le laboratoire, la part du contrat d'affiliation est écrite avant acceptation. Le montant affiché n'est pas automatiquement la part opérateur.",
+          "minute": -40
+        },
+        {
+          "author": "packetloss",
+          "text": "Un vendeur qui annonce un outil indétectable ne fournit pas une garantie. Une politique locale peut bloquer l'exécution même si le fichier a été transféré.",
+          "minute": -35
+        },
+        {
+          "author": "sable",
+          "text": "J'ai refusé une passation : compte valide mais périmètre différent de l'annonce. Le bon résultat était de documenter cette limite, pas de déclarer le réseau accessible.",
+          "minute": -30
+        }
+      ],
+      "response": {
+        "author": "relay",
+        "text": "Reçu {handle}. Ajoute les observations et leur date ; une affirmation sans preuve reste une affirmation."
+      },
+      "section": "Discussion",
+      "body": "Conditions du marché fictif : relire le partage de rémunération avant de prendre un engagement. Ce fil distingue une promesse commerciale des résultats vérifiés.",
+      "reputation": 412,
+      "age": 1100,
+      "role": "Membre confirmé",
+      "views": 676
+    },
+    {
+      "id": "incident-aftermath",
+      "forum": "xsx",
+      "title": "Après le chiffrement : ce que les preuves ne disent pas",
+      "author": "spectre",
+      "created_minute": -45,
+      "pinned": false,
+      "locked": false,
+      "posts": [
+        {
+          "author": "spectre",
+          "text": "Retour de dossier fictif : certains postes étaient indisponibles, d'autres continuaient à fonctionner. Le pourcentage de machines chiffrées n'est pas le pourcentage d'activité arrêté.",
+          "minute": -40
+        },
+        {
+          "author": "packetloss",
+          "text": "Les instantanés locaux avaient disparu, mais le dossier ne permettait pas de conclure sur les sauvegardes externes. Le rétablissement reste une question distincte.",
+          "minute": -35
+        },
+        {
+          "author": "relay",
+          "text": "Une demande de rançon n'est pas un paiement. Un paiement éventuel ne garantit ni récupération complète ni suppression des copies. Le rapport doit garder ces états séparés.",
+          "minute": -30
+        }
+      ],
+      "response": {
+        "author": "spectre",
+        "text": "Reçu {handle}. Ajoute les observations et leur date ; une affirmation sans preuve reste une affirmation."
+      },
+      "section": "Discussion",
+      "body": "Dossier fictif après incident : distinguer accès réseau, restauration des données, activité de l’entreprise et négociation. Les messages suivants portent sur les limites des preuves.",
+      "reputation": 680,
+      "age": 1680,
+      "role": "Membre invité",
+      "views": 713
+    },
+    {
+      "id": "old-proof",
+      "forum": "breachboard",
+      "section": "Marché",
+      "title": "[Clos] La capture date de trois semaines",
+      "author": "nullroute",
+      "body": "Le vendeur annonce un accès disponible, mais la seule preuve date d’avant la maintenance. Je demande un état actuel avant de conclure.",
+      "reputation": 42,
+      "age": 284,
+      "role": "Membre",
+      "created_minute": -120,
+      "views": 314,
+      "pinned": false,
+      "locked": true,
+      "posts": [
+        {
+          "author": "sable",
+          "text": "Le périmètre et la date comptent autant que la capture. Un accès ouvert un jour peut être fermé le lendemain.",
+          "minute": -90
+        },
+        {
+          "author": "0xvanta",
+          "text": "Annonce retirée ce matin. Le dossier reste en archive, pas une vente validée.",
+          "minute": -80
+        }
+      ]
+    },
+    {
+      "id": "night-shift",
+      "forum": "breachboard",
+      "section": "Discussion",
+      "title": "Votre fond sonore pour les sessions de nuit ?",
+      "author": "hexcache",
+      "body": "J’ai fini par couper la musique quand je rédige mes notes. Vous faites comment ?",
+      "reputation": 42,
+      "age": 284,
+      "role": "Membre",
+      "created_minute": -120,
+      "views": 314,
+      "pinned": false,
+      "locked": false,
+      "posts": [
+        {
+          "author": "miette",
+          "text": "Musique pour lire, silence pour comparer deux résultats. Et pause café quand je relis trois fois la même ligne.",
+          "minute": -90
+        },
+        {
+          "author": "nullroute",
+          "text": "Le plus utile chez moi reste un carnet lisible le lendemain.",
+          "minute": -80
+        }
+      ]
+    },
+    {
+      "id": "first-report",
+      "forum": "breachboard",
+      "section": "Discussion",
+      "title": "Premier compte rendu : ce que je peux vraiment affirmer",
+      "author": "0xvanta",
+      "body": "J’ai séparé ce que j’ai observé de ce que je suppose. Le rapport est plus court, mais je peux justifier chaque ligne.",
+      "reputation": 42,
+      "age": 284,
+      "role": "Membre",
+      "created_minute": -120,
+      "views": 314,
+      "pinned": false,
+      "locked": false,
+      "posts": [
+        {
+          "author": "k0rvid",
+          "text": "C’est ce que je regarde dans une passation. Une erreur annoncée vaut mieux qu’un résultat inventé.",
+          "minute": -90
+        }
+      ]
+    },
+    {
+      "id": "aquila-homonymes",
+      "forum": "breachboard",
+      "section": "Discussion",
+      "title": "Aquila : deux societes, deux activites",
+      "author": "hexcache",
+      "created_minute": -1900,
+      "body": "Je vois passer « Aquila » sans precision dans plusieurs annonces. Quelqu’un peut distinguer les deux societes ? Les echantillons AF ne ressemblent pas a du conseil en gestion.",
+      "views": 243,
+      "posts": [
+        {
+          "author": "0xvanta",
+          "minute": -1880,
+          "text": "Aquila Conseil : AQC-441, conseil en gestion. Aquila Fret : AQF-882, transport. Aucune raison de les fusionner. Les references AF concernent le fret."
+        },
+        {
+          "author": "nullroute",
+          "minute": -1860,
+          "text": "Note. J’ai un tableau a nettoyer, j’ai peut-etre recopie le mauvais domaine. Si quelqu’un a le fil du portail, gardez-le ici."
+        }
+      ]
+    },
+    {
+      "id": "aquila-portail",
+      "forum": "breachboard",
+      "section": "Discussion",
+      "title": "Portail de suivi Aquila — ancienne adresse ?",
+      "author": "hexcache",
+      "created_minute": -1700,
+      "body": "Ancienne note : suivi de lots Aquila Fret, portail .30. La capture date de 2024. Quelqu’un a une information plus recente ?",
+      "views": 178,
+      "posts": [
+        {
+          "author": "0xvanta",
+          "minute": -1640,
+          "text": "Migration terminee le 02/11/2026. Le portail actuel est AQF-PORTAIL, 10.48.8.31. Le site publie ses mentions. .30 est l’ancienne adresse, elle ne repond plus."
+        },
+        {
+          "author": "hexcache",
+          "minute": -1620,
+          "text": "Merci. Le vieux robots.txt mentionnait /exports/. Un index de maintenance citait support.env.old dans ce dossier. Je ne sais pas si la copie a ete retiree depuis la migration ; a verifier, pas a supposer."
+        },
+        {
+          "author": "miette",
+          "minute": -1600,
+          "text": "Les lots AF-24 et AF-26 ne sont pas interchangeables. Un meme numero court peut exister dans deux annees. Exigez la reference complete et les dates."
+        }
+      ]
+    },
+    {
+      "id": "act1-partages",
+      "forum": "breachboard",
+      "section": "Discussion",
+      "title": "Un partage ne donne pas tous les droits",
+      "author": "miette",
+      "body": "Une annonce confond partage public et compte administrateur. Comment le vérifier ?",
+      "created_minute": -250,
+      "views": 112,
+      "posts": [
+        {
+          "author": "hexcache",
+          "text": "Commence par lister les partages, puis le répertoire concerné. C$ n’est pas un partage public. Les anciennes versions restent souvent archivées.",
+          "minute": -230
+        }
+      ]
+    },
+    {
+      "id": "act1-echantillon-annonce",
+      "forum": "breachboard",
+      "section": "Discussion",
+      "title": "[Échantillon] NX-26 — 40 lignes annoncées récentes",
+      "author": "hexcache",
+      "body": "Un vendeur annonce un lot de novembre. L’échantillon est joint au dossier privé ; je cherche quelqu’un pour vérifier la fraîcheur avant de payer.",
+      "created_minute": -250,
+      "views": 112,
+      "posts": [
+        {
+          "author": "miette",
+          "text": "La date du nom de fichier ne prouve rien. Compte les dates dans les lignes, pas celles de l’annonce.",
+          "minute": -230
+        }
+      ]
+    },
+    {
+      "id": "act1-pivoine",
+      "forum": "breachboard",
+      "section": "Discussion",
+      "title": "Pivoine : recherche ou fiche produit ?",
+      "author": "hexcache",
+      "body": "Le moteur de recherche et les fiches produit n’utilisent pas forcément les mêmes requêtes. Une réponse HTTP 200 n’indique pas une injection.",
+      "created_minute": -250,
+      "views": 112,
+      "posts": [
+        {
+          "author": "0xvanta",
+          "text": "Le vieux portail expose /produit?id=1 ; /recherche?q=rose utilise un autre mécanisme. Vérifiez le paramètre, puis le périmètre de la base.",
+          "minute": -230
+        }
+      ]
+    },
+    {
+      "id": "act1-verre",
+      "forum": "breachboard",
+      "section": "Discussion",
+      "title": "Verre : trois références et un compte client",
+      "author": "0xvanta",
+      "body": "Le compte Ambre voit le document 101. Un ticket parle de VA-26-204 chez Orme Distribution. Les numéros de documents et les références métier ne sont pas identiques.",
+      "created_minute": -250,
+      "views": 112,
+      "posts": [
+        {
+          "author": "hexcache",
+          "text": "L’ancien index associe Orme au document 102. Vérifiez le contenu et la date ; 103 appartient à une autre organisation.",
+          "minute": -230
+        }
+      ]
+    },
+    {
+      "id": "act1-ticketd",
+      "forum": "breachboard",
+      "section": "Discussion",
+      "title": "ticketd 0.9 : notes de compilation du labo",
+      "author": "nullroute",
+      "body": "Le service de maintenance de cette image est ancien. Les informations de compilation et le binaire de laboratoire sont joints au dossier, pas à télécharger ailleurs.",
+      "created_minute": -250,
+      "views": 112,
+      "posts": [
+        {
+          "author": "0xvanta",
+          "text": "Dans ce build précis, l’écrasement du retour commence à 72 octets. NX est activé : ce n’est pas une invitation à exécuter du code sur la pile. Cherchez les symboles de maintenance.",
+          "minute": -230
+        }
+      ]
+    },
+    {
+      "id": "act1-litige",
+      "forum": "breachboard",
+      "section": "Discussion",
+      "title": "[Litige] Deux fichiers numérotés 118",
+      "author": "bytewarden",
+      "body": "Un vendeur conteste la dernière livraison. Les preuves sont conservées dans le dossier de modération ; on distingue la référence entière, la date et le contenu.",
+      "created_minute": -250,
+      "views": 112,
+      "posts": [
+        {
+          "author": "miette",
+          "text": "Deux numéros courts identiques ne prouvent pas un même lot. La modération demande les pièces datées, pas une attaque personnelle.",
+          "minute": -230
+        }
+      ]
+    },
+    {
+      "id": "act1-boreal",
+      "forum": "breachboard",
+      "section": "Discussion",
+      "title": "Boreal : index de passation",
+      "author": "bytewarden",
+      "body": "Deux observations existent : le paramètre id de /bordereau et une ancienne copie /support/database.env.old. À vérifier dans le dossier ; aucune des deux notes ne prouve un accès actuel.",
+      "created_minute": -250,
+      "views": 112,
+      "posts": [
+        {
+          "author": "nullroute",
+          "text": "Même source documentaire, deux chemins potentiels. La livraison doit conserver les bordereaux de novembre, sans le personnel ni l’archive 2024.",
+          "minute": -230
+        }
+      ]
+    }
+  ],
+  "contacts": [
+    {
+      "id": "k0rvid",
+      "name": "k0rvid",
+      "channel": "chordly",
+      "kind": "direct",
+      "tier": 0,
+      "members": [
+        "k0rvid"
+      ],
+      "bio": "Ton contact pour les premiers dossiers.",
+      "response_author": "k0rvid",
+      "response": "Salut {handle}. Le dossier proposé est dans cette conversation. Une fois accepté, demande aide pour relire les étapes et objectif pour revenir au résultat demandé."
+    },
+    {
+      "id": "atelier",
+      "name": "Atelier · communauté",
+      "channel": "chordly",
+      "kind": "group",
+      "tier": 0,
+      "members": [
+        "miette",
+        "nullpointer",
+        "hexane",
+        "sable"
+      ],
+      "bio": "Matériel, notes et entraide. Les missions restent en privé.",
+      "response_author": "miette",
+      "response": "Salut {handle}. Si tu parles d’une mission, demande de l’aide à ton contact privé ; ici on échange surtout nos méthodes de travail."
+    },
+    {
+      "id": "miette",
+      "name": "miette",
+      "channel": "chordly",
+      "kind": "direct",
+      "tier": 0,
+      "members": [
+        "miette"
+      ],
+      "bio": "J’apprends. Mes notes sont meilleures que ma mémoire.",
+      "response_author": "miette",
+      "response": "Salut {handle}. Je suis encore en apprentissage aussi. Je garde mes résultats dans un carnet ; pour ta mission, ton client connaît mieux le contexte que moi."
+    },
+    {
+      "id": "veille",
+      "name": "Veille · archives",
+      "channel": "telegrid",
+      "kind": "group",
+      "tier": 2,
+      "members": [
+        "relay",
+        "packetloss",
+        "sable"
+      ],
+      "bio": "Notes datées et retours sur les comptes rendus.",
+      "response_author": "packetloss",
+      "response": "Lu, {handle}. Ajoute une chronologie et les observations vérifiables si tu veux un avis sur un compte rendu."
+    },
+    {
+      "id": "relay",
+      "name": "relay",
+      "channel": "telegrid",
+      "kind": "direct",
+      "tier": 2,
+      "members": [
+        "relay"
+      ],
+      "bio": "Support des accès relais. Réponses en différé.",
+      "response_author": "relay",
+      "response": "Je viens de lire, {handle}. Mes créneaux sont limités. Vérifie les conditions et la disponibilité dans le catalogue avant de préparer une passation."
+    },
+    {
+      "id": "passations",
+      "name": "Passations · membres",
+      "channel": "sessyon",
+      "kind": "group",
+      "tier": 3,
+      "members": [
+        "spectre",
+        "relay"
+      ],
+      "bio": "Périmètre, droits vérifiés et limites connues.",
+      "response_author": "spectre",
+      "response": "Reçu, {handle}. Pour une passation, indique le périmètre, la dernière vérification et les limites connues."
+    },
+    {
+      "id": "nullroute",
+      "name": "nullroute",
+      "channel": "chordly",
+      "kind": "direct",
+      "tier": 1,
+      "members": [
+        "nullroute"
+      ],
+      "bio": "Recommandé par k0rvid pour un dossier à vérifier.",
+      "response_author": "nullroute",
+      "response": "Salut {handle}. k0rvid m’a recommandé ton pseudo. Le dossier Mauvaise adresse est proposé dans cette conversation ; ouvre-le pour recevoir mon brief. On vérifie les informations avant de conclure.",
+      "requires_any_completed": [
+        "morel",
+        "act1_empreinte"
+      ]
+    },
+    {
+      "id": "hexcache",
+      "name": "hexcache",
+      "channel": "chordly",
+      "kind": "direct",
+      "tier": 1,
+      "members": [
+        "hexcache"
+      ],
+      "requires_completed": [
+        "act1_partage"
+      ],
+      "bio": "Contact recommandé au fil des dossiers.",
+      "response_author": "hexcache",
+      "response": "Salut {handle}. Les pièces du prochain dossier sont dans sa proposition privée. Après acceptation, demande aide pour préciser les observations attendues."
+    },
+    {
+      "id": "0xvanta",
+      "name": "0xvanta",
+      "channel": "chordly",
+      "kind": "direct",
+      "tier": 1,
+      "members": [
+        "0xvanta"
+      ],
+      "requires_completed": [
+        "act1_boutique"
+      ],
+      "bio": "Contact recommandé au fil des dossiers.",
+      "response_author": "0xvanta",
+      "response": "Salut {handle}. Les pièces du prochain dossier sont dans sa proposition privée. Après acceptation, demande aide pour préciser les observations attendues."
+    },
+    {
+      "id": "bytewarden",
+      "name": "bytewarden",
+      "channel": "chordly",
+      "kind": "direct",
+      "tier": 1,
+      "members": [
+        "bytewarden"
+      ],
+      "requires_completed": [
+        "mauvaise_adresse"
+      ],
+      "bio": "Contact recommandé au fil des dossiers.",
+      "response_author": "bytewarden",
+      "response": "Salut {handle}. Les pièces du prochain dossier sont dans sa proposition privée. Après acceptation, demande aide pour préciser les observations attendues."
+    },
+    {
+      "id": "cendre",
+      "name": "cendre",
+      "channel": "telegrid",
+      "tier": 2,
+      "kind": "direct",
+      "members": [
+        "cendre"
+      ],
+      "bio": "Je maintiens des relais et je vérifie les passations. Une version affichée ne prouve pas qu’une machine est vulnérable.",
+      "requires_completed": [
+        "act1_recommandation"
+      ],
+      "response_author": "cendre",
+      "response": "Je t’ai lu, {handle}. Les conditions et les preuves utiles sont dans notre dossier ; demande un indice pendant la mission si tu bloques."
+    },
+    {
+      "id": "traverse",
+      "name": "traverse",
+      "channel": "telegrid",
+      "tier": 2,
+      "kind": "direct",
+      "members": [
+        "traverse"
+      ],
+      "bio": "Je prépare les passages entre réseaux. Je veux savoir depuis quelle machine un service répond.",
+      "requires_completed": [
+        "act2_polkit"
+      ],
+      "response_author": "traverse",
+      "response": "Je t’ai lu, {handle}. Les conditions et les preuves utiles sont dans notre dossier ; demande un indice pendant la mission si tu bloques."
+    },
+    {
+      "id": "iris",
+      "name": "iris",
+      "channel": "telegrid",
+      "tier": 2,
+      "kind": "direct",
+      "members": [
+        "iris"
+      ],
+      "bio": "Je recoupe comptes, groupes et délégations. Un chemin dans un graphe reste une hypothèse tant que les droits ne sont pas vérifiés.",
+      "requires_completed": [
+        "act2_pivot"
+      ],
+      "response_author": "iris",
+      "response": "Je t’ai lu, {handle}. Les conditions et les preuves utiles sont dans notre dossier ; demande un indice pendant la mission si tu bloques."
+    },
+    {
+      "id": "quartz",
+      "name": "quartz",
+      "channel": "telegrid",
+      "tier": 2,
+      "kind": "direct",
+      "members": [
+        "quartz"
+      ],
+      "bio": "Je reprends des dossiers en binôme. Donne-moi les limites observées, pas seulement un secret.",
+      "requires_completed": [
+        "act2_service"
+      ],
+      "response_author": "quartz",
+      "response": "Je t’ai lu, {handle}. Les conditions et les preuves utiles sont dans notre dossier ; demande un indice pendant la mission si tu bloques."
+    }
+  ],
+  "events": [
+    {
+      "id": "life-0",
+      "after": 2,
+      "kind": "chat",
+      "target": "atelier",
+      "author": "miette",
+      "text": "Quelqu’un a une méthode simple pour noter les essais qui échouent ?"
+    },
+    {
+      "id": "life-1",
+      "after": 5,
+      "kind": "chat",
+      "target": "atelier",
+      "author": "sable",
+      "text": "Une ligne par essai : heure, hypothèse, commande et résultat exact. Même les erreurs."
+    },
+    {
+      "id": "life-2",
+      "after": 9,
+      "kind": "forum",
+      "target": "notes",
+      "author": "miette",
+      "text": "J’ai adopté le tableau proposé plus haut. J’ajoute aussi ce que je pensais obtenir."
+    },
+    {
+      "id": "life-3",
+      "after": 13,
+      "kind": "chat",
+      "target": "atelier",
+      "author": "hexane",
+      "text": "Je passe à l’atelier. Si vous me contactez, réponse plus tard dans la matinée."
+    },
+    {
+      "id": "life-4",
+      "after": 20,
+      "kind": "forum",
+      "target": "gpu-prices",
+      "author": "nullpointer",
+      "text": "Après nettoyage, la fréquence tient mieux. Je conserve la carte pour le moment."
+    },
+    {
+      "id": "life-5",
+      "after": 29,
+      "kind": "chat",
+      "target": "atelier",
+      "author": "nullpointer",
+      "text": "Le portable de l’annonce est arrivé. Batterie fatiguée comme prévu, rien de caché."
+    },
+    {
+      "id": "life-6",
+      "after": 38,
+      "kind": "forum",
+      "target": "introductions",
+      "author": "sable",
+      "text": "Bienvenue aux nouveaux. Les vieux sujets restent utiles ; regardez leur date avant de reprendre une réponse."
+    },
+    {
+      "id": "life-7",
+      "after": 47,
+      "kind": "chat",
+      "target": "veille",
+      "author": "packetloss",
+      "text": "J’ai classé les notes par fuseau horaire. La version précédente mélangeait heure locale et UTC."
+    },
+    {
+      "id": "life-8",
+      "after": 58,
+      "kind": "forum",
+      "target": "debrief",
+      "author": "packetloss",
+      "text": "Ajout : un acquittement d’alerte ne modifie pas rétroactivement la chronologie."
+    },
+    {
+      "id": "life-9",
+      "after": 70,
+      "kind": "chat",
+      "target": "passations",
+      "author": "relay",
+      "text": "Nouvelle passation relue. Il manquait la date du dernier contrôle ; corrigé."
+    },
+    {
+      "id": "life-10",
+      "after": 83,
+      "kind": "forum",
+      "target": "hardware",
+      "author": "hexane",
+      "text": "De retour à l’atelier. Les mesures longues sont ajoutées au sujet sur les températures."
+    },
+    {
+      "id": "life-11",
+      "after": 96,
+      "kind": "chat",
+      "target": "atelier",
+      "author": "miette",
+      "text": "Le carnet m’a déjà évité deux essais en double. Je le garde ouvert à côté du terminal."
+    },
+    {
+      "id": "life-extension-0",
+      "after": 125,
+      "kind": "chat",
+      "target": "atelier",
+      "author": "hexane",
+      "text": "Les mesures longues sont enfin stables. J’ai ajouté la durée et la température de la pièce au compte rendu."
+    },
+    {
+      "id": "life-extension-1",
+      "after": 155,
+      "kind": "forum",
+      "target": "notes",
+      "author": "sable",
+      "text": "Petite mise à jour : les captures sans heure sont difficiles à relire. Je garde maintenant le contexte avec chaque extrait."
+    },
+    {
+      "id": "life-extension-2",
+      "after": 185,
+      "kind": "chat",
+      "target": "atelier",
+      "author": "miette",
+      "text": "Je coupe pour déjeuner. Je relirai vos notes à mon retour."
+    },
+    {
+      "id": "life-extension-3",
+      "after": 310,
+      "kind": "chat",
+      "target": "atelier",
+      "author": "miette",
+      "text": "De retour. J’ai repris mon ancien carnet : deux hypothèses y étaient écrites comme des faits. Corrigé."
+    },
+    {
+      "id": "life-extension-4",
+      "after": 350,
+      "kind": "forum",
+      "target": "introductions",
+      "author": "mod_echo",
+      "text": "Les présentations restent ici. Pour une question précise, utilisez un sujet existant ou ouvrez un titre descriptif."
+    },
+    {
+      "id": "life-extension-5",
+      "after": 420,
+      "kind": "chat",
+      "target": "veille",
+      "author": "relay",
+      "text": "Je reprends les messages de l’après-midi. Pour les passations, précisez la dernière vérification et les limites."
+    },
+    {
+      "id": "life-extension-6",
+      "after": 470,
+      "kind": "forum",
+      "target": "timezones",
+      "author": "packetloss",
+      "text": "Un cas récent mélangeait deux fuseaux. La chronologie paraissait impossible jusqu’à la conversion en UTC."
+    },
+    {
+      "id": "life-extension-7",
+      "after": 545,
+      "kind": "chat",
+      "target": "passations",
+      "author": "spectre",
+      "text": "Je relis les passations de la journée. Les vérifications anciennes doivent être datées ; je ne les considère pas comme actuelles."
+    },
+    {
+      "id": "life-extension-8",
+      "after": 620,
+      "kind": "forum",
+      "target": "relay-stock",
+      "author": "relay",
+      "text": "Créneau de support terminé. Les nouvelles demandes seront relues au prochain passage."
+    },
+    {
+      "id": "life-extension-9",
+      "after": 1445,
+      "kind": "chat",
+      "target": "atelier",
+      "author": "sable",
+      "text": "Nouvelle journée. Je repars des observations sauvegardées, pas de ce dont je crois me souvenir."
+    },
+    {
+      "id": "life-extension-10",
+      "after": 1510,
+      "kind": "forum",
+      "target": "hardware",
+      "author": "hexane",
+      "text": "Les températures d’hier sont ajoutées au fil. Je recommande de comparer les longues mesures avant de changer de matériel."
+    },
+    {
+      "id": "realism-followup-0",
+      "kind": "forum",
+      "target": "seller-dispute",
+      "author": "mod_echo",
+      "text": "Mise à jour : le vendeur n’a pas fourni de relevé récent. L’annonce reste suspendue, le litige n’est pas résolu.",
+      "after": 30
+    },
+    {
+      "id": "realism-followup-1",
+      "kind": "forum",
+      "target": "affiliate-terms",
+      "author": "relay",
+      "text": "Précision : la rémunération de l’opérateur dépend du contrat et de sa part. Aucune promesse de paiement de la victime n’est vérifiée ici.",
+      "after": 65
+    },
+    {
+      "id": "realism-followup-2",
+      "kind": "forum",
+      "target": "incident-aftermath",
+      "author": "spectre",
+      "text": "Le dossier de reprise reste ouvert. Ne confondez pas fin du contrat, retour du réseau et restauration des données.",
+      "after": 100
+    }
+  ]
+}

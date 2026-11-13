@@ -1,0 +1,137 @@
+{
+  "contract_id": "act1_echantillon",
+  "scenario": "act1_echantillon",
+  "tier": 1,
+  "channel": "chordly",
+  "client": {
+    "handle": "hexcache",
+    "forum_rep": 42,
+    "account_age_days": 284
+  },
+  "bounty": {
+    "forum": "breachboard",
+    "title": "03 — Échantillon gratuit",
+    "body": "Vérifier l’échantillon NX-26 avant achat : 40 lignes annoncées de novembre. Je te contacte en MP du forum ; on compare les résultats dans Chordly."
+  },
+  "brief": "NX-26 : le vendeur annonce 40 clients tous récents. Vérifie cette affirmation, sans rien acheter. Le dossier est dans tes MP du forum ; nous comparons les résultats ici.\n\nNouveau : interroger une base locale. Lis ~/mission/annonce.txt, puis importe la pièce avec `sqlite3 ~/loot/echantillon.db < ~/mission/echantillon.sql`. Le fichier .sql contient la structure et les données ; la base .db permet de les interroger. `.tables` liste les tables ; `.schema clients` décrit leurs colonnes. Cherche combien de lignes appartiennent à chaque date.\n\nTon rapport doit citer NX-26 et les nombres de lignes anciennes et récentes observés. Les chiffres ne sont pas fournis : ils doivent venir des données. Le nom de ta base est libre. Écris indice pour avancer ou rappel détaillé pour les commandes.",
+  "reward": 220,
+  "reputation": 45,
+  "required_items": [],
+  "success_message": "Livraison vérifiée. {reward} ₵ annoncés au contrat ; le règlement exact figure dans ton profil. Merci {handle}, je conserve tes preuves.",
+  "failure_message": "Dossier interrompu. Reprends une sauvegarde ou relance le contrat pour retenter le parcours.",
+  "guide": [],
+  "investigation_steps": [
+    {
+      "id": "echantillon_verifie",
+      "tokens": [
+        "rapport",
+        "NX-26",
+        "36",
+        "4"
+      ],
+      "requires": [
+        {
+          "type": "file_read",
+          "path": "/home/operator/mission/annonce.txt"
+        },
+        {
+          "type": "query_result",
+          "row": [
+            "2024-03-12",
+            36
+          ],
+          "database": "/home/operator/loot/echantillon.db",
+          "table": "clients",
+          "source": "/home/operator/mission/echantillon.sql",
+          "unordered": true
+        },
+        {
+          "type": "query_result",
+          "row": [
+            "2026-11-05",
+            4
+          ],
+          "database": "/home/operator/loot/echantillon.db",
+          "table": "clients",
+          "source": "/home/operator/mission/echantillon.sql",
+          "unordered": true
+        }
+      ],
+      "response": "Tu as établi que 36 lignes sont anciennes, 4 seulement récentes. Je renonce au prix annoncé ; j’ai un vrai dossier pour toi ensuite.",
+      "missing": "Il manque une observation vérifiable. Importe le dump puis lance SELECT date, COUNT(*) FROM clients GROUP BY date; dans sqlite3. Compare avec l’annonce avant d’envoyer ton rapport.",
+      "already": "Cette étape est déjà enregistrée.",
+      "hint": "Importe le dump puis lance SELECT date, COUNT(*) FROM clients GROUP BY date; dans sqlite3. Compare avec l’annonce avant d’envoyer ton rapport.",
+      "hints": [
+        "Vérifie la date réelle des lignes plutôt que le total annoncé par le vendeur.",
+        "Importe la pièce SQL fournie, puis regroupe les clients par date. Ton compte rendu doit distinguer les deux groupes."
+      ],
+      "help_stages": [
+        {
+          "id": "annonce",
+          "requires": [
+            {
+              "type": "file_read",
+              "path": "/home/operator/mission/annonce.txt"
+            }
+          ],
+          "hints": [
+            "Avant les calculs, vérifie précisément ce que le vendeur affirme.",
+            "La pièce annonce.txt donne la promesse à comparer aux données."
+          ],
+          "hint": "Lis `cat ~/mission/annonce.txt`. La prochaine phase sera le calcul par date, pas une validation du total annoncé."
+        },
+        {
+          "id": "dates",
+          "requires": [
+            {
+              "type": "query_result",
+              "row": [
+                "2024-03-12",
+                36
+              ],
+              "database": "/home/operator/loot/echantillon.db",
+              "table": "clients",
+              "source": "/home/operator/mission/echantillon.sql",
+              "unordered": true
+            },
+            {
+              "type": "query_result",
+              "row": [
+                "2026-11-05",
+                4
+              ],
+              "database": "/home/operator/loot/echantillon.db",
+              "table": "clients",
+              "source": "/home/operator/mission/echantillon.sql",
+              "unordered": true
+            }
+          ],
+          "hints": [
+            "Un total de lignes ne dit rien de leur fraîcheur. Regroupe les lignes par date.",
+            "Importe la pièce SQL, utilise .tables et .schema clients, puis COUNT(*) avec GROUP BY date."
+          ],
+          "hint": "Import : `sqlite3 ~/loot/echantillon.db < ~/mission/echantillon.sql`. Structure : `sqlite3 ~/loot/echantillon.db \".schema clients\"`. Comptage : `sqlite3 ~/loot/echantillon.db \"SELECT date, COUNT(*) FROM clients GROUP BY date;\"`. Compare ces dates à l’annonce et rapporte NX-26 avec les nombres anciens et récents observés. Le nom de la base est libre."
+        }
+      ]
+    }
+  ],
+  "local_files": {
+    "/home/operator/mission/annonce.txt": "NX-26 : 40 clients, tous récents selon le vendeur. Vérifier avant achat.\n",
+    "/home/operator/mission/echantillon.sql": "BEGIN TRANSACTION;\nCREATE TABLE \"annonce\" (\"lot\" TEXT,\"date_annoncee\" TEXT,\"lignes_annoncees\" INTEGER);\nINSERT INTO \"annonce\" VALUES('NX-26','2026-11-05',40);\nCREATE TABLE \"clients\" (\"id\" INTEGER,\"nom\" TEXT,\"date\" TEXT,\"lot\" TEXT);\nINSERT INTO \"clients\" VALUES(1,'Client fictif 1','2024-03-12','archive');\nINSERT INTO \"clients\" VALUES(2,'Client fictif 2','2024-03-12','archive');\nINSERT INTO \"clients\" VALUES(3,'Client fictif 3','2024-03-12','archive');\nINSERT INTO \"clients\" VALUES(4,'Client fictif 4','2024-03-12','archive');\nINSERT INTO \"clients\" VALUES(5,'Client fictif 5','2024-03-12','archive');\nINSERT INTO \"clients\" VALUES(6,'Client fictif 6','2024-03-12','archive');\nINSERT INTO \"clients\" VALUES(7,'Client fictif 7','2024-03-12','archive');\nINSERT INTO \"clients\" VALUES(8,'Client fictif 8','2024-03-12','archive');\nINSERT INTO \"clients\" VALUES(9,'Client fictif 9','2024-03-12','archive');\nINSERT INTO \"clients\" VALUES(10,'Client fictif 10','2024-03-12','archive');\nINSERT INTO \"clients\" VALUES(11,'Client fictif 11','2024-03-12','archive');\nINSERT INTO \"clients\" VALUES(12,'Client fictif 12','2024-03-12','archive');\nINSERT INTO \"clients\" VALUES(13,'Client fictif 13','2024-03-12','archive');\nINSERT INTO \"clients\" VALUES(14,'Client fictif 14','2024-03-12','archive');\nINSERT INTO \"clients\" VALUES(15,'Client fictif 15','2024-03-12','archive');\nINSERT INTO \"clients\" VALUES(16,'Client fictif 16','2024-03-12','archive');\nINSERT INTO \"clients\" VALUES(17,'Client fictif 17','2024-03-12','archive');\nINSERT INTO \"clients\" VALUES(18,'Client fictif 18','2024-03-12','archive');\nINSERT INTO \"clients\" VALUES(19,'Client fictif 19','2024-03-12','archive');\nINSERT INTO \"clients\" VALUES(20,'Client fictif 20','2024-03-12','archive');\nINSERT INTO \"clients\" VALUES(21,'Client fictif 21','2024-03-12','archive');\nINSERT INTO \"clients\" VALUES(22,'Client fictif 22','2024-03-12','archive');\nINSERT INTO \"clients\" VALUES(23,'Client fictif 23','2024-03-12','archive');\nINSERT INTO \"clients\" VALUES(24,'Client fictif 24','2024-03-12','archive');\nINSERT INTO \"clients\" VALUES(25,'Client fictif 25','2024-03-12','archive');\nINSERT INTO \"clients\" VALUES(26,'Client fictif 26','2024-03-12','archive');\nINSERT INTO \"clients\" VALUES(27,'Client fictif 27','2024-03-12','archive');\nINSERT INTO \"clients\" VALUES(28,'Client fictif 28','2024-03-12','archive');\nINSERT INTO \"clients\" VALUES(29,'Client fictif 29','2024-03-12','archive');\nINSERT INTO \"clients\" VALUES(30,'Client fictif 30','2024-03-12','archive');\nINSERT INTO \"clients\" VALUES(31,'Client fictif 31','2024-03-12','archive');\nINSERT INTO \"clients\" VALUES(32,'Client fictif 32','2024-03-12','archive');\nINSERT INTO \"clients\" VALUES(33,'Client fictif 33','2024-03-12','archive');\nINSERT INTO \"clients\" VALUES(34,'Client fictif 34','2024-03-12','archive');\nINSERT INTO \"clients\" VALUES(35,'Client fictif 35','2024-03-12','archive');\nINSERT INTO \"clients\" VALUES(36,'Client fictif 36','2024-03-12','archive');\nINSERT INTO \"clients\" VALUES(37,'Client fictif 37','2026-11-05','recent');\nINSERT INTO \"clients\" VALUES(38,'Client fictif 38','2026-11-05','recent');\nINSERT INTO \"clients\" VALUES(39,'Client fictif 39','2026-11-05','recent');\nINSERT INTO \"clients\" VALUES(40,'Client fictif 40','2026-11-05','recent');\nCOMMIT;\n",
+    "/home/operator/mission/reperes.txt": "SELECT choisit les colonnes ; COUNT(*) compte ; GROUP BY regroupe par valeur. Interroger une base n’achète pas le lot.\n\nIndice : une piste de raisonnement puis une aide concrète. Rappel détaillé : les commandes de la phase actuelle. L’aide ne retire aucune prime. Les commandes se saisissent dans les consoles du jeu, une par une.\n"
+  },
+  "investigation_threads": [
+    "act1-partages",
+    "act1-echantillon-annonce"
+  ],
+  "private_offer": true,
+  "intro": "On m’a recommandé ton pseudo. Vérifier l’échantillon NX-26 avant achat : 40 lignes annoncées de novembre. Je te contacte en MP du forum ; on compare les résultats dans Chordly. Ouvre le dossier pour recevoir les pièces ; la suite se passe dans notre conversation Chordly.",
+  "relaxed_clock": true,
+  "side_job": false,
+  "chapter": 3,
+  "offer_channel": "forum",
+  "required_completed": [
+    "act1_partage"
+  ],
+  "terminal_revision": 2
+}

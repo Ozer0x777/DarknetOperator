@@ -1,0 +1,94 @@
+{
+  "scenario_id": "act1_portail",
+  "name": "05 — Le carnet d’adresses",
+  "description": "Le carnet d’adresses",
+  "hosts": [
+    {
+      "id": "verre-portail",
+      "hostname": "VERRE-PORTAIL",
+      "ip": "10.61.5.20",
+      "os": "Linux Debian 12",
+      "services": [
+        {
+          "name": "HTTP",
+          "port": 80,
+          "version": "Portail Verre 3.2"
+        }
+      ],
+      "files": {
+        "/web/index": "Portail Verre : /api/document?id=101 et /api/prive?id=101. Une session cliente est requise.\n",
+        "/web/101.csv": "reference;date;organisation;montant\nVA-26-101;2024-03-12;Ambre;100\n",
+        "/web/102.csv": "reference;date;organisation;montant\nVA-26-204;2026-11-07;Orme Distribution;1820\n",
+        "/web/103.csv": "reference;date;organisation;montant\nVA-26-240;2026-11-07;Autre;999\n"
+      }
+    }
+  ],
+  "users": [],
+  "initially_discovered": [
+    "verre-portail"
+  ],
+  "initially_scanned": [],
+  "objectives": [
+    {
+      "type": "investigation_step",
+      "step": "verre_preuve"
+    }
+  ],
+  "max_ticks": 3000,
+  "rng_seed": 0,
+  "available_abilities": {
+    "red": [
+      "red.recon_scan",
+      "red.exfiltrate",
+      "red.crack_hash"
+    ],
+    "blue": []
+  },
+  "domain": {
+    "name": "act1.lab",
+    "sid": "S-1-5-21-100-200-300"
+  },
+  "environment": {
+    "organization": "Le carnet d’adresses",
+    "sector": "Dossier de laboratoire",
+    "timezone": "Europe/Paris",
+    "business_hours": "09:00–18:00",
+    "initial_time": "09:00",
+    "briefing_host": "verre-portail",
+    "known_contact": "0xvanta",
+    "context": "hexcache m’a recommandé ton travail. J’ai une session cliente Ambre sur le portail Verre ; il faut vérifier le document VA-26-204 d’Orme.",
+    "http_routes": {
+      "verre-portail": {
+        "/": "/web/index",
+        "/api/document": {
+          "objects": {
+            "101": "/web/101.csv",
+            "102": "/web/102.csv",
+            "103": "/web/103.csv"
+          },
+          "parameter": "id",
+          "cookie": "session=ambre-client",
+          "allowed_ids": [
+            "101"
+          ]
+        },
+        "/api/prive": {
+          "objects": {
+            "101": "/web/101.csv",
+            "102": "/web/102.csv",
+            "103": "/web/103.csv"
+          },
+          "parameter": "id",
+          "cookie": "session=ambre-client",
+          "allowed_ids": [
+            "101"
+          ],
+          "enforce_owner": true
+        }
+      }
+    }
+  },
+  "defender": {
+    "enabled": false
+  }
+}

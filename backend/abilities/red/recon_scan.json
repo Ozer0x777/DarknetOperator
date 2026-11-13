@@ -1,0 +1,29 @@
+{
+  "id": "red.recon_scan",
+  "team": "red",
+  "name": "nmap (scan réseau)",
+  "command": "nmap -sV cible",
+  "help": "Scanne le sous-réseau de la cible : révèle les machines et leurs services.",
+  "tier": 0,
+  "requires": [
+    {
+      "type": "target_discovered"
+    }
+  ],
+  "noise": 30,
+  "cooldown": 0,
+  "points": 5,
+  "effects": [
+    {
+      "type": "reveal_network"
+    }
+  ],
+  "artifacts": [
+    {
+      "event_id": "FW-ALLOW",
+      "data": {
+        "note": "scan de ports, trafic légitime en apparence"
+      }
+    }
+  ]
+}

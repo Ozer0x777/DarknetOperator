@@ -1,0 +1,82 @@
+{
+  "contract_id": "side_inventaire",
+  "scenario": "side_inventaire",
+  "tier": 1,
+  "channel": "chordly",
+  "client": {
+    "handle": "miette",
+    "forum_rep": 29,
+    "account_age_days": 94
+  },
+  "bounty": {
+    "forum": "breachboard",
+    "title": "[Petit boulot] Confirmer une exposition",
+    "body": "Confirmer le service HTTP annoncé, puis retrouver sa référence de publication."
+  },
+  "brief": "Confirmer le service HTTP annoncé, puis retrouver sa référence de publication.\nLis le bon dans ~/mission/bon.txt. Vérifie 10.62.1.20 et rapporte « livraison inventaire ». Un scan doit montrer HTTP ouvert ; le contenu publié confirme la référence.",
+  "reward": 35,
+  "reputation": 0,
+  "required_items": [],
+  "success_message": "Livraison vérifiée. {reward} ₵ annoncés au contrat ; le règlement exact figure dans ton profil. Merci {handle}, je conserve tes preuves.",
+  "failure_message": "Dossier interrompu. Reprends une sauvegarde ou relance le contrat pour retenter le parcours.",
+  "guide": [],
+  "investigation_steps": [
+    {
+      "id": "quickwin",
+      "tokens": [
+        "livraison",
+        "inventaire"
+      ],
+      "requires": [
+        {
+          "type": "service_observed",
+          "host": "atelier",
+          "port": 80
+        },
+        {
+          "type": "http_read",
+          "host": "atelier",
+          "path": "/"
+        },
+        {
+          "type": "local_file_equals",
+          "path": "/home/operator/loot/resultat.txt",
+          "value": "EXP-26-17 — publication courante"
+        }
+      ],
+      "response": "Résultat conforme au bon de travail. Le paiement de ce petit contrat est enregistré.",
+      "missing": "Il manque une observation vérifiable. Une commande possible : `sort -u ~/mission/entree.txt > ~/loot/resultat.txt`, puis envoie livraison inventaire.",
+      "already": "Cette étape est déjà enregistrée.",
+      "hint": "Vérifie nmap -sV 10.62.1.20 puis curl http://10.62.1.20/ > ~/loot/resultat.txt.",
+      "hints": [
+        "Relis le bon et les pièces fournies pour identifier le résultat attendu.",
+        "Compare ton résultat au format et aux limites du bon. Conserve la sortie dans le dossier demandé puis confirme la livraison."
+      ]
+    }
+  ],
+  "local_files": {
+    "/home/operator/mission/entree.txt": "Adresse annoncée : 10.62.1.20 ; référence attendue EXP-26-17.\n",
+    "/home/operator/mission/bon.txt": "Vérifier le port 80 de 10.62.1.20 et recopier le document HTTP dans ~/loot/resultat.txt.\n"
+  },
+  "investigation_threads": [
+    "act1-partages",
+    "act1-echantillon-annonce",
+    "act1-pivoine",
+    "act1-verre",
+    "act1-ticketd",
+    "act1-litige",
+    "act1-boreal"
+  ],
+  "private_offer": false,
+  "intro": "On m’a recommandé ton pseudo. Comparer un inventaire : les pièces sont fournies. Paiement unique, aucun effet sur l’ordre des chapitres. Ouvre le dossier pour recevoir les pièces ; la suite se passe dans notre conversation Chordly.",
+  "relaxed_clock": true,
+  "side_job": true,
+  "required_completed": [
+    "act1_partage"
+  ],
+  "reference_commands": [
+    "nmap -sV 10.62.1.20",
+    "curl http://10.62.1.20/ > ~/loot/resultat.txt"
+  ],
+  "terminal_revision": 1
+}

@@ -1,0 +1,22 @@
+{
+  "id": "red.destroy_backups",
+  "team": "red",
+  "name": "Suppression des sauvegardes simulées",
+  "requires": [
+    {
+      "type": "target_admin_access"
+    }
+  ],
+  "effects": [
+    {
+      "type": "destroy_backups"
+    }
+  ],
+  "noise": 60,
+  "cooldown": 0,
+  "points": 10,
+  "tier": 1,
+  "command": "vssadmin delete shadows /all /quiet",
+  "help": "Suppression des sauvegardes simulées",
+  "artifacts": []
+}

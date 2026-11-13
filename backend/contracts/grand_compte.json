@@ -1,0 +1,54 @@
+{
+  "contract_id": "grand_compte",
+  "scenario": "grand_compte",
+  "tier": 3,
+  "channel": "sessyon",
+  "client": {
+    "handle": "spectre",
+    "forum_rep": 680,
+    "account_age_days": 1680
+  },
+  "bounty": {
+    "forum": "xsx",
+    "title": "Groupe hospitalier fictif",
+    "body": "Accès de maintenance fourni dans le laboratoire administratif : transfert de l’archive, suppression des sauvegardes locales et seuil de chiffrement. Aucun dispositif médical dans le périmètre."
+  },
+  "brief": "Groupe hospitalier Valmont — laboratoire. Adresse connue : 10.75.20.21. Accès fourni pour support.valmont sur le poste de maintenance 10.75.20.21. Les détails sont dans ~/mission/acces.txt. Périmètre : réseau administratif fictif uniquement. Le règlement exige archive.zip transférée, sauvegardes du serveur supprimées et au moins 60 % des machines chiffrées.\n\nLis `cat ~/mission/briefing.txt` pour le contexte et les limites connues. Les horaires sont accélérés ; le réseau continue de vivre pendant tes recherches. Si tu veux un indice facultatif, écris aide ici. Je ne te donnerai pas les droits ou les secrets que tu n’as pas encore découverts. Les exécutables Windows du laboratoire sont dans ~/tools ; leur guide décrit le transfert et les droits requis.",
+  "reward": 3500,
+  "reputation": 150,
+  "required_rep": 300,
+  "required_items": [],
+  "success_message": "Les trois conditions sont confirmées dans le périmètre du laboratoire. Le règlement et les événements observés figurent dans le rapport.",
+  "failure_message": "Le contrat s’arrête ici. Le rapport distingue la déconnexion, la fin du délai et la réaction de la défense. Aucun objectif non vérifié ne sera considéré comme rempli.",
+  "guide": [
+    {
+      "when": {
+        "type": "host_discovered",
+        "host": "srv-fichiers"
+      },
+      "message": "Le réseau découvert appartient à Groupe hospitalier Valmont — laboratoire. Compare les services et les droits disponibles avec l’objectif. Un compte récupéré ne donne pas automatiquement une session sur les machines. Écris aide si tu veux relire ce point."
+    },
+    {
+      "when": {
+        "type": "credential_owned",
+        "username": "support.valmont"
+      },
+      "message": "Le compte support.valmont figure maintenant dans ton butin. Vérifie le type d’identifiant récupéré et les droits de la cible ; un hash et un mot de passe ne se passent pas de la même façon aux outils."
+    }
+  ],
+  "debrief_hints": [
+    "Périmètre limité au réseau administratif fictif : aucun dispositif médical. Un accès de maintenance vérifié est fourni ; les comptes peuvent être désactivés après détection.",
+    "Une authentification valide ne donne que les droits du compte utilisé. Les services ouverts ne prouvent pas qu’un compte est administrateur.",
+    "Le temps, les réactions humaines et la défense sont accélérés dans ce laboratoire ; les durées ne représentent pas des mesures réelles."
+  ],
+  "require_route": "relay",
+  "required_any": [
+    "vesper",
+    "glasswing"
+  ],
+  "terminal_revision": 5,
+  "dialogue": {
+    "greeting": "Présent. Donne le périmètre concerné et le dernier état vérifié.",
+    "ack": "Reçu. Garde une chronologie datée. Je confirmerai les conditions constatées."
+  }
+}

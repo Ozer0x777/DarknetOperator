@@ -1,0 +1,77 @@
+{
+  "contract_id": "side_empreinte",
+  "scenario": "side_empreinte",
+  "tier": 1,
+  "channel": "chordly",
+  "client": {
+    "handle": "miette",
+    "forum_rep": 29,
+    "account_age_days": 94
+  },
+  "bounty": {
+    "forum": "breachboard",
+    "title": "[Petit boulot] Empreinte facile",
+    "body": "Tester un petit dictionnaire fourni contre une empreinte NTLM."
+  },
+  "brief": "Tester un petit dictionnaire fourni contre une empreinte NTLM.\nLis ~/mission/bon.txt ; l’empreinte est dans entree.txt, les candidats dans candidats.txt. Conserve la sortie --show dans ~/loot/resultat.txt puis envoie « livraison empreinte ». Aucun achat GPU nécessaire.",
+  "reward": 70,
+  "reputation": 0,
+  "required_items": [],
+  "success_message": "Livraison vérifiée. {reward} ₵ annoncés au contrat ; le règlement exact figure dans ton profil. Merci {handle}, je conserve tes preuves.",
+  "failure_message": "Dossier interrompu. Reprends une sauvegarde ou relance le contrat pour retenter le parcours.",
+  "guide": [],
+  "investigation_steps": [
+    {
+      "id": "quickwin",
+      "tokens": [
+        "livraison",
+        "empreinte"
+      ],
+      "requires": [
+        {
+          "type": "hash_recovered",
+          "username": "mini.lab"
+        },
+        {
+          "type": "local_file_equals",
+          "path": "/home/operator/loot/resultat.txt",
+          "value": "356a3a41e5e3695eb6e75d7385155d2f:MiniLab2026!"
+        }
+      ],
+      "response": "Résultat conforme au bon de travail. Le paiement de ce petit contrat est enregistré.",
+      "missing": "Il manque une observation vérifiable. Une commande possible : `sha256sum ~/mission/entree.txt > ~/loot/resultat.txt`, puis envoie livraison empreinte.",
+      "already": "Cette étape est déjà enregistrée.",
+      "hint": "hashcat -m 1000 entree.txt candidats.txt calcule ; --show restitue les correspondances du potfile. Utilise les chemins ~/mission puis redirige --show vers ~/loot/resultat.txt.",
+      "hints": [
+        "Relis le bon et les pièces fournies pour identifier le résultat attendu.",
+        "Compare ton résultat au format et aux limites du bon. Conserve la sortie dans le dossier demandé puis confirme la livraison."
+      ]
+    }
+  ],
+  "local_files": {
+    "/home/operator/mission/entree.txt": "356a3a41e5e3695eb6e75d7385155d2f\n",
+    "/home/operator/mission/bon.txt": "NTLM, mode 1000. Vérifier la correspondance et garder hash:mot_de_passe dans resultat.txt.\n",
+    "/home/operator/mission/candidats.txt": "MiniLab2024!\nMiniLab2025!\nMiniLab2026!\n"
+  },
+  "investigation_threads": [
+    "act1-partages",
+    "act1-echantillon-annonce",
+    "act1-pivoine",
+    "act1-verre",
+    "act1-ticketd",
+    "act1-litige",
+    "act1-boreal"
+  ],
+  "private_offer": false,
+  "intro": "On m’a recommandé ton pseudo. Vérifier une empreinte : les pièces sont fournies. Paiement unique, aucun effet sur l’ordre des chapitres. Ouvre le dossier pour recevoir les pièces ; la suite se passe dans notre conversation Chordly.",
+  "relaxed_clock": true,
+  "side_job": true,
+  "required_completed": [
+    "act1_empreinte"
+  ],
+  "reference_commands": [
+    "hashcat -m 1000 ~/mission/entree.txt ~/mission/candidats.txt",
+    "hashcat -m 1000 --show ~/mission/entree.txt > ~/loot/resultat.txt"
+  ],
+  "terminal_revision": 1
+}

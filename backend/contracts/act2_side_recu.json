@@ -1,0 +1,66 @@
+{
+  "contract_id": "act2_side_recu",
+  "scenario": "act2_side_recu",
+  "tier": 2,
+  "act": 2,
+  "act_chapter": null,
+  "channel": "telegrid",
+  "client": {
+    "handle": "quartz",
+    "forum_rep": 80,
+    "account_age_days": 650
+  },
+  "bounty": {
+    "forum": "exployt",
+    "title": "Copie du reçu",
+    "body": "Récupérer le reçu OR-26-216 du serveur de sauvegarde, sans réutiliser la copie OR-26-208."
+  },
+  "brief": "Récupérer le reçu OR-26-216 du serveur de sauvegarde, sans réutiliser la copie OR-26-208.",
+  "reward": 80,
+  "reputation": 5,
+  "required_items": [],
+  "required_completed": [
+    "act2_lateral"
+  ],
+  "success_message": "Preuves vérifiées. {reward} ₵ réglés dans ColdVault ; tes choix sont conservés.",
+  "failure_message": "Dossier interrompu, sans prime. Les accès acquis et les observations sauvegardées restent disponibles pour une reprise.",
+  "guide": [],
+  "investigation_steps": [
+    {
+      "id": "controle",
+      "tokens": [
+        "rapport",
+        "act2_side_recu"
+      ],
+      "requires": [
+        {
+          "type": "intact_download",
+          "host": "archive",
+          "file": "/srv/exports/OR-26-216.txt",
+          "inspected": true
+        }
+      ],
+      "response": "Contre-vérification reçue.",
+      "already": "Cette preuve est déjà enregistrée.",
+      "missing": "Vérifie les observations et la version des pièces ; demande indice si nécessaire.",
+      "hint": "Depuis Kali, récupère Data/exports/OR-26-216.txt par smbclient dans ~/loot, relis cette copie puis confirme rapport act2_side_recu.",
+      "hints": [
+        "Commence par vérifier le périmètre, les droits et les sources fournis.",
+        "Le rappel détaillé donne les commandes du laboratoire ; une déclaration ne remplace pas une preuve."
+      ]
+    }
+  ],
+  "local_files": {
+    "/home/operator/mission/passation.txt": "OR-26-201 : compte ops, relais 10.71.1.10 ; le secret de la passation est à vérifier hors ligne.\n",
+    "/home/operator/mission/ops.ntlm": "4f9a8fd0784f9ca033b21e81f0037dec\n",
+    "/home/operator/mission/mots.txt": "Relais2024!\nRelais2025!\nRelais2026!\n",
+    "/home/operator/mission/services.txt": "Service2024!\nService2025!\nService2026!\n",
+    "/home/operator/mission/acces.txt": "Compte de consultation fourni pour le domaine : audit / Audit2026!\nORBE-POSTE : 10.71.2.21 ; contrôleur : 10.71.2.10.\n",
+    "/home/operator/mission/brief-act2.txt": "Vérifie si le compte de sauvegarde obtenu permet une session sur ORBE-ARCHIVE 10.71.2.30. Contrôle le contexte Windows, les correctifs et le fichier OR-26-208. Livre seulement ce fichier.\n"
+  },
+  "private_offer": true,
+  "intro": "Récupérer le reçu OR-26-216 du serveur de sauvegarde, sans réutiliser la copie OR-26-208.",
+  "relaxed_clock": true,
+  "terminal_revision": 1,
+  "side_job": true
+}

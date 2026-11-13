@@ -1,0 +1,33 @@
+{
+  "contract_id": "intro_transfer",
+  "scenario": "intro_transfer_current",
+  "tier": 0,
+  "channel": "chordly",
+  "client": {
+    "handle": "k0rvid",
+    "forum_rep": 38,
+    "account_age_days": 412
+  },
+  "bounty": {
+    "forum": "breachboard",
+    "title": "04 — Un document, pas tout le serveur",
+    "body": "Transférer uniquement le document demandé."
+  },
+  "brief": "Réutilise le compte de l’exercice précédent : m.leroux / Password123!, poste 10.20.0.21. Il dispose du document fourni dans son profil, sans droits administrateur.\n\nDepuis Kali : `scp m.leroux@10.20.0.21:C:/Users/m.leroux/Documents/transfert.txt ~/loot/transfert.txt`. Saisis le mot de passe à l’invite, attends 100%, puis `cat ~/loot/transfert.txt`. SCP copie, SSH ouvre une session : ne confonds pas les deux. Seule cette pièce est demandée.",
+  "reward": 40,
+  "reputation": 5,
+  "required_items": [],
+  "guide": [],
+  "onboarding": true,
+  "success_message": "Résultat vérifié. {reward} ₵ réglés ; ton prochain dossier est disponible dans cette conversation. Garde tes notes, on réutilisera cette compétence.",
+  "failure_message": "On reprend ce dossier à ton rythme ; vérifie le résultat avant de conclure.",
+  "debrief_hints": [
+    "Transférer et relire une seule pièce dans les droits de son propriétaire."
+  ],
+  "terminal_revision": 4,
+  "hints": [
+    "Le transfert se lance depuis Kali et doit aboutir dans ~/loot. Une session ouverte ne suffit pas.",
+    "SCP attend une source compte@hôte:chemin et une destination locale. Reprends la syntaxe du briefing puis relis ta copie."
+  ],
+  "curriculum_version": 4
+}

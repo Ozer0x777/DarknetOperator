@@ -1,0 +1,62 @@
+{
+  "contract_id": "affiliation",
+  "scenario": "affiliation",
+  "tier": 2,
+  "channel": "telegrid",
+  "client": {
+    "handle": "relay",
+    "forum_rep": 412,
+    "account_age_days": 1100
+  },
+  "bounty": {
+    "forum": "exployt",
+    "title": "Première affiliation",
+    "body": "Chiffrer au moins 60 % des machines. Contrat de passage au palier 3."
+  },
+  "brief": "Imprimerie Belin. Adresse connue : 10.64.16.21. Le périmètre est ce petit réseau de production fictif. Le contrat exige le chiffrement d’au moins 60 % des machines. Les sauvegardes présentes modifient le règlement ; lis les conditions avant d’agir.\n\nLis `cat ~/mission/briefing.txt` pour le contexte et les limites connues. Les horaires sont accélérés ; le réseau continue de vivre pendant tes recherches. Si tu veux un indice facultatif, écris aide ici. Je ne te donnerai pas les droits ou les secrets que tu n’as pas encore découverts. Les exécutables Windows du laboratoire sont dans ~/tools ; leur guide décrit le transfert et les droits requis.",
+  "reward": 1500,
+  "reputation": 100,
+  "required_rep": 200,
+  "required_items": [],
+  "success_message": "Le seuil contractuel est atteint. Le règlement tient compte des sauvegardes, des fichiers transférés et de la part de l’affiliation.",
+  "failure_message": "Le contrat s’arrête ici. Le rapport distingue la déconnexion, la fin du délai et la réaction de la défense. Aucun objectif non vérifié ne sera considéré comme rempli.",
+  "guide": [
+    {
+      "when": {
+        "type": "host_discovered",
+        "host": "srv-fichiers"
+      },
+      "message": "Le réseau découvert appartient à Imprimerie Belin. Compare les services et les droits disponibles avec l’objectif. Un compte récupéré ne donne pas automatiquement une session sur les machines. Écris aide si tu veux relire ce point."
+    },
+    {
+      "when": {
+        "type": "credential_owned",
+        "username": "j.belin"
+      },
+      "message": "Le compte j.belin est disponible dans ton butin. Avant un outil Windows, prépare son fichier depuis Kali : `cat ~/tools/README.txt`. SCP utilise le service SSH du poste ; SMB exige les droits du partage. Les clients Impacket restent dans une console Kali séparée. Une session Windows SYSTEM se vérifie avec whoami ; PowerShell s’ouvre avec powershell et exit revient à cmd. Les identifiants récupérés ne donnent pas des droits sur toutes les machines."
+    },
+    {
+      "when": {
+        "type": "credential_owned",
+        "username": "svc.belin"
+      },
+      "message": "Le compte svc.belin figure maintenant dans ton butin. Vérifie le type d’identifiant récupéré et les droits de la cible ; un hash et un mot de passe ne se passent pas de la même façon aux outils."
+    }
+  ],
+  "debrief_hints": [
+    "Serveur de production documentaire, sauvegardes présentes et comptes locaux trop largement partagés. Pas de droit de réplication du domaine.",
+    "Une authentification valide ne donne que les droits du compte utilisé. Les services ouverts ne prouvent pas qu’un compte est administrateur.",
+    "Le temps, les réactions humaines et la défense sont accélérés dans ce laboratoire ; les durées ne représentent pas des mesures réelles."
+  ],
+  "unlocks_tier": 3,
+  "affiliation": true,
+  "required_any": [
+    "vesper",
+    "glasswing"
+  ],
+  "terminal_revision": 5,
+  "dialogue": {
+    "greeting": "Bonjour {handle}. Je consulte les messages par créneaux. Pose ta question avec le résultat observé ; je répondrai au prochain passage.",
+    "ack": "Lu. Je note l’avancement ; les accès et les droits doivent encore être vérifiés."
+  }
+}

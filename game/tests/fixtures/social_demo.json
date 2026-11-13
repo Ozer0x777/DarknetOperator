@@ -1,0 +1,135 @@
+{
+  "profile": {
+    "handle": "nightshift",
+    "money": 1425,
+    "reputation": 200,
+    "tier": 2,
+    "route": "tor",
+    "inventory": [
+      "nullvad",
+      "vesper"
+    ],
+    "has_active": false
+  },
+  "contracts": [
+    {
+      "contract_id": "tuto_p0",
+      "tier": 0,
+      "forum": "breachboard",
+      "channel": "chordly",
+      "client": {
+        "handle": "k0rvid",
+        "forum_rep": 38,
+        "account_age_days": 412
+      },
+      "title": "[Débutants] Accès serveur de fichiers — petit cabinet comptable",
+      "body": "Petit réseau, aucune surveillance. Je veux un accès au serveur de fichiers, rien de plus. Idéal pour un premier job. Prime : 300 ₵. Réponse sur Chordly uniquement.",
+      "reward": 300,
+      "intro": "Salut. Je cherche des débutants pour des petits jobs, rien de compliqué. Crée-toi un compte sur BreachBoard, j'y poste mes annonces. Celle du cabinet Ravelle est pour toi.",
+      "unlocked": true,
+      "locked_reason": ""
+    },
+    {
+      "contract_id": "morel",
+      "tier": 1,
+      "forum": "breachboard",
+      "channel": "chordly",
+      "client": {
+        "handle": "k0rvid",
+        "forum_rep": 100,
+        "account_age_days": 412
+      },
+      "title": "Le cabinet Morel",
+      "body": "Récupérer contrats_2026.xlsx sur le serveur. Bonus si aucune alerte critique.",
+      "reward": 350,
+      "intro": null,
+      "unlocked": true,
+      "locked_reason": ""
+    },
+    {
+      "contract_id": "offre_urgente",
+      "tier": 1,
+      "forum": "breachboard",
+      "channel": "chordly",
+      "client": {
+        "handle": "urgent_client_01",
+        "forum_rep": 0,
+        "account_age_days": 1
+      },
+      "title": "URGENT — Très grosse prime, aucun détail",
+      "body": "Compte créé aujourd’hui. Paiement exceptionnel si tu agis immédiatement. Aucun historique ni référence disponible.",
+      "reward": 2500,
+      "intro": null,
+      "unlocked": true,
+      "locked_reason": ""
+    },
+    {
+      "contract_id": "rival",
+      "tier": 1,
+      "forum": "breachboard",
+      "channel": "chordly",
+      "client": {
+        "handle": "k0rvid",
+        "forum_rep": 100,
+        "account_age_days": 412
+      },
+      "title": "Un concurrent jaloux",
+      "body": "Retrouver le mot de passe du prestataire. Contrat de passage au palier 2.",
+      "reward": 450,
+      "intro": null,
+      "unlocked": true,
+      "locked_reason": ""
+    },
+    {
+      "contract_id": "affiliation",
+      "tier": 2,
+      "forum": "exployt",
+      "channel": "telegrid",
+      "client": {
+        "handle": "relay",
+        "forum_rep": 200,
+        "account_age_days": 412
+      },
+      "title": "Première affiliation",
+      "body": "Chiffrer au moins 60 % des machines. Contrat de passage au palier 3.",
+      "reward": 1500,
+      "intro": null,
+      "unlocked": true,
+      "locked_reason": ""
+    },
+    {
+      "contract_id": "varenne",
+      "tier": 2,
+      "forum": "exployt",
+      "channel": "telegrid",
+      "client": {
+        "handle": "relay",
+        "forum_rep": 200,
+        "account_age_days": 412
+      },
+      "title": "Logistique Varenne",
+      "body": "Prendre le contrôle du domaine. Route Tor obligatoire.",
+      "reward": 1000,
+      "intro": null,
+      "unlocked": true,
+      "locked_reason": ""
+    },
+    {
+      "contract_id": "grand_compte",
+      "tier": 3,
+      "forum": "xsx",
+      "channel": "sessyon",
+      "client": {
+        "handle": "spectre",
+        "forum_rep": 300,
+        "account_age_days": 412
+      },
+      "title": "Groupe hospitalier fictif",
+      "body": "Accès SSH acheté, exfiltration de l’archive, destruction des sauvegardes et chiffrement à 60 %.",
+      "reward": 3500,
+      "intro": null,
+      "unlocked": false,
+      "locked_reason": "Nécessite le palier 3"
+    }
+  ]
+}

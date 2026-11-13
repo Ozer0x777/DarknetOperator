@@ -1,0 +1,158 @@
+{
+  "scenario_id": "mauvaise_adresse",
+  "name": "08 — Mauvaise adresse",
+  "description": "Une homonymie, des preuves contradictoires et un dossier documentaire à retrouver.",
+  "hosts": [
+    {
+      "id": "conseil",
+      "hostname": "AQC-VITRINE",
+      "ip": "10.48.1.20",
+      "os": "Linux Debian 12",
+      "role": "Site public Aquila Conseil",
+      "services": [
+        {
+          "name": "HTTP",
+          "port": 80,
+          "version": "nginx 1.24"
+        }
+      ],
+      "files": {
+        "/var/www/mentions.txt": "AQUILA CONSEIL — conseil en gestion\nIdentifiant societe : AQC-441\nDomaine : aquila-conseil.lab\nNous ne gerons aucune activite de fret. Les references AF appartiennent a une autre societe.\n",
+        "/var/www/index.txt": "Aquila Conseil — conseil en gestion. Informations legales : /mentions.txt\n"
+      }
+    },
+    {
+      "id": "portail",
+      "hostname": "AQF-PORTAIL",
+      "ip": "10.48.8.31",
+      "os": "Windows Server 2022",
+      "role": "Portail de suivi Aquila Fret",
+      "primary_user": "svc.portail",
+      "admin_users": [],
+      "edr_agent": true,
+      "services": [
+        {
+          "name": "HTTP",
+          "port": 80,
+          "version": "Application de suivi 2.8"
+        },
+        {
+          "name": "SSH",
+          "port": 22,
+          "version": "OpenSSH for_Windows 9.5"
+        }
+      ],
+      "files": {
+        "/web/index.txt": "Aquila Fret — portail de suivi\nReferences de lots AF. Informations legales : /mentions.txt\n",
+        "/web/mentions.txt": "AQUILA FRET — transport et logistique\nIdentifiant societe : AQF-882\nDomaine actuel : aquila-fret.lab\nPortail AQF-PORTAIL — exploitation des lots AF en novembre 2026.\n",
+        "/web/robots.txt": "User-agent: *\nDisallow: /exports/\n",
+        "/web/support.env.old": "# Ancienne copie de configuration — aurait du etre retiree du repertoire web\nSSH_USER=svc.portail\nSSH_PASSWORD=PortailFret2026!\nSUPPORT_NOTE=C:/Users/svc.portail/Documents/reprise.txt\n",
+        "/Users/svc.portail/Documents/reprise.txt": "CHG-2026-118 — liaison documentaire\nLe connecteur se configure dans C:\\Users\\svc.portail\\Documents\\connecteur.ini.\nLe compte du portail est un utilisateur limite. Un refus sur C$ ne signifie pas que le mot de passe est faux.\n",
+        "/Users/svc.portail/Documents/connecteur.ini": "[documentaire]\nhost=10.48.8.10\nuser=svc.docs\npassword=DocsFret2026!\nshare=C$\npath=Data/Livraisons/2026/\n# Le connecteur historique utilise malheureusement un compte administrateur du serveur documentaire.\n",
+        "/ProgramData/LabEndpoint/policy.txt": "LabEndpoint : blocage des outils de lecture memoire ; le compte svc.portail reste limite.\n"
+      }
+    },
+    {
+      "id": "documents",
+      "hostname": "AQF-DOCS",
+      "ip": "10.48.8.10",
+      "os": "Windows Server 2022",
+      "role": "Serveur documentaire",
+      "admin_users": [
+        "svc.docs"
+      ],
+      "services": [
+        {
+          "name": "SMB",
+          "port": 445,
+          "version": "Microsoft Windows SMB"
+        }
+      ],
+      "files": {
+        "/srv/Livraisons/2024/AF-118.csv": "reference;date;client;lot;statut\nAF-24-118;2024-03-12;Nacre Atelier;L-101;archive\n",
+        "/srv/Livraisons/2026/AF-26-118.csv": "reference;date;client;lot;statut\nAF-26-118;2026-11-06;Nacre Atelier;L-318;valide\nAF-26-118;2026-11-06;Nacre Atelier;L-319;valide\nAF-26-118;2026-11-07;Orme Distribution;L-320;valide\n",
+        "/srv/Livraisons/2026/AF-26-181.csv": "reference;date;client;lot;statut\nAF-26-181;2026-11-06;Nacre Atelier;L-318;valide\nAF-26-181;2026-11-06;Nacre Atelier;L-319;valide\nAF-26-181;2026-11-07;Orme Distribution;L-320;valide\n",
+        "/srv/Livraisons/README.txt": "REFERENCE CLIENT : AF-26-118\nLe lot attendu comporte trois lignes de donnees, dates des 06 et 07 novembre 2026.\nLes archives 2024 ne sont pas une livraison actuelle.\n"
+      }
+    }
+  ],
+  "users": [
+    {
+      "username": "svc.portail",
+      "password": "PortailFret2026!"
+    },
+    {
+      "username": "svc.docs",
+      "password": "DocsFret2026!"
+    }
+  ],
+  "initially_discovered": [
+    "conseil"
+  ],
+  "initially_scanned": [],
+  "max_ticks": 2400,
+  "rng_seed": 0,
+  "available_abilities": {
+    "red": [
+      "red.recon_scan",
+      "red.exfiltrate"
+    ],
+    "blue": []
+  },
+  "domain": {
+    "name": "aquila-fret.lab",
+    "sid": "S-1-5-21-480001-480002-480003"
+  },
+  "environment": {
+    "organization": "Dossier Aquila — identite a verifier",
+    "sector": "Societes homonymes",
+    "timezone": "Europe/Paris",
+    "business_hours": "09:00–18:00",
+    "initial_time": "09:00",
+    "briefing_host": "conseil",
+    "known_contact": "nullroute",
+    "context": "Le contact associe AF-26-118 a Aquila Conseil. Il faut verifier cette attribution avant de chercher un acces.",
+    "http_routes": {
+      "conseil": {
+        "/": "/var/www/index.txt",
+        "/mentions.txt": "/var/www/mentions.txt"
+      },
+      "portail": {
+        "/": "/web/index.txt",
+        "/mentions.txt": "/web/mentions.txt",
+        "/robots.txt": "/web/robots.txt",
+        "/exports/support.env.old": "/web/support.env.old"
+      }
+    },
+    "endpoint_policies": {
+      "portail": {
+        "name": "LabEndpoint portail",
+        "actions": {
+          "red.mimikatz_dump": "block"
+        }
+      }
+    }
+  },
+  "defender": {
+    "enabled": false
+  },
+  "objectives": [
+    {
+      "type": "investigation_step",
+      "step": "erreur_prouvee"
+    },
+    {
+      "type": "investigation_step",
+      "step": "cible_confirmee"
+    },
+    {
+      "type": "intact_download",
+      "host": "documents",
+      "file": "/srv/Livraisons/2026/AF-26-118.csv"
+    },
+    {
+      "type": "investigation_step",
+      "step": "livraison_validee"
+    }
+  ]
+}

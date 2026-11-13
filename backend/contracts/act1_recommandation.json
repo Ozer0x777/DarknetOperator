@@ -1,0 +1,125 @@
+{
+  "contract_id": "act1_recommandation",
+  "scenario": "act1_recommandation",
+  "tier": 1,
+  "channel": "chordly",
+  "client": {
+    "handle": "bytewarden",
+    "forum_rep": 214,
+    "account_age_days": 1240
+  },
+  "bounty": {
+    "forum": "breachboard",
+    "title": "10 — Quelqu’un répond de toi",
+    "body": "k0rvid, hexcache et nullroute proposent de répondre de toi. Dernier dossier : vérifier et livrer les bordereaux BR-26 valides, puis nous déciderons de l’invitation."
+  },
+  "brief": "k0rvid, hexcache et nullroute proposent de répondre de toi. Dernier dossier : livrer seulement les bordereaux BR-26 au statut valide, puis nous déciderons de l’invitation. Cible connue : 10.61.10.20.\n\nLe dossier est dans tes MP du forum ; le fil Boreal donne le contexte. Observe le site et choisis ta méthode : vérifier un paramètre avec SQLmap, ou rechercher une configuration de connecteur publiée par erreur et utiliser son accès SQL limité. Les deux voies conviennent. À toi de retrouver les points d’entrée et de filtrer les données avec les outils déjà rencontrés.\n\nL’export dans ~/loot doit être complet, ne contenir que les lignes valides et être relu. Son nom est libre. Confirme une livraison BR-26 en précisant la voie choisie, sqlmap ou connecteur. Aucun achat requis. Indice donne une piste ; rappel détaillé reste disponible sans pénalité.",
+  "reward": 700,
+  "reputation": 45,
+  "required_items": [],
+  "success_message": "Livraison vérifiée. {reward} ₵ annoncés au contrat ; le règlement exact figure dans ton profil. Merci {handle}, je conserve tes preuves.",
+  "failure_message": "Dossier interrompu. Reprends une sauvegarde ou relance le contrat pour retenter le parcours.",
+  "guide": [],
+  "investigation_steps": [
+    {
+      "id": "finale_sqlmap",
+      "tokens": [
+        "livraison",
+        "BR-26",
+        "sqlmap"
+      ],
+      "requires": [
+        {
+          "type": "forum_read",
+          "thread": "act1-boreal"
+        },
+        {
+          "type": "tool_fact",
+          "key": "sqlmap:dump:boreal:bordereaux"
+        },
+        {
+          "type": "table_export",
+          "database": "boreal",
+          "table": "bordereaux",
+          "path": "/home/operator/loot/sqlmap/10.61.10.20/dump/boreal/bordereaux.csv",
+          "format": "csv",
+          "where": "statut='valide'",
+          "any_path": true,
+          "inspected": true
+        }
+      ],
+      "response": "Bordereaux de novembre vérifiés par la voie SQLmap. Les recommandations sont réunies ; consulte tes MP sur BreachBoard.",
+      "missing": "Il manque une observation vérifiable. Choisis une voie et filtre le statut valide. Avec SQLmap : --where=\"statut='valide'\". Lis le CSV avant « livraison BR-26 sqlmap ».",
+      "already": "Cette étape est déjà enregistrée.",
+      "hint": "Choisis une voie et filtre le statut valide. Avec SQLmap : --where=\"statut='valide'\". Lis le CSV avant « livraison BR-26 sqlmap ».",
+      "exclusive_group": "finale",
+      "hints": [
+        "Les deux voies sont valides : choisis selon les observations que tu as déjà faites, pas selon une commande à deviner.",
+        "Ne conserve que les bordereaux au statut valide. Vérifie l’export complet dans ~/loot puis indique la voie utilisée dans ton compte rendu."
+      ]
+    },
+    {
+      "id": "finale_connecteur",
+      "tokens": [
+        "livraison",
+        "BR-26",
+        "connecteur"
+      ],
+      "requires": [
+        {
+          "type": "forum_read",
+          "thread": "act1-boreal"
+        },
+        {
+          "type": "tool_fact",
+          "key": "http:boreal-web:/support/database.env.old"
+        },
+        {
+          "type": "tool_fact",
+          "key": "mysql:query:boreal"
+        },
+        {
+          "type": "table_export",
+          "database": "boreal",
+          "table": "bordereaux",
+          "path": "/home/operator/loot/boreal.tsv",
+          "format": "tsv",
+          "where": "statut='valide'",
+          "any_path": true,
+          "inspected": true
+        }
+      ],
+      "response": "Bordereaux de novembre vérifiés par le connecteur. Les recommandations sont réunies ; consulte tes MP sur BreachBoard.",
+      "missing": "Il manque une observation vérifiable. Lis la configuration exposée, puis utilise MySQL en lecture avec WHERE statut='valide' ; garde le résultat dans ~/loot/boreal.tsv et envoie « livraison BR-26 connecteur ».",
+      "already": "Cette étape est déjà enregistrée.",
+      "hint": "Lis la configuration exposée, puis utilise MySQL en lecture avec WHERE statut='valide' ; garde le résultat dans ~/loot/boreal.tsv et envoie « livraison BR-26 connecteur ».",
+      "exclusive_group": "finale",
+      "hints": [
+        "Les deux voies sont valides : choisis selon les observations que tu as déjà faites, pas selon une commande à deviner.",
+        "Ne conserve que les bordereaux au statut valide. Vérifie l’export complet dans ~/loot puis indique la voie utilisée dans ton compte rendu."
+      ]
+    }
+  ],
+  "local_files": {
+    "/home/operator/mission/reperes.txt": "Choisir une voie déjà rencontrée et justifier le périmètre. SQL : WHERE filtre les lignes. SQLmap : --where transmet le filtre d’export. Une voie suffit ; une seconde ne rapporte pas de prime supplémentaire.\n\nIndice : une piste de raisonnement puis une aide concrète. Rappel détaillé : les commandes de la phase actuelle. L’aide ne retire aucune prime. Les commandes se saisissent dans les consoles du jeu, une par une.\n"
+  },
+  "investigation_threads": [
+    "act1-partages",
+    "act1-echantillon-annonce",
+    "act1-pivoine",
+    "act1-verre",
+    "act1-ticketd",
+    "act1-litige",
+    "act1-boreal"
+  ],
+  "private_offer": true,
+  "intro": "On m’a recommandé ton pseudo. k0rvid, hexcache et nullroute proposent de répondre de toi. Dernier dossier : vérifier et livrer les bordereaux BR-26 valides, puis nous déciderons de l’invitation. Ouvre le dossier pour recevoir les pièces ; la suite se passe dans notre conversation Chordly.",
+  "relaxed_clock": true,
+  "side_job": false,
+  "chapter": 10,
+  "offer_channel": "forum",
+  "required_completed": [
+    "act1_litige"
+  ],
+  "terminal_revision": 2
+}

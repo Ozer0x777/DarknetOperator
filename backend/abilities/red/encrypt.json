@@ -1,0 +1,36 @@
+{
+  "id": "red.encrypt",
+  "team": "red",
+  "name": "Vesper (chiffrement simulé)",
+  "requires": [
+    {
+      "type": "target_admin_access"
+    },
+    {
+      "type": "player_owns_any",
+      "items": [
+        "vesper",
+        "glasswing"
+      ]
+    }
+  ],
+  "effects": [
+    {
+      "type": "encrypt_host"
+    }
+  ],
+  "noise": 90,
+  "cooldown": 0,
+  "points": 10,
+  "tier": 1,
+  "command": "vesper encrypt",
+  "help": "Vesper (chiffrement simulé)",
+  "artifacts": [
+    {
+      "event_id": "SIM-ENCRYPT",
+      "data": {
+        "simulated": true
+      }
+    }
+  ]
+}

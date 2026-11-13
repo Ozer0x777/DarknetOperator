@@ -1,0 +1,123 @@
+{
+  "contract_id": "act1_service",
+  "scenario": "act1_service_current",
+  "tier": 1,
+  "channel": "chordly",
+  "client": {
+    "handle": "nullroute",
+    "forum_rep": 42,
+    "account_age_days": 284
+  },
+  "bounty": {
+    "forum": "breachboard",
+    "title": "07 — Un service, des permissions",
+    "body": "Vérifier le contexte d’un service et livrer ses tickets avec le compte de lecture fourni."
+  },
+  "brief": "nullroute fournit un accès de maintenance limité : svc.ticket / Maintenance2026!, cible 10.61.7.30. Vérifie le compte, l’état du service ticketd et les notes de configuration. Le contrat porte seulement sur les tickets.\n\nTu ne dois exploiter aucun binaire. Lis ~/mission/reperes.txt, ouvre SSH avec le compte fourni et observe le service. La configuration décrit un compte SQL limité. Depuis une autre console Kali, exporte la table tickets dans ~/loot, relis le résultat puis confirme « livraison TK-26 tickets ». Aucun accès root demandé.",
+  "reward": 480,
+  "reputation": 45,
+  "required_items": [],
+  "success_message": "Livraison vérifiée. {reward} ₵ annoncés au contrat ; le règlement exact figure dans ton profil. Merci {handle}, je conserve tes preuves.",
+  "failure_message": "Dossier interrompu. Reprends une sauvegarde ou relance le contrat pour retenter le parcours.",
+  "guide": [],
+  "investigation_steps": [
+    {
+      "id": "tickets_livres",
+      "tokens": [
+        "livraison",
+        "TK-26",
+        "tickets"
+      ],
+      "requires": [
+        {
+          "type": "tool_fact",
+          "key": "system:ticket-app:systemctl"
+        },
+        {
+          "type": "file_read",
+          "host": "ticket-app",
+          "path": "/etc/ticketd/database.ini"
+        },
+        {
+          "type": "tool_fact",
+          "key": "mysql:query:ticketing"
+        },
+        {
+          "type": "table_export",
+          "database": "ticketing",
+          "table": "tickets",
+          "path": "/home/operator/loot/tickets.tsv",
+          "format": "tsv",
+          "any_path": true,
+          "inspected": true
+        }
+      ],
+      "response": "Les tickets sont reçus. Le compte du service est limité ; l’accès SQL a conservé ce périmètre. J’ai un autre dossier, mais il faudra d’abord vérifier mon brief.",
+      "missing": "Il faut observer le service, lire sa configuration et conserver un export relu des seuls tickets.",
+      "already": "Cette étape est déjà enregistrée.",
+      "hint": "Dans Kali : `ssh svc.ticket@10.61.7.30`, puis Maintenance2026!. Dans la session : `whoami`, `systemctl status ticketd`, `cat /home/svc.ticket/README.txt` puis `cat /etc/ticketd/database.ini`. Dans une autre console Kali : `mysql -h 10.61.7.10 -u ticket_ro -p -D ticketing -e \"SELECT * FROM tickets;\" > ~/loot/tickets.tsv`. Saisis le secret de la configuration, relis la copie et confirme livraison TK-26 tickets.",
+      "hints": [
+        "Vérifie le compte et le service avant de lire la configuration ; aucune élévation n’est demandée.",
+        "Le compte SQL est fourni par la configuration. Limite la requête à tickets, puis relis l’export."
+      ],
+      "help_stages": [
+        {
+          "id": "service",
+          "requires": [
+            {
+              "type": "tool_fact",
+              "key": "system:ticket-app:systemctl"
+            },
+            {
+              "type": "file_read",
+              "host": "ticket-app",
+              "path": "/etc/ticketd/database.ini"
+            }
+          ],
+          "hints": [
+            "Vérifie le compte et le service avant de lire la configuration ; aucune élévation n’est demandée.",
+            "Le compte SQL est fourni par la configuration. Limite la requête à tickets, puis relis l’export."
+          ],
+          "hint": "Dans Kali : `ssh svc.ticket@10.61.7.30`, puis Maintenance2026!. Dans la session : `whoami`, `systemctl status ticketd`, `cat /home/svc.ticket/README.txt` puis `cat /etc/ticketd/database.ini`. Dans une autre console Kali : `mysql -h 10.61.7.10 -u ticket_ro -p -D ticketing -e \"SELECT * FROM tickets;\" > ~/loot/tickets.tsv`. Saisis le secret de la configuration, relis la copie et confirme livraison TK-26 tickets."
+        },
+        {
+          "id": "export",
+          "requires": [
+            {
+              "type": "tool_fact",
+              "key": "mysql:query:ticketing"
+            },
+            {
+              "type": "table_export",
+              "database": "ticketing",
+              "table": "tickets",
+              "path": "/home/operator/loot/tickets.tsv",
+              "format": "tsv",
+              "any_path": true,
+              "inspected": true
+            }
+          ],
+          "hints": [
+            "Le compte de lecture a un périmètre précis ; ne demande pas les autres tables.",
+            "Exécute le client MySQL depuis une console Kali, puis relis le résultat enregistré dans ~/loot."
+          ],
+          "hint": "Dans Kali : `ssh svc.ticket@10.61.7.30`, puis Maintenance2026!. Dans la session : `whoami`, `systemctl status ticketd`, `cat /home/svc.ticket/README.txt` puis `cat /etc/ticketd/database.ini`. Dans une autre console Kali : `mysql -h 10.61.7.10 -u ticket_ro -p -D ticketing -e \"SELECT * FROM tickets;\" > ~/loot/tickets.tsv`. Saisis le secret de la configuration, relis la copie et confirme livraison TK-26 tickets."
+        }
+      ]
+    }
+  ],
+  "local_files": {
+    "/home/operator/mission/reperes.txt": "Accès fourni : svc.ticket / Maintenance2026!, SSH 10.61.7.30.\nwhoami identifie le compte ; systemctl status ticketd observe le service. Les notes du compte indiquent sa configuration. Un compte SQL limité n’accorde pas les autres tables.\nMySQL : mysql -h hôte -u compte -p -D base -e \"SELECT ...\" > fichier. Le secret se saisit à l’invite ; relire le résultat avant livraison.\n"
+  },
+  "investigation_threads": [],
+  "private_offer": true,
+  "intro": "0xvanta m’a recommandé tes vérifications de passation. Voici un compte de maintenance et un périmètre précis : vérifier le service, puis livrer ses tickets en lecture.",
+  "relaxed_clock": true,
+  "side_job": false,
+  "chapter": 7,
+  "required_completed": [
+    "act1_empreinte"
+  ],
+  "terminal_revision": 4,
+  "curriculum_version": 4
+}

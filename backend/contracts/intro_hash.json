@@ -1,0 +1,33 @@
+{
+  "contract_id": "intro_hash",
+  "scenario": "intro_hash",
+  "tier": 0,
+  "channel": "chordly",
+  "client": {
+    "handle": "k0rvid",
+    "forum_rep": 38,
+    "account_age_days": 412
+  },
+  "bounty": {
+    "forum": "breachboard",
+    "title": "07 — Empreinte et mot de passe",
+    "body": "Retrouver le mot de passe de l’empreinte fournie."
+  },
+  "brief": "Voici un exercice hors ligne : `cat ~/mission/exercice.ntlm` affiche une empreinte, pas un mot de passe. Lance `hashcat -m 1000 ~/mission/exercice.ntlm /usr/share/wordlists/rockyou.txt`. -m 1000 choisit NTLM ; le premier fichier contient l’empreinte, le second les candidats. Le fichier appelé rockyou.txt est actuellement une petite liste de démonstration du jeu. Cracked signifie qu’un candidat correspond ; Exhausted signifie aucun résultat dans cette liste. Ne confonds pas attendre et trouver.",
+  "reward": 55,
+  "reputation": 5,
+  "required_items": [],
+  "guide": [],
+  "onboarding": true,
+  "success_message": "Résultat vérifié. {reward} ₵ réglés ; ton prochain dossier est disponible dans cette conversation. Garde tes notes, on réutilisera cette compétence.",
+  "failure_message": "On reprend ce dossier à ton rythme ; vérifie le résultat avant de conclure.",
+  "debrief_hints": [
+    "Retrouver le mot de passe de l’empreinte fournie.",
+    "Une nouvelle compétence à la fois ; la réussite est vérifiée dans le monde simulé."
+  ],
+  "terminal_revision": 1,
+  "hints": [
+    "Hashcat compare une empreinte aux candidats d’un dictionnaire. Le fichier d’exercice et la liste de démonstration sont déjà fournis.",
+    "Lance `hashcat -m 1000 ~/mission/exercice.ntlm /usr/share/wordlists/rockyou.txt`. Attends la fin ; Exhausted ne signifie pas un mot de passe trouvé."
+  ]
+}

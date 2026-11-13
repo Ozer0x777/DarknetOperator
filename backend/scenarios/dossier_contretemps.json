@@ -1,0 +1,91 @@
+{
+  "scenario_id": "dossier_contretemps",
+  "name": "Le contretemps",
+  "description": "Une livraison annoncée, deux sources actuelles, un choix de transmission.",
+  "hosts": [
+    {
+      "id": "cobalt",
+      "hostname": "COBALT-PUBLIC",
+      "ip": "10.62.1.10",
+      "os": "Linux Debian 12",
+      "services": [
+        {
+          "name": "HTTP",
+          "port": 80,
+          "version": "nginx 1.24"
+        },
+        {
+          "name": "SMB",
+          "port": 445,
+          "version": "Samba 4.19"
+        }
+      ],
+      "files": {
+        "/srv/web/index.txt": "Atelier Cobalt — suivi public\nRegistre actuel : /suivi.txt\nAnciennes annonces : /archive.txt\nChronologie facultative : /journal.txt\nLe partage SMB public propose aussi le registre courant et ses archives.\n",
+        "/srv/web/suivi.txt": "REFERENCE: CT-26-071\nDATE: 2026-11-09\nSTATUT: reporte\nDESTINATION: Atelier Cobalt\nPROCHAINE LIVRAISON: 2026-11-12\n",
+        "/srv/web/archive.txt": "NOTE DU 2026-11-06\nCT-26-071 : livraison prevue le 09 novembre ; cochee livree par anticipation.\n",
+        "/srv/web/journal.txt": "2026-11-06 : annonce previsionnelle publiee.\n2026-11-08 : transport annule.\n2026-11-09 : registre mis a jour, report au 12 novembre.\nLa capture du 06 ne constitue pas une preuve de reception.\n",
+        "/srv/public/README.txt": "courant/ contient le registre à jour ; archives/ conserve les annonces prévisionnelles.\n",
+        "/srv/public/courant/CT-26-071.txt": "REFERENCE: CT-26-071\nDATE: 2026-11-09\nSTATUT: reporte\nDESTINATION: Atelier Cobalt\nPROCHAINE LIVRAISON: 2026-11-12\n",
+        "/srv/public/archives/CT-26-071.txt": "2026-11-06 — CT-26-071 — livraison prevue puis cochee livree par anticipation.\n"
+      }
+    }
+  ],
+  "users": [],
+  "initially_discovered": [
+    "cobalt"
+  ],
+  "initially_scanned": [],
+  "objectives": [
+    {
+      "type": "decision_made",
+      "group": "contretemps"
+    }
+  ],
+  "max_ticks": 3000,
+  "rng_seed": 0,
+  "available_abilities": {
+    "red": [
+      "red.recon_scan",
+      "red.exfiltrate",
+      "red.crack_hash"
+    ],
+    "blue": []
+  },
+  "domain": {
+    "name": "act1.lab",
+    "sid": "S-1-5-21-100-200-300"
+  },
+  "environment": {
+    "organization": "Atelier Cobalt",
+    "sector": "Dossier de laboratoire",
+    "timezone": "Europe/Paris",
+    "business_hours": "09:00–18:00",
+    "initial_time": "09:00",
+    "briefing_host": "cobalt",
+    "known_contact": "miette",
+    "context": "Une annonce dit livré ; le suivi actuel dit-il la même chose ?",
+    "shares": {
+      "cobalt": {
+        "public": {
+          "path": "/srv/public",
+          "users": [
+            "*"
+          ]
+        }
+      }
+    },
+    "file_permissions": {},
+    "http_routes": {
+      "cobalt": {
+        "/": "/srv/web/index.txt",
+        "/suivi.txt": "/srv/web/suivi.txt",
+        "/archive.txt": "/srv/web/archive.txt",
+        "/journal.txt": "/srv/web/journal.txt"
+      }
+    }
+  },
+  "defender": {
+    "enabled": false
+  }
+}

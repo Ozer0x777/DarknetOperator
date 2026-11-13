@@ -1,0 +1,95 @@
+{
+  "contract_id": "act1_partage",
+  "scenario": "act1_partage",
+  "tier": 1,
+  "channel": "chordly",
+  "client": {
+    "handle": "k0rvid",
+    "forum_rep": 38,
+    "account_age_days": 412
+  },
+  "bounty": {
+    "forum": "breachboard",
+    "title": "02 — Une porte oubliée",
+    "body": "Retrouver le bon NC-26-041 de novembre sur le partage annoncé à 10.61.2.10. Une ancienne version ne convient pas."
+  },
+  "brief": "Retrouver le bon NC-26-041 de novembre sur le partage annoncé à 10.61.2.10. Une ancienne version ne convient pas.\n\nNouveau : consulter un partage SMB. Commence par `nmap -sV 10.61.2.10`, puis `smbclient -L 10.61.2.10 -N`. -L liste les partages ; -N essaie une session invitée, sans donner de droits administrateur. Compare les répertoires et les dates, puis conserve et lis le bon document dans ~/loot. Tu peux consulter le fil « Un partage ne donne pas tous les droits ». Confirme ensuite une livraison en citant NC-26-041. Écris indice si tu bloques, ou rappel détaillé pour la syntaxe.",
+  "reward": 160,
+  "reputation": 45,
+  "required_items": [],
+  "success_message": "Livraison vérifiée. {reward} ₵ annoncés au contrat ; le règlement exact figure dans ton profil. Merci {handle}, je conserve tes preuves.",
+  "failure_message": "Dossier interrompu. Reprends une sauvegarde ou relance le contrat pour retenter le parcours.",
+  "guide": [],
+  "investigation_steps": [
+    {
+      "id": "partage_livre",
+      "tokens": [
+        "livraison",
+        "NC-26-041"
+      ],
+      "requires": [
+        {
+          "type": "intact_download",
+          "host": "nacre-fichiers",
+          "file": "/srv/public/courant/NC-26-041.txt",
+          "inspected": true
+        }
+      ],
+      "response": "Le bon de novembre est intact et correspond à NC-26-041. Travail vérifié.",
+      "missing": "Il manque une observation vérifiable. Liste le partage public avec smbclient //10.61.2.10/public -N -c \"ls\" ; get copie un fichier vers /home/operator/loot/. Lis les versions avant de livrer.",
+      "already": "Cette étape est déjà enregistrée.",
+      "hint": "Liste le partage public avec smbclient //10.61.2.10/public -N -c \"ls\" ; get copie un fichier vers /home/operator/loot/. Lis les versions avant de livrer.",
+      "hints": [
+        "Compare la référence et la date du document ; la présence d’un fichier portant un nom proche ne suffit pas.",
+        "Liste le partage public, récupère le bon document dans ~/loot et relis cette copie avant de confirmer la livraison."
+      ],
+      "help_stages": [
+        {
+          "id": "partage",
+          "requires": [
+            {
+              "type": "tool_fact",
+              "key": "smb:list:nacre-fichiers:public"
+            }
+          ],
+          "hints": [
+            "Distingue la liste des partages de la liste des fichiers dans un partage.",
+            "-L découvre les noms des partages ; //hôte/partage désigne celui que tu ouvres. -c \"ls\" liste son contenu."
+          ],
+          "hint": "Dans Kali : `smbclient -L 10.61.2.10 -N`, puis `smbclient //10.61.2.10/public -N -c \"ls\"`. Compare les chemins courant/ et archives/ ; le compte invité reste limité au partage public."
+        },
+        {
+          "id": "copie",
+          "requires": [
+            {
+              "type": "intact_download",
+              "host": "nacre-fichiers",
+              "file": "/srv/public/courant/NC-26-041.txt",
+              "inspected": true
+            }
+          ],
+          "hints": [
+            "Choisis le fichier courant portant la bonne référence. La copie doit être relue avant la livraison.",
+            "get prend un chemin distant relatif au partage, puis un chemin local. Utilise /home/operator/loot/ pour la destination."
+          ],
+          "hint": "Copie : `smbclient //10.61.2.10/public -N -c \"get courant/NC-26-041.txt /home/operator/loot/nacre.txt\"`. Relis avec `cat ~/loot/nacre.txt`, puis confirme la livraison NC-26-041. Le nom local est libre ; la référence et la date doivent correspondre."
+        }
+      ]
+    }
+  ],
+  "local_files": {
+    "/home/operator/mission/reperes.txt": "Lister, comparer les dates, transférer puis relire. Un partage public ne donne pas tous les droits.\n\nIndice : une piste de raisonnement puis une aide concrète. Rappel détaillé : les commandes de la phase actuelle. L’aide ne retire aucune prime. Les commandes se saisissent dans les consoles du jeu, une par une.\n"
+  },
+  "investigation_threads": [
+    "act1-partages"
+  ],
+  "private_offer": false,
+  "intro": "On m’a recommandé ton pseudo. Retrouver le bon NC-26-041 de novembre sur le partage annoncé à 10.61.2.10. Une ancienne version ne convient pas. Ouvre le dossier pour recevoir les pièces ; la suite se passe dans notre conversation Chordly.",
+  "relaxed_clock": true,
+  "side_job": false,
+  "chapter": 2,
+  "required_completed": [
+    "tuto_p0"
+  ],
+  "terminal_revision": 2
+}

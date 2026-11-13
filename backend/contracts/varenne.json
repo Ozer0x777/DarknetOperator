@@ -1,0 +1,57 @@
+{
+  "contract_id": "varenne",
+  "scenario": "varenne",
+  "tier": 2,
+  "channel": "telegrid",
+  "client": {
+    "handle": "relay",
+    "forum_rep": 412,
+    "account_age_days": 1100
+  },
+  "bounty": {
+    "forum": "exployt",
+    "title": "Logistique Varenne",
+    "body": "Prendre le contrôle du domaine. Route Tor obligatoire."
+  },
+  "brief": "Varenne Logistique. Adresse connue : 10.53.12.21. Je veux un accès administrateur de domaine effectivement utilisé. Fabriquer un fichier de ticket hors ligne ne prouve aucun accès : il faudra vérifier une authentification avec ce ticket.\n\nLis `cat ~/mission/briefing.txt` pour le contexte et les limites connues. Les horaires sont accélérés ; le réseau continue de vivre pendant tes recherches. Si tu veux un indice facultatif, écris aide ici. Je ne te donnerai pas les droits ou les secrets que tu n’as pas encore découverts. Les exécutables Windows du laboratoire sont dans ~/tools ; leur guide décrit le transfert et les droits requis.",
+  "reward": 1000,
+  "reputation": 100,
+  "required_rep": 100,
+  "required_items": [],
+  "success_message": "L’authentification avec le ticket a été vérifiée. Le périmètre demandé est atteint. Consulte la chronologie : la défense peut avoir vu les opérations précédentes.",
+  "failure_message": "Le contrat s’arrête ici. Le rapport distingue la déconnexion, la fin du délai et la réaction de la défense. Aucun objectif non vérifié ne sera considéré comme rempli.",
+  "guide": [
+    {
+      "when": {
+        "type": "host_discovered",
+        "host": "srv-fichiers"
+      },
+      "message": "Le réseau découvert appartient à Varenne Logistique. Compare les services et les droits disponibles avec l’objectif. Un compte récupéré ne donne pas automatiquement une session sur les machines. Écris aide si tu veux relire ce point."
+    },
+    {
+      "when": {
+        "type": "credential_owned",
+        "username": "p.varenne"
+      },
+      "message": "Le compte p.varenne est disponible dans ton butin. Avant un outil Windows, prépare son fichier depuis Kali : `cat ~/tools/README.txt`. SCP utilise le service SSH du poste ; SMB exige les droits du partage. Les clients Impacket restent dans une console Kali séparée. Une session Windows SYSTEM se vérifie avec whoami ; PowerShell s’ouvre avec powershell et exit revient à cmd. Les identifiants récupérés ne donnent pas des droits sur toutes les machines."
+    },
+    {
+      "when": {
+        "type": "credential_owned",
+        "username": "svc.replic"
+      },
+      "message": "Le compte svc.replic figure maintenant dans ton butin. Vérifie le type d’identifiant récupéré et les droits de la cible ; un hash et un mot de passe ne se passent pas de la même façon aux outils."
+    }
+  ],
+  "debrief_hints": [
+    "Domaine de petite filiale avec serveur AD et fichiers regroupés. Ancienne délégation de réplication au compte technique. Une équipe surveille les événements.",
+    "Une authentification valide ne donne que les droits du compte utilisé. Les services ouverts ne prouvent pas qu’un compte est administrateur.",
+    "Le temps, les réactions humaines et la défense sont accélérés dans ce laboratoire ; les durées ne représentent pas des mesures réelles."
+  ],
+  "require_route": "tor",
+  "terminal_revision": 5,
+  "dialogue": {
+    "greeting": "Bonjour {handle}. Je consulte les messages par créneaux. Pose ta question avec le résultat observé ; je répondrai au prochain passage.",
+    "ack": "Lu. Je note l’avancement ; les accès et les droits doivent encore être vérifiés."
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "scenario_id": "act1_litige",
+  "name": "09 — La réputation se paie",
+  "description": "La réputation se paie",
+  "hosts": [
+    {
+      "id": "archive-litige",
+      "hostname": "ARCHIVE-LITIGE",
+      "ip": "10.61.9.1",
+      "os": "Linux Debian 12",
+      "services": [],
+      "files": {}
+    }
+  ],
+  "users": [],
+  "initially_discovered": [
+    "archive-litige"
+  ],
+  "initially_scanned": [],
+  "objectives": [
+    {
+      "type": "decision_made",
+      "group": "litige118"
+    }
+  ],
+  "max_ticks": 3000,
+  "rng_seed": 0,
+  "available_abilities": {
+    "red": [
+      "red.recon_scan",
+      "red.exfiltrate",
+      "red.crack_hash"
+    ],
+    "blue": []
+  },
+  "domain": {
+    "name": "act1.lab",
+    "sid": "S-1-5-21-100-200-300"
+  },
+  "environment": {
+    "organization": "La réputation se paie",
+    "sector": "Dossier de laboratoire",
+    "timezone": "Europe/Paris",
+    "business_hours": "09:00–18:00",
+    "initial_time": "09:00",
+    "briefing_host": "archive-litige",
+    "known_contact": "bytewarden",
+    "context": "Un vendeur conteste ton travail sur le lot 118. Nous devons établir si les deux pièces concernent réellement la même livraison. Le dossier arrive dans tes MP du forum."
+  },
+  "defender": {
+    "enabled": false
+  }
+}

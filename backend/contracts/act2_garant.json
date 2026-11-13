@@ -1,0 +1,167 @@
+{
+  "contract_id": "act2_garant",
+  "scenario": "act2_garant",
+  "tier": 2,
+  "act": 2,
+  "act_chapter": 9,
+  "channel": "telegrid",
+  "client": {
+    "handle": "relay",
+    "forum_rep": 80,
+    "account_age_days": 650
+  },
+  "bounty": {
+    "forum": "exployt",
+    "title": "09 — La passation douteuse",
+    "body": "Un vendeur promet un administrateur de domaine. Vérifie la portée réelle du reçu AC-26-209. Tu peux refuser cette annonce ou renégocier une délégation limitée ; les deux choix règlent le dossier."
+  },
+  "brief": "Un vendeur promet un administrateur de domaine. Vérifie la portée réelle du reçu AC-26-209. Tu peux refuser cette annonce ou renégocier une délégation limitée ; les deux choix règlent le dossier.\n\nLes pièces sont dans ~/mission. Écris indice pour une piste ou rappel détaillé pour les commandes de ce dossier. Aucun achat de matériel requis.\n\nLa promesse écrite est dans ~/mission/garant.txt. Compare-la au reçu du relais ou au registre du portail interne /garant.txt, récupéré par le passage SSH. Ces deux sources peuvent prouver la limite ; confirme ensuite une seule décision.",
+  "reward": 450,
+  "reputation": 20,
+  "required_items": [],
+  "required_completed": [
+    "act2_lateral"
+  ],
+  "success_message": "Preuves vérifiées. {reward} ₵ réglés dans ColdVault ; tes choix sont conservés.",
+  "failure_message": "Dossier interrompu, sans prime. Les accès acquis et les observations sauvegardées restent disponibles pour une reprise.",
+  "guide": [],
+  "investigation_steps": [
+    {
+      "id": "refus",
+      "tokens": [
+        "refuser",
+        "AC-26-209"
+      ],
+      "requires": [
+        {
+          "type": "file_read",
+          "path": "/home/operator/mission/garant.txt"
+        },
+        {
+          "type": "file_read",
+          "path": "/home/ops/recu.txt",
+          "host": "bridge"
+        }
+      ],
+      "response": "Refus documenté ; ton partenaire reçoit la limite observée.",
+      "already": "Cette preuve est déjà enregistrée.",
+      "missing": "Vérifie les observations et la version des pièces ; demande indice si nécessaire.",
+      "hint": "Lis `cat ~/mission/garant.txt`, puis le reçu en SSH (`cat /home/ops/recu.txt`) ou une copie du registre HTTP interne /garant.txt via ton tunnel. Confirme refuser AC-26-209 ou renegocier AC-26-209.",
+      "hints": [
+        "Commence par vérifier le périmètre, les droits et les sources fournis.",
+        "Le rappel détaillé donne les commandes du laboratoire ; une déclaration ne remplace pas une preuve."
+      ],
+      "exclusive_group": "act2_garant",
+      "choice": "refuser"
+    },
+    {
+      "id": "renegociation",
+      "tokens": [
+        "renegocier",
+        "AC-26-209"
+      ],
+      "requires": [
+        {
+          "type": "file_read",
+          "path": "/home/operator/mission/garant.txt"
+        },
+        {
+          "type": "file_read",
+          "path": "/home/ops/recu.txt",
+          "host": "bridge"
+        }
+      ],
+      "response": "La délégation de lecture est retenue ; aucune promesse de domaine administrateur.",
+      "already": "Cette preuve est déjà enregistrée.",
+      "missing": "Vérifie les observations et la version des pièces ; demande indice si nécessaire.",
+      "hint": "Lis `cat ~/mission/garant.txt`, puis le reçu en SSH (`cat /home/ops/recu.txt`) ou une copie du registre HTTP interne /garant.txt via ton tunnel. Confirme refuser AC-26-209 ou renegocier AC-26-209.",
+      "hints": [
+        "Commence par vérifier le périmètre, les droits et les sources fournis.",
+        "Le rappel détaillé donne les commandes du laboratoire ; une déclaration ne remplace pas une preuve."
+      ],
+      "exclusive_group": "act2_garant",
+      "choice": "renegocier"
+    },
+    {
+      "id": "refus_web",
+      "tokens": [
+        "refuser",
+        "AC-26-209"
+      ],
+      "requires": [
+        {
+          "type": "file_read",
+          "path": "/home/operator/mission/garant.txt"
+        },
+        {
+          "type": "tool_fact",
+          "key": "http:pivot:intranet"
+        },
+        {
+          "type": "export_matches",
+          "key": "http:intranet:/garant.txt",
+          "path": "/home/operator/loot/garant.txt",
+          "any_path": true,
+          "inspected": true
+        }
+      ],
+      "response": "Refus documenté ; ton partenaire reçoit la limite observée.",
+      "already": "Cette preuve est déjà enregistrée.",
+      "missing": "Vérifie les observations et la version des pièces ; demande indice si nécessaire.",
+      "hint": "Lis `cat ~/mission/garant.txt`, puis le reçu en SSH (`cat /home/ops/recu.txt`) ou une copie du registre HTTP interne /garant.txt via ton tunnel. Confirme refuser AC-26-209 ou renegocier AC-26-209.",
+      "hints": [
+        "Commence par vérifier le périmètre, les droits et les sources fournis.",
+        "Le rappel détaillé donne les commandes du laboratoire ; une déclaration ne remplace pas une preuve."
+      ],
+      "exclusive_group": "act2_garant",
+      "choice": "refuser"
+    },
+    {
+      "id": "renegociation_web",
+      "tokens": [
+        "renegocier",
+        "AC-26-209"
+      ],
+      "requires": [
+        {
+          "type": "file_read",
+          "path": "/home/operator/mission/garant.txt"
+        },
+        {
+          "type": "tool_fact",
+          "key": "http:pivot:intranet"
+        },
+        {
+          "type": "export_matches",
+          "key": "http:intranet:/garant.txt",
+          "path": "/home/operator/loot/garant.txt",
+          "any_path": true,
+          "inspected": true
+        }
+      ],
+      "response": "La délégation de lecture est retenue ; aucune promesse de domaine administrateur.",
+      "already": "Cette preuve est déjà enregistrée.",
+      "missing": "Vérifie les observations et la version des pièces ; demande indice si nécessaire.",
+      "hint": "Lis `cat ~/mission/garant.txt`, puis le reçu en SSH (`cat /home/ops/recu.txt`) ou une copie du registre HTTP interne /garant.txt via ton tunnel. Confirme refuser AC-26-209 ou renegocier AC-26-209.",
+      "hints": [
+        "Commence par vérifier le périmètre, les droits et les sources fournis.",
+        "Le rappel détaillé donne les commandes du laboratoire ; une déclaration ne remplace pas une preuve."
+      ],
+      "exclusive_group": "act2_garant",
+      "choice": "renegocier"
+    }
+  ],
+  "local_files": {
+    "/home/operator/mission/passation.txt": "OR-26-201 : compte ops, relais 10.71.1.10 ; le secret de la passation est à vérifier hors ligne.\n",
+    "/home/operator/mission/ops.ntlm": "4f9a8fd0784f9ca033b21e81f0037dec\n",
+    "/home/operator/mission/mots.txt": "Relais2024!\nRelais2025!\nRelais2026!\n",
+    "/home/operator/mission/services.txt": "Service2024!\nService2025!\nService2026!\n",
+    "/home/operator/mission/acces.txt": "Compte de consultation fourni pour le domaine : audit / Audit2026!\nORBE-POSTE : 10.71.2.21 ; contrôleur : 10.71.2.10.\n",
+    "/home/operator/mission/brief-act2.txt": "Un vendeur promet un administrateur de domaine. Vérifie la portée réelle du reçu AC-26-209. Tu peux refuser cette annonce ou renégocier une délégation limitée ; les deux choix règlent le dossier.\n",
+    "/home/operator/mission/garant.txt": "AC-26-209 — annonce du vendeur, 10 novembre 2026 : administrateur de domaine, accès illimité annoncé. Aucun contrôle récent joint.\n"
+  },
+  "private_offer": true,
+  "intro": "Un vendeur promet un administrateur de domaine. Vérifie la portée réelle du reçu AC-26-209. Tu peux refuser cette annonce ou renégocier une délégation limitée ; les deux choix règlent le dossier. Ouvre le dossier pour recevoir les pièces ; les échanges se font ici, sur Telegrid.",
+  "relaxed_clock": true,
+  "terminal_revision": 1
+}

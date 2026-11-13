@@ -1,0 +1,77 @@
+{
+  "contract_id": "act1_portail",
+  "scenario": "act1_portail",
+  "tier": 1,
+  "channel": "chordly",
+  "client": {
+    "handle": "0xvanta",
+    "forum_rep": 42,
+    "account_age_days": 284
+  },
+  "bounty": {
+    "forum": "breachboard",
+    "title": "05 — Le carnet d’adresses",
+    "body": "hexcache m’a recommandé ton travail. J’ai une session cliente Ambre sur le portail Verre ; il faut vérifier le document VA-26-204 d’Orme."
+  },
+  "brief": "hexcache m’a recommandé ton travail. J’ai une session cliente Ambre sur le portail Verre ; il faut vérifier le document VA-26-204 d’Orme.\n\nLis ~/mission/acces-verre.txt et le fil Verre. Tu connais curl et la lecture d’un export : choisis maintenant quelles réponses comparer. Une session valide prouve une authentification, pas l’autorisation de consulter le document d’un autre client.\n\nConserve une copie propre du document demandé dans ~/loot, relis-la et confirme ta preuve en citant VA-26-204 et Orme. Le nom de fichier est libre. Aucun besoin de collecter les autres documents ; indice ou rappel détaillé peuvent préciser la vérification manquante.",
+  "reward": 300,
+  "reputation": 45,
+  "required_items": [],
+  "success_message": "Livraison vérifiée. {reward} ₵ annoncés au contrat ; le règlement exact figure dans ton profil. Merci {handle}, je conserve tes preuves.",
+  "failure_message": "Dossier interrompu. Reprends une sauvegarde ou relance le contrat pour retenter le parcours.",
+  "guide": [],
+  "investigation_steps": [
+    {
+      "id": "verre_preuve",
+      "tokens": [
+        "preuve",
+        "VA-26-204",
+        "Orme"
+      ],
+      "requires": [
+        {
+          "type": "forum_read",
+          "thread": "act1-verre"
+        },
+        {
+          "type": "tool_fact",
+          "key": "http:verre-portail:/api/document:102"
+        },
+        {
+          "type": "export_matches",
+          "key": "http:verre-portail:/api/document:102",
+          "path": "/home/operator/loot/verre.csv",
+          "any_path": true,
+          "inspected": true
+        }
+      ],
+      "response": "Le document Orme est confirmé. La session Ambre a traversé une frontière de droits sur cet endpoint ; ce n’est pas un accès administrateur.",
+      "missing": "Il manque une observation vérifiable. Avec le cookie fourni, compare /api/prive?id=102 et /api/document?id=102. Télécharge ce dernier sans -i pour garder un CSV propre dans ~/loot/verre.csv.",
+      "already": "Cette étape est déjà enregistrée.",
+      "hint": "Avec le cookie fourni, compare /api/prive?id=102 et /api/document?id=102. Télécharge ce dernier sans -i pour garder un CSV propre dans ~/loot/verre.csv.",
+      "hints": [
+        "Authentification et autorisation ne sont pas la même chose. Compare ce que permettent les accès décrits dans les pièces.",
+        "Utilise la session fournie pour comparer les deux endpoints, puis garde une copie propre du document attendu dans ~/loot et relis-la."
+      ]
+    }
+  ],
+  "local_files": {
+    "/home/operator/mission/acces-verre.txt": "Compte fourni : Ambre (session cliente limitée)\nCookie : session=ambre-client\nURL : http://10.61.5.20/api/document?id=101\nSyntaxe : curl -i -H \"Cookie: session=ambre-client\" URL\nLe témoin /api/prive applique le contrôle propriétaire ; /api/document l’oublie.\n",
+    "/home/operator/mission/reperes.txt": "curl -i montre le statut HTTP ; -H fournit un en-tête. 401 : session absente ; 403 : accès refusé ; 200 : réponse reçue, à vérifier. Évite -i dans une copie CSV.\n\nIndice : une piste de raisonnement puis une aide concrète. Rappel détaillé : les commandes de la phase actuelle. L’aide ne retire aucune prime. Les commandes se saisissent dans les consoles du jeu, une par une.\n"
+  },
+  "investigation_threads": [
+    "act1-partages",
+    "act1-echantillon-annonce",
+    "act1-pivoine",
+    "act1-verre"
+  ],
+  "private_offer": true,
+  "intro": "On m’a recommandé ton pseudo. hexcache m’a recommandé ton travail. J’ai une session cliente Ambre sur le portail Verre ; il faut vérifier le document VA-26-204 d’Orme. Ouvre le dossier pour recevoir les pièces ; la suite se passe dans notre conversation Chordly.",
+  "relaxed_clock": true,
+  "side_job": false,
+  "chapter": 5,
+  "required_completed": [
+    "act1_boutique"
+  ],
+  "terminal_revision": 2
+}

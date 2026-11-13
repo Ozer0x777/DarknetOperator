@@ -1,0 +1,22 @@
+{
+  "id": "red.crack_hash",
+  "team": "red",
+  "name": "hashcat (récupération du mot de passe)",
+  "requires": [
+    {
+      "type": "crack_input_present"
+    }
+  ],
+  "effects": [
+    {
+      "type": "crack_credential"
+    }
+  ],
+  "noise": 0,
+  "cooldown": 0,
+  "points": 10,
+  "tier": 1,
+  "command": "hashcat -m 1000 fichier_hash liste_de_mots",
+  "help": "hashcat (récupération du mot de passe)",
+  "artifacts": []
+}

@@ -1,0 +1,147 @@
+{
+  "contract_id": "dossier_contretemps",
+  "scenario": "dossier_contretemps",
+  "tier": 0,
+  "channel": "chordly",
+  "client": {
+    "handle": "miette",
+    "forum_rep": 12,
+    "account_age_days": 93
+  },
+  "bounty": {
+    "forum": "breachboard",
+    "title": "Le contretemps",
+    "body": "Une livraison annoncée trop tôt. Deux sources possibles, une conclusion à défendre, puis un choix de transmission. 140 ₵ ; aucun achat requis."
+  },
+  "brief": "Une capture annonce CT-26-071 livré le 09 novembre. Le destinataire conteste. Vérifie ce qui est actuel sur 10.62.1.10 : le suivi web et le partage public sont deux pistes possibles, aucune n’est imposée. Les archives et le journal peuvent expliquer la contradiction. Conserve et lis une copie du registre courant dans ~/loot. Puis indique ici la référence, le statut reporté, ta source (web ou partage), et ta décision : signaler pour demander une correction à Cobalt, ou discret pour remettre seulement les preuves au client. Les deux décisions règlent le dossier. Aucune publication sur un forum. Exemple de compte rendu : « CT-26-071 reporté, source web, je choisis signaler ». Aucun achat requis.",
+  "reward": 140,
+  "reputation": 0,
+  "required_items": [],
+  "success_message": "Conclusion vérifiée. {reward} ₵ réglés dans ColdVault. Ton choix de transmission est conservé ; retrouve le bilan dans Chordly.",
+  "failure_message": "Dossier interrompu. Reprends une sauvegarde ou relance le contrat pour retenter le parcours.",
+  "guide": [],
+  "investigation_steps": [
+    {
+      "id": "web_signaler",
+      "tokens": [
+        "CT-26-071",
+        "reporte",
+        "web",
+        "signaler"
+      ],
+      "exclusive_group": "contretemps",
+      "requires": [
+        {
+          "type": "export_matches",
+          "key": "http:cobalt:/suivi.txt",
+          "path": "/home/operator/loot/suivi.txt",
+          "any_path": true,
+          "inspected": true
+        }
+      ],
+      "response": "Le registre courant confirme le report au 12 novembre. Je demande à Cobalt de corriger l’annonce, avec le registre vérifié en pièce jointe.",
+      "already": "Ton rapport est déjà conservé.",
+      "missing": "Il faut une copie intacte et relue du registre courant.",
+      "hint": "Voie web : curl http://10.62.1.10/ puis curl -o ~/loot/suivi.txt http://10.62.1.10/suivi.txt et cat ~/loot/suivi.txt. Voie partage : smbclient //10.62.1.10/public -N -c \"ls\" puis get courant/CT-26-071.txt /home/operator/loot/suivi.txt et cat ~/loot/suivi.txt. Confirme CT-26-071 reporté, source web ou partage, puis signaler ou discret.",
+      "hints": [
+        "Compare les dates : une annonce prévisionnelle peut être crédible sans décrire la livraison réelle. Le journal est facultatif.",
+        "Choisis le suivi HTTP ou le registre SMB, conserve la version courante dans ~/loot et relis-la. Ton rapport doit préciser référence, report, source et transmission."
+      ],
+      "choice": "signaler"
+    },
+    {
+      "id": "web_discret",
+      "tokens": [
+        "CT-26-071",
+        "reporte",
+        "web",
+        "discret"
+      ],
+      "exclusive_group": "contretemps",
+      "requires": [
+        {
+          "type": "export_matches",
+          "key": "http:cobalt:/suivi.txt",
+          "path": "/home/operator/loot/suivi.txt",
+          "any_path": true,
+          "inspected": true
+        }
+      ],
+      "response": "Le registre courant confirme le report au 12 novembre. Je conserve ton rapport en privé ; je ne contacte pas Cobalt en ton nom.",
+      "already": "Ton rapport est déjà conservé.",
+      "missing": "Il faut une copie intacte et relue du registre courant.",
+      "hint": "Voie web : curl http://10.62.1.10/ puis curl -o ~/loot/suivi.txt http://10.62.1.10/suivi.txt et cat ~/loot/suivi.txt. Voie partage : smbclient //10.62.1.10/public -N -c \"ls\" puis get courant/CT-26-071.txt /home/operator/loot/suivi.txt et cat ~/loot/suivi.txt. Confirme CT-26-071 reporté, source web ou partage, puis signaler ou discret.",
+      "hints": [
+        "Compare les dates : une annonce prévisionnelle peut être crédible sans décrire la livraison réelle. Le journal est facultatif.",
+        "Choisis le suivi HTTP ou le registre SMB, conserve la version courante dans ~/loot et relis-la. Ton rapport doit préciser référence, report, source et transmission."
+      ],
+      "choice": "discret"
+    },
+    {
+      "id": "partage_signaler",
+      "tokens": [
+        "CT-26-071",
+        "reporte",
+        "partage",
+        "signaler"
+      ],
+      "exclusive_group": "contretemps",
+      "requires": [
+        {
+          "type": "intact_download",
+          "host": "cobalt",
+          "file": "/srv/public/courant/CT-26-071.txt",
+          "inspected": true
+        }
+      ],
+      "response": "Le registre courant confirme le report au 12 novembre. Je demande à Cobalt de corriger l’annonce, avec le registre vérifié en pièce jointe.",
+      "already": "Ton rapport est déjà conservé.",
+      "missing": "Il faut une copie intacte et relue du registre courant.",
+      "hint": "Voie web : curl http://10.62.1.10/ puis curl -o ~/loot/suivi.txt http://10.62.1.10/suivi.txt et cat ~/loot/suivi.txt. Voie partage : smbclient //10.62.1.10/public -N -c \"ls\" puis get courant/CT-26-071.txt /home/operator/loot/suivi.txt et cat ~/loot/suivi.txt. Confirme CT-26-071 reporté, source web ou partage, puis signaler ou discret.",
+      "hints": [
+        "Compare les dates : une annonce prévisionnelle peut être crédible sans décrire la livraison réelle. Le journal est facultatif.",
+        "Choisis le suivi HTTP ou le registre SMB, conserve la version courante dans ~/loot et relis-la. Ton rapport doit préciser référence, report, source et transmission."
+      ],
+      "choice": "signaler"
+    },
+    {
+      "id": "partage_discret",
+      "tokens": [
+        "CT-26-071",
+        "reporte",
+        "partage",
+        "discret"
+      ],
+      "exclusive_group": "contretemps",
+      "requires": [
+        {
+          "type": "intact_download",
+          "host": "cobalt",
+          "file": "/srv/public/courant/CT-26-071.txt",
+          "inspected": true
+        }
+      ],
+      "response": "Le registre courant confirme le report au 12 novembre. Je conserve ton rapport en privé ; je ne contacte pas Cobalt en ton nom.",
+      "already": "Ton rapport est déjà conservé.",
+      "missing": "Il faut une copie intacte et relue du registre courant.",
+      "hint": "Voie web : curl http://10.62.1.10/ puis curl -o ~/loot/suivi.txt http://10.62.1.10/suivi.txt et cat ~/loot/suivi.txt. Voie partage : smbclient //10.62.1.10/public -N -c \"ls\" puis get courant/CT-26-071.txt /home/operator/loot/suivi.txt et cat ~/loot/suivi.txt. Confirme CT-26-071 reporté, source web ou partage, puis signaler ou discret.",
+      "hints": [
+        "Compare les dates : une annonce prévisionnelle peut être crédible sans décrire la livraison réelle. Le journal est facultatif.",
+        "Choisis le suivi HTTP ou le registre SMB, conserve la version courante dans ~/loot et relis-la. Ton rapport doit préciser référence, report, source et transmission."
+      ],
+      "choice": "discret"
+    }
+  ],
+  "local_files": {
+    "/home/operator/mission/contretemps.txt": "Une capture annonce CT-26-071 livré le 09 novembre. Le destinataire conteste. Vérifie ce qui est actuel sur 10.62.1.10 : le suivi web et le partage public sont deux pistes possibles, aucune n’est imposée. Les archives et le journal peuvent expliquer la contradiction. Conserve et lis une copie du registre courant dans ~/loot. Puis indique ici la référence, le statut reporté, ta source (web ou partage), et ta décision : signaler pour demander une correction à Cobalt, ou discret pour remettre seulement les preuves au client. Les deux décisions règlent le dossier. Aucune publication sur un forum. Exemple de compte rendu : « CT-26-071 reporté, source web, je choisis signaler ». Aucun achat requis.\n"
+  },
+  "investigation_threads": [],
+  "private_offer": true,
+  "intro": "J’ai besoin d’un regard extérieur : CT-26-071 est annoncé livré, pourtant rien n’est arrivé. À toi de choisir les vérifications. Je paie la preuve, pas la version qui m’arrange. Une capture annonce CT-26-071 livré le 09 novembre. Le destinataire conteste. Vérifie ce qui est actuel sur 10.62.1.10 : le suivi web et le partage public sont deux pistes possibles, aucune n’est imposée. Les archives et le journal peuvent expliquer la contradiction. Conserve et lis une copie du registre courant dans ~/loot. Puis indique ici la référence, le statut reporté, ta source (web ou partage), et ta décision : signaler pour demander une correction à Cobalt, ou discret pour remettre seulement les preuves au client. Les deux décisions règlent le dossier. Aucune publication sur un forum. Exemple de compte rendu : « CT-26-071 reporté, source web, je choisis signaler ». Aucun achat requis.",
+  "relaxed_clock": true,
+  "side_job": false,
+  "chapter": null,
+  "required_completed": [],
+  "terminal_revision": 1,
+  "optional_case": true
+}

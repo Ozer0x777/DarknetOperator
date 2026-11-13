@@ -1,0 +1,64 @@
+{
+  "contract_id": "act2_side_empreinte",
+  "scenario": "act2_side_empreinte",
+  "tier": 2,
+  "act": 2,
+  "act_chapter": null,
+  "channel": "telegrid",
+  "client": {
+    "handle": "cendre",
+    "forum_rep": 80,
+    "account_age_days": 650
+  },
+  "bounty": {
+    "forum": "exployt",
+    "title": "Empreinte de secours",
+    "body": "Vérifier une empreinte de secours distincte de la passation initiale. Pièces : ~/mission/secours.ntlm et secours.txt. Aucun accès réseau demandé."
+  },
+  "brief": "Vérifier une empreinte de secours distincte de la passation initiale. Pièces : ~/mission/secours.ntlm et secours.txt. Aucun accès réseau demandé.",
+  "reward": 80,
+  "reputation": 5,
+  "required_items": [],
+  "required_completed": [
+    "act2_passation"
+  ],
+  "success_message": "Preuves vérifiées. {reward} ₵ réglés dans ColdVault ; tes choix sont conservés.",
+  "failure_message": "Dossier interrompu, sans prime. Les accès acquis et les observations sauvegardées restent disponibles pour une reprise.",
+  "guide": [],
+  "investigation_steps": [
+    {
+      "id": "controle",
+      "tokens": [
+        "rapport",
+        "act2_side_empreinte"
+      ],
+      "requires": [
+        {
+          "type": "hashcat_match",
+          "source": "/home/operator/mission/secours.ntlm"
+        }
+      ],
+      "response": "Contre-vérification reçue.",
+      "already": "Cette preuve est déjà enregistrée.",
+      "missing": "Vérifie les observations et la version des pièces ; demande indice si nécessaire.",
+      "hint": "`hashcat -m 1000 ~/mission/secours.ntlm ~/mission/secours.txt`, puis `hashcat -m 1000 --show ~/mission/secours.ntlm`. Confirme rapport act2_side_empreinte.",
+      "hints": [
+        "Commence par vérifier le périmètre, les droits et les sources fournis.",
+        "Le rappel détaillé donne les commandes du laboratoire ; une déclaration ne remplace pas une preuve."
+      ]
+    }
+  ],
+  "local_files": {
+    "/home/operator/mission/passation.txt": "OR-26-201 : compte ops, relais 10.71.1.10 ; le secret de la passation est à vérifier hors ligne.\n",
+    "/home/operator/mission/ops.ntlm": "4f9a8fd0784f9ca033b21e81f0037dec\n",
+    "/home/operator/mission/mots.txt": "Relais2024!\nRelais2025!\nRelais2026!\n",
+    "/home/operator/mission/brief-act2.txt": "Une empreinte du compte ops figure dans une passation. Vérifie une correspondance hors ligne avec la liste fournie ; cela ne prouve pas encore un accès.\n",
+    "/home/operator/mission/secours.ntlm": "ce7b121cfd26ea1d5be94ac442e27ddc\n",
+    "/home/operator/mission/secours.txt": "Secours2025!\nSecours2026!\n"
+  },
+  "private_offer": true,
+  "intro": "Vérifier une empreinte de secours distincte de la passation initiale. Pièces : ~/mission/secours.ntlm et secours.txt. Aucun accès réseau demandé.",
+  "relaxed_clock": true,
+  "terminal_revision": 1,
+  "side_job": true
+}

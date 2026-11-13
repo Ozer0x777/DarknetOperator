@@ -1,0 +1,76 @@
+{
+  "contract_id": "side_colonnes",
+  "scenario": "side_colonnes",
+  "tier": 1,
+  "channel": "chordly",
+  "client": {
+    "handle": "miette",
+    "forum_rep": 29,
+    "account_age_days": 94
+  },
+  "bounty": {
+    "forum": "breachboard",
+    "title": "[Petit boulot] Extraire les références",
+    "body": "Extraire les références : les pièces sont fournies. Paiement unique, aucun effet sur l’ordre des chapitres."
+  },
+  "brief": "Extraire les références : les pièces sont fournies. Paiement unique, aucun effet sur l’ordre des chapitres.\n\nLis ~/mission/bon.txt et entree.txt. Écris le résultat demandé dans ~/loot/resultat.txt, puis envoie « livraison colonnes ». Demande aide pour une syntaxe adaptée.",
+  "reward": 40,
+  "reputation": 0,
+  "required_items": [],
+  "success_message": "Livraison vérifiée. {reward} ₵ annoncés au contrat ; le règlement exact figure dans ton profil. Merci {handle}, je conserve tes preuves.",
+  "failure_message": "Dossier interrompu. Reprends une sauvegarde ou relance le contrat pour retenter le parcours.",
+  "guide": [],
+  "investigation_steps": [
+    {
+      "id": "quickwin",
+      "tokens": [
+        "livraison",
+        "colonnes"
+      ],
+      "requires": [
+        {
+          "type": "file_read",
+          "path": "/home/operator/mission/bon.txt"
+        },
+        {
+          "type": "file_read",
+          "path": "/home/operator/mission/entree.txt"
+        },
+        {
+          "type": "local_file_equals",
+          "path": "/home/operator/loot/resultat.txt",
+          "value": "Q-1\nQ-2"
+        }
+      ],
+      "response": "Résultat conforme au bon de travail. Le paiement de ce petit contrat est enregistré.",
+      "missing": "Il manque une observation vérifiable. Une commande possible : `cut -d \";\" -f 1 ~/mission/entree.txt > ~/loot/resultat.txt`, puis envoie livraison colonnes.",
+      "already": "Cette étape est déjà enregistrée.",
+      "hint": "Une commande possible : `cut -d \";\" -f 1 ~/mission/entree.txt > ~/loot/resultat.txt`, puis envoie livraison colonnes.",
+      "hints": [
+        "Relis le bon et les pièces fournies pour identifier le résultat attendu.",
+        "Compare ton résultat au format et aux limites du bon. Conserve la sortie dans le dossier demandé puis confirme la livraison."
+      ]
+    }
+  ],
+  "local_files": {
+    "/home/operator/mission/entree.txt": "Q-1;Nacre;100\nQ-2;Orme;200\n",
+    "/home/operator/mission/bon.txt": "Extraire la première colonne ; séparateur point-virgule.\n"
+  },
+  "investigation_threads": [
+    "act1-partages",
+    "act1-echantillon-annonce",
+    "act1-pivoine",
+    "act1-verre",
+    "act1-ticketd",
+    "act1-litige",
+    "act1-boreal"
+  ],
+  "private_offer": false,
+  "intro": "On m’a recommandé ton pseudo. Extraire les références : les pièces sont fournies. Paiement unique, aucun effet sur l’ordre des chapitres. Ouvre le dossier pour recevoir les pièces ; la suite se passe dans notre conversation Chordly.",
+  "relaxed_clock": true,
+  "side_job": true,
+  "required_completed": [
+    "act1_echantillon"
+  ],
+  "terminal_revision": 1
+}

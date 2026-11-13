@@ -1,0 +1,33 @@
+{
+  "contract_id": "intro_terminal",
+  "scenario": "intro_terminal",
+  "tier": 0,
+  "channel": "chordly",
+  "client": {
+    "handle": "k0rvid",
+    "forum_rep": 38,
+    "account_age_days": 412
+  },
+  "bounty": {
+    "forum": "breachboard",
+    "title": "01 — Prendre ses marques",
+    "body": "Lire le dossier de préparation."
+  },
+  "brief": "Premier petit job, {handle}. Avant de parler réseau, ouvre une console avec Ctrl+Alt+T (ou le menu Applications → Terminal). `pwd` indique ton dossier courant, `ls ~/mission` liste le dossier mission et `cat ~/mission/preparation.txt` lit le dossier de préparation. Lire un fichier ne l’exécute pas. Ton objectif est simplement de consulter ce document. Une commande par Entrée ; le début de l’invite ne se recopie pas.",
+  "reward": 25,
+  "reputation": 5,
+  "required_items": [],
+  "guide": [],
+  "onboarding": true,
+  "success_message": "Résultat vérifié. {reward} ₵ réglés ; ton prochain dossier est disponible dans cette conversation. Garde tes notes, on réutilisera cette compétence.",
+  "failure_message": "On reprend ce dossier à ton rythme ; vérifie le résultat avant de conclure.",
+  "debrief_hints": [
+    "Lire le dossier de préparation.",
+    "Une nouvelle compétence à la fois ; la réussite est vérifiée dans le monde simulé."
+  ],
+  "terminal_revision": 1,
+  "hints": [
+    "Ouvre le terminal avec Ctrl+Alt+T ou le bouton Console du dossier. Le document à lire est dans ~/mission.",
+    "Pour consulter le document : `cat ~/mission/preparation.txt`. Copie uniquement la commande, puis Entrée."
+  ]
+}

@@ -1,0 +1,62 @@
+{
+  "id": "red.psexec_lateral",
+  "team": "red",
+  "name": "psexec (prise de contrôle)",
+  "command": "impacket-psexec utilisateur:mot_de_passe@cible",
+  "help": "Prend la main sur une machine avec un compte administrateur de celle-ci.",
+  "tier": 0,
+  "requires": [
+    {
+      "type": "target_discovered"
+    },
+    {
+      "type": "target_status_not",
+      "value": "ISOLATED"
+    },
+    {
+      "type": "target_has_service",
+      "name": "SMB",
+      "port": 445
+    },
+    {
+      "type": "credential_grants_admin_on_target"
+    },
+    {
+      "type": "not_blocked_by_firewall",
+      "port": 445
+    }
+  ],
+  "edr_block_chance": 0.1,
+  "noise": 75,
+  "cooldown": 0,
+  "points": 10,
+  "effects": [
+    {
+      "type": "mark_compromised",
+      "access_level": "SYSTEM"
+    }
+  ],
+  "artifacts": [
+    {
+      "event_id": "4624",
+      "data": {
+        "LogonType": 3,
+        "LogonProcessName": "NtLmSsp",
+        "KeyLength": 0
+      }
+    },
+    {
+      "event_id": "4688",
+      "data": {
+        "NewProcess": "psexesvc.exe",
+        "ParentProcess": "services.exe"
+      }
+    },
+    {
+      "event_id": "7045",
+      "data": {
+        "ServiceName": "PSEXESVC"
+      }
+    }
+  ]
+}

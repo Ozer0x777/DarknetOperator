@@ -1,0 +1,66 @@
+{
+  "scenario_id": "side_inventaire",
+  "name": "Comparer un inventaire",
+  "description": "Comparer un inventaire",
+  "hosts": [
+    {
+      "id": "atelier",
+      "hostname": "PUBLICATION",
+      "ip": "10.62.1.20",
+      "os": "Linux Debian 12",
+      "services": [
+        {
+          "name": "HTTP",
+          "port": 80,
+          "version": "nginx 1.24"
+        }
+      ],
+      "files": {
+        "/web/index": "EXP-26-17 — publication courante\n"
+      }
+    }
+  ],
+  "users": [],
+  "initially_discovered": [
+    "atelier"
+  ],
+  "initially_scanned": [],
+  "objectives": [
+    {
+      "type": "investigation_step",
+      "step": "quickwin"
+    }
+  ],
+  "max_ticks": 3000,
+  "rng_seed": 0,
+  "available_abilities": {
+    "red": [
+      "red.recon_scan",
+      "red.exfiltrate",
+      "red.crack_hash"
+    ],
+    "blue": []
+  },
+  "domain": {
+    "name": "act1.lab",
+    "sid": "S-1-5-21-100-200-300"
+  },
+  "environment": {
+    "organization": "Comparer un inventaire",
+    "sector": "Dossier de laboratoire",
+    "timezone": "Europe/Paris",
+    "business_hours": "09:00–18:00",
+    "initial_time": "09:00",
+    "briefing_host": "atelier",
+    "known_contact": "miette",
+    "context": "Comparer un inventaire : les pièces sont fournies. Paiement unique, aucun effet sur l’ordre des chapitres.",
+    "http_routes": {
+      "atelier": {
+        "/": "/web/index"
+      }
+    }
+  },
+  "defender": {
+    "enabled": false
+  }
+}

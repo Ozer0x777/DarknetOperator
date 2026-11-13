@@ -1,0 +1,33 @@
+{
+  "contract_id": "intro_windows",
+  "scenario": "intro_windows",
+  "tier": 0,
+  "channel": "chordly",
+  "client": {
+    "handle": "k0rvid",
+    "forum_rep": 38,
+    "account_age_days": 412
+  },
+  "bounty": {
+    "forum": "breachboard",
+    "title": "08 — Travailler dans le bon shell",
+    "body": "Créer une copie du document dans sa session Windows."
+  },
+  "brief": "Même accès fourni : `ssh m.leroux@10.20.0.21`, puis Password123!. Dans Windows, `dir` liste et `type C:\\Users\\m.leroux\\note.txt` lit le document. Copie-le avec `copy C:\\Users\\m.leroux\\note.txt C:\\Users\\m.leroux\\preuve.txt`. copy reste sur la machine distante : ce n’est pas un téléchargement vers Kali. Les commandes rm et ll de Kali ne sont pas des commandes cmd. PowerShell est un autre shell, avec ses propres alias. Ce job vérifie la copie du bon contenu.",
+  "reward": 60,
+  "reputation": 5,
+  "required_items": [],
+  "guide": [],
+  "onboarding": true,
+  "success_message": "Résultat vérifié. {reward} ₵ réglés ; ton prochain dossier est disponible dans cette conversation. Garde tes notes, on réutilisera cette compétence.",
+  "failure_message": "On reprend ce dossier à ton rythme ; vérifie le résultat avant de conclure.",
+  "debrief_hints": [
+    "Créer une copie du document dans sa session Windows.",
+    "Une nouvelle compétence à la fois ; la réussite est vérifiée dans le monde simulé."
+  ],
+  "terminal_revision": 1,
+  "hints": [
+    "Vérifie d’abord le contexte avec hostname et whoami. La lecture et la copie demandées se font sur Windows, pas dans Kali.",
+    "Après SSH et le mot de passe du brief, lis `type C:\\Users\\m.leroux\\note.txt`, puis `copy C:\\Users\\m.leroux\\note.txt C:\\Users\\m.leroux\\preuve.txt`. Cette copie reste sur la machine distante."
+  ]
+}
