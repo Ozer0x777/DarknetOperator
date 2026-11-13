@@ -1,10 +1,10 @@
 """
-Bruit de fond — §5.5 du blueprint, réduit à l'essentiel pour le MVP.
+Bruit de fond du réseau cible.
 
 Génère, à chaque tick, des logs "légitimes" qui ne correspondent à AUCUNE
-règle SIEM (siem.py) : logons normaux, accès SMB normaux. Ça peuple le flux
-de logs vu par Blue avec autre chose que les vraies actions Red, pour que
-trier devienne un minimum nécessaire (plutôt que "toute alerte = une attaque").
+règle SIEM (siem.py) : logons normaux, accès SMB normaux. Le flux de la défense
+contient ainsi autre chose que les actions du joueur, et le rapport de fin de
+mission montre une activité ordinaire autour d'elles.
 """
 from __future__ import annotations
 

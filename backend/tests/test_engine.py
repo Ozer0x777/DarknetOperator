@@ -1,6 +1,6 @@
 """
-Suite de tests du moteur. Remplace les simples `assert` de demo_cli.py par
-de vrais cas isolés — chacun doit pouvoir échouer indépendamment des autres.
+Suite de tests du moteur, sur un réseau de test à trois machines : des cas
+isolés, chacun devant pouvoir échouer indépendamment des autres.
 """
 from __future__ import annotations
 
@@ -14,7 +14,7 @@ from engine.models import ActionContext
 from engine.scenario_loader import ScenarioValidationError, load_scenario
 
 ROOT = Path(__file__).parent.parent
-SCENARIO_PATH = ROOT / "scenarios" / "mvp_demo.json"
+SCENARIO_PATH = ROOT / "tests" / "fixtures" / "reseau_ad.json"  # réseau de test, hors des scénarios du jeu
 ABILITIES = load_all_abilities()
 
 
@@ -48,54 +48,6 @@ def test_psexec_fails_on_isolated_host():
 # ---------------------------------------------------------------------------
 # Firewall (gap identifié : "le firewall n'est jamais utilisé")
 # ---------------------------------------------------------------------------
-
-def test_block_ip_blocks_psexec():
-    from engine.models import Credential
-
-    state = fresh_state()
-    state.loot.append(Credential(type="NTLM_HASH", username="svc_backup", value="x", source_host="pc-01"))
-    file01 = state.hosts["file-01"]
-
-    # Sans blocage : psexec doit réussir.
-    ctx = ActionContext(actor="red", target=file01, tick=1, credential=state.find_credential("svc_backup"))
-    assert ability_engine.resolve(ABILITIES["red.psexec_lateral"], state, ctx).success is True
-
-    # Blue bloque le port 445 vers FILE-01.
-    blue_ctx = ActionContext(actor="blue", target=file01, tick=2)
-    ability_engine.resolve(ABILITIES["blue.block_ip"], state, blue_ctx)
-    assert state.is_blocked("file-01", 445) is True
-
-    # La même action Red échoue maintenant à cause du firewall (tick 10 pour
-    # être sûr d'être hors du cooldown de 4 ticks de psexec_lateral).
-    ctx2 = ActionContext(actor="red", target=file01, tick=10, credential=state.find_credential("svc_backup"))
-    result = ability_engine.resolve(ABILITIES["red.psexec_lateral"], state, ctx2)
-    assert result.success is False
-    assert result.reason == "prerequisite failed: not_blocked_by_firewall"
-
-
-# ---------------------------------------------------------------------------
-# Cooldowns (gap identifié : "pas de cooldown sur les actions")
-# ---------------------------------------------------------------------------
-
-def test_cooldown_blocks_immediate_reuse():
-    state = fresh_state()
-    host = state.hosts["dc-01"]
-
-    ctx1 = ActionContext(actor="blue", target=host, tick=1)
-    r1 = ability_engine.resolve(ABILITIES["blue.isolate_host"], state, ctx1)
-    assert r1.success is True
-
-    # isolate_host a un cooldown de 10 ticks (§5.4 du blueprint, 30s / tick 3s).
-    host.status = "HEALTHY"  # on retire juste l'effet pour isoler le test du cooldown
-    ctx2 = ActionContext(actor="blue", target=host, tick=2)
-    r2 = ability_engine.resolve(ABILITIES["blue.isolate_host"], state, ctx2)
-    assert r2.success is False
-    assert r2.reason == "on_cooldown"
-
-    ctx3 = ActionContext(actor="blue", target=host, tick=11)
-    r3 = ability_engine.resolve(ABILITIES["blue.isolate_host"], state, ctx3)
-    assert r3.success is True
-
 
 # ---------------------------------------------------------------------------
 # Validation de scénario (gap identifié : "KeyError brute, pas de message clair")
@@ -132,7 +84,7 @@ def test_scenario_rejects_unknown_ability_id(tmp_path):
 # SIEM : détection + triage (ack change vraiment le statut)
 # ---------------------------------------------------------------------------
 
-def test_pass_the_hash_rule_fires_and_can_be_acknowledged():
+def test_pass_the_hash_rule_fires():
     from engine.models import LogEvent
 
     state = fresh_state()
@@ -142,13 +94,6 @@ def test_pass_the_hash_rule_fires_and_can_be_acknowledged():
     alerts = siem.evaluate(state, [log])
     assert len(alerts) == 1
     assert alerts[0].status == "NEW"
-
-    # L'ack passe par la vraie boucle de jeu pour vérifier que le paramètre
-    # choisi par le joueur (alert_id) est bien injecté jusqu'à l'effet.
-    loop = GameLoop(state, ABILITIES)
-    loop.submit(QueuedAction("blue", "blue.acknowledge_alert", "file-01", alert_id=alerts[0].id))
-    loop.tick()
-    assert state.alerts[0].status == "ACK"
 
 
 def test_background_noise_never_triggers_a_siem_rule():

@@ -1,4 +1,4 @@
-"""Charge un fichier de scénario JSON (§12 du blueprint, réduit pour le MVP)."""
+"""Charge et valide le fichier de scénario JSON d'un contrat."""
 from __future__ import annotations
 
 import json
@@ -56,9 +56,8 @@ def load_scenario(
     state.defender = dict(data.get("defender", {}))
     state.domain = dict(data.get("domain", {}))
     state.environment = dict(data.get("environment", {}))
-    # Brouillard de guerre : sans champ explicite, tout est connu (compatibilité
-    # avec les scénarios existants, ex : mvp_demo). Les contrats Red déclarent
-    # ce que le joueur connaît au départ (souvent un seul hôte, donné par le client).
+    # Brouillard de guerre : sans champ explicite, tout est connu. Les contrats
+    # déclarent ce que le joueur connaît au départ (souvent un seul hôte, donné par le client).
     if "initially_discovered" in data:
         state.discovered = set(data["initially_discovered"])
         state.scanned = set(data.get("initially_scanned", []))

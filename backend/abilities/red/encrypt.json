@@ -21,7 +21,6 @@
   ],
   "noise": 90,
   "cooldown": 0,
-  "points": 10,
   "tier": 1,
   "command": "vesper encrypt",
   "help": "Vesper (chiffrement simulé)",

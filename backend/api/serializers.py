@@ -25,7 +25,6 @@ def serialize_state(state: GameState) -> dict:
         "scenario_name": state.scenario_name,
         "guidance_enabled": state.guidance_enabled,
         "domain_compromised": state.domain_compromised,
-        "score": state.score,
         "available_abilities": state.available_abilities,
         "objectives": [
             {**o, "met": objective_met(state, o)} for o in state.objectives
@@ -78,7 +77,6 @@ def serialize_state(state: GameState) -> dict:
             }
             for c in state.loot
         ],
-        "firewall_blocks": [{"host_id": h, "port": p} for h, p in sorted(state.firewall_blocks)],
         "alerts": [
             {
                 "id": a.id,

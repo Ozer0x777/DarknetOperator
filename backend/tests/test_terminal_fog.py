@@ -15,12 +15,12 @@ from engine.persistence import state_from_dict, state_to_dict
 from engine.scenario_loader import ScenarioValidationError, load_scenario
 
 ROOT = Path(__file__).parent.parent
-SCENARIO_PATH = ROOT / "scenarios" / "mvp_demo.json"
+SCENARIO_PATH = ROOT / "tests" / "fixtures" / "reseau_ad.json"  # réseau de test, hors des scénarios du jeu
 ABILITIES = load_all_abilities()
 
 
 def fogged_state(seed: int = 1):
-    """mvp_demo, mais Red ne connaît que PC-01 (et n'en connaît pas les services)."""
+    """Réseau de test, mais Red ne connaît que PC-01 (et n'en connaît pas les services)."""
     state = load_scenario(SCENARIO_PATH, rng_seed=seed, known_ability_ids=set(ABILITIES))
     state.discovered = {"pc-01"}
     state.scanned = set()
@@ -38,7 +38,7 @@ def run(line, state, loop=None):
 # Brouillard de guerre (moteur)
 # ---------------------------------------------------------------------------
 
-def test_mvp_demo_without_fog_field_knows_everything():
+def test_scenario_without_fog_field_knows_everything():
     state = load_scenario(SCENARIO_PATH, known_ability_ids=set(ABILITIES))
     assert state.discovered == set(state.hosts)
     assert state.scanned == set(state.hosts)

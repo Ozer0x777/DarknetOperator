@@ -22,7 +22,6 @@
   ],
   "noise": 90,
   "cooldown": 0,
-  "points": 30,
   "effects": [
     {
       "type": "add_credential",

@@ -76,7 +76,7 @@ def self_test():
     from curriculum_validation import qualify as qualify_curriculum
     with tempfile.TemporaryDirectory(prefix='darknet-operator-verification-') as folder:
         output = Path(folder)
-        os.environ['RVB_SAVE_DIR'] = str(output/'career')
+        os.environ['REDTEAM_SAVE_DIR'] = str(output/'career')
         os.environ['XDG_DATA_HOME'] = str(output/'client')
         asyncio.run(qualify(output))
         asyncio.run(qualify_act1(output))

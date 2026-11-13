@@ -24,7 +24,6 @@ class Ability:
         self.edr_block_chance = data.get("edr_block_chance", 0.0)
         self.noise = data.get("noise", 0)
         self.cooldown = data.get("cooldown", 0)          # en ticks
-        self.points = data.get("points", 0)              # §11 du blueprint, simplifié
         self.critical = data.get("critical", False)      # cf. game_loop._resolve_queued
         self.effects = data.get("effects", [])
         self.artifacts = data.get("artifacts", [])
@@ -64,8 +63,8 @@ def resolve(
             reason="on_cooldown",
         )
 
-    # 1. Prérequis — exactement comme §5.3 du blueprint : tout échec est
-    #    déterministe et explicite, pas de hasard caché sur le succès logique.
+    # 1. Prérequis : tout échec est déterministe et explicite, pas de hasard
+    #    caché sur le succès logique.
     for req in ability.requires:
         req = dict(req)
         pred_type = req.pop("type")
@@ -124,16 +123,6 @@ def resolve(
     # 5. Cooldown posé APRÈS un succès seulement (un échec ne consomme rien).
     if ability.cooldown:
         state.cooldowns[ability.id] = ctx.tick + ability.cooldown
-
-    # 6. Score — §11 du blueprint, simplifié à un seul champ "points" par ability.
-    # Les temps de recharge sont à zéro dans le jeu solo : répéter la même action sur la même
-    # machine ne doit pas faire monter le score sans progression réelle.
-    if ability.points:
-        scored = state.tool_data.setdefault("scored_actions", [])
-        key = f"{ability.id}:{ctx.target.id}"
-        if key not in scored:
-            scored.append(key)
-            state.score[ability.team] = state.score.get(ability.team, 0) + ability.points
 
     return ActionResult(
         success=True,

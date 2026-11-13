@@ -192,8 +192,7 @@ LabEndpoint est un produit fictif : aucune fidélité à un EDR commercial n'est
 revendiquée. Les actions couvertes sont l'administration distante par PsExec,
 la lecture de mémoire par l'action Mimikatz et l'action de chiffrement du jeu.
 Les machines de maintenance journalisent ces actions (audit) ; le poste comptabilité
-les bloque. Un blocage ne dépend pas d'un tirage au sort. Le prototype historique
-mvp_demo conserve son ancienne probabilité et n'est pas un contrat de campagne.
+les bloque. Un blocage ne dépend pas d'un tirage au sort.
 La politique et le service peuvent être observés dans une session Windows.
 
 Les règles réseau évaluent source, destination et port ; la première règle qui

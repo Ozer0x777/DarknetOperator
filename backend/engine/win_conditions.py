@@ -1,10 +1,7 @@
-"""Conditions de victoire — §11.4 du blueprint.
+"""Conditions de fin d'une mission.
 
-Deux modes :
-- le scénario déclare des `objectives` (contrats Red, tutoriel) : Red gagne dès
-  qu'ils sont tous atteints, et échoue si le temps s'écoule avant ;
-- sinon (mvp_demo, mode Red contre Blue d'origine) : Red gagne en compromettant
-  le domaine, et au bout de max_ticks le meilleur score l'emporte.
+Un scénario déclare des `objectives` : la mission est réussie dès qu'ils sont
+tous atteints, et échouée si le temps imparti s'écoule avant.
 
 OBJECTIVES est un registre de conditions sur l'état du jeu. Il sert aux
 objectifs de victoire et aux étapes du guide d'un contrat (engine/contracts.py).
@@ -242,11 +239,5 @@ def check(state: GameState) -> str | None:
             return "BLUE"  # mission ratée : délai dépassé
         return None
 
-    if state.domain_compromised:
-        return "RED"
-
-    if state.tick >= state.max_ticks:
-        # Égalité -> BLUE, le containment par défaut l'emporte.
-        return "RED" if state.score["red"] > state.score["blue"] else "BLUE"
-
-    return None
+    # Sans objectif déclaré, rien ne peut être réussi : seule la fin du temps termine la mission.
+    return "BLUE" if state.tick >= state.max_ticks else None

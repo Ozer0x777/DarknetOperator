@@ -1,6 +1,6 @@
 {
-  "scenario_id": "mvp_demo",
-  "name": "The Silent Insider — MVP (3 hosts)",
+  "scenario_id": "reseau_ad",
+  "name": "Réseau de test — poste, serveur de fichiers et contrôleur de domaine",
   "hosts": [
     {
       "id": "pc-01",
@@ -87,15 +87,15 @@
       "red.dcsync",
       "red.golden_ticket"
     ],
-    "blue": [
-      "blue.acknowledge_alert",
-      "blue.isolate_host",
-      "blue.disable_user",
-      "blue.block_ip"
-    ]
+    "blue": []
   },
   "domain": {
     "name": "ravelle.lab",
     "sid": "S-1-5-21-100000001-100000002-100000003"
-  }
+  },
+  "objectives": [
+    {
+      "type": "domain_compromised"
+    }
+  ]
 }

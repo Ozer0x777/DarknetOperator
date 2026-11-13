@@ -14,7 +14,6 @@
   ],
   "noise": 0,
   "cooldown": 0,
-  "points": 10,
   "tier": 1,
   "command": "hashcat -m 1000 fichier_hash liste_de_mots",
   "help": "hashcat (récupération du mot de passe)",

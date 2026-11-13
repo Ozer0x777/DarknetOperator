@@ -29,7 +29,6 @@
   "edr_block_chance": 0.1,
   "noise": 75,
   "cooldown": 0,
-  "points": 10,
   "effects": [
     {
       "type": "mark_compromised",

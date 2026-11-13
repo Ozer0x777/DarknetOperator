@@ -63,11 +63,6 @@ def target_has_primary_user(state: GameState, ctx: ActionContext) -> bool:
     return ctx.target.primary_user is not None
 
 
-def always_true(state: GameState, ctx: ActionContext) -> bool:
-    """Utilisé pour les actions scriptées du MVP (ex: phishing = succès simulé)."""
-    return True
-
-
 def target_compromised(state: GameState, ctx: ActionContext) -> bool:
     return ctx.target.compromised_by == "red" and ctx.target.status == "COMPROMISED"
 
@@ -106,5 +101,4 @@ REGISTRY = {
     "credential_is_krbtgt_hash": credential_is_krbtgt_hash,
     "target_discovered": target_discovered,
     "target_has_primary_user": target_has_primary_user,
-    "always_true": always_true,
 }

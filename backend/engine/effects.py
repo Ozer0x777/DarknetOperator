@@ -96,9 +96,6 @@ def compromise_domain(state: GameState, ctx: ActionContext) -> None:
     state.domain_compromised = True
     ctx.target.status = "COMPROMISED"
     ctx.target.compromised_by = ctx.actor
-    # §11.2 du blueprint : "Domain compromise +50", en plus des points propres
-    # à l'ability qui a déclenché l'effet (ex: Golden Ticket +35).
-    state.score["red"] = state.score.get("red", 0) + 50
     for user in state.users.values():
         if user.is_domain_admin:
             user.status = "ACTIVE"  # pas de changement réel, juste explicite
@@ -118,22 +115,6 @@ def disable_user(state: GameState, ctx: ActionContext) -> None:
     for cred in state.loot:
         if cred.username == ctx.user.username:
             cred.valid = False
-
-
-def acknowledge_alert(state: GameState, ctx: ActionContext, alert_id: int | None = None) -> None:
-    """Passe une alerte de NEW à ACK (§5.4 : ack = 0 cooldown, pas d'effet sur le graphe)."""
-    if alert_id is None:
-        return
-    for alert in state.alerts:
-        if alert.id == alert_id:
-            alert.status = "ACK"
-            return
-
-
-def block_port(state: GameState, ctx: ActionContext, port: int) -> None:
-    """Règle firewall DENY sur (host cible, port) — rend le port inutilisable
-    pour toute ability qui déclare le prérequis `not_blocked_by_firewall`."""
-    state.firewall_blocks.add((ctx.target.id, port))
 
 
 def exfiltrate_files(state: GameState, ctx: ActionContext) -> None:
@@ -191,6 +172,4 @@ REGISTRY = {
     "compromise_domain": compromise_domain,
     "isolate_host": isolate_host,
     "disable_user": disable_user,
-    "acknowledge_alert": acknowledge_alert,
-    "block_port": block_port,
 }

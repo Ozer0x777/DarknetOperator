@@ -102,7 +102,7 @@ def test_scan_shows_closed_and_filtered_ports_and_rejects_bad_network():
     command(state, loop, 'nmap -p 22,80 10.20.0.21')
     assert '80/tcp  closed  http' in state.history[-1].message
     assert '445' not in terminal.parse('hosts',state,ABILITIES).output[0]
-    state.firewall_blocks.add(('poste-accueil',22))
+    state.environment.setdefault('network_rules',[]).insert(0,{'target':'poste-accueil','port':22,'source':'*','action':'deny'})
     command(state,loop,'nmap -p 22 10.20.0.21')
     assert '22/tcp  filtered  ssh' in state.history[-1].message
     state.hosts['poste-accueil'].status='ISOLATED'

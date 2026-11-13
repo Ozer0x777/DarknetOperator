@@ -31,7 +31,7 @@ class Career:
         default_root = Path.home() / ".local/share"
         if os.name == "nt": default_root = Path(os.environ.get("LOCALAPPDATA", Path.home() / "AppData/Local"))
         elif sys.platform == "darwin": default_root = Path.home() / "Library/Application Support"
-        return Path(os.environ.get("RVB_SAVE_DIR", default_root / "RedTeamSimulator")) / "career.json"
+        return Path(os.environ.get("REDTEAM_SAVE_DIR", default_root / "RedTeamSimulator")) / "career.json"
 
     def __init__(self, path: Path | None = None):
         self.path = path or self.default_path()

@@ -1,11 +1,9 @@
 """
-API FastAPI + WebSocket par-dessus engine/game_loop.py.
+API locale du jeu : FastAPI + WebSocket par-dessus le moteur (engine/).
 
-Comble le gap "pas d'API, aucun terminal interactif" : un vrai joueur (ou la
-GUI servie par ce même process) soumet des actions via HTTP, une tâche async
-par partie fait tourner GameLoop.tick() à intervalle régulier et diffuse
-l'état à jour sur WebSocket — exactement le flux décrit §2.2/§13.3 du
-blueprint, réduit au MVP (pas d'auth, pas de rooms par rôle).
+Le client Godot envoie les commandes du terminal et les actions du bureau en
+HTTP ; une tâche asynchrone par mission fait tourner GameLoop.tick() à
+intervalle régulier et diffuse l'état à jour sur WebSocket.
 """
 from __future__ import annotations
 
@@ -30,8 +28,8 @@ from engine.career import Career, CATALOG
 from engine.persistence import state_from_dict
 from engine.contracts import ContractValidationError
 from engine.handles import generate_choices, is_valid_handle
-from engine.game_loop import GameLoop, QueuedAction, load_all_abilities
-from engine.scenario_loader import ScenarioValidationError, load_scenario
+from engine.game_loop import GameLoop, load_all_abilities
+from engine.scenario_loader import load_scenario
 
 from .serializers import serialize_state
 
@@ -90,9 +88,8 @@ async def _broadcast(game_id: str) -> None:
 
 
 async def _tick_loop(game_id: str) -> None:
-    """La vraie boucle de jeu (§5.2 du blueprint) : tourne en continu tant que
-    la partie est RUNNING, indépendamment des requêtes HTTP qui ne font que
-    remplir la file (GameLoop.submit)."""
+    """Boucle d'une mission : tourne en continu tant qu'elle est RUNNING,
+    indépendamment des requêtes HTTP qui ne font que remplir la file (GameLoop.submit)."""
     while True:
         session = GAMES.get(game_id)
         if session is None or session.state.status != "RUNNING":
@@ -160,9 +157,8 @@ def _get_session(game_id: str) -> GameSession:
 # ---------------------------------------------------------------------------
 
 class CreateGameRequest(BaseModel):
-    scenario: str = Field(default="mvp_demo", pattern=r"^[a-zA-Z0-9_-]+$")
-    # Si un contrat est donné, il fixe le scénario (le champ scenario est ignoré).
-    contract: str | None = None
+    # Une partie est toujours un contrat : c'est lui qui fixe le scénario.
+    contract: str
     handle: str | None = None
     tick_interval: float = Field(default=2.0, ge=0.1, le=30)
     rng_seed: int | None = None
@@ -172,16 +168,6 @@ class TerminalRequest(BaseModel):
     line: str = Field(default="", max_length=16384)
     console_id: str = Field(default="main", pattern=r"^[A-Za-z0-9_-]{1,64}$")
     interrupt: bool = False
-
-
-class ActionRequest(BaseModel):
-    team: str                              # "red" | "blue"
-    ability_id: str
-    target_id: str
-    credential_username: str | None = None
-    credential_type: str | None = None
-    user_username: str | None = None
-    alert_id: int | None = None
 
 
 # ---------------------------------------------------------------------------
@@ -195,28 +181,13 @@ async def health():
 
 @app.get("/api/abilities")
 async def list_abilities():
-    """Évite de dupliquer noms/cooldowns/points des abilities dans le JS —
-    la GUI construit ses boutons à partir de cette liste, pas de valeurs
-    codées en dur côté frontend."""
+    """Outils du joueur et leur syntaxe en ligne de commande, pour l'application « Outils » du bureau."""
     return [
         {"id": a.id, "team": a.team, "name": a.name, "cooldown": a.cooldown,
-         "points": a.points, "noise": a.noise, "critical": a.critical,
+         "noise": a.noise, "critical": a.critical,
          "cli": terminal_native.HELP.get(a.id, ("", "", ""))[1]}
         for a in ABILITIES.values() if a.team == "red"
     ]
-
-
-@app.get("/api/scenarios")
-async def list_scenarios():
-    scenarios = []
-    for path in sorted(SCENARIOS_DIR.glob("*.json")):
-        try:
-            state = load_scenario(path, known_ability_ids=set(ABILITIES))
-        except ScenarioValidationError as exc:
-            scenarios.append({"id": path.stem, "error": str(exc)})
-            continue
-        scenarios.append({"id": path.stem, "name": state.scenario_name, "hosts": len(state.hosts)})
-    return scenarios
 
 
 # ---------------------------------------------------------------------------
@@ -286,47 +257,35 @@ async def suggest_handles(count: int = 3, seed: int | None = None):
 
 @app.post("/api/games")
 async def create_game(req: CreateGameRequest):
-    if req.contract is not None:
-        contract = _load_contracts().get(req.contract)
-        if contract is None:
-            raise HTTPException(404, f"Contrat inconnu: {req.contract}")
-        # L'identité est celle de la carrière : un contrat ne la remplace pas en cours de route.
-        req.handle = career().data.get("handle") or req.handle
-        if not req.handle or not is_valid_handle(req.handle):
-            raise HTTPException(
-                400, "Pseudo invalide : 3 à 24 caractères, lettres, chiffres, _ - . uniquement."
-            )
-        if req.handle.casefold() in _reserved_handles():
-            raise HTTPException(400, "Ce pseudo est déjà utilisé par un personnage ; choisis une autre identité.")
-        active = career().data.get("active") or {}
-        if active.get("status") == "RUNNING" and (active.get("contract") or {}).get("contract_id") == req.contract:
-            return _resume_career_session()
-        state = contracts.start_contract(
-            contract, req.handle, SCENARIOS_DIR,
-            rng_seed=req.rng_seed if req.rng_seed is not None else random.SystemRandom().randrange(2**63), known_ability_ids=set(ABILITIES),
+    contract = _load_contracts().get(req.contract)
+    if contract is None:
+        raise HTTPException(404, f"Contrat inconnu: {req.contract}")
+    # L'identité est celle de la carrière : un contrat ne la remplace pas en cours de route.
+    req.handle = career().data.get("handle") or req.handle
+    if not req.handle or not is_valid_handle(req.handle):
+        raise HTTPException(
+            400, "Pseudo invalide : 3 à 24 caractères, lettres, chiffres, _ - . uniquement."
         )
-    else:
-        scenario_path = SCENARIOS_DIR / f"{req.scenario}.json"
-        if not scenario_path.exists():
-            raise HTTPException(404, f"Scénario inconnu: {req.scenario}")
-        try:
-            state = load_scenario(scenario_path, rng_seed=req.rng_seed, known_ability_ids=set(ABILITIES))
-        except ScenarioValidationError as exc:
-            raise HTTPException(400, str(exc))
-
-    if req.contract is not None:
-        # Le moteur décide de ce qui suit l'opérateur d'un contrat au suivant (engine/mission_data.py).
-        mission_data.inherit(state, mission_data.source_for_new_contract(career().data), contract)
-        try:
-            career().prepare(contract, state)
-        except ValueError as exc:
-            raise HTTPException(409, str(exc))
+    if req.handle.casefold() in _reserved_handles():
+        raise HTTPException(400, "Ce pseudo est déjà utilisé par un personnage ; choisis une autre identité.")
+    active = career().data.get("active") or {}
+    if active.get("status") == "RUNNING" and (active.get("contract") or {}).get("contract_id") == req.contract:
+        return _resume_career_session()
+    state = contracts.start_contract(
+        contract, req.handle, SCENARIOS_DIR,
+        rng_seed=req.rng_seed if req.rng_seed is not None else random.SystemRandom().randrange(2**63), known_ability_ids=set(ABILITIES),
+    )
+    # Le moteur décide de ce qui suit l'opérateur d'un contrat au suivant (engine/mission_data.py).
+    mission_data.inherit(state, mission_data.source_for_new_contract(career().data), contract)
+    try:
+        career().prepare(contract, state)
+    except ValueError as exc:
+        raise HTTPException(409, str(exc))
     game_id = uuid.uuid4().hex
     session = GameSession(id=game_id, loop=GameLoop(state, ABILITIES), tick_interval=req.tick_interval)
     GAMES[game_id] = session
-    if req.contract is not None:
-        shell_tools.prepare(state)
-        career().checkpoint(state)
+    shell_tools.prepare(state)
+    career().checkpoint(state)
     return {"id": game_id, "state": serialize_state(state)}
 
 
@@ -356,15 +315,6 @@ async def resume_game(game_id: str):
     session = _get_session(game_id)
     session.paused = False
     return {"status": "resumed"}
-
-
-@app.delete("/api/games/{game_id}")
-async def delete_game(game_id: str):
-    session = GAMES.pop(game_id, None)
-    if session and session.task:
-        session.task.cancel()
-    CONNECTIONS.pop(game_id, None)
-    return {"status": "deleted"}
 
 
 class BuyRequest(BaseModel):
@@ -695,32 +645,6 @@ async def resume_career():
 # Actions joueur (Red / Blue)
 # ---------------------------------------------------------------------------
 
-@app.post("/api/games/{game_id}/action")
-async def submit_action(game_id: str, action: ActionRequest):
-    session = _get_session(game_id)
-    if action.team != "red" or action.ability_id not in session.state.available_abilities.get("red", []):
-        raise HTTPException(400, "Ce jeu solo accepte uniquement les actions Red disponibles.")
-    if action.ability_id not in ABILITIES:
-        raise HTTPException(400, f"Ability inconnue: {action.ability_id}")
-    if action.target_id not in session.state.hosts:
-        raise HTTPException(400, f"Cible inconnue: {action.target_id}")
-    try:
-        session.loop.submit(QueuedAction(
-            team=action.team,
-            ability_id=action.ability_id,
-            target_id=action.target_id,
-            credential_username=action.credential_username,
-            credential_type=action.credential_type,
-            user_username=action.user_username,
-            alert_id=action.alert_id,
-        ))
-    except RuntimeError as exc:
-        raise HTTPException(409, str(exc))
-    if session.state.contract:
-        career().checkpoint(session.state)
-    return {"status": "queued", "resolves_next_tick": True}
-
-
 def workspace() -> GameState:
     global _WORKSPACE, _WORKSPACE_REVISION
     revision = career().data.get("workspace_revision", 0)
@@ -822,8 +746,7 @@ async def close_workspace_terminal(console_id: str):
 
 
 # ---------------------------------------------------------------------------
-# WebSocket temps réel — §13.3 du blueprint, réduit à un broadcast état complet
-# (pas de delta diff : à l'échelle du MVP, 3 hosts, ça n'a aucun intérêt).
+# WebSocket temps réel : l'état complet de la mission est diffusé à chaque tick.
 # ---------------------------------------------------------------------------
 
 @app.websocket("/ws/games/{game_id}")

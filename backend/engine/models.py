@@ -1,7 +1,6 @@
 """
-État du jeu en mémoire pour le MVP — pas de DB (voir README.md).
-Les noms des champs restent proches du modèle SQLAlchemy-style du blueprint
-(§4.2) pour que le passage à une vraie persistance plus tard soit direct.
+État d'une mission en mémoire. La sauvegarde sur disque passe par
+engine/persistence.py (état de mission) et engine/career.py (carrière).
 """
 from __future__ import annotations
 
@@ -57,7 +56,7 @@ class User:
 
 @dataclass
 class Credential:
-    """Un credential dans le "loot box" de Red (§8.6 du blueprint)."""
+    """Un identifiant obtenu par le joueur (son butin)."""
     type: str                        # NTLM_HASH | KRBTGT_HASH | PLAINTEXT
     username: str
     value: str
@@ -105,17 +104,6 @@ class ActionContext:
 
 
 @dataclass
-class Player:
-    """Un joueur ayant rejoint la partie — §7.1/§8.1 du blueprint, réduit à
-    team + role (structure héritée du moteur initial). Le token sert de clé d'auth légère :
-    pas de mot de passe, juste un secret opaque renvoyé au join."""
-    token: str
-    name: str
-    team: str          # "red" | "blue" | "spectator"
-    role: str
-
-
-@dataclass
 class HistoryEntry:
     """Une ligne de narration — alimente le flux temps réel de l'UI."""
     tick: int
@@ -145,26 +133,23 @@ class GameState:
     logs: list[LogEvent] = field(default_factory=list)
     alerts: list[Alert] = field(default_factory=list)
     history: list[HistoryEntry] = field(default_factory=list)
-    firewall_blocks: set[tuple[str, int]] = field(default_factory=set)  # (host_id, port)
     domain_compromised: bool = False
     tick: int = 0
     max_ticks: int = 60
     status: str = "RUNNING"           # RUNNING | ENDED
     winner: str | None = None         # "RED" | "BLUE" | None
-    score: dict[str, int] = field(default_factory=lambda: {"red": 0, "blue": 0})
     cooldowns: dict[str, int] = field(default_factory=dict)  # ability_id -> tick dispo
     rng: random.Random = field(default_factory=random.Random)
     next_alert_seq: int = 1           # entier simple, pas itertools.count : sérialisable tel quel
     scenario_name: str = ""
     available_abilities: dict[str, list[str]] = field(default_factory=dict)
-    players: dict[str, Player] = field(default_factory=dict)  # token -> Player
     # Brouillard de guerre (docs/03-red-progression.md §8) : ce que Red connaît.
     # discovered = hôtes dont Red connaît l'existence (nom + IP) ;
     # scanned = hôtes dont Red connaît aussi les services ouverts.
     discovered: set[str] = field(default_factory=set)
     scanned: set[str] = field(default_factory=set)
     # Objectifs déclarés par le scénario (voir win_conditions.OBJECTIVES).
-    # Vide = mode d'origine (compromission du domaine ou score).
+    # Une mission se gagne en les atteignant tous avant la fin du temps imparti.
     objectives: list[dict] = field(default_factory=list)
     # Contrat en cours (engine/contracts.py). None = partie libre, sans client.
     contract: dict | None = None
@@ -231,8 +216,7 @@ class GameState:
                     and not self.is_blocked(host.id, port, source))
 
     def is_blocked(self, host_id: str, port: int, source: str | None = None) -> bool:
-        if (host_id, port) in self.firewall_blocks:
-            return True
+        """Filtrage déclaré par le scénario (`network_rules`) : la première règle qui correspond décide."""
         source = source or self.terminal_host or "operator"
         for rule in self.environment.get("network_rules", []):
             if rule["target"] == host_id and rule["port"] == port and rule["source"] in {source, "*"}:

@@ -9,7 +9,7 @@ les retransformer en tuples avant setstate() (random.setstate l'exige).
 from __future__ import annotations
 
 from .models import (
-    Alert, Credential, GameState, HistoryEntry, Host, LogEvent, Message, Player,
+    Alert, Credential, GameState, HistoryEntry, Host, LogEvent, Message,
     Service, User,
 )
 
@@ -57,17 +57,11 @@ def state_to_dict(state: GameState) -> dict:
             {"tick": h.tick, "team": h.team, "message": h.message, "success": h.success, "reason": h.reason, "console_id": h.console_id, "exit_code": h.exit_code}
             for h in state.history
         ],
-        "players": [
-            {"token": p.token, "name": p.name, "team": p.team, "role": p.role}
-            for p in state.players.values()
-        ],
-        "firewall_blocks": [[h, p] for h, p in sorted(state.firewall_blocks)],
         "domain_compromised": state.domain_compromised,
         "tick": state.tick,
         "max_ticks": state.max_ticks,
         "status": state.status,
         "winner": state.winner,
-        "score": state.score,
         "cooldowns": state.cooldowns,
         "rng_state": state.rng.getstate(),
         "next_alert_seq": state.next_alert_seq,
@@ -117,14 +111,12 @@ def state_from_dict(data: dict) -> GameState:
     state.logs = [LogEvent(**l) for l in data["logs"]]
     state.alerts = [Alert(**a) for a in data["alerts"]]
     state.history = [HistoryEntry(**h) for h in data["history"]]
-    state.players = {p["token"]: Player(**p) for p in data.get("players", [])}
-    state.firewall_blocks = {(h, p) for h, p in data["firewall_blocks"]}
     state.domain_compromised = data["domain_compromised"]
     state.tick = data["tick"]
     state.max_ticks = data["max_ticks"]
     state.status = data["status"]
     state.winner = data["winner"]
-    state.score = data["score"]
+    # Les anciennes sauvegardes contiennent encore "score", "players" et "firewall_blocks" : ces clés sont ignorées.
     state.cooldowns = data["cooldowns"]
     state.next_alert_seq = data["next_alert_seq"]
     state.scenario_name = data["scenario_name"]

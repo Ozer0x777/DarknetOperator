@@ -27,10 +27,10 @@ Les actes III et IV restent à préparer.
 
 SAUVEGARDES
 Les parties restent dans le dossier habituel RedTeamSimulator des données locales
-(~/.local/share/RedTeamSimulator sous Linux, ou RVB_SAVE_DIR si défini).
+(~/.local/share/RedTeamSimulator sous Linux, ou REDTEAM_SAVE_DIR si défini).
 Cette archive n’inclut aucune partie ni identité personnelle de son créateur.
 Pour un essai avec une carrière indépendante :
-  RVB_SAVE_DIR="$HOME/.local/share/DarknetOperator-Essai" ./Jouer.sh
+  REDTEAM_SAVE_DIR="$HOME/.local/share/DarknetOperator-Essai" ./Jouer.sh
 Les préférences et brouillons du client utilisent le dossier de données Godot.
 
 VÉRIFIER ET DIAGNOSTIQUER

@@ -75,14 +75,15 @@ et "The Silent Insider" peuvent partager 90% des mêmes abilities (`psexec_later
 `mimikatz_dump`, `dcsync`…) et ne diverger que sur la topologie et 2-3 abilities propres
 au scénario (ex. `ransomware_deploy`, `supply_chain_backdoor`).
 
-## Implémentation du MVP
+## Implémentation
 
 Voir `backend/engine/` :
-- `models.py` — état du jeu en mémoire (pas de DB pour le MVP).
+- `models.py` — état d'une mission en mémoire.
 - `predicates.py` / `effects.py` — les deux registres.
-- `ability_engine.py` — charge les JSON, résout une ability contre l'état courant.
+- `ability_engine.py` — charge les JSON, résout un outil contre l'état courant.
 - `siem.py` — règles de corrélation, même logique déclarative appliquée aux logs.
-- `../abilities/red/*.json`, `../abilities/blue/*.json` — le contenu du MVP (6 + 3).
-- `../scenarios/mvp_demo.json` — la topologie à 3 hosts du MVP.
-- `demo_cli.py` — scénario joué deux fois (Red non détecté / Blue réagit), preuve que
-  la boucle prérequis → détection → containment fonctionne de bout en bout.
+- `blue_ai.py` — défense automatique de la cible (isolement, désactivation de compte) ;
+  le joueur ne pilote aucune action de défense.
+- `../abilities/red/*.json` — les dix outils du joueur, lancés depuis le terminal.
+- `../scenarios/*.json` — un scénario par contrat.
+- `../tests/fixtures/reseau_ad.json` — réseau de test à trois machines, hors du jeu.

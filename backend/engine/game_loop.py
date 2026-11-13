@@ -1,10 +1,9 @@
 """
-Boucle de jeu réelle — §5.2 du blueprint, réduite au MVP.
+Boucle de jeu d'une mission.
 
-Contrairement à demo_cli.py (qui appelle ability_engine.resolve() directement
-dans un script écrit à la main), ici les actions sont D'ABORD mises en file
-(GameLoop.submit), puis traitées à chaque GameLoop.tick(), dans l'ordre :
-Red -> Blue -> bruit de fond -> SIEM -> conditions de victoire.
+Les actions du joueur sont D'ABORD mises en file (GameLoop.submit), puis
+traitées à chaque GameLoop.tick(), dans l'ordre : actions du joueur ->
+défense automatique -> bruit de fond -> SIEM -> conditions de fin.
 C'est cette classe que l'API (backend/api/) pilote à intervalle régulier.
 """
 from __future__ import annotations
@@ -20,22 +19,16 @@ ABILITIES_ROOT = Path(__file__).parent.parent / "abilities"
 
 
 def load_all_abilities() -> dict[str, Ability]:
-    return {
-        **ability_engine.load_abilities(ABILITIES_ROOT / "red"),
-        **ability_engine.load_abilities(ABILITIES_ROOT / "blue"),
-    }
+    return ability_engine.load_abilities(ABILITIES_ROOT / "red")
 
 
 @dataclass
 class QueuedAction:
-    team: str                        # "red" | "blue"
+    team: str                        # toujours "red" : le joueur ; la défense agit dans blue_ai
     ability_id: str
     target_id: str
     credential_username: str | None = None
     credential_type: str | None = None
-    user_username: str | None = None
-    alert_id: int | None = None      # pour blue.acknowledge_alert
-    port: int | None = None          # pour blue.block_ip
     console_id: str = "main"
     ready_tick: int = 0
     params: dict = field(default_factory=dict)
@@ -97,8 +90,7 @@ class GameLoop:
         pending = [a for a in self._queue if a.ready_tick <= state.tick]
         self._queue = [a for a in self._queue if a.ready_tick > state.tick]
         state.pending_actions = [asdict(a) for a in self._queue]
-        ordered = [a for a in pending if a.team == "red"] + [a for a in pending if a.team == "blue"]
-        for action in ordered:
+        for action in pending:
             if state.status != "RUNNING":
                 break
             results.append(self._resolve_queued(action))
@@ -170,23 +162,12 @@ class GameLoop:
         )
         if action.params.get('credential_value') is not None:
             credential = next((c for c in reversed(state.loot) if c.username==action.credential_username and c.valid and (action.credential_type is None or c.type==action.credential_type) and c.value==action.params['credential_value']), None)
-        user = state.users.get(action.user_username) if action.user_username else None
         params = dict(action.params)
-        if action.alert_id is not None:
-            params["alert_id"] = action.alert_id
-        if action.port is not None:
-            params["port"] = action.port
 
         ctx = ActionContext(
             actor=action.team, target=target, tick=state.tick,
-            credential=credential, user=user, params=params,
+            credential=credential, params=params,
         )
-
-        # Les effets déclarés par l'ability lisent leurs paramètres dans le
-        # JSON (ex: {"type": "block_port", "port": 445}), pas dans ctx.params —
-        # mais acknowledge_alert / block_ip ont besoin d'un paramètre choisi
-        # par le joueur (quelle alerte, quel port), donc on l'injecte ici.
-        ability = self._with_player_params(ability, {k: v for k, v in params.items() if k in {"alert_id", "port"}})
 
         from .console_sessions import using
         from .terminal_native import output
@@ -212,8 +193,6 @@ class GameLoop:
                         previous_reports = sum(a.rule_id == "USER-REPORT" and a.host_id == target.id for a in state.alerts)
                         state.alerts.append(Alert(state.next_alert_id(), "Messages répétés signalés" if previous_reports else "Message signalé par un utilisateur", "HIGH" if previous_reports else "MEDIUM", "USER-REPORT", target.id, state.tick, state.tick))
                 else:
-                    score_before = state.score.get(action.team, 0)
-                    scored_before = list(state.tool_data.get("scored_actions", []))
                     result = ability_engine.resolve(ability,state,ctx)
             from .shell_tools import finish_campaign
             finish_campaign(state, ctx, result)
@@ -222,10 +201,8 @@ class GameLoop:
                 if detail:
                     result.message = detail if ability.id == 'red.crack_hash' else result.message + "\n" + detail
                 if ability.id == 'red.crack_hash' and ctx.params.get('hashes') and not all(value in ctx.params.get('crack_matches', {}) for value in ctx.params['hashes']):
+                    # Les correspondances partielles restent dans le potfile ; la commande, elle, a échoué.
                     result.success, result.reason = False, 'wordlist_exhausted'
-                    # Les correspondances partielles restent dans le potfile, mais l'échec ne marque pas de points.
-                    state.score[action.team] = score_before
-                    state.tool_data["scored_actions"] = scored_before
             if not ctx.params.get('gophish_campaign_id'):
                 state.terminal_last_exit = state.terminal_last_native_exit = 0 if result.success else 1
         state.history.append(HistoryEntry(state.tick, action.team, result.message, result.success, result.reason, action.console_id, 0 if result.success else 1))
@@ -235,9 +212,8 @@ class GameLoop:
         # instantanée : le joueur peut attendre le rétablissement et réessayer.
 
         # Détection heuristique liée au bruit : une action très bruyante peut
-        # être repérée même sans règle SIEM dédiée (§5.5/§5.6 du blueprint :
-        # le "noise_level" existe précisément pour ça). Donne un vrai effet
-        # au champ `noise` au-delà de l'affichage.
+        # être repérée même sans règle SIEM dédiée : c'est ce qui donne un
+        # effet au champ `noise` des outils.
         if result.success and result.noise >= 70 and state.rng.random() < result.noise / 200:
             alert = Alert(
                 id=state.next_alert_id(),
@@ -249,24 +225,8 @@ class GameLoop:
                 detected_tick=state.tick,
             )
             state.alerts.append(alert)
-            state.score["blue"] = state.score.get("blue", 0) + 5
 
         return result
-
-    @staticmethod
-    def _with_player_params(ability: Ability, params: dict) -> Ability:
-        """Fusionne les paramètres choisis par le joueur (alert_id, port) dans
-        les effets de l'ability avant résolution, sans modifier le fichier JSON
-        source (une nouvelle Ability légère, mêmes requires/artifacts)."""
-        if not params:
-            return ability
-        patched = Ability.__new__(Ability)
-        patched.__dict__.update(ability.__dict__)
-        patched.effects = [
-            {**eff, **{k: v for k, v in params.items() if k not in eff}}
-            for eff in ability.effects
-        ]
-        return patched
 
 
 def _log_console(state, action, message) -> None:

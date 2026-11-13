@@ -114,7 +114,7 @@ exact et les limites sont dans [docs/COMMANDES.md](docs/COMMANDES.md).
 Sous Linux : `~/.local/share/RedTeamSimulator/career.json`.
 Sous Windows : `%LOCALAPPDATA%/RedTeamSimulator/career.json`.
 Les écritures sont atomiques, avec une copie précédente `.previous`.
-`RVB_SAVE_DIR` permet de choisir un autre dossier. Les tests utilisent des
+`REDTEAM_SAVE_DIR` permet de choisir un autre dossier. Les tests utilisent des
 sauvegardes temporaires, séparées de celles du joueur.
 
 ## Vérifier

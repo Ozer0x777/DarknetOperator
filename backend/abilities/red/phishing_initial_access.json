@@ -19,7 +19,6 @@
   ],
   "noise": 20,
   "cooldown": 0,
-  "points": 15,
   "effects": [
     {
       "type": "add_primary_user_credential",

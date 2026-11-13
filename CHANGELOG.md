@@ -10,8 +10,9 @@
 - Bureau : menu Applications cliquable au-dessus des fenêtres, Échap et clavier selon le focus, fenêtre réduite non active, manette sans effet sur l’interface, musique en pause conservée.
 - Forum et messagerie : plus de reconstruction ni de vue comptée à chaque sondage, lecture marquée au clic, onglets verrouillés ignorés à la fermeture.
 - Moteur : une seule règle de joignabilité (machine isolée ou chiffrée refusée par tous les outils), droits de lecture Windows respectés, fin de mission en un seul endroit, règles de visibilité et mots-clés du dialogue sortis de l’API.
-- Ancien scénario par défaut : jouable au terminal jusqu’à la compromission du domaine ; score non cumulable en répétant une action ; aucun mot de passe cassé sans correspondance dans une liste de mots.
-- Retrait du prototype web ; `scripts/check_ui.py` lance tous les contrôles et affiche un résumé.
+- Aucun mot de passe n’est cassé sans correspondance dans une liste de mots.
+- Retrait des restes de l’ancien jeu à deux équipes : prototype web, scénario `mvp_demo`, score, capacités de défense jouables, joueurs à jeton, routes `/api/scenarios`, `/api/games/{id}/action` et suppression d’une partie ; une partie est toujours un contrat. La variable `RVB_SAVE_DIR` devient `REDTEAM_SAVE_DIR`.
+- `scripts/check_ui.py` lance tous les contrôles et affiche un résumé.
 
 ## 0.5.3 — musique continue et lecteur audio
 

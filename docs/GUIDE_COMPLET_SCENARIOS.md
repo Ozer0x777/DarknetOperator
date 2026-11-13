@@ -75,7 +75,7 @@ Une mission est réussie quand le contrat passe à `SUCCESS`, avec objectifs vé
 | 5 | Imprimerie Belin | 10.64.16.0/24 | 200 | 1 500 ₵ avant modulations |
 | 6 | Valmont | 10.75.20.0/24 | 300 | 3 500 ₵ avant modulations |
 
-Six scénarios distincts, sept contrats avec Offre urgente ; l'ancien mvp_demo n'est pas une mission de campagne.
+Six scénarios distincts, sept contrats avec Offre urgente.
 
 ## 4. Tutoriel — Cabinet Ravelle & Associés
 

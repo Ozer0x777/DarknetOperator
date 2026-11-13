@@ -1,7 +1,6 @@
 """
-Moteur de règles SIEM minimal — même principe déclaratif que les abilities
-(§5.6 du blueprint), réduit aux 3 règles nécessaires au MVP :
-Pass-the-Hash, exécution Mimikatz, DCSync.
+Règles SIEM de la défense automatique — même principe déclaratif que les
+outils du joueur : Pass-the-Hash, exécution Mimikatz, DCSync.
 """
 from __future__ import annotations
 
@@ -51,8 +50,4 @@ def evaluate(state: GameState, new_logs: list[LogEvent]) -> list[Alert]:
                 )
                 state.alerts.append(alert)
                 new_alerts.append(alert)
-                # §11 du blueprint, simplifié : le SIEM qui détecte rapporte des
-                # points à Blue indépendamment de ce qu'il en fait ensuite —
-                # le containment effectif est récompensé séparément (abilities Blue).
-                state.score["blue"] = state.score.get("blue", 0) + (10 if severity == "CRITICAL" else 5)
     return new_alerts

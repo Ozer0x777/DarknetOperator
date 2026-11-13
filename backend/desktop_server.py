@@ -26,7 +26,7 @@ def acquire_profile_lock(folder: Path):
             fcntl.flock(lock.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
     except OSError as exc:
         lock.close()
-        raise RuntimeError('Un autre moteur utilise déjà cette sauvegarde. Ferme-le ou choisis un autre RVB_SAVE_DIR.') from exc
+        raise RuntimeError('Un autre moteur utilise déjà cette sauvegarde. Ferme-le ou choisis un autre REDTEAM_SAVE_DIR.') from exc
     return lock
 
 

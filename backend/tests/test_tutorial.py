@@ -166,13 +166,6 @@ def test_objectives_and_host_users_survive_save_and_reload():
     assert restored.hosts["poste-accueil"].cached_logons == ["it.presta"]
 
 
-def test_mvp_demo_keeps_the_domain_victory_mode():
-    state = load_scenario(ROOT / "scenarios" / "mvp_demo.json", known_ability_ids=set(ABILITIES))
-    assert state.objectives == []
-    state.domain_compromised = True
-    assert win_conditions.check(state) == "RED"
-
-
 # ---------------------------------------------------------------------------
 # Pseudos BreachBoard
 # ---------------------------------------------------------------------------

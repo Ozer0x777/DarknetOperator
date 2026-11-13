@@ -296,9 +296,11 @@ def test_closed_console_is_not_recreated_by_a_pending_campaign():
 def test_tick_loop_survives_an_error():
     async def run():
         async with _client() as client:
-            game = (await client.post('/api/games', json={'scenario': 'tuto_p0', 'tick_interval': 0.1})).json()
+            await client.post('/api/profile/new', json={'handle': 'NightShift', 'confirm': True})
+            game = (await client.post('/api/games', json={'contract': 'intro_terminal', 'handle': 'NightShift', 'rng_seed': 0})).json()
             session = api.GAMES[game['id']]
             session.tick_interval = 0.01
+            session.loop.has_pending = lambda: True  # le tutoriel n'avance que si une action attend
             real_tick, calls = session.loop.tick, []
             def flaky():
                 calls.append(1)
@@ -310,10 +312,14 @@ def test_tick_loop_survives_an_error():
             assert not session.task.done() and len(calls) > 2 and session.state.tick > 0
             session.state.status = 'ENDED'
             await asyncio.sleep(0.05)
-            # Une partie sans contrat n'écrit jamais dans la carrière.
-            api._persist(session)
-            assert not api.career().data.get('active')
     asyncio.run(run())
+
+
+def test_state_without_contract_is_never_written_to_the_career():
+    from engine.models import GameState
+    session = api.GameSession(id='bureau', loop=GameLoop(GameState(hosts={}, users={}), ABILITIES))
+    api._persist(session)
+    assert not api.career().data.get('active')
 
 
 def test_purchase_made_during_a_mission_reaches_the_mission():
@@ -438,10 +444,11 @@ def test_mission_end_goes_through_one_engine_path():
     assert other.state.contract_outcome == 'FAILED'
 
 
-# --- Ancien mode par défaut : scénario jouable, score et cassage honnêtes ---
-def test_default_scenario_can_be_won_through_the_terminal():
+# --- Chaîne Active Directory complète au terminal, cassage honnête ---
+def test_full_domain_chain_can_be_played_through_the_terminal():
+    from pathlib import Path
     from engine.scenario_loader import load_scenario
-    state = load_scenario(api.SCENARIOS_DIR / 'mvp_demo.json', rng_seed=0, known_ability_ids=set(ABILITIES))
+    state = load_scenario(Path(__file__).parent / 'fixtures' / 'reseau_ad.json', rng_seed=0, known_ability_ids=set(ABILITIES))
     loop = GameLoop(state, ABILITIES)
     def run(line, console='main'):
         with console_sessions.using(state, console):
@@ -467,21 +474,7 @@ def test_default_scenario_can_be_won_through_the_terminal():
     assert state.domain_compromised and (state.status, state.winner) == ('ENDED', 'RED')
 
 
-def test_repeating_an_action_does_not_farm_points():
-    state = _state('tuto_p0')
-    loop = GameLoop(state, ABILITIES)
-    def scan():
-        result = terminal.parse('nmap -sV 10.20.0.0/24', state, ABILITIES)
-        loop.submit(result.action)
-        while loop.pending(): loop.tick()
-    scan()
-    first = state.score['red']
-    assert first > 0
-    for _ in range(4): scan()
-    assert state.score['red'] == first
-
-
-def test_cracking_needs_a_wordlist_match_and_failure_scores_nothing():
+def test_cracking_needs_a_wordlist_match():
     from engine.game_loop import QueuedAction
     from engine.ntlm import nt_hash
     state = _state('intro_hash')  # dossier où hashcat est disponible
@@ -497,13 +490,11 @@ def test_cracking_needs_a_wordlist_match_and_failure_scores_nothing():
     while loop.pending(): loop.tick()
     assert not state.history[-1].success and 'crack_input_present' in state.history[-1].reason
     assert not cracked()
-    # hashcat avec une liste qui ne contient pas le mot de passe : échec, aucun point.
+    # hashcat avec une liste qui ne contient pas le mot de passe : échec, rien n'est révélé.
     state.terminal_files['/home/operator/loot/presta.ntlm'] = secret + '\n'
     state.terminal_files['/home/operator/mots.txt'] = 'azerty\nmotdepasse\n'
-    before = state.score['red']
     result = terminal.parse('hashcat -m 1000 ~/loot/presta.ntlm ~/mots.txt', state, ABILITIES)
     loop.submit(result.action)
     while loop.pending(): loop.tick()
     assert not state.history[-1].success and state.history[-1].reason == 'wordlist_exhausted'
-    assert state.score['red'] == before
     assert not cracked()

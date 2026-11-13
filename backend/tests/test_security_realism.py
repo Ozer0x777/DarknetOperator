@@ -31,7 +31,7 @@ def test_network_policy_depends_on_console_origin_and_survives_save():
     with console_sessions.using(restored, 'inside'):
         assert not restored.is_blocked('poste-compta', 445)
     # Un filtrage global prime sur l'exception liée à l'origine.
-    restored.firewall_blocks.add(('poste-compta', 445))
+    restored.environment['network_rules'].insert(0, {'target': 'poste-compta', 'port': 445, 'source': '*', 'action': 'deny'})
     with console_sessions.using(restored, 'inside'):
         assert restored.is_blocked('poste-compta', 445)
 
