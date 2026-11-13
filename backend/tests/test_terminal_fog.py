@@ -109,6 +109,8 @@ def test_terminal_hides_undiscovered_hosts_like_missing_ones():
 def test_terminal_checks_transport_before_authentication():
     from engine.models import Service
     state = fogged_state()
+    # Le poste expose SMB dans le scénario : on le retire pour vérifier d'abord l'absence de transport.
+    state.hosts['pc-01'].services = [service for service in state.hosts['pc-01'].services if service.port != 445]
     result = run("impacket-psexec jdoe:wrong@192.168.1.101", state)
     assert not result.ok and "STATUS_CONNECTION_DISCONNECTED" in result.output[0]
     assert not state.terminal_auth

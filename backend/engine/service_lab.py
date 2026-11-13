@@ -19,7 +19,7 @@ def parse(line,state,abilities):
     if tool=='nc':
         operands=[a for a in args if not a.startswith('-')]
         if any(a.startswith('-') and a not in {'-n','-v','-nv','-vn'} for a in args) or len(operands)!=2:return TerminalResult(False,['usage: nc -nv host port'])
-        if operands[0] not in {host.ip,host.hostname} or operands[1]!=str(lab['port']) or state.is_blocked(host.id,lab['port']):return TerminalResult(False,['nc: connection refused'])
+        if operands[0] not in {host.ip,host.hostname} or operands[1]!=str(lab['port']) or not state.reachable(host,lab['port']):return TerminalResult(False,['nc: connection refused'])
         fact(state,'lab:banner')
         return TerminalResult(True,[f'Connection to {host.ip} {lab["port"]} port [tcp/*] succeeded!',lab['banner'],'Timeout waiting for a framed request; connection closed.'])
     if tool=='checksec':
@@ -41,7 +41,7 @@ def parse(line,state,abilities):
     if lab['binary'] not in state.terminal_files:return TerminalResult(False,['Laboratory binary missing'])
     if not any(service.port==lab['port'] for service in host.services):valid=False
     if not valid:return TerminalResult(False,['Connection opened; invalid frame or return address. Service closed the connection.'])
-    if state.is_blocked(host.id,lab['port']):return TerminalResult(False,['Connection refused'])
+    if not state.reachable(host,lab['port']):return TerminalResult(False,['Connection refused'])
     from .console_sessions import enter
     host.status,host.compromised_by,host.access_level='COMPROMISED','red','USER'
     fact(state,'lab:access')

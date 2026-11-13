@@ -170,7 +170,9 @@ func _play_track(selected: String, position: float = 0) -> void:
 	if not TRACKS.has(selected): return
 	var stream: AudioStream = _streams[selected]
 	if stream is AudioStreamOggVorbis: stream.loop = preferences.selection != "auto" or context == "menu"
-	if selected == current_track and (_silent or (not _music.is_empty() and _music[_current].playing)): return
+	# Un morceau mis en pause est toujours « en cours » : playing vaut faux pendant stream_paused,
+	# et le relancer ici le faisait repartir de zéro à chaque mise à jour d'état.
+	if selected == current_track and (_silent or (not _music.is_empty() and (_music[_current].playing or _music[_current].stream_paused))): return
 	var changed: bool = selected != current_track
 	current_track = selected
 	if changed: track_changed.emit(selected)

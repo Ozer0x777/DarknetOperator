@@ -30,7 +30,7 @@ def test_hash_recovered_is_false_for_an_account_without_password():
 def test_observation_check_reports_timeout_when_time_runs_out():
     state = contracts.start_contract(contracts.load_all_contracts()['intro_terminal'], 'Operator')
     state.tick = state.max_ticks
-    api._resolve_observations(state)
+    api._resolve_observations(GameLoop(state, ABILITIES))
     assert state.status == 'ENDED' and state.winner == 'BLUE' and state.end_reason == 'timeout'
 
 
@@ -89,7 +89,7 @@ async def _play(client, contract_id, lines):
     session = api.GAMES[game['id']]
     for line in lines:
         await client.post(f"/api/games/{game['id']}/terminal", json={'line': line, 'console_id': 'main'})
-        while session.loop._queue: session.loop.tick()
+        while session.loop.pending(): session.loop.tick()
     if session.state.status == 'ENDED': api.career().settle(game['id'], session.state)
     return session.state
 
@@ -221,3 +221,289 @@ def test_new_contract_does_not_inherit_evidence_or_defender_state():
             # Le texte des consoles, lui, est conservé d'une mission à l'autre.
             assert any('nmap -sV' in line for line in third.tool_data['terminal_transcripts']['main'])
     asyncio.run(run())
+
+
+# --- Troisième revue : terminal, boucle de jeu, bureau, achats ---
+from engine import terminal, console_sessions
+
+
+def _state(contract_id):
+    state = contracts.start_contract(contracts.load_all_contracts()[contract_id], 'Operator', known_ability_ids=set(ABILITIES))
+    state.discovered = set(state.hosts)
+    return state
+
+
+def test_variables_reach_every_tool_and_are_expanded_once():
+    state = _state('intro_terminal')
+    run = lambda line: terminal.parse(line, state, ABILITIES)
+    run('F=/home/operator/mission/preparation.txt')
+    assert run('cat $F').ok and run('head -n 1 $F').ok and run('grep -c e $F').ok
+    # Deux variables qui se citent : une seule passe, pas de récursion.
+    run("export A='$B'"); run("export B='$A'")
+    assert run('echo $A').output == ['$B']
+    # Un ~ en tête d'affectation désigne le dossier personnel, comme dans bash.
+    run('export KRB5CCNAME=~/administrator.ccache')
+    assert state.terminal_env['KRB5CCNAME'] == '/home/operator/administrator.ccache'
+
+
+def test_exit_in_the_local_console_keeps_variables_and_directory():
+    state = _state('intro_campaign')
+    run = lambda line: terminal.parse(line, state, ABILITIES)
+    run('API_KEY=$(cat ~/gophish/api-key.txt)'); run('cd /tmp')
+    result = run('exit')
+    assert result.ok and 'locale' in result.output[0]
+    assert state.terminal_env['API_KEY'] and state.terminal_cwd == '/tmp'
+
+
+def test_mysql_redirect_with_inline_password_writes_the_rows():
+    state = _state('act1_service')
+    command = 'mysql --batch -h 10.61.7.10 -u ticket_ro --password=TicketRead2026! -D ticketing -e "SELECT * FROM tickets;" > /home/operator/loot/t.tsv'
+    assert terminal.parse(command, state, ABILITIES).ok
+    assert len(state.terminal_files['/home/operator/loot/t.tsv'].splitlines()) > 1
+
+
+def test_smbclient_without_password_gives_a_readable_error():
+    state = _state('act1_partage')
+    result = terminal.parse('smbclient //10.61.2.10/public -U invite -c "ls"', state, ABILITIES)
+    assert not result.ok and 'mot de passe requis' in result.output[0] and 'unpack' not in result.output[0]
+
+
+def test_unknown_command_exit_code_follows_the_remote_system():
+    state = _state('act1_service')
+    linux = next(h for h in state.hosts.values() if not h.os.startswith('Windows'))
+    console_sessions.enter(state, linux, 'svc', 'USER')
+    assert terminal.parse('foobar', state, ABILITIES).exit_code == 127
+
+
+def test_closed_console_is_not_recreated_by_a_pending_campaign():
+    state = contracts.start_contract(contracts.load_all_contracts()['intro_campaign'], 'Operator', known_ability_ids=set(ABILITIES))
+    loop = GameLoop(state, ABILITIES)
+    def run(line, console):
+        with console_sessions.using(state, console):
+            result = terminal.parse(line, state, ABILITIES)
+            if result.action: loop.submit(result.action)
+        return result
+    run('gophish --config /opt/gophish/config.json', 'mail')
+    run('API_KEY=$(cat ~/gophish/api-key.txt)', 'api')
+    assert run('curl -k -H "Authorization: $API_KEY" -H "Content-Type: application/json" -d @/home/operator/gophish/campaign.json https://127.0.0.1:3333/api/campaigns/', 'api').ok
+    console_sessions.close(state, 'api'); loop.cancel_console('api')
+    assert loop.pending()  # la campagne continue : GoPhish tourne dans l'autre console
+    while loop.pending(): loop.tick()
+    assert 'api' not in state.terminals and 'api' not in state.tool_data.get('terminal_transcripts', {})
+    assert state.tool_data['gophish']['campaigns'][0]['results'][0]['status'] == 'Submitted Data'
+
+
+def test_tick_loop_survives_an_error():
+    async def run():
+        async with _client() as client:
+            game = (await client.post('/api/games', json={'scenario': 'tuto_p0', 'tick_interval': 0.1})).json()
+            session = api.GAMES[game['id']]
+            session.tick_interval = 0.01
+            real_tick, calls = session.loop.tick, []
+            def flaky():
+                calls.append(1)
+                if len(calls) == 1: raise RuntimeError('panne ponctuelle')
+                return real_tick()
+            session.loop.tick = flaky
+            await client.post(f"/api/games/{game['id']}/start", json={})
+            await asyncio.sleep(0.2)
+            assert not session.task.done() and len(calls) > 2 and session.state.tick > 0
+            session.state.status = 'ENDED'
+            await asyncio.sleep(0.05)
+            # Une partie sans contrat n'écrit jamais dans la carrière.
+            api._persist(session)
+            assert not api.career().data.get('active')
+    asyncio.run(run())
+
+
+def test_purchase_made_during_a_mission_reaches_the_mission():
+    async def run():
+        async with _client() as client:
+            await client.post('/api/profile/new', json={'handle': 'NightShift', 'confirm': True})
+            game = (await client.post('/api/games', json={'contract': 'intro_terminal', 'handle': 'NightShift', 'rng_seed': 0})).json()
+            state = api.GAMES[game['id']].state
+            api.career().data['inventory'].append('wordlist')  # achat confirmé pendant la mission
+            api._sync_inventory()
+            assert 'wordlist' in state.inventory and 'wordlist' in api.career().data['active']['inventory']
+    asyncio.run(run())
+
+
+def test_desk_files_follow_the_operator_across_missions_and_restarts():
+    async def run():
+        async with _client() as client:
+            await client.post('/api/profile/new', json={'handle': 'NightShift', 'confirm': True})
+            await _play(client, 'intro_terminal', ['echo mission > /home/operator/m1.txt', 'pwd', 'ls ~/mission', 'cat ~/mission/preparation.txt'])
+            assert api.career().data['completed'] == ['intro_terminal']
+            api.GAMES.clear(); api._CAREER = None; api._WORKSPACE = None  # relance du jeu : le bureau sert de terminal
+            desk = lambda line: client.post('/api/workspace/terminal', json={'line': line, 'console_id': 'main'})
+            assert (await desk('cat /home/operator/m1.txt')).json()['output'] == ['mission\n']
+            await desk('echo bureau > /home/operator/notes.txt')
+            third = await _play(client, 'intro_recon', [])
+            assert third.terminal_files['/home/operator/m1.txt'] == 'mission\n'
+            assert third.terminal_files['/home/operator/notes.txt'] == 'bureau\n'
+    asyncio.run(run())
+
+
+def test_contract_cannot_replace_the_career_identity_with_a_character_name():
+    async def run():
+        async with _client() as client:
+            await client.post('/api/profile/new', json={'handle': 'NightShift', 'confirm': True})
+            game = (await client.post('/api/games', json={'contract': 'intro_terminal', 'handle': 'k0rvid', 'rng_seed': 0})).json()
+            assert api.GAMES[game['id']].state.player_handle == 'NightShift' and api.career().data['handle'] == 'NightShift'
+            assert (await client.post('/api/profile/new', json={'handle': 'k0rvid', 'confirm': True})).status_code == 400
+    asyncio.run(run())
+
+
+def test_contract_files_are_read_once_until_they_change():
+    first = api._raw_contracts()
+    assert api._raw_contracts() is first
+    path = api.CONTRACTS_DIR / 'intro_terminal.json'
+    stamp = path.stat()
+    os.utime(path, ns=(stamp.st_atime_ns, stamp.st_mtime_ns + 1_000_000))
+    try: assert api._raw_contracts() is not first
+    finally: os.utime(path, ns=(stamp.st_atime_ns, stamp.st_mtime_ns))
+
+
+# --- Points restants : kill, droits Windows, joignabilité, structure ---
+def test_kill_only_frees_the_console_waiting_for_that_process():
+    state = _state('intro_campaign')
+    with console_sessions.using(state, 'mail'): pass
+    state.terminals['mail']['terminal_foreground'] = 2
+    state.tool_services['autre'] = {'pid': 1, 'running': True, 'owner': 'mail'}
+    assert terminal.parse('kill 1', state, ABILITIES).ok
+    assert not state.tool_services['autre']['running'] and state.terminals['mail']['terminal_foreground'] == 2
+    state.tool_services['attendu'] = {'pid': 2, 'running': True, 'owner': 'mail'}
+    assert terminal.parse('kill 2', state, ABILITIES).ok and state.terminals['mail']['terminal_foreground'] is None
+
+
+def test_windows_reads_respect_declared_permissions():
+    state = _state('tuto_p0')
+    host = state.hosts['poste-accueil']
+    host.files['/Users/admin/secret.txt'] = 'confidentiel'
+    host.files['/Users/m.leroux/note.txt'] = 'libre'
+    state.environment['file_permissions'] = {'poste-accueil': {'/Users/admin': ['admin']}}
+    console_sessions.enter(state, host, 'm.leroux', 'USER')
+    run = lambda line: terminal.parse(line, state, ABILITIES)
+    denied = run(r'type C:\Users\admin\secret.txt')
+    assert not denied.ok and denied.output == ['Accès refusé.']
+    assert run(r'type C:\Users\m.leroux\note.txt').output == ['libre']
+    run('powershell')
+    assert 'denied' in run(r'Get-Content C:\Users\admin\secret.txt').output[0]
+    assert 'denied' in run(r'Copy-Item C:\Users\admin\secret.txt C:\Users\m.leroux\copie.txt').output[0]
+    assert '/Users/m.leroux/copie.txt' not in host.files
+
+
+def test_isolated_host_is_unreachable_for_every_tool():
+    state = _state('act1_service')
+    database = state.hosts[next(spec['host'] for spec in state.environment['databases'].values())]
+    query = 'mysql --batch -h %s -u ticket_ro --password=TicketRead2026! -D ticketing -e "SELECT * FROM tickets;"' % database.ip
+    assert terminal.parse(query, state, ABILITIES).ok and state.reachable(database, 3306)
+    database.status = 'ISOLATED'
+    assert not state.reachable(database, 3306)
+    refused = terminal.parse(query, state, ABILITIES)
+    assert not refused.ok and 'Cannot connect' in refused.output[0]
+    assert database.status == 'ISOLATED'  # un outil ne lève pas l'isolement décidé par la défense
+    assert not state.reachable(None, 22) and not state.reachable(database, 9999)
+
+
+def test_uname_keeps_its_answers_after_cleanup():
+    state = _state('intro_terminal')
+    assert terminal.parse('uname -a', state, ABILITIES).output[0].startswith('Linux ')
+    assert terminal.parse('id', state, ABILITIES).output[0].startswith('uid=1000(operator)')
+    assert terminal.parse('uname -x', state, ABILITIES).output == ['uname: arguments non pris en charge par cette version.']
+    assert terminal.parse('whoami', state, ABILITIES).output == ['operator']
+
+
+def test_board_visibility_and_chat_keywords_live_in_the_engine():
+    from engine import campaign
+    act1 = {'campaign_version': 4, 'completed': [], 'forum_invitation_accepted': False}
+    assert campaign.hidden_from_board(act1, 'morel') and campaign.hidden_from_board(act1, 'side_empreinte')
+    assert not campaign.hidden_from_board(act1, 'act1_partage')
+    assert not campaign.hidden_from_board({**act1, 'forum_invitation_accepted': True}, 'morel')
+    assert not campaign.hidden_from_board({'campaign_version': 1}, 'morel')
+    for text in ('Aide !', 'où est mon argent ?', 'tu me payes quand', 'rappelle-moi l’objectif'):
+        assert contracts.wants_immediate_answer(text), text
+    assert not contracts.wants_immediate_answer('bien reçu')
+
+
+def test_mission_end_goes_through_one_engine_path():
+    state = _state('intro_terminal')
+    loop = GameLoop(state, ABILITIES)
+    assert not loop.finish_if_won() and state.status == 'RUNNING' and not loop.has_pending()
+    state.tick = state.max_ticks
+    assert loop.finish_if_won() and (state.status, state.winner, state.end_reason) == ('ENDED', 'BLUE', 'timeout')
+    assert not loop.finish_if_won() and not loop.abandon()  # déjà terminée
+    other = GameLoop(_state('intro_terminal'), ABILITIES)
+    assert other.abandon() and (other.state.winner, other.state.end_reason) == ('BLUE', 'disconnected')
+    assert other.state.contract_outcome == 'FAILED'
+
+
+# --- Ancien mode par défaut : scénario jouable, score et cassage honnêtes ---
+def test_default_scenario_can_be_won_through_the_terminal():
+    from engine.scenario_loader import load_scenario
+    state = load_scenario(api.SCENARIOS_DIR / 'mvp_demo.json', rng_seed=0, known_ability_ids=set(ABILITIES))
+    loop = GameLoop(state, ABILITIES)
+    def run(line, console='main'):
+        with console_sessions.using(state, console):
+            result = terminal.parse(line, state, ABILITIES)
+            if result.action: loop.submit(result.action)
+        while loop.pending() and state.status == 'RUNNING': loop.tick()
+        return result
+    domain, sid = state.domain['name'], state.domain['sid']
+    run('nmap -sV 192.168.1.0/24')
+    run('gophish --config /opt/gophish/config.json', 'mail')
+    run('API_KEY=$(cat ~/gophish/api-key.txt)', 'api')
+    run('curl -k -H "Authorization: $API_KEY" -H "Content-Type: application/json" -d @/home/operator/gophish/campaign.json https://127.0.0.1:3333/api/campaigns/', 'api')
+    password = next(c.value for c in state.loot if c.username == 'jdoe' and c.type == 'PLAINTEXT')
+    run(f'impacket-psexec jdoe:{password}@192.168.1.101', 'win')
+    run(f'smbclient //192.168.1.101/C$ -U jdoe%{password} -c "put /home/operator/tools/mimikatz.exe Tools/mimikatz.exe"', 'api')
+    run(r'C:\Tools\mimikatz.exe "privilege::debug" "sekurlsa::logonpasswords" exit', 'win')
+    backup = next(c.value for c in state.loot if c.username == 'svc_backup' and c.type == 'NTLM_HASH')
+    run(f'impacket-secretsdump -just-dc -hashes :{backup} {domain}/svc_backup@192.168.1.10', 'api')
+    krbtgt = next(c.value for c in state.loot if c.type == 'KRBTGT_HASH')
+    run(f'impacket-ticketer -nthash {krbtgt} -domain-sid {sid} -domain {domain} administrator', 'api')
+    run('export KRB5CCNAME=~/administrator.ccache', 'api')
+    run(f'impacket-psexec -k -no-pass {domain}/administrator@DC-01', 'api')
+    assert state.domain_compromised and (state.status, state.winner) == ('ENDED', 'RED')
+
+
+def test_repeating_an_action_does_not_farm_points():
+    state = _state('tuto_p0')
+    loop = GameLoop(state, ABILITIES)
+    def scan():
+        result = terminal.parse('nmap -sV 10.20.0.0/24', state, ABILITIES)
+        loop.submit(result.action)
+        while loop.pending(): loop.tick()
+    scan()
+    first = state.score['red']
+    assert first > 0
+    for _ in range(4): scan()
+    assert state.score['red'] == first
+
+
+def test_cracking_needs_a_wordlist_match_and_failure_scores_nothing():
+    from engine.game_loop import QueuedAction
+    from engine.ntlm import nt_hash
+    state = _state('intro_hash')  # dossier où hashcat est disponible
+    assert 'red.crack_hash' in state.available_abilities['red']
+    loop = GameLoop(state, ABILITIES)
+    target = next(iter(state.hosts.values()))
+    account = next(name for name, user in state.users.items() if user.password)
+    secret = nt_hash(state.users[account].password)
+    state.loot.append(Credential('NTLM_HASH', account, secret, target.id))
+    cracked = lambda: any(c.username == account and c.type == 'PLAINTEXT' for c in state.loot)
+    # Action directe, sans dictionnaire : refusée, rien n'est révélé.
+    loop.submit(QueuedAction('red', 'red.crack_hash', target.id, account, 'NTLM_HASH'))
+    while loop.pending(): loop.tick()
+    assert not state.history[-1].success and 'crack_input_present' in state.history[-1].reason
+    assert not cracked()
+    # hashcat avec une liste qui ne contient pas le mot de passe : échec, aucun point.
+    state.terminal_files['/home/operator/loot/presta.ntlm'] = secret + '\n'
+    state.terminal_files['/home/operator/mots.txt'] = 'azerty\nmotdepasse\n'
+    before = state.score['red']
+    result = terminal.parse('hashcat -m 1000 ~/loot/presta.ntlm ~/mots.txt', state, ABILITIES)
+    loop.submit(result.action)
+    while loop.pending(): loop.tick()
+    assert not state.history[-1].success and state.history[-1].reason == 'wordlist_exhausted'
+    assert state.score['red'] == before
+    assert not cracked()

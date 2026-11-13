@@ -12,7 +12,7 @@ def command(state, loop, line, console='main'):
         result = terminal.parse(line, state, ABILITIES)
         assert result.ok, result.output
         if result.action: loop.submit(result.action)
-    while loop._queue and state.status == 'RUNNING': loop.tick()
+    while loop.pending() and state.status == 'RUNNING': loop.tick()
     return result
 
 

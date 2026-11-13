@@ -34,7 +34,7 @@ async def qualify(output):
                         async def command(line):
                             r=await client.post(f'/api/games/{gid}/terminal',json={'line':line,'console_id':'main'})
                             assert r.status_code==200 and r.json()['ok'],(line,r.text)
-                            while api.GAMES[gid].loop._queue: api.GAMES[gid].loop.tick()
+                            while api.GAMES[gid].loop.pending(): api.GAMES[gid].loop.tick()
                             profile.checkpoint(api.GAMES[gid].state)
                         for cid in DEMO_STAGES:
                             world=(await client.get('/api/social')).json()

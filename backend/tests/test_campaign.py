@@ -25,10 +25,24 @@ def alert(state, severity='CRITICAL'):
 
 def act(loop, aid, host='poste-accueil', username=None, ctype=None):
     loop.submit(QueuedAction('red',aid,host,username,ctype))
-    while loop._queue and loop.state.status=='RUNNING':
+    while loop.pending() and loop.state.status=='RUNNING':
         loop.tick()
     entry=loop.state.history[-1]
     assert entry.success,(aid,entry.reason,entry.message)
+
+
+def crack(loop, username):
+    """Casse l'empreinte comme le joueur : hashcat sur le fichier du butin, avec la liste de mots."""
+    from engine import terminal, console_sessions
+    # La console principale est dans la session Windows : hashcat tourne dans une console Kali locale.
+    with console_sessions.using(loop.state,'kali'):
+        result=terminal.parse(f'hashcat -m 1000 ~/loot/{username}.ntlm /usr/share/wordlists/rockyou.txt',loop.state,ABILITIES)
+        assert result.ok and result.action,result.output
+        loop.submit(result.action)
+    while loop.pending() and loop.state.status=='RUNNING':
+        loop.tick()
+    entry=loop.state.history[-1]
+    assert entry.success,(entry.reason,entry.message)
 
 
 def test_trace_exposure_never_ends_solo_and_old_alerts_do_not_accumulate():
@@ -119,13 +133,13 @@ def test_campaign_all_tiers_and_settlement_once(tmp_path):
             act(loop,'red.psexec_lateral',username=primary,ctype='PLAINTEXT')
             act(loop,'red.mimikatz_dump',username=primary)
         if cid in ['morel','rival']:
-            act(loop,'red.crack_hash',username=admin,ctype='NTLM_HASH')
+            crack(loop,admin)
         if cid=='varenne':
             act(loop,'red.dcsync','srv-fichiers',username=admin)
             act(loop,'red.golden_ticket','srv-fichiers',username='krbtgt')
             assert not state.domain_compromised
             loop.submit(QueuedAction('red','red.psexec_lateral','srv-fichiers','krbtgt','KRBTGT_HASH',params={'kerberos_ticket':'/home/operator/administrator.ccache','ticket_user':'administrator'}))
-            while loop._queue and state.status=='RUNNING': loop.tick()
+            while loop.pending() and state.status=='RUNNING': loop.tick()
         elif cid!='rival':
             act(loop,'red.psexec_lateral','srv-fichiers',admin)
             if cid in ['morel','grand_compte']:
@@ -168,7 +182,7 @@ def test_pending_actions_resume_without_being_lost():
     loop.submit(command.action)
     restored=state_from_dict(state_to_dict(state))
     resumed=GameLoop(restored,ABILITIES)
-    assert len(resumed._queue)==1
+    assert len(resumed.pending())==1
     resumed.tick()
     assert restored.discovered==set(restored.hosts)
     assert restored.scanned==set()
@@ -251,7 +265,7 @@ def test_authentic_terminal_path_completes_tutorial_without_legacy_flags():
         assert result.ok,result.output
         if result.action:
             loop.submit(result.action)
-            while loop._queue and state.status=='RUNNING':loop.tick()
+            while loop.pending() and state.status=='RUNNING':loop.tick()
             assert state.history[-1].success,state.history[-1].message
     run('nmap -sV 10.20.0.0/24')
     act(loop,'red.phishing_initial_access')  # Campagne GoPhish via son interface.

@@ -70,3 +70,29 @@ def cracked_in_mission(state, value: str) -> bool:
     sans suivi par mission se rabat sur le potfile seul."""
     session = state.tool_data.get("hashcat_session")
     return True if session is None else value in session
+
+
+def desk_after(state) -> dict:
+    """Bureau de l'opérateur après une mission terminée : le poste Kali, sans le réseau cible."""
+    from .models import GameState
+    from .persistence import state_to_dict
+    desk = GameState(hosts={}, users={})
+    inherit(desk, state_to_dict(state))
+    desk.tool_data.pop("hashcat_session", None)
+    return state_to_dict(desk)
+
+
+def source_for_new_contract(data: dict) -> dict | None:
+    """Poste dont hérite le prochain contrat. Le bureau est tenu à jour à la fin de chaque
+    mission (Career.checkpoint) : il contient donc aussi ce que le joueur a fait depuis."""
+    active, desk = data.get("active"), data.get("workspace")
+    if not active: return desk
+    if not desk: return active
+    if data.get("workspace_mission") == active.get("conversation_id"): return desk
+    # Sauvegarde antérieure à cette règle : la mission prime, et les fichiers créés
+    # ensuite sur le bureau sont ajoutés sans rien écraser.
+    merged = deepcopy(active)
+    files = merged.setdefault("terminal_files", {})
+    for path, content in desk.get("terminal_files", {}).items(): files.setdefault(path, content)
+    return merged
+

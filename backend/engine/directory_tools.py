@@ -106,7 +106,7 @@ def ldap(state,args,password=None):
     try:url=urlsplit(options.get('-H','ldap://'+directory.get('host','')));port=url.port or (636 if url.scheme=='ldaps' else 389)
     except ValueError:return TerminalResult(False,['ldapsearch: invalid URI'])
     dc=state.find_host(url.hostname or '')
-    if not dc or not directory or state.is_blocked(dc.id,port) or not any(s.port==port for s in dc.services):return TerminalResult(False,["ldap_sasl_bind(SIMPLE): Can't contact LDAP server (-1)"])
+    if not dc or not directory or not state.reachable(dc,port):return TerminalResult(False,["ldap_sasl_bind(SIMPLE): Can't contact LDAP server (-1)"])
     dn=options.get('-D','');user=next((entry.get('sAMAccountName','') for entry in directory['entries'] if entry.get('dn','').casefold()==dn.casefold()),dn.split('@')[0].split('\\')[-1])
     if options.get('-W') and password is None:
         state.terminal_auth={'kind':'ldap','args':args};return TerminalResult(True,['Enter LDAP Password:'])
@@ -167,7 +167,7 @@ def parse(line,state):
         services=[s for s in directory.get('spns',[]) if state.users.get(s['user']) and state.users[s['user']].status=='ACTIVE' and (not options.get('-request-user') or s['user']==options['-request-user'])]
         lines=['ServicePrincipalName Name MemberOf',*[s['spn']+' '+s['user']+' '+s.get('group','') for s in services]]
         if options.get('-request'):
-            if state.is_blocked(dc.id,88) or not any(s.port==88 for s in dc.services):return TerminalResult(False,['Kerberos SessionError: KDC unreachable'])
+            if not state.reachable(dc,88):return TerminalResult(False,['Kerberos SessionError: KDC unreachable'])
             if any(s.get('etype',23)!=23 for s in services):return TerminalResult(False,['KDC encryption type is outside the RC4 image coverage; no ticket was exported.'])
             hashes=[ticket(state.users[s['user']].password,s['user'],domain,s['spn'],state.scenario_name+s['spn']) for s in services if s.get('etype',23)==23]
             if options.get('-outputfile'):

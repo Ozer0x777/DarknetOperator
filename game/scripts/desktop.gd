@@ -372,6 +372,10 @@ func _build_panel() -> void:
 		sound.text = "♪ ×" if audio.preferences.muted else "♪"
 		sound.tooltip_text = "Son coupé · ouvrir le lecteur" if audio.preferences.muted else "Ouvrir le lecteur audio · volumes dans Paramètres"
 	audio.settings_changed.connect(update_sound)
+	# Le service audio survit au bureau : sans cette déconnexion, la fonction était rappelée
+	# avec un bouton libéré après chaque retour au menu.
+	sound.tree_exiting.connect(func() -> void:
+		if audio.settings_changed.is_connected(update_sound): audio.settings_changed.disconnect(update_sound))
 	update_sound.call()
 	bar.add_child(sound)
 	profile_label = UI.label("operator", 12)
@@ -493,9 +497,10 @@ func _window(app_name: String, pos: Vector2i, dimensions: Vector2i) -> VBoxConta
 		active_app = app_name
 		_applications.hide()
 		_raise_overlays()
+		_mark_active_conversation_read()
 		_update_tasks())
-	win.minimized.connect(_update_tasks)
-	win.closed.connect(_update_tasks)
+	win.minimized.connect(func() -> void: _drop_hidden_active(); _update_tasks())
+	win.closed.connect(func() -> void: _drop_hidden_active(); _update_tasks())
 	win.closed.connect(func() -> void: _sound("close"))
 	apps[app_name] = win
 	if not app_name.begins_with("Terminal") and app_name not in ["GoPhish", "BreachBoard", "Chordly", "Telegrid", "Sessyon", "Fichiers"]:
@@ -697,6 +702,7 @@ func _toggle_desktop() -> void:
 				_desktop_restored.append(id)
 				apps[id].hide()
 		_showing_desktop = true
+		_drop_hidden_active()
 
 func _cycle_windows() -> void:
 	var ids: Array[String] = []
@@ -943,7 +949,7 @@ func _fullscreen() -> void:
 func _input(event: InputEvent) -> void:
 	if not event is InputEventKey or not event.pressed: return
 	for id: String in console_apps:
-		if console_apps[id] == active_app and _keyboard_in(active_app) and terminal_views[id].handle_key(event):
+		if console_apps[id] == active_app and apps.has(active_app) and apps[active_app].is_visible_in_tree() and _keyboard_in(active_app) and terminal_views[id].handle_key(event):
 			get_viewport().set_input_as_handled()
 			return
 	if event.echo: return
@@ -970,6 +976,18 @@ func _unhandled_key_input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_ESCAPE:
 		_open("Paramètres")
 		get_viewport().set_input_as_handled()
+
+## Une fenêtre réduite, fermée ou masquée n'est plus la fenêtre active : sinon ses messages
+## passaient pour lus à l'écran et le clavier partait vers un terminal invisible.
+func _drop_hidden_active() -> void:
+	if active_app.is_empty(): return
+	if not apps.has(active_app) or not apps[active_app].is_visible_in_tree(): active_app = ""
+
+## Cliquer dans une messagerie revient à lire la conversation affichée.
+func _mark_active_conversation_read() -> void:
+	var channel: String = {"Chordly": "chordly", "Telegrid": "telegrid", "Sessyon": "sessyon"}.get(active_app, "")
+	if channel.is_empty() or not messengers.has(channel): return
+	if int(messengers[channel]._unread_by_peer.get(messengers[channel].selected_peer, 0)) > 0: messengers[channel].mark_read()
 
 ## Le clavier revient au terminal actif seulement si le focus est dans sa fenêtre
 ## ou nulle part : un champ du menu Applications ou d’une autre fenêtre garde ses touches.
@@ -1132,7 +1150,7 @@ func _send_message(channel: String, text: String) -> void:
 		return
 	var peer: String = messengers[channel].selected_peer
 	var contract: Dictionary = session.state.get("contract", {}) if session.state.get("contract") != null else {}
-	var mission_client: bool = not session.game_id.is_empty() and peer == contract.get("client", "") and channel == contract.get("channel", "")
+	var mission_client: bool = not session.game_id.is_empty() and session.state.get("status") == "RUNNING" and peer == contract.get("client", "") and channel == contract.get("channel", "")
 	var path: String = "/api/games/%s/chat" % session.game_id if mission_client else "/api/social/chat"
 	var result: Dictionary = await session.request(path, {"handle": session.handle, "channel": channel, "peer": peer, "text": text})
 	messengers[channel].acknowledge(not result.has("error"), result.get("error", ""))
@@ -1246,7 +1264,12 @@ func _refresh_gophish(background: bool = false) -> void:
 	else: gophish_view.show_login()
 
 func _gophish_api(method: String, endpoint: String, payload: Dictionary, background: bool = false) -> void:
-	if _gophish_busy or "--offline-test" in OS.get_cmdline_user_args(): return
+	if "--offline-test" in OS.get_cmdline_user_args(): return
+	if _gophish_busy:
+		# Un rafraîchissement automatique peut céder sa place ; un clic du joueur (Sign in,
+		# Launch Campaign…) attend la requête en cours au lieu de disparaître sans message.
+		if background: return
+		while _gophish_busy: await get_tree().process_frame
 	_gophish_busy = true
 	var body: Dictionary = {"username": gophish_view.username, "password": gophish_view.password, "method": method, "endpoint": endpoint}
 	if method == "POST": body.payload = payload

@@ -163,11 +163,9 @@ def destroy_backups(state: GameState, ctx: ActionContext) -> None:
 
 
 def crack_credential(state: GameState, ctx: ActionContext) -> None:
-    matches = ctx.params.get('crack_matches')
-    if matches is None and ctx.credential:
-        account = state.users.get(ctx.credential.username)
-        matches = {ctx.credential.value: account.password if account and account.password is not None else 'sim-password-' + ctx.credential.username}
-    matches = matches or {}
+    # Seules les correspondances trouvées par hashcat dans une liste de mots comptent :
+    # aucun mot de passe n'est révélé sans dictionnaire.
+    matches = ctx.params.get('crack_matches') or {}
     state.tool_data.setdefault('hashcat', {}).setdefault('pot', {}).update(matches)
     from .mission_data import note_cracked
     note_cracked(state, matches)

@@ -134,7 +134,7 @@ def test_office_hours_delay_a_campaign_without_granting_credentials():
     with console_sessions.using(state,'api'):
         result=terminal.parse('curl -k -H "Authorization: $API_KEY" -d @/home/operator/gophish/campaign.json https://127.0.0.1:3333/api/campaigns/',state,ABILITIES)
         loop.submit(result.action)
-    assert loop._queue[0].params['availability_wait_minutes']==60
+    assert loop.pending()[0].params['availability_wait_minutes']==60
     loop.tick()
     assert not state.loot
 

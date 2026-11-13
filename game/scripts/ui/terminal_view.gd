@@ -119,8 +119,8 @@ func submit(line: String) -> void:
 	if not input.secret:
 		history.append(line)
 		history_index = history.size()
-		output.append_text("\n" + prompt.text + (" " if context.get("shell") in ["cmd", "powershell"] else "\n└─$ ") + line + "\n")
-	else: output.append_text(prompt.text + "\n")
+		output.add_text("\n" + prompt.text + (" " if context.get("shell") in ["cmd", "powershell"] else "\n└─$ ") + line + "\n")
+	else: output.add_text(prompt.text + "\n")
 	if line == "clear" and not input.secret: output.clear()
 	# clear part aussi au moteur : il vide l’historique sauvegardé de cette console.
 	command_submitted.emit(console_id, line)
@@ -131,12 +131,14 @@ func restore_transcript(lines: Array) -> void:
 	if lines.is_empty(): return
 	var text: PackedStringArray = []
 	for line: Variant in lines: text.append(str(line))
-	output.append_text("\n".join(text) + "\n")
+	output.add_text("\n".join(text) + "\n")
 
+## Tout le texte du terminal passe par add_text : append_text interprète toujours le BBCode,
+## même désactivé, et faisait disparaître [s], [b], [url]… des commandes et des sorties.
 func append_lines(lines: Array) -> void:
 	for line: Variant in lines:
 		if input.secret and str(line).strip_edges() == prompt.text: continue
-		output.append_text(str(line) + "\n")
+		output.add_text(str(line) + "\n")
 
 func set_context(value: Dictionary) -> void:
 	var was_secret: bool = input.secret

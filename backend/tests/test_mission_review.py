@@ -185,7 +185,7 @@ def test_checkpoint_preserves_queued_action_remote_shell_and_foreground_server(t
             current=api.GAMES[gid]
             assert current.paused and state_to_dict(current.state)==old
             assert (await command('echo $env:NOTE','remote'))['output']==['conserve']
-            while current.loop._queue:current.loop.tick()
+            while current.loop.pending():current.loop.tick()
             assert len(current.state.history)==len(old['history'])+1 and current.state.history[-1].success
             assert not current.state.pending_actions and 'srv-fichiers' in current.state.discovered
             assert current.state.tool_services['gophish']['running']
@@ -242,7 +242,7 @@ def test_direct_transfer_is_valid_without_mandatory_directory_listing():
     assert result.ok
     if result.action:
         loop.submit(result.action)
-        while loop._queue:loop.tick()
+        while loop.pending():loop.tick()
     assert run(s,'cat -n "~/loot/ma copie.txt"').ok
     assert investigation.answer(s,'Je vous ai livré NC‑26‑041.')
     assert investigation.flags(s)==['partage_livre']

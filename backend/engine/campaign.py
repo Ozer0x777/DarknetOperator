@@ -14,6 +14,16 @@ CHAPTERS=[
 
 def enabled(data):return data.get('campaign_version',1)>=3
 
+# Contrats de la première campagne : absents du forum tant que l'invitation de l'acte I n'est pas acceptée.
+INVITATION_ONLY={'morel','rival','varenne','affiliation','grand_compte','offre_urgente'}
+
+
+def hidden_from_board(data,contract_id):
+    """Vrai si l'annonce ne doit pas encore apparaître sur le forum pour cette carrière."""
+    from .curriculum import current
+    if current(data) and contract_id=='side_empreinte' and contract_id not in data.get('completed',[]):return True
+    return enabled(data) and not data.get('forum_invitation_accepted') and contract_id in INVITATION_ONLY
+
 
 def lock_reason(data,contract):
     cid=contract['contract_id']

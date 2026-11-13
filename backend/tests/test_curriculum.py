@@ -80,15 +80,15 @@ def test_active_hash_training_keeps_queue_contract_and_original_reward(profile):
             assert created.status_code==200,created.text
             gid=created.json()['id'];session=api.GAMES[gid]
             command=await client.post(f'/api/games/{gid}/terminal',json={'line':'hashcat -m 1000 ~/mission/exercice.ntlm /usr/share/wordlists/rockyou.txt'})
-            assert command.status_code==200 and session.loop._queue
-            queued=len(session.loop._queue);reward=session.state.contract['reward'];before=profile.data['money']
+            assert command.status_code==200 and session.loop.pending()
+            queued=len(session.loop.pending());reward=session.state.contract['reward'];before=profile.data['money']
             enrolled=await client.post('/api/profile/enroll',json={})
             assert enrolled.status_code==200 and enrolled.json()['campaign_version']==4
-            assert api.GAMES[gid] is session and len(session.loop._queue)==queued
+            assert api.GAMES[gid] is session and len(session.loop.pending())==queued
             assert session.state.contract['legacy_in_progress'] and session.state.contract['reward']==reward
             assert onboarding.next_stage(profile.data)=='intro_hash'
             assert any(s['name']=='Avant adaptation de l’acte I' for s in SaveStore(profile.path).list())
-            while session.loop._queue:session.loop.tick()
+            while session.loop.pending():session.loop.tick()
             assert session.state.contract_outcome=='SUCCESS'
             profile.settle(gid,session.state)
             assert profile.data['money']==before+reward

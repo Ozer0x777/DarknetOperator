@@ -115,7 +115,8 @@ def leave(state: GameState) -> None:
     if state.terminal_return_stack:
         previous = state.terminal_return_stack.pop()
         for key in SESSION_FIELDS: setattr(state, key, deepcopy(previous[key]))
-    else:
+    elif state.terminal_host is not None:
+        # Ancienne session distante sans pile de retour : retour au shell local par défaut.
         for key, value in initial().items(): setattr(state, key, deepcopy(value))
 
 

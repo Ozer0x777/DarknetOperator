@@ -70,6 +70,12 @@ def _parse(line: str, state: GameState, abilities: dict[str, Ability]) -> Termin
         from .console_sessions import disconnect
         disconnect(state)
         return TerminalResult(False, ["Connection closed by remote host."], exit_code=255)
+    if not state.terminal_auth and state.terminal_shell == 'bash' and '$' in line:
+        # Remplacement des variables en une seule passe, avant tout outil : mysql, grep, head…
+        # reçoivent la valeur, et une valeur contenant elle-même un $ n'est pas remplacée à nouveau.
+        shell_tools.prepare(state)  # les fichiers du poste doivent exister avant un $(cat fichier)
+        try: line = shell_tools._expand(line, state)
+        except ValueError as exc: return TerminalResult(False, [str(exc)])
     if not state.terminal_auth and state.terminal_host:
         import shlex
         try: software=shlex.split(line)[0].casefold()
@@ -139,7 +145,8 @@ def _parse(line: str, state: GameState, abilities: dict[str, Ability]) -> Termin
     message=f"{tokens[0]}: commande inconnue — tape 'help'."
     if guesses:message+=" Voulais-tu écrire "+guesses[0]+" ?"
     if head in {'less','more'}:message=f"{head}: le pager interactif n’est pas simulé. Utilise cat ou head pour lire le fichier."
-    return TerminalResult(False, [message], exit_code=(1 if state.terminal_shell == "powershell" else 9009) if state.terminal_host else 127)
+    windows = bool(state.terminal_host and state.hosts[state.terminal_host].os.startswith("Windows"))
+    return TerminalResult(False, [message], exit_code=(1 if state.terminal_shell == "powershell" else 9009) if windows else 127)
 
 
 def _hosts(state: GameState) -> TerminalResult:

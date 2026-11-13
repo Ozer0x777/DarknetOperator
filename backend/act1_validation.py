@@ -73,7 +73,7 @@ async def play(profile,variant='sqlmap',side_jobs=True,output=None,*,paths=None,
                         assert response.status_code==200 and response.json()['ok'],(cid,line,response.text)
                         total_commands+=1
                     assert response.status_code==200,(cid,line,response.text)
-                    while api.GAMES[gid].loop._queue:api.GAMES[gid].loop.tick()
+                    while api.GAMES[gid].loop.pending():api.GAMES[gid].loop.tick()
                     api.career().checkpoint(api.GAMES[gid].state)
                     record['operations'].append(dict(kind=kind,line=line,before=before,response=response.json(),state=api.serialize_state(api.GAMES[gid].state)))
                     if index==len(operations)//2 and api.GAMES[gid].state.status=='RUNNING':
@@ -149,7 +149,7 @@ async def play(profile,variant='sqlmap',side_jobs=True,output=None,*,paths=None,
                     for line in ['cat ~/mission/bon.txt','cat ~/mission/entree.txt',*solutions]:
                         response=await client.post(f'/api/games/{gid}/terminal',json={'line':line})
                         assert response.json()['ok'],(cid,line,response.text)
-                        while api.GAMES[gid].loop._queue:api.GAMES[gid].loop.tick()
+                        while api.GAMES[gid].loop.pending():api.GAMES[gid].loop.tick()
                     response=await client.post(f'/api/games/{gid}/chat',json={'channel':'chordly','peer':'miette','text':'livraison '+cid[5:]})
                     assert response.status_code==200,response.text
                     state=api.GAMES[gid].state

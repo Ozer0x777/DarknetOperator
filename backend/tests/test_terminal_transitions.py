@@ -20,7 +20,7 @@ def execute(state, loop, line, console='main'):
         if result.action:
             result.action.console_id = console
             loop.submit(result.action)
-    while loop._queue: loop.tick()
+    while loop.pending(): loop.tick()
     return result
 
 
@@ -122,7 +122,7 @@ def test_terminal_api_keeps_authentication_on_its_console(tmp_path, monkeypatch)
             assert not other['password_prompt'] and other['output'] == ['operator']
             login = (await client.post(endpoint, json={'line':'Password123!','console_id':'remote'})).json()
             assert login['ok'] and login['queued'] and not login['password_prompt']
-            while api.GAMES[gid].loop._queue: api.GAMES[gid].loop.tick()
+            while api.GAMES[gid].loop.pending(): api.GAMES[gid].loop.tick()
             state = (await client.get(f'/api/games/{gid}')).json()
             assert state['terminals']['remote']['shell'] == 'cmd'
             assert state['terminals']['main']['shell'] == 'bash'

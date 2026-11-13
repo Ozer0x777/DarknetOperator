@@ -6,9 +6,17 @@
       "id": "pc-01",
       "hostname": "PC-01",
       "ip": "192.168.1.101",
-      "services": [],
+      "services": [
+        {
+          "name": "SMB",
+          "port": 445,
+          "version": "Microsoft Windows SMB"
+        }
+      ],
       "edr_agent": false,
-      "admin_users": [],
+      "admin_users": [
+        "jdoe"
+      ],
       "primary_user": "jdoe",
       "cached_logons": [
         "svc_backup",
@@ -40,6 +48,11 @@
           "name": "LDAP",
           "port": 389,
           "version": "Microsoft Windows Active Directory LDAP"
+        },
+        {
+          "name": "SMB",
+          "port": 445,
+          "version": "Microsoft Windows SMB"
         }
       ],
       "edr_agent": false,

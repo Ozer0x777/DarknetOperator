@@ -69,12 +69,13 @@ def parse(line: str, state: GameState, abilities):
         return TerminalResult(False, ["Connection closed by remote host."])
     user = state.terminal_user
     files = current.files if current else state.terminal_files
-    if tool in {"whoami", "hostname", "pwd", "uname", "id"}:
-        if args and not (tool == "uname" and args == ["-a"]):
+    if tool == "uname":
+        # uname, uname -a/-r/-m/-s et id sont servis par system_tools ; seules les autres options arrivent ici.
+        return TerminalResult(False, ["uname: arguments non pris en charge par cette version."])
+    if tool in {"whoami", "hostname", "pwd"}:
+        if args:
             return TerminalResult(False, [f"{tool}: arguments non pris en charge par cette version."])
-        values = {"whoami": user, "hostname": current.hostname if current else "redteam", "pwd": state.terminal_cwd,
-                  "uname": f"Linux {current.hostname if current else 'redteam'} 6.8.0 x86_64 GNU/Linux",
-                  "id": f"uid=1000({user}) gid=1000({user}) groups=1000({user})"}
+        values = {"whoami": user, "hostname": current.hostname if current else "redteam", "pwd": state.terminal_cwd}
         return TerminalResult(True, [values[tool]])
     if tool == "ip":
         if args not in (["a"], ["addr"], ["address"], ["addr", "show"]):
@@ -115,6 +116,9 @@ def parse(line: str, state: GameState, abilities):
             entries = [f"{'drwxr-xr-x' if posixpath.join(target,name) in directories else '-rw-r--r--'} 1 {state.terminal_user} {state.terminal_user} {len(files.get(posixpath.join(target,name), '').encode()):>6} {name}" for name in entries]
         return TerminalResult(True, entries)
     if tool in {"exit", "logout"}:
+        if state.terminal_host is None and not state.terminal_return_stack:
+            # Console Kali locale : rien à quitter, et surtout ne pas effacer ses variables ni son dossier courant.
+            return TerminalResult(True, ["logout : aucune session distante à fermer. La console locale reste ouverte."])
         from .console_sessions import leave
         leave(state)
         return TerminalResult(True, ["Connection closed."])

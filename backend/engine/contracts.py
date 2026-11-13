@@ -235,6 +235,24 @@ def bounty_view(contract: dict) -> dict:
     }
 
 
+# Mots qui orientent la réponse du client. L'API s'en sert aussi pour savoir si le joueur
+# attend une réponse immédiate : une seule liste, pour qu'elles ne divergent plus.
+HELP_WORDS = ("aide", "bloqu", "comment", "perdu", "indice", "rappel", "guide")
+PAYMENT_WORDS = ("paiement", "prime", "argent", "paye")
+OBJECTIVE_WORDS = ("objectif", "mission", "contrat")
+
+
+def wants_immediate_answer(text: str) -> bool:
+    """Vrai si le message demande de l'aide, l'objectif ou le paiement : le client répond sans délai."""
+    lower = text.casefold()
+    return any(word in lower for word in HELP_WORDS + PAYMENT_WORDS + OBJECTIVE_WORDS)
+
+
+def send(state: GameState, text: str) -> None:
+    """Ajoute un message du client à la conversation de la mission."""
+    _send(state, text)
+
+
 def _send(state: GameState, text: str) -> None:
     contract = state.contract
     state.messages.append(
@@ -255,7 +273,7 @@ def player_message(state: GameState, channel: str, text: str, *, defer: bool = F
     lower = text.casefold()
     from .investigation import answer as investigation_answer, help_text
     from .guidance import hint
-    asking_help = any(word in lower for word in ("aide", "bloqu", "comment", "perdu", "indice", "rappel", "guide"))
+    asking_help = any(word in lower for word in HELP_WORDS)
     detailed_help = any(word in lower for word in ("compl", "détaill", "detaill", "rappel"))
     progressive = hint(state, detailed=detailed_help) if asking_help and not contract.get("investigation_steps") else None
     narrative = investigation_answer(state, text)
@@ -265,13 +283,13 @@ def player_message(state: GameState, channel: str, text: str, *, defer: bool = F
         answer = progressive
     elif contract.get("investigation_steps") and asking_help:
         answer = help_text(state,detailed=detailed_help) or contract["brief"]
-    elif any(word in lower for word in ("paiement", "prime", "argent", "paye")):
+    elif any(word in lower for word in PAYMENT_WORDS):
         answer = f"Le règlement de ce contrat est de {state.payout} ₵. Tu le retrouves dans ton profil." if state.contract_outcome == "SUCCESS" else f"La prime annoncée est de {contract['reward']} ₵. Le règlement dépend de l'issue et des conditions du contrat."
     elif asking_help:
         previous = state.guide_index - 1
         guide = contract.get("guide", [])
         answer = guide[previous]["message"] if 0 <= previous < len(guide) else contract["brief"]
-    elif any(word in lower for word in ("objectif", "mission", "contrat")):
+    elif any(word in lower for word in OBJECTIVE_WORDS):
         answer = contract.get("bounty", {}).get("body", contract["brief"])
     elif any(word in lower for word in ("salut", "bonjour", "hello")):
         answer = contract.get("dialogue", {}).get("greeting", "Salut {handle}. Je suis là. Dis-moi si tu veux reparler de l’objectif, du paiement ou si tu es bloqué.")

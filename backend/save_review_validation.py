@@ -60,7 +60,7 @@ async def qualify(output):
                 session=api.GAMES[gid]
                 assert session.paused and state_to_dict(session.state)==old
                 assert (await command('echo $env:NOTE','remote'))['output']==['conserve']
-                while session.loop._queue:session.loop.tick()
+                while session.loop.pending():session.loop.tick()
                 assert len(session.state.history)==len(old['history'])+1 and session.state.tool_services['gophish']['running']
                 checks.append('Commande exécutée une fois après reprise, session distante et serveur conservés')
                 # Fixture ciblée au chapitre du litige ; les preuves sont ensuite obtenues par commandes.

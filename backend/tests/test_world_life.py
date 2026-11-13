@@ -121,7 +121,7 @@ def test_phishing_can_fail_without_inventing_a_shell_or_credentials(response):
     run('curl -k -H "Authorization: $API_KEY" -d @/home/operator/gophish/campaign.json https://127.0.0.1:3333/api/campaigns/')
     restored = state_from_dict(state_to_dict(state))
     loop = GameLoop(restored, ABILITIES)
-    while loop._queue: loop.tick()
+    while loop.pending(): loop.tick()
     assert restored.loot == []
     assert restored.hosts['poste-accueil'].status == 'HEALTHY'
     campaign = restored.tool_data['gophish']['campaigns'][0]
@@ -217,7 +217,7 @@ def test_api_console_waits_for_command_but_campaign_survives_curl_interrupt():
             await command('API_KEY=$(cat ~/gophish/api-key.txt)')
             await command('curl -k -H "Authorization: $API_KEY" -d @/home/operator/gophish/campaign.json https://127.0.0.1:3333/api/campaigns/')
             await command(interrupt=True)
-            while GAMES[gid].loop._queue: GAMES[gid].loop.tick()
+            while GAMES[gid].loop.pending(): GAMES[gid].loop.tick()
             assert GAMES[gid].state.find_credential('m.leroux','PLAINTEXT')
     asyncio.run(run())
 

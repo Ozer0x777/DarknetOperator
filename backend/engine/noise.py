@@ -12,6 +12,15 @@ from .models import GameState, LogEvent
 
 LEGITIMATE_LOGON_CHANCE = 0.25   # par tick, par host non compromis/isolé
 LEGITIMATE_SMB_CHANCE = 0.15
+# Le bruit sert de décor au flux de la défense : seuls les plus récents sont gardés. Sans limite,
+# une longue mission accumulait des milliers d'entrées réécrites à chaque sauvegarde et noyait
+# le rapport final. Les événements des actions et de la défense, eux, sont tous conservés.
+NOISE_LIMIT = 300
+NOISE_NOTES = ("logon interactif normal", "accès partage normal")
+
+
+def is_noise(log: LogEvent) -> bool:
+    return log.data.get("note") in NOISE_NOTES
 
 
 def generate(state: GameState) -> list[LogEvent]:
@@ -38,4 +47,13 @@ def generate(state: GameState) -> list[LogEvent]:
             ))
 
     state.logs.extend(noise_logs)
+    excess = sum(1 for log in state.logs if is_noise(log)) - NOISE_LIMIT
+    if excess > 0:
+        kept = []
+        for log in state.logs:  # les plus anciens bruits partent en premier
+            if excess > 0 and is_noise(log):
+                excess -= 1
+                continue
+            kept.append(log)
+        state.logs[:] = kept
     return noise_logs

@@ -96,7 +96,10 @@ def parse(line: str, state: GameState, abilities=None):
                 parent = posixpath.dirname(parent)
         if tool == 'type':
             filename = next((p for p in host.files if p.casefold() == target.casefold()), None)
-            return TerminalResult(True, [host.files[filename]]) if filename else TerminalResult(False, ['Le fichier spécifié est introuvable.'])
+            if filename is None: return TerminalResult(False, ['Le fichier spécifié est introuvable.'])
+            from .file_access import readable
+            if not readable(state, filename): return TerminalResult(False, ['Accès refusé.'])
+            return TerminalResult(True, [host.files[filename]])
         target = next((p for p in directories if p.casefold() == target.casefold()), target)
         if target not in directories: return TerminalResult(False, ['Le chemin d’accès spécifié est introuvable.'])
         if tool == 'cd':

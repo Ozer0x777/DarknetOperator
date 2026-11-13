@@ -271,6 +271,13 @@ class Career:
             archive[key] = {**archive.get(key, {}), "id": key, "peer": state.contract["client"]["handle"] if state.contract else message.sender,
                 "channel": message.channel, "sender": message.sender, "text": message.text, "tick": message.tick, "time": message.time}
         self.data["active"] = state_to_dict(state)
+        if state.status == "ENDED":
+            # Mission terminée : le bureau reprend le poste Kali tel qu'il est maintenant, pour que
+            # les fichiers de la mission y soient visibles et que le prochain contrat parte de là.
+            from .mission_data import desk_after
+            self.data["workspace"] = desk_after(state)
+            self.data["workspace_mission"] = state.conversation_id
+            self.data["workspace_revision"] = self.data.get("workspace_revision", 0) + 1
         self.save()
         # L'autosauvegarde est un filet de sécurité : son échec (dossier non inscriptible,
         # emplacement verrouillé) ne doit ni annuler la sauvegarde réussie ni arrêter la partie.

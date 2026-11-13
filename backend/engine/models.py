@@ -222,6 +222,14 @@ class GameState:
         """Noms DNS publics qui pointent vers cet hôte, dans l'ordre du scénario."""
         return [name for name, target in self.environment.get("dns", {}).items() if target == host_id]
 
+    def reachable(self, host, port: int, source: str | None = None) -> bool:
+        """Un service répond si la machine n'est ni isolée ni chiffrée, expose ce port et n'est pas
+        filtrée. Règle commune à tous les outils : chacun avait la sienne, et plusieurs oubliaient
+        l'isolement décidé par la défense."""
+        return bool(host and host.status not in {"ISOLATED", "ENCRYPTED"}
+                    and any(service.port == port for service in host.services)
+                    and not self.is_blocked(host.id, port, source))
+
     def is_blocked(self, host_id: str, port: int, source: str | None = None) -> bool:
         if (host_id, port) in self.firewall_blocks:
             return True

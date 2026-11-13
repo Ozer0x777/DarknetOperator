@@ -94,7 +94,9 @@ def parse(line,state,abilities):
             source=path(state,words[-1]);words=words[:at]
         if words[0]=='sqlmap': result=sqlmap(words[1:],state)
         elif words[0]=='sqlite3':result=sqlite_cli(words[1:],state,source)
-        else: result=mysql_cli(words[1:],state,destination)
+        else:
+            result=mysql_cli(words[1:],state,destination)
+            destination=None  # mysql écrit lui-même son fichier, y compris après l'invite de mot de passe
         if destination and not state.terminal_auth and result.ok:
             write(state,destination,'\n'.join(result.output)+ ('\n' if result.output else ''))
             result.output=[]
@@ -167,7 +169,7 @@ def sqlmap(args,state):
     host=state.find_host(target.hostname or '')
     if not host or host.id not in state.discovered:raise ValueError('sqlmap: target unknown; verify the address first')
     port=target.port or (443 if target.scheme=='https' else 80)
-    if not any(s.port==port for s in host.services) or state.is_blocked(host.id,port):raise ValueError('sqlmap: connection failed')
+    if not state.reachable(host,port):raise ValueError('sqlmap: connection failed')
     surfaces=state.environment.get('sql_surfaces',{}).get(host.id,{})
     surface=surfaces.get(target.path)
     parameter=opts.get('-p',surface.get('parameter','') if surface else '')
@@ -224,6 +226,15 @@ def database_script(spec):
 
 
 def mysql_cli(args,state,destination=None,password=None):
+    """Exécute mysql ; avec une redirection, tout résultat va dans le fichier (une seule écriture)."""
+    result=_mysql(args,state,destination,password)
+    if destination and result.ok and not state.terminal_auth and result.output:
+        write(state,destination,'\n'.join(result.output)+'\n')
+        result.output=[]
+    return result
+
+
+def _mysql(args,state,destination=None,password=None):
     from .terminal import TerminalResult
     if args==['--help']:return TerminalResult(True,['mysql -h host -u user -p -D database -e "SELECT ..." [--batch]'])
     opts={};i=0
@@ -240,7 +251,7 @@ def mysql_cli(args,state,destination=None,password=None):
         i+=1
     if not all(k in opts for k in ['-h','-u','-D','-e']):raise ValueError('usage: mysql -h host -u user -p -D database -e "SELECT ..."')
     host=state.find_host(opts['-h']);spec=state.environment.get('databases',{}).get(opts['-D'])
-    if not host or not spec or spec.get('host')!=host.id or not any(s.port==3306 for s in host.services) or state.is_blocked(host.id,3306):raise ValueError('ERROR 2003: Cannot connect to MySQL server')
+    if not host or not spec or spec.get('host')!=host.id or not state.reachable(host,3306):raise ValueError('ERROR 2003: Cannot connect to MySQL server')
     if opts.get('password_prompt') and password is None and 'password' not in opts:
         state.terminal_auth={'kind':'mysql','args':args,'destination':destination}
         return TerminalResult(True,['Enter password:'])

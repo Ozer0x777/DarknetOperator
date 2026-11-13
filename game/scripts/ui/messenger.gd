@@ -395,14 +395,23 @@ func set_identity(handle: String) -> void:
 func add_message(message: Dictionary, notify: bool = true) -> void:
 	var id: String = str(message.get("id", JSON.stringify(message)))
 	if _ids.has(id):
-		for index: int in range(messages.size()):
-			if str(messages[index].get("id", "")) == id and messages[index] != message:
-				messages[index] = message.duplicate(true)
-				_rebuild_contact_activity()
-				_render_contacts()
-				if message.get("peer") == selected_peer: _render_messages()
+		# _ids donne la position du message : le bureau renvoie toute l'archive à chaque sondage,
+		# et la reparcourir en entier pour chaque message coûtait un temps quadratique.
+		var index: int = int(_ids[id])
+		if index < 0 or index >= messages.size() or str(messages[index].get("id", "")) != id:
+			index = -1
+			for candidate: int in range(messages.size()):
+				if str(messages[candidate].get("id", "")) == id:
+					index = candidate
+					break
+			_ids[id] = index
+		if index >= 0 and messages[index] != message:
+			messages[index] = message.duplicate(true)
+			_rebuild_contact_activity()
+			_render_contacts()
+			if message.get("peer") == selected_peer: _render_messages()
 		return
-	_ids[id] = true
+	_ids[id] = messages.size()
 	messages.append(message.duplicate(true))
 	var peer: String = str(message.get("peer", message.get("sender", "k0rvid")))
 	if peer == local_handle:

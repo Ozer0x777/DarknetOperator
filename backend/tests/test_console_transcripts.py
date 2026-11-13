@@ -13,7 +13,7 @@ def test_console_text_is_restored_after_resume_without_passwords():
 
             async def command(line, console='main'):
                 response = (await client.post(f'/api/games/{gid}/terminal', json={'line': line, 'console_id': console})).json()
-                while api.GAMES[gid].loop._queue: api.GAMES[gid].loop.tick()
+                while api.GAMES[gid].loop.pending(): api.GAMES[gid].loop.tick()
                 return response
 
             await command('pwd')

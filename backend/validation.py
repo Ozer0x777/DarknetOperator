@@ -66,7 +66,7 @@ async def play_campaign(output: Path | None = None, *, variant: str = 'standard'
                         assert result['ok'] != fail, (cid, line, result)
                         if resolve:
                             loop = api.GAMES[gid].loop
-                            while loop._queue and loop.state.status == 'RUNNING': loop.tick()
+                            while loop.pending() and loop.state.status == 'RUNNING': loop.tick()
                             if result['queued'] and not fail:
                                 assert loop.state.history[-1].success, (cid, line, loop.state.history[-1])
                         if replays is not None:
@@ -109,7 +109,7 @@ async def play_campaign(output: Path | None = None, *, variant: str = 'standard'
                     await command('nmap --invented ' + initial, fail=True)
                     await command('nmap -sV ' + subnet, resolve=False)
                     await resume()  # Action en attente, avant découverte.
-                    while api.GAMES[gid].loop._queue: api.GAMES[gid].loop.tick()
+                    while api.GAMES[gid].loop.pending(): api.GAMES[gid].loop.tick()
                     run['checks'].append('scan, erreur de syntaxe et reprise d’une action en attente')
                     if cid != 'grand_compte':
                         # Le service est un processus réel du monde de jeu, isolé de la console de travail.
@@ -122,7 +122,7 @@ async def play_campaign(output: Path | None = None, *, variant: str = 'standard'
                         await command('curl -k -H "Authorization: $API_KEY" -H "Content-Type: application/json" -d @/home/operator/gophish/campaign.json https://127.0.0.1:3333/api/campaigns/', resolve=False)
                         assert not state().find_credential(primary, 'PLAINTEXT')
                         await resume()  # Serveur, variables, campagne et délai humain restaurés.
-                        while api.GAMES[gid].loop._queue: api.GAMES[gid].loop.tick()
+                        while api.GAMES[gid].loop.pending(): api.GAMES[gid].loop.tick()
                         assert state().find_credential(primary, 'PLAINTEXT'), (cid, 'human_response', state().history[-1].reason)
                         assert state().hosts['poste-accueil'].status == 'HEALTHY'
                         run['checks'].append('GoPhish et curl, authentification API, délai, reprise et absence de session automatique')

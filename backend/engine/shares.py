@@ -13,21 +13,23 @@ def parse(args,state):
     try:
         ref=args[1] if listing else args[0][2:].split('/',1)[0]
         host=state.find_host(ref)
-        if not host or host.id not in state.discovered or not host.has_service('SMB',445) or state.is_blocked(host.id,445):raise ValueError('NT_STATUS_CONNECTION_REFUSED')
+        if not host or host.id not in state.discovered or not host.has_service('SMB',445) or not state.reachable(host,445):raise ValueError('NT_STATUS_CONNECTION_REFUSED')
         shares=state.environment.get('shares',{}).get(host.id,{})
         username='guest';secret=None
         i=2 if listing else 1; command=None
         while i<len(args):
             if args[i]=='-N':i+=1;continue
             if args[i] in {'-U','-c'} and i+1<len(args):
-                if args[i]=='-U':username,secret=args[i+1].split('%',1)
+                if args[i]=='-U':
+                    if '%' not in args[i+1]:raise ValueError('smbclient: mot de passe requis — utilise -U utilisateur%mot_de_passe (l’invite interactive n’est pas simulée).')
+                    username,secret=args[i+1].split('%',1)
                 else:command=args[i+1]
                 i+=2;continue
             raise ValueError('smbclient: unsupported argument '+args[i])
         def permitted(spec):
             if username=='guest':return '*' in spec.get('users',[])
             from .authentication import authenticate
-            return bool(authenticate(state,host,username,secret)) and username in spec.get('users',[])
+            return bool(authenticate(state,host,username,secret)) and (username in spec.get('users',[]) or '*' in spec.get('users',[]))
         if listing:return TerminalResult(True,['Sharename       Type',*[(name+'       Disk') for name,spec in shares.items() if permitted(spec)]])
         share=args[0][2:].split('/',1)[1]
         if share not in shares:raise ValueError('NT_STATUS_BAD_NETWORK_NAME')

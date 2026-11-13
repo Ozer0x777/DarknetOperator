@@ -23,6 +23,8 @@ var _history_seen: Dictionary = {}
 var _retry_seconds: float = 0.0
 var _social_seconds: float = 0.0
 var _social_pending: bool = false
+var _state_pending: bool = false
+const SOCKET_BUFFER_BYTES: int = 16 * 1024 * 1024
 
 func _init(owner_node: Node) -> void:
 	_owner = owner_node
@@ -138,6 +140,9 @@ func connect_socket() -> void:
 	if request_transport != null: return
 	_socket.close()
 	_socket = WebSocketPeer.new()
+	# L'état final d'une mission (débriefing complet) dépasse largement les 64 Ko par défaut :
+	# au-delà du tampon, Godot ferme la connexion (code 1009) sans rien livrer.
+	_socket.inbound_buffer_size = SOCKET_BUFFER_BYTES
 	var url: String = base_url.replace("https://", "wss://").replace("http://", "ws://")
 	var err: Error = _socket.connect_to_url(url + "/ws/games/" + game_id)
 	if err != OK:
@@ -163,6 +168,17 @@ func poll(delta: float) -> void:
 		if _retry_seconds >= 3.0 and state.get("status") == "RUNNING":
 			_retry_seconds = 0.0
 			connect_socket()
+			# Filet de sécurité : l'état est aussi relu par HTTP, qui n'a pas de limite de taille.
+			# Une fin de mission est ainsi toujours apprise, même si le temps réel reste coupé.
+			refresh_state()
+
+func refresh_state() -> void:
+	if _state_pending or game_id.is_empty(): return
+	_state_pending = true
+	var requested: String = game_id
+	var result: Dictionary = await request("/api/games/%s" % requested)
+	_state_pending = false
+	if not result.has("error") and requested == game_id: apply_state(result.data)
 
 ## Changement de partie : les identifiants d’historique sont des index propres à chaque partie.
 func clear_history_seen() -> void:

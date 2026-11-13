@@ -30,6 +30,18 @@ def path(state: GameState, value: str) -> str:
     return posixpath.normpath(value if value.startswith("/") else posixpath.join(state.terminal_cwd, value))
 
 
+_LESSONS: str | None = None
+
+
+def _lessons() -> str:
+    """Carnet du tutoriel, lu une seule fois : prepare() est appelé à chaque commande."""
+    global _LESSONS
+    if _LESSONS is None:
+        from pathlib import Path
+        _LESSONS = (Path(__file__).parents[1]/'data/tutorial_lessons.txt').read_text(encoding='utf-8')
+    return _LESSONS
+
+
 def prepare(state: GameState) -> None:
     """Le laboratoire fournit un profil API et des ressources de démonstration, pas de vrais services."""
     from .deployment import prepare as prepare_tools
@@ -39,7 +51,7 @@ def prepare(state: GameState) -> None:
     files = state.terminal_files
     if state.contract and (state.contract.get('contract_id') == 'tuto_p0' or state.contract.get('onboarding')):
         from pathlib import Path
-        files['/home/operator/mission/lecons.txt'] = (Path(__file__).parents[1]/'data/tutorial_lessons.txt').read_text(encoding='utf-8')
+        files['/home/operator/mission/lecons.txt'] = _lessons()
     seeded = state.tool_data.setdefault('provisioned_config_files', [])
     config = {"admin_server": {"listen_url": "127.0.0.1:3333", "use_tls": True}, "phish_server": {"listen_url": "0.0.0.0:80", "use_tls": False}, "db_name": "sqlite3", "db_path": "gophish.db"}
     if '/opt/gophish/config.json' not in seeded:
@@ -103,18 +115,18 @@ def parse(line: str, state: GameState, abilities):
     if state.terminal_foreground is not None:
         return TerminalResult(False, ["Un processus occupe cette console. Ctrl+C pour l'arrêter, ou ouvre une autre console."])
     try:
-        expanded = _expand(line, state)
-        lexer=shlex.shlex(expanded,posix=True,punctuation_chars='<>')
+        # Les variables et $(cat …) sont déjà remplacés, une seule fois, par terminal._parse.
+        lexer=shlex.shlex(line,posix=True,punctuation_chars='<>')
         lexer.whitespace_split=True
         words=list(lexer)
     except ValueError as exc:
         return TerminalResult(False, [str(exc)])
     if not words: return None
-    if expanded != line:
-        return terminal_parse(expanded, state, abilities)
     assign = words[1:] if words[0] == "export" else words
     if len(assign) == 1 and re.match(r"^[A-Za-z_][A-Za-z0-9_]*=", assign[0]):
         name, value = assign[0].split("=", 1)
+        # Comme bash : un ~ en tête de valeur désigne le dossier personnel.
+        if value == "~" or value.startswith("~/"): value = state.terminal_env.get("HOME", "/home/operator") + value[1:]
         state.terminal_env[name] = value
         return TerminalResult(True)
     for operator in (">", ">>"):
@@ -162,9 +174,10 @@ def parse(line: str, state: GameState, abilities):
         service = next((s for s in state.tool_services.values() if s.get("pid") == int(value) and s.get("running")), None)
         if not service: return TerminalResult(False, [f"kill: ({value}) - No such process"])
         service["running"] = False
-        owner = service.get("owner")
-        if owner in state.terminals: state.terminals[owner]["terminal_foreground"] = None
-        if owner == state.active_terminal_id: state.terminal_foreground = None
+        owner, pid = service.get("owner"), int(value)
+        # Seule la console qui attendait ce processus retrouve son invite.
+        if owner in state.terminals and state.terminals[owner].get("terminal_foreground") == pid: state.terminals[owner]["terminal_foreground"] = None
+        if owner == state.active_terminal_id and state.terminal_foreground == pid: state.terminal_foreground = None
         return TerminalResult(True)
     if tool in {"gophish", "./gophish", "/opt/gophish/gophish"}:
         return _gophish(args, state)

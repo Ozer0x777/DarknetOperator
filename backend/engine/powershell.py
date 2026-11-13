@@ -91,12 +91,15 @@ def parse(line: str, state: GameState):
             state.terminal_cwd = target
             return TerminalResult(True)
         if command == 'get-content':
-            if target not in host.files: return TerminalResult(False, ['Get-Content : Access to the path is denied.'])
+            from .file_access import readable
+            if target not in host.files or not readable(state, target): return TerminalResult(False, ['Get-Content : Access to the path is denied.'])
             return TerminalResult(True, [host.files[target]])
         if command == 'copy-item':
             destination = flags.get('-destination', operands[1] if len(operands) > 1 else None)
             if not destination: return TerminalResult(False, ['Copy-Item : A destination is required in this version.'])
             if target not in host.files: return TerminalResult(False, ['Copy-Item : Recursive directory copying is not implemented.'])
+            from .file_access import readable
+            if not readable(state, target): return TerminalResult(False, ['Copy-Item : Access to the path is denied.'])
             dest = virtual_path(destination, state.terminal_cwd)
             if dest in folders: dest = posixpath.join(dest, posixpath.basename(target))
             if posixpath.dirname(dest) not in folders: return TerminalResult(False, ['Copy-Item : Could not find a part of the path.'])

@@ -41,7 +41,7 @@ def test_new_career_chordly_sequence_and_forum_invitation(tmp_path,monkeypatch):
                     console='server' if cid=='intro_campaign' and line.startswith('gophish ') else 'main'
                     response=await client.post(f'/api/games/{gid}/terminal',json={'line':line,'console_id':console})
                     assert response.status_code==200 and response.json()['ok'],(cid,line,response.text)
-                    while api.GAMES[gid].loop._queue: api.GAMES[gid].loop.tick()
+                    while api.GAMES[gid].loop.pending(): api.GAMES[gid].loop.tick()
                 state=api.GAMES[gid].state
                 assert state.contract_outcome=='SUCCESS',(cid,state.objectives,state.terminal_files)
                 profile.settle(gid,state)
@@ -55,7 +55,7 @@ def test_new_career_chordly_sequence_and_forum_invitation(tmp_path,monkeypatch):
             async def command(line,console='main'):
                 response=await client.post(f'/api/games/{gid}/terminal',json={'line':line,'console_id':console})
                 assert response.status_code==200 and response.json()['ok'],(line,response.text)
-                while api.GAMES[gid].loop._queue: api.GAMES[gid].loop.tick()
+                while api.GAMES[gid].loop.pending(): api.GAMES[gid].loop.tick()
             await command('nmap -sV 10.20.0.0/24')
             await command('API_KEY=$(cat ~/gophish/api-key.txt)')
             await command('curl -k -H "Authorization: $API_KEY" -H "Content-Type: application/json" -d @/home/operator/gophish/campaign.json https://127.0.0.1:3333/api/campaigns/')

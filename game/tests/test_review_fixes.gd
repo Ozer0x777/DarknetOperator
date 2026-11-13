@@ -146,9 +146,77 @@ func _run() -> void:
 	check(Session.parse_response(ok, 409, "{\"detail\": \"Mission déjà en cours\"}").get("error") == "Mission déjà en cours", "Message d’erreur du moteur transmis")
 	check(Session.parse_response(HTTPRequest.RESULT_TIMEOUT, 0, "").has("error"), "Moteur injoignable signalé")
 
+	# Terminal : les crochets d'une commande ou d'une sortie restent du texte.
+	var view: Control = desktop.terminal_views.main
+	view.output.clear()
+	view.submit("grep '[s]shd' /var/log/[b]auth[/b].log")
+	view.append_lines(["[url]lien[/url] [color=red]x[/color] [i]"])
+	view.restore_transcript(["ps aux | grep '[s]shd'", "[u]souligné[/u]"])
+	var shown: String = view.output.get_parsed_text()
+	check(shown.contains("grep '[s]shd'") and shown.contains("[u]souligné[/u]"), "Crochets conservés à la reprise : " + shown)
+	view.output.clear()
+	view.append_lines(["[url]lien[/url] [color=red]x[/color] [i]"])
+	check(view.output.get_parsed_text().contains("[url]lien[/url] [color=red]x[/color] [i]"), "Crochets conservés dans les sorties")
+
+	# Fenêtre active : réduire la fenêtre active la désigne comme non active ; le terminal caché ne reçoit plus le clavier.
+	desktop._open("Chordly")
+	await process_frame
+	check(desktop.active_app == "Chordly", "Chordly actif après ouverture")
+	desktop.apps.Chordly.minimize_window()
+	check(desktop.active_app == "", "Fenêtre réduite : plus de fenêtre active")
+	desktop._open("Terminal")
+	await process_frame
+	desktop._toggle_desktop()
+	check(desktop.active_app == "", "Bureau affiché : plus de fenêtre active")
+	desktop._toggle_desktop()
+
+	# Messagerie : cliquer dans la fenêtre lit la conversation affichée ; un message connu est retrouvé directement.
+	var peer: String = chat.selected_peer
+	chat.add_message({"id": "m-1", "sender": peer, "peer": peer, "text": "premier"}, true)
+	chat.add_message({"id": "m-2", "sender": peer, "peer": peer, "text": "second"}, true)
+	check(int(chat._unread_by_peer.get(peer, 0)) == 2, "Deux messages non lus")
+	desktop.apps.Chordly.open_window(desktop.workspace)
+	desktop.apps.Chordly.focus_window()
+	check(int(chat._unread_by_peer.get(peer, 0)) == 0, "Activer la messagerie marque la conversation comme lue")
+	var before_count: int = chat.messages.size()
+	chat.add_message({"id": "m-1", "sender": peer, "peer": peer, "text": "premier corrigé"}, false)
+	check(chat.messages.size() == before_count and str(chat.messages[int(chat._ids["m-1"])].text) == "premier corrigé", "Message connu mis à jour à sa place")
+
+	# Forum : fermer le seul onglet utilisable ne mène pas à un forum verrouillé.
+	forum.profile["access"] = {"forums": {"breachboard": {"unlocked": true}, "exployt": {"unlocked": false}, "xsx": {"unlocked": false}}}
+	forum._tabs.assign([{"forum": "breachboard", "thread": "", "section": "Contrats", "history": [], "index": -1}, {"forum": "exployt", "thread": "", "section": "Contrats", "history": [], "index": -1}, {"forum": "xsx", "thread": "", "section": "Contrats", "history": [], "index": -1}])
+	forum._tab_index = 0
+	forum.navigate("breachboard")
+	forum._close_tab(0)
+	check(forum.selected_forum == "breachboard" and forum._tabs.size() == 3, "Dernier onglet utilisable conservé")
+	forum.new_tab()
+	forum._close_tab(0)
+	check(forum.selected_forum == "breachboard" and forum._tabs[forum._tab_index].forum == "breachboard", "Fermeture : bascule vers un onglet déverrouillé")
+
+	# Audio : un morceau en pause n'est pas relancé ; le bouton du bureau ne reste pas branché au service.
+	var audio: Node = root.get_node("Audio")
+	audio._silent = false
+	audio.set_context("mission")
+	await process_frame
+	var playing_index: int = audio._current
+	audio._music[playing_index].stream_paused = true
+	audio._play_track(audio.current_track)
+	check(audio._current == playing_index and audio._music[playing_index].stream_paused, "Morceau en pause conservé, sans redémarrage")
+	audio._music[playing_index].stream_paused = false
+	audio._silent = true
+	var connections_before: int = audio.settings_changed.get_connections().size()
+
 	# Consoles : fermer la console principale ne laisse pas de référence libérée.
 	desktop._close_console("main")
 	check(desktop.terminal == null and desktop.terminal_input == null, "Références de la console principale remises à zéro")
+
+	# Retour au menu : le bureau libéré ne laisse aucune connexion au service audio.
+	desktop.queue_free()
+	await process_frame
+	await process_frame
+	check(audio.settings_changed.get_connections().size() < connections_before, "Connexions au service audio retirées avec le bureau")
+	audio.settings_changed.emit()
+	await process_frame
 
 	print("Corrections de revue du client : %s échec(s)" % failures)
 	quit(1 if failures else 0)

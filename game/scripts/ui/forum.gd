@@ -803,14 +803,26 @@ func new_tab() -> void:
 	_history_index = -1
 	navigate("breachboard", "", "Discussion")
 
+## Un onglet dont le forum est verrouillé existe mais n'est pas affiché.
+func _tab_usable(index: int) -> bool:
+	return not profile.has("access") or profile.access.get("forums", {}).get(_tabs[index].forum, {}).get("unlocked", false)
+
 func _close_tab(index: int) -> void:
-	if _tabs.size() == 1:
+	# Onglets vers lesquels on peut réellement basculer une fois celui-ci fermé.
+	var others: Array[int] = []
+	for i: int in range(_tabs.size()):
+		if i != index and _tab_usable(i): others.append(i)
+	if others.is_empty():
+		# Dernier onglet utilisable : on ne le ferme pas, on revient à l'accueil du forum ouvert.
 		navigate("breachboard")
 		return
 	_store_tab()
+	# Onglet utilisable le plus proche, de préférence celui qui était déjà affiché.
+	var target: int = _tab_index if _tab_index != index and _tab_usable(_tab_index) else others[0]
+	for candidate: int in others:
+		if _tab_index == index and absi(candidate - index) < absi(target - index): target = candidate
 	_tabs.remove_at(index)
-	if index < _tab_index: _tab_index -= 1
-	_tab_index = mini(_tab_index, _tabs.size()-1)
+	_tab_index = target - 1 if target > index else target
 	var tab: Dictionary = _tabs[_tab_index]
 	_history.assign(tab.history)
 	_history_index = int(tab.index)

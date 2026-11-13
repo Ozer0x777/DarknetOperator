@@ -135,6 +135,7 @@ def advance(career, minutes: int = 1) -> None:
 def refresh(career, now: float | None = None) -> None:
     """Le nombre de requêtes ne change pas la vitesse de l'horloge."""
     now = time.monotonic() if now is None else now
+    before = _signature(career)
     prepare(career)
     previous = getattr(career, '_social_time', now)
     elapsed = max(0, int((now - previous) // 6))
@@ -143,7 +144,28 @@ def refresh(career, now: float | None = None) -> None:
     elif elapsed:
         career._social_time = previous + elapsed * 6
         advance(career, min(elapsed, 10))
-    career.save()
+    # Le client interroge le monde social toutes les six secondes : la carrière n'est
+    # réécrite que si l'horloge a avancé ou si un message, un sujet ou un contact est apparu.
+    if _signature(career) != before: career.save()
+
+
+def _signature(career) -> tuple:
+    world = career.data.get('social')
+    if world is None: return ()
+    return (world.get('minute'), world.get('sequence'), len(world.get('published', [])), len(world.get('pending', [])),
+            len(world.get('unlocked_at', {})), len(world.get('seen', {})), len(world.get('milestones', [])),
+            len(career.data.get('conversations', {})), sum(len(posts) for posts in career.data.get('forum_posts', {}).values()))
+
+
+def restart_clock(career) -> None:
+    """Repart de maintenant : après un chargement ou une nouvelle partie, le temps passé au menu ne compte pas."""
+    import time
+    career._social_time = time.monotonic()
+
+
+def schedule(career, *, kind, target, author, text, delay=2, **extra):
+    """Planifie un message d'un personnage dans le monde social."""
+    return _schedule(career, kind=kind, target=target, author=author, text=text, delay=delay, **extra)
 
 
 def _schedule(career, *, kind, target, author, text, delay=2, **extra):

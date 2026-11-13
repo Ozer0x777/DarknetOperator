@@ -10,6 +10,7 @@ blueprint, réduit au MVP (pas d'auth, pas de rooms par rôle).
 from __future__ import annotations
 
 import asyncio
+import logging
 import random
 import uuid
 from collections import defaultdict
@@ -41,6 +42,7 @@ CONTRACTS_DIR = ROOT / "contracts"
 ABILITIES = load_all_abilities()
 _CAREER: Career | None = None
 _WORKSPACE: GameState | None = None
+_WORKSPACE_REVISION: int | None = None
 
 def career() -> Career:
     global _CAREER
@@ -105,17 +107,28 @@ async def _tick_loop(game_id: str) -> None:
             career().data['play_seconds'] = career().data.get('play_seconds', 0) + session.tick_interval
         # Le tutoriel laisse le temps de lire les messages : le monde avance
         # uniquement lorsqu'une action est en attente.
-        if session.state.contract and (session.state.contract["tier"] == 0 or session.state.contract.get("relaxed_clock")) and not session.loop._queue and not any(t > session.state.tick for t in session.state.cooldowns.values()):
+        if session.state.contract and (session.state.contract["tier"] == 0 or session.state.contract.get("relaxed_clock")) and not session.loop.has_pending() and not any(t > session.state.tick for t in session.state.cooldowns.values()):
             continue
-        if session.state.contract: session.state.environment["world_minute"] = social.prepare(career())["minute"]
-        session.loop.tick()
-        if session.state.contract:
-            if session.state.status == "ENDED":
-                career().settle(game_id, session.state)
-            else:
-                _checkpoint_if_changed(session)
+        try:
+            if session.state.contract: session.state.environment["world_minute"] = social.prepare(career())["minute"]
+            session.loop.tick()
+            _persist(session, throttled=True)
+        except Exception:
+            # Une erreur ponctuelle (écriture impossible, règle défaillante) ne doit pas arrêter la partie :
+            # sans cette boucle, plus aucun tick, plus aucune commande résolue, plus aucune diffusion.
+            logging.getLogger(__name__).exception("Tick en échec pour la partie %s ; la boucle continue.", game_id)
         await _broadcast(game_id)
     await _broadcast(game_id)  # diffuse l'état final (ENDED)
+
+
+def _persist(session: "GameSession", *, throttled: bool = False) -> None:
+    """Écrit une mission de contrat : règlement si elle est terminée, sinon point de sauvegarde.
+    Une partie sans contrat n'écrit jamais dans la carrière."""
+    state = session.state
+    if not state.contract: return
+    if state.status == "ENDED": career().settle(session.id, state)
+    elif throttled: _checkpoint_if_changed(session)
+    else: career().checkpoint(state)
 
 
 CHECKPOINT_IDLE_SECONDS = 20.0
@@ -210,13 +223,30 @@ async def list_scenarios():
 # Forum (bounties) et inscription
 # ---------------------------------------------------------------------------
 
+_CONTRACT_CACHE: tuple | None = None
+
+
+def _raw_contracts() -> dict[str, dict]:
+    """Contrats lus et validés depuis le disque. Cette lecture (49 fichiers et leurs scénarios)
+    se trouvait sur chaque sondage du client : elle n'est refaite que si un fichier a changé."""
+    global _CONTRACT_CACHE
+    stamp = tuple(sorted((str(path), path.stat().st_mtime_ns) for folder in (CONTRACTS_DIR, SCENARIOS_DIR) for path in folder.glob("*.json")))
+    if _CONTRACT_CACHE is None or _CONTRACT_CACHE[0] != stamp:
+        try:
+            loaded = contracts.load_all_contracts(CONTRACTS_DIR, SCENARIOS_DIR, known_ability_ids=set(ABILITIES))
+        except ContractValidationError as exc:
+            raise HTTPException(500, str(exc))
+        _CONTRACT_CACHE = (stamp, loaded)
+    return _CONTRACT_CACHE[1]
+
+
 def _load_contracts() -> dict[str, dict]:
+    from copy import deepcopy
+    from engine.relationships import offers
+    from engine.curriculum import definitions
     try:
-        from engine.relationships import offers
-        from engine.curriculum import definitions
-        return offers(career().data, definitions(career().data, contracts.load_all_contracts(
-            CONTRACTS_DIR, SCENARIOS_DIR, known_ability_ids=set(ABILITIES)
-        )))
+        # Copie : les règles de progression ajustent titres et primes selon la carrière.
+        return offers(career().data, definitions(career().data, deepcopy(_raw_contracts())))
     except ContractValidationError as exc:
         raise HTTPException(500, str(exc))
 
@@ -229,10 +259,8 @@ async def list_contracts(forum: str | None = None):
     active = career().view().get("active_contract") or {}
     for c in sorted(_load_contracts().values(), key=lambda c: (c["tier"], c.get("required_rep", 0), c["contract_id"])):
         if c.get('onboarding') or c.get('private_offer'): continue
-        from engine.curriculum import current
-        if current(career().data) and c['contract_id']=='side_empreinte' and c['contract_id'] not in career().data['completed']:continue
-        from engine.campaign import enabled as act1_enabled
-        if act1_enabled(career().data) and not career().data.get('forum_invitation_accepted') and c['contract_id'] in {'morel','rival','varenne','affiliation','grand_compte','offre_urgente'}: continue
+        from engine.campaign import hidden_from_board
+        if hidden_from_board(career().data, c['contract_id']): continue
         if forum_reason(career().data, c.get('bounty', {}).get('forum', 'breachboard')): continue
         view = contracts.bounty_view(c)
         reason = career().lock_reason(c)
@@ -262,10 +290,14 @@ async def create_game(req: CreateGameRequest):
         contract = _load_contracts().get(req.contract)
         if contract is None:
             raise HTTPException(404, f"Contrat inconnu: {req.contract}")
+        # L'identité est celle de la carrière : un contrat ne la remplace pas en cours de route.
+        req.handle = career().data.get("handle") or req.handle
         if not req.handle or not is_valid_handle(req.handle):
             raise HTTPException(
                 400, "Pseudo invalide : 3 à 24 caractères, lettres, chiffres, _ - . uniquement."
             )
+        if req.handle.casefold() in _reserved_handles():
+            raise HTTPException(400, "Ce pseudo est déjà utilisé par un personnage ; choisis une autre identité.")
         active = career().data.get("active") or {}
         if active.get("status") == "RUNNING" and (active.get("contract") or {}).get("contract_id") == req.contract:
             return _resume_career_session()
@@ -284,7 +316,7 @@ async def create_game(req: CreateGameRequest):
 
     if req.contract is not None:
         # Le moteur décide de ce qui suit l'opérateur d'un contrat au suivant (engine/mission_data.py).
-        mission_data.inherit(state, career().data.get("active") or career().data.get("workspace"), contract)
+        mission_data.inherit(state, mission_data.source_for_new_contract(career().data), contract)
         try:
             career().prepare(contract, state)
         except ValueError as exc:
@@ -448,7 +480,7 @@ async def load_save(req: SaveRequest):
         profile.replace(snapshot)  # rétablit l'ancienne carrière en mémoire si l'écriture échoue
         # Détruire la session et les demandes ColdVault seulement après écriture réussie.
         await _stop_live_sessions()
-        career()._social_time = __import__('time').monotonic()
+        social.restart_clock(career())
         return career().view()
     except ValueError as exc: raise HTTPException(400,str(exc))
     except OSError: raise HTTPException(503,'Impossible d’écrire la sauvegarde. La partie courante et les demandes en attente sont conservées.')
@@ -472,7 +504,7 @@ async def new_career(req: NewCareerRequest):
     from engine.save_store import SaveStore
     if req.play_mode not in {'campaign', 'demo'}: raise HTTPException(400, 'Parcours inconnu.')
     if not is_valid_handle(req.handle): raise HTTPException(400,'Pseudo invalide : 3 à 24 caractères, lettres, chiffres, tiret, point ou underscore.')
-    if req.handle.casefold() in {name.casefold() for name in social.content()['profiles']}: raise HTTPException(400,'Ce pseudo est déjà utilisé par un personnage ; choisis une autre identité.')
+    if req.handle.casefold() in _reserved_handles(): raise HTTPException(400,'Ce pseudo est déjà utilisé par un personnage ; choisis une autre identité.')
     if not req.confirm: raise HTTPException(409,'Confirme la nouvelle partie : la carrière courante sera archivée.')
     profile = career()
     store = SaveStore(profile.path)
@@ -500,7 +532,7 @@ async def new_career(req: NewCareerRequest):
         raise HTTPException(503,'Impossible d’écrire la nouvelle carrière. La partie courante est conservée.')
     # Les sessions ne sont détruites qu'après l'écriture réussie de la nouvelle carrière.
     await _stop_live_sessions()
-    career()._social_time = __import__('time').monotonic()
+    social.restart_clock(career())
     return career().view()
 
 
@@ -556,9 +588,22 @@ async def get_shop():
 @app.post("/api/shop/buy")
 async def buy_item(req: BuyRequest):
     try:
-        return career().request_purchase(req.item)
+        result = career().request_purchase(req.item)
     except ValueError as exc:
         raise HTTPException(400, str(exc))
+    _sync_inventory()
+    return result
+
+
+def _sync_inventory() -> None:
+    """La mission en cours lit son propre inventaire : un achat fait pendant la mission
+    (GPU, liste de mots, licence) doit y apparaître tout de suite."""
+    active = career().data.get('active') or {}
+    for session in GAMES.values():
+        if session.state.contract and session.state.conversation_id == active.get('conversation_id'):
+            if session.state.inventory != career().data['inventory']:
+                session.state.inventory = list(career().data['inventory'])
+                career().checkpoint(session.state)
 
 
 @app.post("/api/profile/route")
@@ -585,10 +630,7 @@ async def set_guidance(game_id: str, req: GuidanceRequest):
 @app.post("/api/games/{game_id}/disconnect")
 async def disconnect_game(game_id: str):
     session = _get_session(game_id)
-    if session.state.status == "RUNNING":
-        session.state.status, session.state.winner = "ENDED", "BLUE"
-        session.state.end_reason = "disconnected"
-        contracts.advance(session.state)
+    if session.loop.abandon():
         career().settle(game_id, session.state)
         await _broadcast(game_id)
     return serialize_state(session.state)
@@ -614,13 +656,23 @@ def _resume_career_session():
             for host in state.hosts.values():
                 template = current_scenario.hosts[host.id]
                 host.os, host.role, host.phishing = template.os, template.role, template.phishing
+            # Les objectifs et le guide suivent la révision : sinon un objectif pourrait viser une étape disparue.
+            state.objectives = deepcopy(current_scenario.objectives)
+            state.guide_index = min(state.guide_index, len(state.contract.get("guide", [])))
+            known_steps = {step["id"] for step in state.contract.get("investigation_steps", [])}
+            record = state.tool_data.get("investigation")
+            if record: record["steps"] = [step for step in record.get("steps", []) if step in known_steps]
+            revised = True
         else:
             state.contract["terminal_revision"] = current_contract["terminal_revision"]
-        contracts._send(state, "Les consignes et les validations de ce dossier ont été précisées. La mission sauvegardée conserve son réseau, ses comptes et ses choix. Écris objectif pour relire le but, ou aide pour un indice adapté à ta progression. Les outils Windows doivent toujours être transférés avant leur exécution.")
+            revised = False
+            contracts.send(state, "Ce dossier a été révisé depuis ta sauvegarde, mais son réseau a changé : la mission sauvegardée conserve son réseau, ses comptes, ses consignes et ses choix. Les nouvelles consignes s’appliqueront à un nouveau départ de ce dossier.")
+        if revised: contracts.send(state, "Les consignes et les validations de ce dossier ont été précisées. La mission sauvegardée conserve son réseau, ses comptes et ses choix. Écris objectif pour relire le but, ou aide pour un indice adapté à ta progression. Les outils Windows doivent toujours être transférés avant leur exécution.")
         career().checkpoint(state)
     if state.environment.pop('credential_migration', False) and state.contract:
-        contracts._send(state, "Les anciennes empreintes artificielles du prototype ont été mises en cohérence avec les mots de passe du laboratoire. Le réseau et les comptes sont conservés ; consulte les fichiers du butin pour les valeurs actualisées.")
+        contracts.send(state, "Les anciennes empreintes artificielles du prototype ont été mises en cohérence avec les mots de passe du laboratoire. Le réseau et les comptes sont conservés ; consulte les fichiers du butin pour les valeurs actualisées.")
         career().checkpoint(state)
+    if state.contract: state.inventory = list(career().data["inventory"])
     game_id = uuid.uuid4().hex
     GAMES[game_id] = GameSession(id=game_id, loop=GameLoop(state, ABILITIES), paused=True)
     return {"id": game_id, "state": _with_transcripts(state), "resumed": True}
@@ -670,8 +722,10 @@ async def submit_action(game_id: str, action: ActionRequest):
 
 
 def workspace() -> GameState:
-    global _WORKSPACE
-    if _WORKSPACE is None:
+    global _WORKSPACE, _WORKSPACE_REVISION
+    revision = career().data.get("workspace_revision", 0)
+    if _WORKSPACE is None or revision != _WORKSPACE_REVISION:  # le bureau a été mis à jour par une fin de mission
+        _WORKSPACE_REVISION = revision
         saved = career().data.get("workspace")
         _WORKSPACE = state_from_dict(saved) if saved else GameState(hosts={}, users={})
         _WORKSPACE.available_abilities = {"red": [a.id for a in ABILITIES.values() if a.team == "red"]}
@@ -679,15 +733,12 @@ def workspace() -> GameState:
     return _WORKSPACE
 
 
-def _resolve_observations(state: GameState) -> None:
+def _resolve_observations(loop: GameLoop) -> None:
     """Les lectures et comptes rendus peuvent achever un dossier sans tick offensif."""
+    state = loop.state
     if not state.contract or not (state.contract.get('onboarding') or state.contract.get('investigation_steps')): return
-    from engine.win_conditions import check
-    winner = check(state)
-    if winner and state.status == 'RUNNING':
-        state.status, state.winner, state.end_reason = 'ENDED', winner, 'objectives' if winner == 'RED' else 'timeout'
-        contracts.advance(state)
-        career().settle(next((gid for gid,s in GAMES.items() if s.state is state), state.conversation_id),state)
+    if loop.finish_if_won():
+        career().settle(next((gid for gid,s in GAMES.items() if s.loop is loop), state.conversation_id),state)
 
 
 def _terminal_request(state: GameState, req: TerminalRequest, loop: GameLoop | None) -> dict:
@@ -721,7 +772,7 @@ def _terminal_request(state: GameState, req: TerminalRequest, loop: GameLoop | N
                     result = terminal.TerminalResult(False, [str(exc)])
     if not (req.line.strip() == "clear" and not req.interrupt and not before.get("password_prompt")):
         console_sessions.record(state, req.console_id, ([] if req.interrupt else console_sessions.echo(before, req.line)) + list(result.output or []))
-    if loop: _resolve_observations(state)
+    if loop: _resolve_observations(loop)
     context = console_sessions.public_contexts(state)[req.console_id]
     return {"ok": result.ok, "output": result.output, "queued": queued, "console_id": req.console_id,
             "password_prompt": context["password_prompt"], "context": context, "open_url": result.open_url, "exit_code": None if context["password_prompt"] or (queued and not result.action.params.get("gophish_campaign_id")) else result.exit_code}
@@ -810,16 +861,17 @@ async def send_chat(game_id: str, req: ChatRequest):
     if req.peer and (not session.state.contract or req.peer != session.state.contract["client"]["handle"]):
         raise HTTPException(400, "Cette conversation ne correspond pas au client du contrat actif.")
     try:
-        urgent = any(word in req.text.casefold() for word in ("aide", "bloqu", "comment", "perdu", "indice", "rappel", "guide", "objectif", "mission", "contrat", "paiement", "prime"))
-        reply = contracts.player_message(session.state, req.channel, req.text.strip(), defer=not urgent)
+        reply = contracts.player_message(session.state, req.channel, req.text.strip(), defer=not contracts.wants_immediate_answer(req.text))
     except ValueError as exc:
         raise HTTPException(400, str(exc))
-    _resolve_observations(session.state)
-    career().checkpoint(session.state)
+    # Repéré avant la vérification des objectifs, qui peut ajouter le message de fin du client.
+    player_index = max((i for i, m in enumerate(session.state.messages) if m.sender == session.state.player_handle), default=len(session.state.messages) - 1)
+    _resolve_observations(session.loop)
+    if session.state.contract: career().checkpoint(session.state)
     if reply:
-        social._schedule(career(), kind="chat", target=session.state.contract["client"]["handle"], channel=req.channel,
+        social.schedule(career(), kind="chat", target=session.state.contract["client"]["handle"], channel=req.channel,
             author=session.state.contract["client"]["handle"], text=reply,
-            reply_to=f"{session.state.conversation_id}:{len(session.state.messages)-1}", delay=2 if req.channel == "chordly" else 4)
+            reply_to=f"{session.state.conversation_id}:{player_index}", delay=2 if req.channel == "chordly" else 4)
         career().save()
     await _broadcast(game_id)
     return serialize_state(session.state)
@@ -867,10 +919,14 @@ async def get_thread(thread_id: str, refresh: bool = False):
     return career().data.get("forum_posts", {}).get(thread_id, [])
 
 
+def _reserved_handles() -> set[str]:
+    """Pseudos des personnages et des clients de contrats, en minuscules."""
+    return {name.casefold() for name in set(social.content()["profiles"]) | {c["client"]["handle"] for c in _raw_contracts().values()}}
+
+
 def _community_identity(handle: str) -> str:
     identity = career().data.get("handle", handle)
-    reserved = set(social.content()["profiles"]) | {c["client"]["handle"] for c in _load_contracts().values()}
-    if not is_valid_handle(handle) or handle != identity or handle.casefold() in {name.casefold() for name in reserved}:
+    if not is_valid_handle(handle) or handle != identity or handle.casefold() in _reserved_handles():
         raise HTTPException(400, "Utilise le pseudo de ton profil ; les comptes des autres membres sont réservés.")
     career().data.setdefault("handle", identity)
     return identity
@@ -944,9 +1000,7 @@ async def wait_world(req: WaitWorldRequest):
             for _ in range(3):
                 session.loop.tick()
                 if session.state.status != "RUNNING": break
-    if session and session.state.contract:
-        if session.state.status == "ENDED": profile.settle(session.id, session.state)
-        else: profile.checkpoint(session.state)
+    if session: _persist(session)
     profile.save()
     if session: await _broadcast(session.id)
     return {"social": social.view(profile, _load_contracts()), "state": serialize_state(session.state) if session else None}
@@ -1026,7 +1080,7 @@ async def workspace_gophish(req: GophishGuiRequest):
 async def game_gophish(game_id: str, req: GophishGuiRequest):
     session = _get_session(game_id)
     result = _gophish_gui(session.state, session.loop, req)
-    career().checkpoint(session.state)
+    if session.state.contract: career().checkpoint(session.state)
     return result
 
 
@@ -1094,8 +1148,10 @@ async def wallet_status():
 
 @app.post('/api/wallet/device')
 async def wallet_device(req: WalletActionRequest):
-    try: return career().wallet_action(req.action, req.request_id)
+    try: result = career().wallet_action(req.action, req.request_id)
     except ValueError as exc: raise HTTPException(400, str(exc))
+    _sync_inventory()
+    return result
 
 
 class BloodHoundImportRequest(BaseModel):
@@ -1115,5 +1171,5 @@ async def bloodhound_import(game_id: str, req: BloodHoundImportRequest):
     if session.state.status!='RUNNING':raise HTTPException(409,'Ouvre le dossier de collecte avant cet import.')
     try:result=import_archive(session.state,req.path)
     except ValueError as exc:raise HTTPException(400,str(exc))
-    career().checkpoint(session.state)
+    if session.state.contract: career().checkpoint(session.state)
     return result

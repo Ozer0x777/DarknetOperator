@@ -41,7 +41,7 @@ async def qualify(output):
                     async def command(line,console='main'):
                         result=await client.post(f'/api/games/{gid}/terminal',json={'line':line,'console_id':console})
                         assert result.status_code==200,result.text
-                        while api.GAMES[gid].loop._queue:api.GAMES[gid].loop.tick()
+                        while api.GAMES[gid].loop.pending():api.GAMES[gid].loop.tick()
                         return result.json()
                     bad=await command(MISTAKES[cid])
                     assert not bad['ok'],(cid,bad)

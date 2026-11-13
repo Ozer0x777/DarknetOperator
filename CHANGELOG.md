@@ -1,5 +1,18 @@
 # Journal des changements
 
+## Non publié — corrections de revue
+
+- Tutoriel : consignes GoPhish complètes dans Chordly ; dossier Ravelle avec domaine, DNS simulé (`host`) et IP publique.
+- Fin de mission : l’état final arrive toujours au client (tampon temps réel agrandi, relecture HTTP en secours) ; la boucle de jeu survit à une erreur ponctuelle.
+- Sauvegardes : archive avant nouvelle partie pour tout contenu du joueur, trois autosauvegardes toujours différentes, écriture UTF-8, une seule écriture par point de sauvegarde, plus d’écriture quand rien ne change.
+- Missions : le poste Kali suit l’opérateur d’un contrat au suivant et après un redémarrage ; preuves, scans et réactions de la cible restent propres à leur mission ; un achat s’applique à la mission en cours.
+- Terminal : variables remplacées avant tous les outils, texte entre crochets conservé, `exit` local sans effet sur la console, `mysql … > fichier`, `export VAR=~/…`, historique des consoles restauré à la reprise, mot de passe masqué par des étoiles.
+- Bureau : menu Applications cliquable au-dessus des fenêtres, Échap et clavier selon le focus, fenêtre réduite non active, manette sans effet sur l’interface, musique en pause conservée.
+- Forum et messagerie : plus de reconstruction ni de vue comptée à chaque sondage, lecture marquée au clic, onglets verrouillés ignorés à la fermeture.
+- Moteur : une seule règle de joignabilité (machine isolée ou chiffrée refusée par tous les outils), droits de lecture Windows respectés, fin de mission en un seul endroit, règles de visibilité et mots-clés du dialogue sortis de l’API.
+- Ancien scénario par défaut : jouable au terminal jusqu’à la compromission du domaine ; score non cumulable en répétant une action ; aucun mot de passe cassé sans correspondance dans une liste de mots.
+- Retrait du prototype web ; `scripts/check_ui.py` lance tous les contrôles et affiche un résumé.
+
 ## 0.5.3 — musique continue et lecteur audio
 
 - La réussite d’une étape, le débriefing, la pause de mission et le lancement du dossier suivant ne changent plus de morceau.

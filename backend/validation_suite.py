@@ -37,7 +37,7 @@ async def failure_paths() -> list[dict]:
                     api.GAMES.pop(gid)
                     restored=(await client.post('/api/profile/resume',json={})).json()
                     gid=restored['id'];session=api.GAMES[gid]
-                    assert session.paused and session.loop._queue
+                    assert session.paused and session.loop.pending()
                     await client.post(f'/api/games/{gid}/resume',json={})
                     # Le délai est explicitement écoulé. Aucun objectif ni résultat n'est injecté.
                     while session.state.status=='RUNNING':session.loop.tick()

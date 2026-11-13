@@ -61,7 +61,7 @@ async def play(profile,variant='pivot',sides=True,bootstrap=True):
                         response=await client.post(f'/api/games/{gid}/terminal',json={'line':line,'console_id':'main' if kind=='c' else 'remote'})
                         assert response.status_code==200 and (response.json()['ok'] if line!='sudo -l' else not response.json()['ok']),(cid,line,response.text)
                     assert response.status_code==200,(cid,line,response.text)
-                    while api.GAMES[gid].loop._queue:api.GAMES[gid].loop.tick()
+                    while api.GAMES[gid].loop.pending():api.GAMES[gid].loop.tick()
                     profile.checkpoint(api.GAMES[gid].state)
                     record['operations'].append(dict(kind=kind,line=line))
                     if index==max(0,(len(operations)-1)//2) and api.GAMES[gid].state.status=='RUNNING':

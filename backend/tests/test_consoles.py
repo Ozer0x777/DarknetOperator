@@ -48,7 +48,7 @@ def test_cli_gophish_campaign_across_two_consoles():
             assert json.loads(response['output'][0])[0]['name']=='Briefing'
             response=await command(f'curl -k -H "Authorization: $API_KEY" -H "Content-Type: application/json" -d @/home/operator/gophish/campaign.json {url}campaigns/','term-2')
             assert response['queued'],response
-            while GAMES[gid].loop._queue: GAMES[gid].loop.tick()
+            while GAMES[gid].loop.pending(): GAMES[gid].loop.tick()
             assert state.find_credential('m.leroux','PLAINTEXT')
             assert state.history[-1].console_id=='term-2'
             assert state.terminals['main']['terminal_foreground'] is not None
@@ -102,7 +102,7 @@ def test_gophish_graphical_interface_uses_the_same_campaign_api():
             payload=json.loads(GAMES[gid].state.terminal_files['/home/operator/gophish/campaign.json'])
             response=await client.post(base+'/gophish',json={**auth,'method':'POST','endpoint':'campaigns','payload':payload})
             assert response.status_code==200,response.text
-            while GAMES[gid].loop._queue: GAMES[gid].loop.tick()
+            while GAMES[gid].loop.pending(): GAMES[gid].loop.tick()
             snapshot=(await client.post(base+'/gophish',json=auth)).json()
             assert snapshot['resources']['campaigns'][0]['results'][0]['status']=='Submitted Data'
             response=(await client.post(base+'/terminal',json={'line':'xdg-open https://127.0.0.1:3333','console_id':'term-2'})).json()
@@ -118,7 +118,7 @@ def test_closing_a_console_cancels_only_its_pending_actions():
                 await client.post(f'/api/games/{gid}/terminal',json={'line':'nmap 10.20.0.21','console_id':cid})
             await client.delete(f'/api/games/{gid}/terminals/main')
             loop=GAMES[gid].loop
-            assert len(loop._queue)==1 and loop._queue[0].console_id=='term-2'
+            assert len(loop.pending())==1 and loop.pending()[0].console_id=='term-2'
             loop.tick()
             assert loop.state.history[-1].console_id=='term-2'
     asyncio.run(run())

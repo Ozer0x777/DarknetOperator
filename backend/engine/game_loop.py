@@ -113,18 +113,39 @@ class GameLoop:
         siem.evaluate(state, new_logs)
         trace.advance(state)
 
-        # 5. Conditions de victoire — §11.4.
-        winner = win_conditions.check(state)
-        if winner:
-            state.status = "ENDED"
-            state.winner = winner
-            if state.end_reason is None:
-                state.end_reason = "objectives" if winner == "RED" else "timeout"
-
-        # 6. Contrat : messages du client selon la progression du joueur.
-        contracts.advance(state)
+        # 5. Conditions de victoire — §11.4. 6. Messages du client selon la progression du joueur.
+        if not self.finish_if_won(): contracts.advance(state)
 
         return results
+
+    def has_pending(self) -> bool:
+        """Vrai si une action attend encore sa résolution."""
+        return bool(self._queue)
+
+    def pending(self) -> list:
+        """Copie des actions en attente, dans l'ordre de résolution (lecture seule pour l'appelant)."""
+        return list(self._queue)
+
+    def finish_if_won(self) -> bool:
+        """Termine la mission si une condition de fin est atteinte et fait conclure le client.
+        Seul endroit où une mission se termine d'elle-même : le tick et les lectures hors tick l'appellent."""
+        state = self.state
+        if state.status != "RUNNING": return False
+        winner = win_conditions.check(state)
+        if not winner: return False
+        state.status, state.winner = "ENDED", winner
+        if state.end_reason is None:
+            state.end_reason = "objectives" if winner == "RED" else "timeout"
+        contracts.advance(state)
+        return True
+
+    def abandon(self) -> bool:
+        """Le joueur quitte la mission : elle se termine comme un échec « disconnected »."""
+        state = self.state
+        if state.status != "RUNNING": return False
+        state.status, state.winner, state.end_reason = "ENDED", "BLUE", "disconnected"
+        contracts.advance(state)
+        return True
 
     def _resolve_queued(self, action: QueuedAction) -> ActionResult:
         state = self.state
@@ -169,6 +190,8 @@ class GameLoop:
 
         from .console_sessions import using
         from .terminal_native import output
+        # Une console fermée entre-temps n'est pas recréée : le résultat arrive dans la console principale.
+        if action.console_id != "main" and action.console_id not in state.terminals: action.console_id = "main"
         ctx.params["console_id"] = action.console_id
         with using(state, action.console_id):
             if ctx.params.get("gophish_campaign_id") and not state.tool_services.get("gophish", {}).get("running"):
@@ -189,6 +212,8 @@ class GameLoop:
                         previous_reports = sum(a.rule_id == "USER-REPORT" and a.host_id == target.id for a in state.alerts)
                         state.alerts.append(Alert(state.next_alert_id(), "Messages répétés signalés" if previous_reports else "Message signalé par un utilisateur", "HIGH" if previous_reports else "MEDIUM", "USER-REPORT", target.id, state.tick, state.tick))
                 else:
+                    score_before = state.score.get(action.team, 0)
+                    scored_before = list(state.tool_data.get("scored_actions", []))
                     result = ability_engine.resolve(ability,state,ctx)
             from .shell_tools import finish_campaign
             finish_campaign(state, ctx, result)
@@ -198,6 +223,9 @@ class GameLoop:
                     result.message = detail if ability.id == 'red.crack_hash' else result.message + "\n" + detail
                 if ability.id == 'red.crack_hash' and ctx.params.get('hashes') and not all(value in ctx.params.get('crack_matches', {}) for value in ctx.params['hashes']):
                     result.success, result.reason = False, 'wordlist_exhausted'
+                    # Les correspondances partielles restent dans le potfile, mais l'échec ne marque pas de points.
+                    state.score[action.team] = score_before
+                    state.tool_data["scored_actions"] = scored_before
             if not ctx.params.get('gophish_campaign_id'):
                 state.terminal_last_exit = state.terminal_last_native_exit = 0 if result.success else 1
         state.history.append(HistoryEntry(state.tick, action.team, result.message, result.success, result.reason, action.console_id, 0 if result.success else 1))

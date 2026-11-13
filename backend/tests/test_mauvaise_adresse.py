@@ -51,7 +51,7 @@ def test_enquiry_access_wrong_file_resume_and_delivery(tmp_path, monkeypatch):
                 response=await client.post(f'/api/games/{gid}/terminal',json={'line':line,'console_id':console})
                 assert response.status_code==200,response.text
                 assert response.json()['ok'] is ok,(line,response.text)
-                while api.GAMES[gid].loop._queue: api.GAMES[gid].loop.tick()
+                while api.GAMES[gid].loop.pending(): api.GAMES[gid].loop.tick()
                 return response.json()
             async def chat(text):
                 response=await client.post(f'/api/games/{gid}/chat',json={'channel':'chordly','peer':'nullroute','text':text})

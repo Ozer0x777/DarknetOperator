@@ -88,7 +88,8 @@ def target_read_access(state: GameState, ctx: ActionContext) -> bool:
 
 REGISTRY = {
     "target_system_session": lambda state, ctx: target_admin_access(state,ctx) and state.terminal_host==ctx.target.id and state.terminal_access=="SYSTEM",
-    "crack_input_present": lambda state, ctx: bool(ctx.params.get("hashes")) or bool(ctx.credential and ctx.credential.type == "NTLM_HASH"),
+    # Les empreintes viennent d'une commande hashcat (fichier d'empreintes + liste de mots).
+    "crack_input_present": lambda state, ctx: bool(ctx.params.get("hashes")),
     "target_read_access": target_read_access,
     "target_is_domain_controller": lambda state, ctx: ctx.target.is_domain_controller,
     "target_compromised": target_compromised,
