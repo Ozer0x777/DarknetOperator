@@ -36,7 +36,7 @@ class Ability:
 
     @staticmethod
     def load(path: Path) -> "Ability":
-        return Ability(json.loads(path.read_text()))
+        return Ability(json.loads(path.read_text(encoding='utf-8')))
 
 
 def load_abilities(directory: Path) -> dict[str, Ability]:

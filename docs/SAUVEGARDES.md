@@ -8,7 +8,18 @@ de mission restent accessibles sur le bureau.
 ## Parcours joueur
 
 - **Nouvelle partie** : choisir un pseudo ; le bouton Créer confirme la création.
-  La carrière courante est d'abord archivée dans un emplacement manuel.
+  La carrière courante est d'abord archivée dans un emplacement manuel dès qu'elle
+  contient quelque chose (dossier terminé, mission, fichiers du bureau, achats,
+  messages écrits). Une carrière vierge, ou déjà archivée à l'identique, ne crée
+  pas d'emplacement. Si l'archive ne peut pas être écrite, la nouvelle partie est
+  refusée et la carrière courante reste intacte.
+- **Autosauvegardes** : trois emplacements tournants, qui contiennent toujours
+  trois états différents ; un état déjà présent n'en écrase pas un plus ancien.
+  Une autosauvegarde impossible n'interrompt jamais la partie.
+- **Entre deux contrats** : le poste Kali est conservé (fichiers locaux, consoles
+  et leur texte, GoPhish, potfile de hashcat). Les preuves, scans et réactions de
+  la cible appartiennent à leur mission et ne sont pas repris ; un hash déjà dans
+  le potfile doit être cassé ou relu (`--show`) pendant la mission pour compter.
 - **Continuer** : reprendre la carrière courante. Si une mission est active,
   ses consoles sont recréées et la mission est reprise ; sinon le bureau s'ouvre.
 - **Sauvegardes / Charger** : sélectionner un emplacement pour consulter le nom,

@@ -31,7 +31,7 @@ async def qualify(output):
             assert profile.data['choices']['litige118']==('publication' if first=='sqlmap' else 'mediation')
             assert profile.data['choices']['act2_binome']=='binome_'+second
             reports.append(dict(act1=report,act2=continuation))
-    (output/'curriculum-qualification.json').write_text(json.dumps(reports,ensure_ascii=False,indent=2)+'\n')
+    (output/'curriculum-qualification.json').write_text(json.dumps(reports,ensure_ascii=False,indent=2)+'\n', encoding='utf-8')
     print('Cursus courant : deux actes I allégés sans achat, sept exercices et sept petits contrats ; deux actes II complets, choix et reprises conservés.')
     return reports
 

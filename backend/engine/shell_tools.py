@@ -39,7 +39,7 @@ def prepare(state: GameState) -> None:
     files = state.terminal_files
     if state.contract and (state.contract.get('contract_id') == 'tuto_p0' or state.contract.get('onboarding')):
         from pathlib import Path
-        files['/home/operator/mission/lecons.txt'] = (Path(__file__).parents[1]/'data/tutorial_lessons.txt').read_text()
+        files['/home/operator/mission/lecons.txt'] = (Path(__file__).parents[1]/'data/tutorial_lessons.txt').read_text(encoding='utf-8')
     seeded = state.tool_data.setdefault('provisioned_config_files', [])
     config = {"admin_server": {"listen_url": "127.0.0.1:3333", "use_tls": True}, "phish_server": {"listen_url": "0.0.0.0:80", "use_tls": False}, "db_name": "sqlite3", "db_path": "gophish.db"}
     if '/opt/gophish/config.json' not in seeded:

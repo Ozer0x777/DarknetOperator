@@ -86,7 +86,7 @@ async def qualify(output):
     output.mkdir(parents=True,exist_ok=True);reports=[]
     with tempfile.TemporaryDirectory(prefix='darknet-act2-') as folder:
         for variant in FINALS:reports.append(await play(Career(Path(folder)/(variant+'.json')),variant))
-    (output/'act2-qualification.json').write_text(json.dumps(reports,ensure_ascii=False,indent=2)+'\n')
+    (output/'act2-qualification.json').write_text(json.dumps(reports,ensure_ascii=False,indent=2)+'\n', encoding='utf-8')
     print('Acte II : deux carrières depuis l’acte I, dix dossiers, six contrats facultatifs, deux finales, décisions et reprises vérifiées.')
     return reports
 

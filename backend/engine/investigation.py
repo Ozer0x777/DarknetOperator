@@ -25,10 +25,13 @@ def flags(state):
     return state.tool_data.setdefault('investigation', {}).setdefault('steps', [])
 
 
-def observe_forum(state, thread_id):
-    if not state.contract or thread_id not in state.contract.get('investigation_threads', []): return
+def observe_forum(state, thread_id) -> bool:
+    """Note la lecture d'un sujet attendu par le dossier. Renvoie True si c'est une nouvelle observation."""
+    if not state.contract or thread_id not in state.contract.get('investigation_threads', []): return False
     seen = state.tool_data.setdefault('investigation', {}).setdefault('threads', [])
-    if thread_id not in seen: seen.append(thread_id)
+    if thread_id in seen: return False
+    seen.append(thread_id)
+    return True
 
 
 def answer(state, text):

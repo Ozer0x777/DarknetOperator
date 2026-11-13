@@ -24,6 +24,7 @@ var _community: Array = []
 var _private_messages: Array = []
 var _only_side_jobs: bool = false
 var _open_topic_locked: bool = false
+var _world_counts: Dictionary = {}
 var members: Dictionary = {}
 var _activity: Dictionary = {}
 var _scroll: ScrollContainer
@@ -737,12 +738,25 @@ func reply_error(message: String) -> void:
 func set_world(data: Dictionary) -> void:
 	members = data.get("profiles", {})
 	var topics: Array = data.get("threads", [])
-	var changed: bool = _community != topics or profile.get("forum_counts", {}) != data.get("forum_counts", {}) or _private_messages != data.get("forum_messages", [])
+	# Les compteurs arrivent en décimal (JSON) alors que set_replies écrit des entiers : Godot les
+	# juge différents. On compare donc les compteurs du serveur entre eux, ramenés à des entiers.
+	var counts: Dictionary = {}
+	var incoming: Dictionary = data.get("forum_counts", {})
+	for id: Variant in incoming:
+		if int(incoming[id]) > 0: counts[str(id)] = int(incoming[id])
+	var changed: bool = _community != topics or _world_counts != counts or _private_messages != data.get("forum_messages", [])
 	_private_messages = data.get("forum_messages", []).duplicate(true)
 	_community = topics.duplicate(true)
-	profile["forum_counts"] = data.get("forum_counts", {}).duplicate(true)
+	_world_counts = counts
+	profile["forum_counts"] = counts.duplicate()
 	for topic: Dictionary in topics: _activity[topic.id] = topic
 	if changed: render()
+
+## Vrai si ce message privé est encore marqué non lu par le moteur.
+func message_unread(id: String) -> bool:
+	for message: Dictionary in _private_messages:
+		if str(message.get("id", "")) == id: return not message.get("read", false)
+	return false
 
 func _show_member(author: String) -> void:
 	var member: Dictionary = {"role": "Membre", "age": 1, "reputation": _local_reputation(), "bio": "Ton profil de membre."} if author == handle else members.get(author, {})

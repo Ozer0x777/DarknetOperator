@@ -169,6 +169,8 @@ def crack_credential(state: GameState, ctx: ActionContext) -> None:
         matches = {ctx.credential.value: account.password if account and account.password is not None else 'sim-password-' + ctx.credential.username}
     matches = matches or {}
     state.tool_data.setdefault('hashcat', {}).setdefault('pot', {}).update(matches)
+    from .mission_data import note_cracked
+    note_cracked(state, matches)
     for credential in list(state.loot):
         if credential.type != 'NTLM_HASH' or credential.value.lower() not in matches: continue
         password = matches[credential.value.lower()]

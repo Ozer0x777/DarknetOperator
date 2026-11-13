@@ -95,7 +95,7 @@ async def qualify(output):
                         records.append(dict(route=route,choice=choice,balance=money,reloaded=True,replay_preserved=True,continues_at='intro_login',trust_offer=offer,trust_bonus=30))
         output.mkdir(parents=True,exist_ok=True)
         report=dict(scope='API en mémoire, temps accéléré ; aucune validation graphique native.',runs=records)
-        (output/'demo-qualification.json').write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n')
+        (output/'demo-qualification.json').write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n', encoding='utf-8')
         print('Démo : quatre parcours complets, deux sources, deux décisions, sauvegardes rechargées et campagne poursuivie ; achats verrouillés.')
         return report
     finally: api._CAREER, api._WORKSPACE, api.GAMES, api.CONNECTIONS=previous

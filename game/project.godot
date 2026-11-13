@@ -9,6 +9,7 @@ run/main_scene="res://scenes/main_menu.tscn"
 config/features=PackedStringArray("4.4", "GL Compatibility")
 
 [autoload]
+InputSetup="*res://scripts/input_setup.gd"
 Audio="*res://scripts/audio_manager.gd"
 
 [display]

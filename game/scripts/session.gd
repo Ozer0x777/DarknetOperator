@@ -30,7 +30,9 @@ func _init(owner_node: Node) -> void:
 		if arg.begins_with("--api="):
 			base_url = arg.trim_prefix("--api=").trim_suffix("/")
 
-func request(path: String, payload: Variant = null) -> Dictionary:
+## expect : type JSON attendu en cas de succès. Presque toutes les routes renvoient un
+## dictionnaire ; celles qui renvoient une liste le précisent avec TYPE_ARRAY.
+func request(path: String, payload: Variant = null, expect: int = TYPE_DICTIONARY) -> Dictionary:
 	if request_transport != null: return request_transport.request(path, payload)
 	var http: HTTPRequest = HTTPRequest.new()
 	_owner.add_child(http)
@@ -42,15 +44,25 @@ func request(path: String, payload: Variant = null) -> Dictionary:
 		return {"error": "Impossible de contacter le moteur (%s)." % err}
 	var response: Array = await http.request_completed
 	http.queue_free()
-	if response[0] != HTTPRequest.RESULT_SUCCESS:
+	return parse_response(response[0], int(response[1]), response[3].get_string_from_utf8(), expect)
+
+## Transforme une réponse HTTP en {"data": …} ou {"error": …}. Les appelants lisent directement
+## result.data : une réponse vide, illisible ou du mauvais type est donc toujours une erreur.
+static func parse_response(result_code: int, http_code: int, body: String, expect: int = TYPE_DICTIONARY) -> Dictionary:
+	if result_code != HTTPRequest.RESULT_SUCCESS:
 		return {"error": "Le moteur ne répond pas. Vérifie le lanceur et la connexion locale."}
-	var parsed: Variant = JSON.parse_string(response[3].get_string_from_utf8())
-	if int(response[1]) >= 400:
-		return {"error": str(parsed.get("detail", "Erreur du moteur")) if parsed is Dictionary else "Erreur HTTP %s" % response[1]}
+	var parsed: Variant = null
+	if not body.strip_edges().is_empty():
+		var json: JSON = JSON.new()
+		if json.parse(body) == OK: parsed = json.data
+	if http_code >= 400:
+		return {"error": str(parsed.get("detail", "Erreur du moteur")) if parsed is Dictionary else "Erreur HTTP %s" % http_code}
+	if typeof(parsed) != expect:
+		return {"error": "Réponse du moteur illisible. Relance le jeu si le problème persiste."}
 	return {"data": parsed}
 
 func bootstrap() -> bool:
-	var result: Dictionary = await request("/api/contracts")
+	var result: Dictionary = await request("/api/contracts", null, TYPE_ARRAY)
 	if result.has("error"):
 		failure.emit(result.error)
 		return false

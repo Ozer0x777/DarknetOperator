@@ -3,6 +3,7 @@ from __future__ import annotations
 import re
 from .ntlm import nt_hash
 from .shell_tools import path
+from .mission_data import note_cracked
 
 SAMPLE_WORDS = ['Password123!', 'Maintenance2026!', 'Morel2026!', 'Dumas2026!', 'Varenne2026!', 'Belin2026!', 'Valmont2026!', 'Bienvenue2026!']
 
@@ -42,7 +43,9 @@ def parse(args, state):
     hashes=[line.strip().lower() for line in state.terminal_files[filename].splitlines() if line.strip()]
     if not hashes or any(not re.fullmatch(r'[a-f0-9]{32}',value) for value in hashes):return TerminalResult(False,['hashcat: No hashes loaded.'])
     pot=state.tool_data.setdefault('hashcat',{}).setdefault('pot',{})
-    if show:return TerminalResult(True,[value+':'+pot[value] for value in hashes if value in pot])
+    if show:
+        note_cracked(state,[value for value in hashes if value in pot])
+        return TerminalResult(True,[value+':'+pot[value] for value in hashes if value in pot])
     wordlist=path(state,operands[1])
     if wordlist not in state.terminal_files:return TerminalResult(False,[f'{operands[1]}: No such file or directory'])
     words=state.terminal_files[wordlist].splitlines()
@@ -55,6 +58,7 @@ def parse(args, state):
     target=state.hosts.get(credential.source_host) if credential else next((h for h in state.hosts.values() if h.id in state.discovered),None)
     if target is None:
         pot.update(matches)
+        note_cracked(state,matches)
         complete=all(value in matches for value in hashes)
         return TerminalResult(complete,['Status...........: '+('Cracked' if complete else 'Exhausted'),*[value+':'+password for value,password in matches.items()]],exit_code=0 if complete else 1)
     return TerminalResult(True,['hashcat: traitement en attente…'],QueuedAction('red','red.crack_hash',target.id,
@@ -73,13 +77,16 @@ def parse_tgs(operands,show,state,attack):
     hashes=[h.strip() for h in state.terminal_files[filename].splitlines() if h.strip()]
     if not hashes or any(not h.startswith('$krb5tgs$23$') for h in hashes):return TerminalResult(False,['hashcat: No hashes loaded.'])
     pot=state.tool_data.setdefault('hashcat',{}).setdefault('pot',{})
-    if show:return TerminalResult(True,[h+':'+pot[h] for h in hashes if h in pot])
+    if show:
+        note_cracked(state,[h for h in hashes if h in pot])
+        return TerminalResult(True,[h+':'+pot[h] for h in hashes if h in pot])
     words=state.terminal_files.get(path(state,operands[1]))
     if words is None:return TerminalResult(False,['hashcat: No such file or directory'])
     if len(words.splitlines())>4096:return TerminalResult(False,['hashcat: ce laboratoire couvre des dictionnaires de 4096 entrées au maximum.'])
     for value in hashes:
         for candidate in words.splitlines():
             if matches(value,candidate):pot[value]=candidate;break
+    note_cracked(state,[value for value in hashes if value in pot])
     cracked=all(value in pot for value in hashes)
     if cracked:fact(state,'hashcat:tgs',file=filename)
     return TerminalResult(cracked,['Status...........: '+('Cracked' if cracked else 'Exhausted'),*[h+':'+pot[h] for h in hashes if h in pot]],exit_code=0 if cracked else 1)

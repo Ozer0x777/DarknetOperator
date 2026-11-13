@@ -20,7 +20,7 @@ def load_scenario(
     rng_seed: int | None = None,
     known_ability_ids: set[str] | None = None,
 ) -> GameState:
-    data = json.loads(path.read_text())
+    data = json.loads(path.read_text(encoding='utf-8'))
 
     hosts = {}
     for h in data["hosts"]:

@@ -53,7 +53,7 @@ async def qualify(output):
             assert result['chapters']==10 and result['invitation_accepted']
             reports.append(result)
     output.mkdir(parents=True,exist_ok=True)
-    (output/'mission-review-qualification.json').write_text(json.dumps({'scope':'Deux actes I par API/CLI, fichiers et syntaxes alternatifs ; aucun contournement des observations requises.','paths':reports},ensure_ascii=False,indent=2)+'\n')
+    (output/'mission-review-qualification.json').write_text(json.dumps({'scope':'Deux actes I par API/CLI, fichiers et syntaxes alternatifs ; aucun contournement des observations requises.','paths':reports},ensure_ascii=False,indent=2)+'\n', encoding='utf-8')
     print('Solutions équivalentes : deux actes I réussis, deux voies finales, exports renommés, colonnes SQL réordonnées et comptes rendus reformulés.')
     return reports
 

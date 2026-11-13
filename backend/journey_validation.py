@@ -30,7 +30,7 @@ async def qualify(output):
                                 scenarios=final['scenarios'],career_events=profile['career_events']))
     report={'scope':'Deux carrières neuves, commandes de référence et temps accéléré ; aucun test graphique ni mesure de durée humaine.',
             'paths':results}
-    (output/'journey-qualification.json').write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n')
+    (output/'journey-qualification.json').write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n', encoding='utf-8')
     print('Parcours complet : deux nouvelles carrières, premier achat confirmé et restauré, Exployt puis XSX ; journaux équilibrés.')
     return report
 

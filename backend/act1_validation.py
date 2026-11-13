@@ -160,7 +160,7 @@ async def play(profile,variant='sqlmap',side_jobs=True,output=None,*,paths=None,
             report=dict(first_purchase=first_purchase,variant=variant,chapters=10,missions=len(sequence),side_jobs=side_count,resumes=resumes,terminal_commands=total_commands,side_income=side_income,invitation_accepted=True,choices=profile.data.get('choices'),profile=profile.view())
             if output:
                 output.parent.mkdir(parents=True,exist_ok=True)
-                output.write_text(json.dumps(dict(report=report,records=records,world_before_accept=world_before_accept,profile_before_accept=profile_before_accept),ensure_ascii=False)+'\n')
+                output.write_text(json.dumps(dict(report=report,records=records,world_before_accept=world_before_accept,profile_before_accept=profile_before_accept),ensure_ascii=False)+'\n', encoding='utf-8')
             return report
     finally:api._CAREER,api._WORKSPACE,api.GAMES,api.CONNECTIONS=saved
 
@@ -171,7 +171,7 @@ async def main(output):
     with tempfile.TemporaryDirectory(prefix='act1-qualification-') as directory:
         for variant in FINALS:
             reports.append(await play(Career(Path(directory)/(variant+'.json')),variant,True,output/('act1-'+variant+'.json')))
-    (output/'act1-qualification.json').write_text(json.dumps(reports,ensure_ascii=False,indent=2)+'\n')
+    (output/'act1-qualification.json').write_text(json.dumps(reports,ensure_ascii=False,indent=2)+'\n', encoding='utf-8')
     print('Acte I : deux parcours complets, dix chapitres, huit petits contrats et invitation acceptée.')
 
 if __name__=='__main__':

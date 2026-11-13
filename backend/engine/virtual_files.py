@@ -5,6 +5,8 @@ import posixpath
 import shlex
 from .virtual_shell import virtual_path
 
+FILE_AUDIT_LIMIT = 300
+
 
 def directories(state):
     host = state.hosts.get(state.terminal_host)
@@ -32,7 +34,9 @@ def audit(state, operation, path, before=None, after=None):
         invalidate(state,path)
         if not state.terminal_host: state.tool_data.get("sqlite", {}).pop(path,None)
     def digest(text): return hashlib.sha256(text.encode()).hexdigest() if text is not None else None
-    state.tool_data.setdefault('file_audit', []).append({'tick':state.tick,'console':state.active_terminal_id,'host':state.terminal_host or 'operator','user':state.terminal_user,'operation':operation,'path':path,'before':digest(before),'after':digest(after)})
+    log = state.tool_data.setdefault('file_audit', [])
+    log.append({'tick':state.tick,'console':state.active_terminal_id,'host':state.terminal_host or 'operator','user':state.terminal_user,'operation':operation,'path':path,'before':digest(before),'after':digest(after)})
+    del log[:-FILE_AUDIT_LIMIT]  # journal borné : il est réécrit à chaque sauvegarde
 
 
 def parse(line, state, abilities):

@@ -73,7 +73,9 @@ def _hash_recovered(state, username):
     from .ntlm import nt_hash
     account = state.users.get(username)
     if account is None or not account.password: return False
-    return state.tool_data.get('hashcat', {}).get('pot', {}).get(nt_hash(account.password)) == account.password
+    from .mission_data import cracked_in_mission
+    digest = nt_hash(account.password)
+    return state.tool_data.get('hashcat', {}).get('pot', {}).get(digest) == account.password and cracked_in_mission(state, digest)
 
 
 def _investigation_step(state, step):
@@ -175,7 +177,8 @@ def _hashcat_match(state, source):
     from .ntlm import nt_hash
     expected=(state.contract or {}).get('local_files',{}).get(source,'').strip().lower()
     password=state.tool_data.get('hashcat',{}).get('pot',{}).get(expected)
-    return bool(expected and password and nt_hash(password)==expected)
+    from .mission_data import cracked_in_mission
+    return bool(expected and password and nt_hash(password)==expected and cracked_in_mission(state, expected))
 
 
 def _ldap_entries(state, dns):

@@ -63,7 +63,7 @@ def export(target: Path):
         data['chapter_posts'] = chapter.data['forum_posts']['aquila-portail']
         data['tutorial_guide'] = contracts.load_all_contracts()['tuto_p0']['guide'][0]['message']
     target.parent.mkdir(parents=True, exist_ok=True)
-    target.write_text(json.dumps(data, ensure_ascii=False, indent=2) + '\n')
+    target.write_text(json.dumps(data, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
 
 
 if __name__ == '__main__': export(Path(sys.argv[1]))

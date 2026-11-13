@@ -20,7 +20,7 @@ FORUM_TIERS = {'breachboard': 0, 'exployt': 2, 'xsx': 3}
 
 @lru_cache(maxsize=1)
 def content() -> dict:
-    return json.loads((Path(__file__).parents[1] / 'data/social_world.json').read_text())
+    return json.loads((Path(__file__).parents[1] / 'data/social_world.json').read_text(encoding='utf-8'))
 
 
 def stamp(minute: int) -> str:

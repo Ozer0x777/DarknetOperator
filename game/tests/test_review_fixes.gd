@@ -76,8 +76,26 @@ func _run() -> void:
 	desktop._application_search.caret_column = 3
 	_key(KEY_LEFT)
 	await process_frame
-	check(desktop.get_viewport().gui_get_focus_owner() == desktop._application_search, "Le terminal ne vole pas le focus de la recherche")
+	var owner_after: Control = desktop.get_viewport().gui_get_focus_owner()
+	check(owner_after == desktop._application_search, "Le terminal ne vole pas le focus de la recherche (focus : %s, menu visible : %s)" % [owner_after.get_path() if owner_after != null else "aucun", desktop._applications.visible])
 	check(desktop._application_search.caret_column == 2, "Flèche gauche appliquée dans la recherche")
+	# Manette branchée : la croix directionnelle et les boutons ne déplacent pas le focus ni ne cliquent.
+	# Les événements passent par Input, comme ceux d'un vrai périphérique.
+	for button: JoyButton in [JOY_BUTTON_DPAD_LEFT, JOY_BUTTON_DPAD_DOWN, JOY_BUTTON_A]:
+		for pressed: bool in [true, false]:
+			var pad: InputEventJoypadButton = InputEventJoypadButton.new()
+			pad.button_index = button
+			pad.pressed = pressed
+			pad.pressure = 1.0 if pressed else 0.0
+			Input.parse_input_event(pad)
+			await process_frame
+	var stick: InputEventJoypadMotion = InputEventJoypadMotion.new()
+	stick.axis = JOY_AXIS_LEFT_X
+	stick.axis_value = -1.0
+	Input.parse_input_event(stick)
+	await process_frame
+	await process_frame
+	check(desktop.get_viewport().gui_get_focus_owner() == desktop._application_search and desktop._applications.visible, "Une manette ne retire pas le focus de la saisie")
 	desktop._applications.hide()
 
 	# Forum : un contrat principal reste consultable avec le filtre « Petits contrats ».
@@ -95,6 +113,38 @@ func _run() -> void:
 	forum.set_replies("principal", posts.duplicate(true))
 	await process_frame
 	check(is_instance_valid(first_child) and first_child.is_inside_tree(), "Sujet inchangé : pas de reconstruction")
+
+	# Sondage social : des compteurs identiques (décimaux côté JSON) ne reconstruisent pas le sujet ouvert.
+	var world: Dictionary = {"threads": [], "profiles": {}, "forum_messages": [{"id": "mp1", "author": "k0rvid", "read": false}], "forum_counts": {"principal": 1.0}}
+	forum.set_world(world)
+	await process_frame
+	var kept: Node = forum._body.get_child(0)
+	for _poll: int in range(4):
+		forum.set_replies("principal", posts.duplicate(true))
+		forum.set_world(world.duplicate(true))
+		await process_frame
+	check(is_instance_valid(kept) and kept.is_inside_tree(), "Quatre sondages identiques : aucune reconstruction du forum")
+	check(forum.message_unread("mp1") and not forum.message_unread("absent"), "Message privé encore non lu détecté")
+
+	# Rechargement automatique : seulement si BreachBoard est visible, avec une adresse qui ne compte pas de vue.
+	desktop._open("BreachBoard")
+	await process_frame
+	check(desktop._should_refresh_thread(), "Sujet visible : rechargement automatique")
+	desktop.apps.BreachBoard.minimize_window()
+	check(not desktop._should_refresh_thread(), "BreachBoard réduit : pas de rechargement ni de lecture comptée")
+	check(desktop._thread_path("principal", true) == "/api/forum/threads/principal?refresh=true", "Adresse de relecture automatique")
+	check(desktop._thread_path("principal", false) == "/api/forum/threads/principal", "Adresse d’ouverture réelle")
+
+	# Réponses du moteur : vide, illisible ou du mauvais type → erreur, jamais de data inutilisable.
+	var Session = load("res://scripts/session.gd")
+	var ok: int = HTTPRequest.RESULT_SUCCESS
+	check(Session.parse_response(ok, 200, "{\"id\": \"g1\"}").get("data", {}).get("id") == "g1", "Dictionnaire attendu accepté")
+	check(Session.parse_response(ok, 200, "[1, 2]", TYPE_ARRAY).get("data", []).size() == 2, "Liste attendue acceptée")
+	for body: String in ["", "   ", "null", "pas du json", "[]", "\"texte\""]:
+		check(Session.parse_response(ok, 200, body).has("error"), "Réponse rejetée quand un dictionnaire est attendu : " + body)
+	check(Session.parse_response(ok, 200, "{}", TYPE_ARRAY).has("error"), "Dictionnaire rejeté quand une liste est attendue")
+	check(Session.parse_response(ok, 409, "{\"detail\": \"Mission déjà en cours\"}").get("error") == "Mission déjà en cours", "Message d’erreur du moteur transmis")
+	check(Session.parse_response(HTTPRequest.RESULT_TIMEOUT, 0, "").has("error"), "Moteur injoignable signalé")
 
 	# Consoles : fermer la console principale ne laisse pas de référence libérée.
 	desktop._close_console("main")

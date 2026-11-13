@@ -22,7 +22,7 @@ from fastapi import FastAPI, HTTPException, WebSocket, WebSocketDisconnect
 from pydantic import BaseModel, Field
 
 from engine import contracts, terminal, social
-from engine import console_sessions, shell_tools, terminal_native, completion
+from engine import console_sessions, shell_tools, terminal_native, completion, mission_data
 from engine.models import GameState
 from engine.persistence import state_to_dict
 from engine.career import Career, CATALOG
@@ -283,34 +283,8 @@ async def create_game(req: CreateGameRequest):
             raise HTTPException(400, str(exc))
 
     if req.contract is not None:
-        from copy import deepcopy
-        source = career().data.get("active") or career().data.get("workspace")
-        if source:
-            for field in ("terminal_files", "tool_services", "tool_data", "terminals"):
-                saved_value = deepcopy(source.get(field, {}))
-                if field == "terminal_files": saved_value.update(state.terminal_files)
-                setattr(state, field, saved_value)
-            for context in state.terminals.values():
-                if context.get("terminal_host"):
-                    context["terminal_env"] = console_sessions.initial()["terminal_env"]
-                context["terminal_shell"] = "bash"
-                context["terminal_return_stack"] = []
-                context["terminal_host"], context["terminal_user"], context["terminal_auth"] = None, "operator", {}
-                context["terminal_access"] = "USER"
-                context["terminal_cwd"] = "/home/operator"
-        for service in state.tool_services.values():
-            if service.get('kind') == 'ssh-forward': service['running'] = False
-        for context in state.terminals.values():
-            pid = context.get('terminal_foreground')
-            if any(s.get('kind') == 'ssh-forward' and s.get('pid') == pid for s in state.tool_services.values()): context['terminal_foreground'] = None
-        state.tool_data.pop('guidance_requests', None)
-        if contract.get('investigation_steps'):
-            state.tool_data['investigation'] = {'steps': [], 'threads': []}
-            state.tool_data['read_http'] = []
-            state.tool_data['read_files'] = []
-            state.tool_data['facts'] = {}
-            state.tool_data['queries'] = []
-            state.tool_data['decisions'] = {}
+        # Le moteur décide de ce qui suit l'opérateur d'un contrat au suivant (engine/mission_data.py).
+        mission_data.inherit(state, career().data.get("active") or career().data.get("workspace"), contract)
         try:
             career().prepare(contract, state)
         except ValueError as exc:
@@ -393,8 +367,8 @@ def _checkpoint_live():
     active = career().data.get('active') or {}
     for session in GAMES.values():
         if session.state.contract and session.state.conversation_id == active.get('conversation_id'):
-            career().checkpoint(session.state)
-            break
+            career().checkpoint(session.state)  # écrit déjà la carrière
+            return
     career().save()
 
 
@@ -470,16 +444,8 @@ async def load_save(req: SaveRequest):
         snapshot,_ = migrate(snapshot)
         _checkpoint_live()
         profile=career()
-        old_data=profile.data
-        old_recovery=profile.needs_recovery
-        if not old_recovery: store.write(old_data,'Avant chargement','recovery',True,'recovery')
-        profile.data=snapshot
-        profile.needs_recovery=False
-        try: profile.save()
-        except (OSError,ValueError):
-            profile.data=old_data
-            profile.needs_recovery=old_recovery
-            raise
+        if not profile.needs_recovery: store.write(profile.data,'Avant chargement','recovery',True,'recovery')
+        profile.replace(snapshot)  # rétablit l'ancienne carrière en mémoire si l'écriture échoue
         # Détruire la session et les demandes ColdVault seulement après écriture réussie.
         await _stop_live_sessions()
         career()._social_time = __import__('time').monotonic()
@@ -508,18 +474,51 @@ async def new_career(req: NewCareerRequest):
     if not is_valid_handle(req.handle): raise HTTPException(400,'Pseudo invalide : 3 à 24 caractères, lettres, chiffres, tiret, point ou underscore.')
     if req.handle.casefold() in {name.casefold() for name in social.content()['profiles']}: raise HTTPException(400,'Ce pseudo est déjà utilisé par un personnage ; choisis une autre identité.')
     if not req.confirm: raise HTTPException(409,'Confirme la nouvelle partie : la carrière courante sera archivée.')
-    _checkpoint_live()
-    SaveStore(career().path).write(career().data,'Avant nouvelle partie')
+    profile = career()
+    store = SaveStore(profile.path)
+    if not profile.needs_recovery:
+        try:
+            _checkpoint_live()
+            # Tout ce que le joueur a produit est archivé ; une carrière vierge ou déjà archivée à l'identique ne l'est pas.
+            if _has_content(profile.data) and not store.has_identical(profile.data):
+                store.write(profile.data,'Avant nouvelle partie')
+        except OSError:
+            raise HTTPException(503,'Impossible d’archiver la carrière actuelle : la nouvelle partie n’a pas été créée. Vérifie l’espace disque et les droits du dossier de sauvegarde.')
+        except ValueError:
+            # Carrière invalide : elle ne peut pas devenir un emplacement. Une nouvelle partie est sa seule issue ;
+            # le fichier brut est mis de côté pour ne rien détruire.
+            try: _set_aside(profile.path)
+            except OSError:
+                raise HTTPException(503,'La carrière actuelle est invalide et n’a pas pu être mise de côté : la nouvelle partie n’a pas été créée.')
+    fresh = initial()
+    fresh['handle'] = req.handle
+    fresh['campaign_version'] = 3 if req.curriculum == 'classic' else 4
+    fresh['classic_progression'] = req.curriculum == 'classic'
+    fresh['play_mode'] = req.play_mode
+    try: profile.replace(fresh)
+    except (OSError, ValueError):
+        raise HTTPException(503,'Impossible d’écrire la nouvelle carrière. La partie courante est conservée.')
+    # Les sessions ne sont détruites qu'après l'écriture réussie de la nouvelle carrière.
     await _stop_live_sessions()
-    career().data = initial()
-    career().needs_recovery = False
-    career().data['handle'] = req.handle
-    career().data['campaign_version'] = 3 if req.curriculum == 'classic' else 4
-    career().data['classic_progression'] = req.curriculum == 'classic'
-    career().data['play_mode'] = req.play_mode
-    career().save()
     career()._social_time = __import__('time').monotonic()
     return career().view()
+
+
+def _has_content(data: dict) -> bool:
+    """Vrai dès que la carrière contient quelque chose que le joueur a fait ou obtenu.
+    En cas de doute la réponse est oui : mieux vaut une archive de trop qu'une perte."""
+    from engine.career import initial
+    base = initial()
+    if any(data.get(key) for key in ('completed','settled','active','workspace','inventory','forum_posts','career_events','choices','route_passes')): return True
+    if data.get('play_seconds', 0) > 0 or data.get('reputation', 0) > 0 or data.get('tier', 0) > 0: return True
+    if data.get('money', base['money']) != base['money'] or data.get('route', base['route']) != base['route']: return True
+    characters = {name.casefold() for name in social.content()['profiles']}
+    return any(str(message.get('sender','')).casefold() not in characters for message in data.get('conversations', {}).values())
+
+
+def _set_aside(path) -> None:
+    import shutil, time
+    if path.exists(): shutil.copy2(path, path.with_name('career.invalid-'+str(time.time_ns())+'.json'))
 
 
 @app.post('/api/profile/continue')
@@ -537,7 +536,10 @@ async def return_menu():
     from engine.save_store import SaveStore
     for session in GAMES.values(): session.paused = True
     _checkpoint_live()
-    if not career().needs_recovery: SaveStore(career().path).autosave(career().data,force=True)
+    # Autosauvegarde immédiate ; SaveStore.autosave ignore un état déjà présent dans l'emplacement le plus récent.
+    if not career().needs_recovery:
+        try: SaveStore(career().path).autosave(career().data,force=True)
+        except (OSError, ValueError): pass  # la carrière vient d'être écrite : le retour au menu reste possible
     return career().view()
 
 
@@ -844,18 +846,24 @@ def _check_thread(thread_id: str) -> None:
 
 
 @app.get("/api/forum/threads/{thread_id}")
-async def get_thread(thread_id: str):
+async def get_thread(thread_id: str, refresh: bool = False):
+    """refresh : relecture automatique du sujet déjà ouvert. Elle ne compte pas
+    comme une vue et n'écrit rien sur disque si rien n'a changé."""
     _check_thread(thread_id)
-    counts=career().data.setdefault('thread_views',{})
-    counts[thread_id]=counts.get(thread_id,0)+1
+    dirty = False
+    if not refresh:
+        counts=career().data.setdefault('thread_views',{})
+        counts[thread_id]=counts.get(thread_id,0)+1
+        dirty = True
     social.prepare(career())
     active_id = (career().data.get('active') or {}).get('conversation_id')
     for session in GAMES.values():
         if session.state.conversation_id != active_id or session.state.status != 'RUNNING': continue
         from engine.investigation import observe_forum
-        observe_forum(session.state, thread_id)
-        career().checkpoint(session.state)
-    career().save()
+        if observe_forum(session.state, thread_id):
+            career().checkpoint(session.state)  # écrit aussi la carrière, vues comprises
+            dirty = False
+    if dirty: career().save()
     return career().data.get("forum_posts", {}).get(thread_id, [])
 
 

@@ -70,7 +70,7 @@ async def qualify(output):
                 report=dict(scope='Parcours novice simulé par API ; temps accéléré, sans affichage natif ni durée humaine mesurée.',
                             dossiers=len(records),mistakes=len(records),resumes=len(records),records=records,next_step=profile.view()['journey'])
                 output.mkdir(parents=True,exist_ok=True)
-                (output/'first-hour-qualification.json').write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n')
+                (output/'first-hour-qualification.json').write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n', encoding='utf-8')
                 print('Premiers pas : neuf dossiers, neuf erreurs corrigées, dix-huit indices et neuf sauvegardes rechargées ; première communauté ouverte à 740 ₵.')
                 return report
     finally:api._CAREER,api._WORKSPACE,api.GAMES,api.CONNECTIONS=previous

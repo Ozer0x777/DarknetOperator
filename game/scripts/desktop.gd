@@ -103,7 +103,7 @@ func _ready() -> void:
 	if await session.bootstrap():
 		if not _profile.get("handle", "").is_empty():
 			session.handle = _profile.handle
-		var specs: Dictionary = await session.request("/api/abilities")
+		var specs: Dictionary = await session.request("/api/abilities", null, TYPE_ARRAY)
 		if not specs.has("error"):
 			operation_specs = specs.data
 		await session.request("/api/profile/enroll", {})
@@ -1009,13 +1009,13 @@ func _refresh_profile() -> void:
 	_render_board()
 
 func _refresh_contracts() -> void:
-	var result: Dictionary = await session.request("/api/contracts")
+	var result: Dictionary = await session.request("/api/contracts", null, TYPE_ARRAY)
 	if not result.has("error"):
 		session.contracts = result.data
 	_render_board()
 
 func _refresh_shop() -> void:
-	var result: Dictionary = await session.request("/api/shop")
+	var result: Dictionary = await session.request("/api/shop", null, TYPE_ARRAY)
 	if result.has("error"):
 		_error(result.error)
 		return
@@ -1166,25 +1166,35 @@ func _update_social(data: Dictionary) -> void:
 	if not _social_ready and data.get("journey", {}).get("action", "") == "continue_campaign":
 		messengers.chordly._select_peer("miette")
 	_social_ready = true
-	if not forum_view.selected_thread.is_empty(): _load_thread(forum_view.selected_thread)
+	if _should_refresh_thread(): _load_thread(forum_view.selected_thread, true)
 
 func _read_conversation(channel: String, peer: String) -> void:
 	if session == null or "--offline-test" in OS.get_cmdline_user_args(): return
 	await session.request("/api/social/read", {"channel": channel, "peer": peer})
 
 func _load_messages() -> void:
-	var result: Dictionary = await session.request("/api/messages")
+	var result: Dictionary = await session.request("/api/messages", null, TYPE_ARRAY)
 	if result.has("error"): return
 	for message: Dictionary in result.data:
 		var channel: String = message.get("channel", "chordly")
 		if messengers.has(channel): messengers[channel].add_message(message, false)
 
-func _load_thread(id: String) -> void:
+## Le sujet ouvert n’est relu que si le joueur peut le voir : un onglet resté ouvert dans un
+## BreachBoard réduit ne doit ni solliciter le moteur ni compter comme une lecture d’enquête.
+func _should_refresh_thread() -> bool:
+	return not forum_view.selected_thread.is_empty() and apps.has("BreachBoard") and apps.BreachBoard.is_visible_in_tree()
+
+static func _thread_path(id: String, refresh: bool) -> String:
+	return "/api/forum/threads/%s%s" % [id, "?refresh=true" if refresh else ""]
+
+## refresh : relecture automatique du sujet ouvert (sondage social), sans compter une vue.
+func _load_thread(id: String, refresh: bool = false) -> void:
 	if "--offline-test" in OS.get_cmdline_user_args(): return
 	if forum_view.selected_section == "Messages":
-		await session.request("/api/forum/messages/%s/read" % id, {})
+		# À l’ouverture, puis seulement tant que le moteur le dit encore non lu (échec précédent).
+		if not refresh or forum_view.message_unread(id): await session.request("/api/forum/messages/%s/read" % id, {})
 		return
-	var result: Dictionary = await session.request("/api/forum/threads/%s" % id)
+	var result: Dictionary = await session.request(_thread_path(id, refresh), null, TYPE_ARRAY)
 	if not result.has("error"):
 		if not _profile.has("forum_counts"): _profile["forum_counts"] = {}
 		_profile.forum_counts[id] = result.data.size()
@@ -1192,7 +1202,7 @@ func _load_thread(id: String) -> void:
 
 func _reply_thread(id: String, text: String) -> void:
 	if "--offline-test" in OS.get_cmdline_user_args(): return
-	var result: Dictionary = await session.request("/api/forum/threads/%s" % id, {"handle": session.handle, "text": text})
+	var result: Dictionary = await session.request("/api/forum/threads/%s" % id, {"handle": session.handle, "text": text}, TYPE_ARRAY)
 	forum_view.acknowledge_reply(id, not result.has("error"), str(result.get("error", "")))
 	_sound("error" if result.has("error") else "sent")
 	if not result.has("error"):

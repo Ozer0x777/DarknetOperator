@@ -12,7 +12,7 @@ import uuid
 def atomic_json(path, data):
     path.parent.mkdir(parents=True, exist_ok=True)
     temp = path.with_suffix('.tmp')
-    with temp.open('w') as stream:
+    with temp.open('w', encoding='utf-8') as stream:
         json.dump(data, stream, ensure_ascii=False, indent=2)
         stream.flush(); os.fsync(stream.fileno())
     temp.replace(path)
@@ -78,12 +78,12 @@ class SaveStore:
         return self.folder/(ident+'.json')
 
     def read(self, ident):
-        try: envelope = json.loads(self.path(ident).read_text())
+        try: envelope = json.loads(self.path(ident).read_text(encoding='utf-8'))
         except (OSError, ValueError) as exc: raise ValueError('Sauvegarde absente ou illisible.') from exc
         if not isinstance(envelope,dict) or envelope.get('format') != 1:
             raise ValueError('Format de sauvegarde incompatible.')
         data = envelope.get('profile')
-        digest = hashlib.sha256(json.dumps(data,sort_keys=True,ensure_ascii=False).encode()).hexdigest()
+        digest = self.checksum(data)
         if digest != envelope.get('checksum'): raise ValueError('Sauvegarde endommagée : vérification impossible.')
         validate_profile(data)
         return envelope
@@ -100,15 +100,33 @@ class SaveStore:
                 'play_seconds':data.get('play_seconds',0), 'money':data['money'], 'tier':data['tier']}
         payload = copy.deepcopy(data)
         envelope = {'format':1,'metadata':meta,'profile':payload,
-                    'checksum':hashlib.sha256(json.dumps(payload,sort_keys=True,ensure_ascii=False).encode()).hexdigest()}
+                    'checksum':self.checksum(payload)}
         atomic_json(path,envelope)
         return meta
+
+    @staticmethod
+    def checksum(data):
+        return hashlib.sha256(json.dumps(data,sort_keys=True,ensure_ascii=False).encode()).hexdigest()
+
+    def _stored_checksum(self, path):
+        try: return json.loads(path.read_text(encoding='utf-8')).get('checksum')
+        except (OSError, ValueError, AttributeError): return None
+
+    def has_identical(self, data):
+        """Vrai si un emplacement contient déjà exactement cette carrière."""
+        if not self.folder.exists(): return False
+        digest = self.checksum(data)
+        return any(self._stored_checksum(path) == digest for path in self.folder.glob('*.json'))
 
     def autosave(self, data, force=False):
         paths = [self.path('auto-'+str(i)) for i in range(3)]
         import time
-        newest = max((p.stat().st_mtime for p in paths if p.exists()),default=0)
-        if not force and time.time()-newest < 60: return
+        existing = [p for p in paths if p.exists()]
+        newest = max(existing,key=lambda p:p.stat().st_mtime,default=None)
+        if not force and newest is not None and time.time()-newest.stat().st_mtime < 60: return
+        # Les trois emplacements tournants doivent rester trois états différents :
+        # un état déjà présent dans le plus récent n'en écrase pas un plus ancien.
+        if newest is not None and self._stored_checksum(newest) == self.checksum(data): return
         path = min(paths,key=lambda p:p.stat().st_mtime if p.exists() else 0)
         self.write(data,'Autosauvegarde',path.stem,True,'auto')
 

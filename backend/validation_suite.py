@@ -62,8 +62,8 @@ async def qualify(output: Path):
             'success_paths':12,'failure_paths':len(failures),'resumes':sum(s['resumes'] for r in (standard,alternative) for s in r['scenarios'])+len(failures),
             'campaigns':[standard,alternative],'failures':[{'contract_id':f['contract_id'],'reason':f['failure']['end_reason'],'payout':0} for f in failures]}
     output.mkdir(parents=True,exist_ok=True)
-    (output/'qualification.json').write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n')
-    (output/'ui-replays.json').write_text(json.dumps({'successes':replays,'failures':failures},ensure_ascii=False)+'\n')
+    (output/'qualification.json').write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n', encoding='utf-8')
+    (output/'ui-replays.json').write_text(json.dumps({'successes':replays,'failures':failures},ensure_ascii=False)+'\n', encoding='utf-8')
     print(f"Qualification : {report['success_paths']} parcours réussis, {report['failure_paths']} défaites, {report['resumes']} reprises")
     return report
 

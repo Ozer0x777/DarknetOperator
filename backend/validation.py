@@ -208,7 +208,7 @@ async def play_campaign(output: Path | None = None, *, variant: str = 'standard'
             api.GAMES.clear(); api.GAMES.update(previous[2])
     if output:
         output.parent.mkdir(parents=True, exist_ok=True)
-        output.write_text(json.dumps(report, ensure_ascii=False, indent=2) + '\n')
+        output.write_text(json.dumps(report, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
     return report
 
 

@@ -86,7 +86,7 @@ async def qualify(output):
                 checks.append('Choix ambigu non validé ; branches privée et publique restaurées sans mélange')
     finally:api._CAREER,api._WORKSPACE,api.GAMES,api.CONNECTIONS=previous
     output.mkdir(parents=True,exist_ok=True)
-    (output/'save-review-qualification.json').write_text(json.dumps({'scope':'Profils temporaires préparés ; commandes réelles du simulateur et échec de commit injecté. Aucun profil personnel utilisé.','checks':checks},ensure_ascii=False,indent=2)+'\n')
+    (output/'save-review-qualification.json').write_text(json.dumps({'scope':'Profils temporaires préparés ; commandes réelles du simulateur et échec de commit injecté. Aucun profil personnel utilisé.','checks':checks},ensure_ascii=False,indent=2)+'\n', encoding='utf-8')
     print('Reprises sensibles : commande en attente, session distante, choix narratif et demande ColdVault validés ; échec de commit sans perte de session.')
     return checks
 

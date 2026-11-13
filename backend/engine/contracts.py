@@ -38,7 +38,7 @@ def load_contract(
     scenarios_dir: Path = SCENARIOS_DIR,
     known_ability_ids: set[str] | None = None,
 ) -> dict:
-    data = json.loads(path.read_text())
+    data = json.loads(path.read_text(encoding='utf-8'))
     cid = data.get("contract_id", path.stem)
 
     missing = [key for key in REQUIRED if key not in data]

@@ -42,10 +42,10 @@ class Career:
         if self.path.exists() or previous.exists():
             from .save_store import validate_profile, atomic_json, SaveStore
             try:
-                self.data.update(validate_profile(json.loads(self.path.read_text())))
+                self.data.update(validate_profile(json.loads(self.path.read_text(encoding='utf-8'))))
             except (ValueError, OSError) as exc:
                 try:
-                    restored = validate_profile(json.loads(previous.read_text()))
+                    restored = validate_profile(json.loads(previous.read_text(encoding='utf-8')))
                 except (ValueError, OSError):
                     if not any(row['valid'] for row in SaveStore(self.path).list()):
                         raise ValueError(f"Sauvegarde illisible : {self.path}. Aucun emplacement valide trouvé.") from exc
@@ -65,7 +65,7 @@ class Career:
         wallet.ensure(self.data)
         self.path.parent.mkdir(parents=True, exist_ok=True)
         tmp = self.path.with_suffix(".tmp")
-        with tmp.open("w") as f:
+        with tmp.open("w", encoding="utf-8") as f:
             json.dump(self.data, f, ensure_ascii=False, indent=2)
             f.flush()
             os.fsync(f.fileno())
@@ -251,6 +251,15 @@ class Career:
         trace.configure(state, self.data["route"])
         self.checkpoint(state)
 
+    def replace(self, data: dict) -> None:
+        """Remplace toute la carrière et l'écrit ; en cas d'échec, l'ancienne est rétablie en mémoire."""
+        old_data, old_recovery = self.data, self.needs_recovery
+        self.data, self.needs_recovery = data, False
+        try: self.save()
+        except (OSError, ValueError):
+            self.data, self.needs_recovery = old_data, old_recovery
+            raise
+
     def checkpoint(self, state) -> None:
         from .persistence import state_to_dict
         if not state.conversation_id:
@@ -263,8 +272,13 @@ class Career:
                 "channel": message.channel, "sender": message.sender, "text": message.text, "tick": message.tick, "time": message.time}
         self.data["active"] = state_to_dict(state)
         self.save()
+        # L'autosauvegarde est un filet de sécurité : son échec (dossier non inscriptible,
+        # emplacement verrouillé) ne doit ni annuler la sauvegarde réussie ni arrêter la partie.
         from .save_store import SaveStore
-        SaveStore(self.path).autosave(self.data)
+        try: SaveStore(self.path).autosave(self.data)
+        except (OSError, ValueError) as exc:
+            import logging
+            logging.getLogger(__name__).warning("Autosauvegarde impossible : %s", exc)
 
     def settle(self, game_id: str, state) -> None:
         contract = state.contract

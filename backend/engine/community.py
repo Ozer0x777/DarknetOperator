@@ -11,7 +11,7 @@ def scores(data):
         completed = set(data.get('completed', []))
         for path in (Path(__file__).parents[1] / 'contracts').glob('*.json'):
             if path.stem not in completed: continue
-            contract = json.loads(path.read_text())
+            contract = json.loads(path.read_text(encoding='utf-8'))
             forum = contract.get('bounty', {}).get('forum')
             if forum in result: result[forum] += int(contract.get('reputation', 0))
         # L'ancien score inexpliqué reste sur la communauté d'origine, jamais copié partout.
