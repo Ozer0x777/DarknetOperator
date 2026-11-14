@@ -46,11 +46,32 @@ def test_psexec_fails_on_isolated_host():
 
 
 # ---------------------------------------------------------------------------
-# Firewall (gap identifié : "le firewall n'est jamais utilisé")
+# Filtrage réseau déclaré par le scénario (`network_rules`)
 # ---------------------------------------------------------------------------
 
+def test_network_rule_blocks_psexec():
+    from engine.models import Credential
+
+    def attempt(state):
+        state.loot.append(Credential(type="NTLM_HASH", username="svc_backup", value="x", source_host="pc-01"))
+        ctx = ActionContext(actor="red", target=state.hosts["file-01"], tick=1, credential=state.find_credential("svc_backup"))
+        return ability_engine.resolve(ABILITIES["red.psexec_lateral"], state, ctx)
+
+    # Sans règle : psexec réussit, à chaque fois (aucun tirage aléatoire ne s'en mêle).
+    assert all(attempt(fresh_state(seed)).success for seed in range(20))
+
+    # Le port 445 de FILE-01 est filtré : la même action échoue sur ce prérequis.
+    state = fresh_state()
+    state.environment["network_rules"] = [{"target": "file-01", "port": 445, "source": "*", "action": "deny"}]
+    assert state.is_blocked("file-01", 445) is True
+    result = attempt(state)
+    assert result.success is False
+    assert result.reason == "prerequisite failed: not_blocked_by_firewall"
+    assert state.hosts["file-01"].status == "HEALTHY"
+
+
 # ---------------------------------------------------------------------------
-# Validation de scénario (gap identifié : "KeyError brute, pas de message clair")
+# Validation de scénario : une incohérence est refusée au chargement, avec un message clair
 # ---------------------------------------------------------------------------
 
 def test_scenario_rejects_unknown_admin_user(tmp_path):
@@ -73,15 +94,48 @@ def test_scenario_rejects_unknown_ability_id(tmp_path):
       "scenario_id": "bad",
       "hosts": [{"id": "h1", "hostname": "H1", "ip": "10.0.0.1"}],
       "users": [],
-      "available_abilities": {"red": ["red.does_not_exist"], "blue": []}
+      "objectives": [{"type": "host_compromised", "host": "h1"}],
+      "available_abilities": {"red": ["red.does_not_exist"]}
     }
     """)
-    with pytest.raises(ScenarioValidationError):
+    with pytest.raises(ScenarioValidationError, match="red.does_not_exist"):
         load_scenario(bad, known_ability_ids=set(ABILITIES))
 
 
+def _scenario(tmp_path, **changes):
+    import json
+    data = {"scenario_id": "bad", "hosts": [{"id": "h1", "hostname": "H1", "ip": "10.0.0.1"}], "users": [],
+            "objectives": [{"type": "host_compromised", "host": "h1"}], "available_abilities": {"red": []}}
+    data.update(changes)
+    path = tmp_path / "scenario.json"
+    path.write_text(json.dumps({key: value for key, value in data.items() if value is not None}))
+    return path
+
+
+def test_scenario_without_objectives_is_rejected(tmp_path):
+    """Sans objectif, la mission ne pourrait finir qu'en échec : le chargeur la refuse."""
+    assert load_scenario(_scenario(tmp_path)).objectives
+    for objectives in (None, []):
+        with pytest.raises(ScenarioValidationError, match="aucun objectif"):
+            load_scenario(_scenario(tmp_path, objectives=objectives))
+
+
+def test_scenario_declares_only_the_player_tools(tmp_path):
+    with pytest.raises(ScenarioValidationError, match="blue"):
+        load_scenario(_scenario(tmp_path, available_abilities={"red": [], "blue": []}))
+
+
+def test_shipped_abilities_only_use_known_predicates_and_effects():
+    """Les gestes de la défense automatique ne sont pas des effets d'ability."""
+    from engine import effects, predicates
+    assert "isolate_host" not in effects.REGISTRY and "disable_user" not in effects.REGISTRY
+    for ability in ABILITIES.values():
+        assert all(effect["type"] in effects.REGISTRY for effect in ability.effects), ability.id
+        assert all(req["type"] in predicates.REGISTRY for req in ability.requires), ability.id
+
+
 # ---------------------------------------------------------------------------
-# SIEM : détection + triage (ack change vraiment le statut)
+# SIEM : détection
 # ---------------------------------------------------------------------------
 
 def test_pass_the_hash_rule_fires():
@@ -116,11 +170,11 @@ def test_offline_ticket_then_authenticated_access_wins():
     state.loot.append(Credential('KRBTGT_HASH', 'krbtgt', 'a'*32, 'dc-01'))
     state.hosts['dc-01'].edr_agent = False
     loop = GameLoop(state, ABILITIES)
-    loop.submit(QueuedAction('red', 'red.golden_ticket', 'dc-01', 'krbtgt', 'KRBTGT_HASH'))
+    loop.submit(QueuedAction('red.golden_ticket', 'dc-01', 'krbtgt', 'KRBTGT_HASH'))
     loop.tick()
     assert not state.domain_compromised and state.status == 'RUNNING'
     assert '/home/operator/administrator.ccache' in state.terminal_files
-    loop.submit(QueuedAction('red', 'red.psexec_lateral', 'dc-01', 'krbtgt', 'KRBTGT_HASH', params={'kerberos_ticket': '/home/operator/administrator.ccache', 'ticket_user': 'administrator'}))
+    loop.submit(QueuedAction('red.psexec_lateral', 'dc-01', 'krbtgt', 'KRBTGT_HASH', params={'kerberos_ticket': '/home/operator/administrator.ccache', 'ticket_user': 'administrator'}))
     loop.tick()
     assert state.domain_compromised and state.winner == 'RED'
 
@@ -132,10 +186,10 @@ def test_isolated_controller_rejects_ticket_authentication():
     state.domain = {'name': 'example.lab'}
     state.loot.append(Credential('KRBTGT_HASH', 'krbtgt', 'a'*32, 'dc-01'))
     loop = GameLoop(state, ABILITIES)
-    loop.submit(QueuedAction('red', 'red.golden_ticket', 'dc-01', 'krbtgt', 'KRBTGT_HASH'))
+    loop.submit(QueuedAction('red.golden_ticket', 'dc-01', 'krbtgt', 'KRBTGT_HASH'))
     loop.tick()
     state.hosts['dc-01'].status = 'ISOLATED'
-    loop.submit(QueuedAction('red', 'red.psexec_lateral', 'dc-01', 'krbtgt', 'KRBTGT_HASH', params={'kerberos_ticket': '/home/operator/administrator.ccache', 'ticket_user': 'administrator'}))
+    loop.submit(QueuedAction('red.psexec_lateral', 'dc-01', 'krbtgt', 'KRBTGT_HASH', params={'kerberos_ticket': '/home/operator/administrator.ccache', 'ticket_user': 'administrator'}))
     loop.tick()
     assert not state.domain_compromised
     assert not state.history[-1].success
@@ -147,4 +201,4 @@ def test_actions_rejected_after_game_ended():
     state.status = "ENDED"
     loop = GameLoop(state, ABILITIES)
     with pytest.raises(RuntimeError):
-        loop.submit(QueuedAction("red", "red.recon_scan", "pc-01"))
+        loop.submit(QueuedAction("red.recon_scan", "pc-01"))

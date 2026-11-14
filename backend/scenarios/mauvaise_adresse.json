@@ -96,8 +96,7 @@
     "red": [
       "red.recon_scan",
       "red.exfiltrate"
-    ],
-    "blue": []
+    ]
   },
   "domain": {
     "name": "aquila-fret.lab",

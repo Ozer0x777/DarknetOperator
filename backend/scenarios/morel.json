@@ -156,8 +156,7 @@
       "red.exfiltrate",
       "red.crack_hash",
       "red.destroy_backups"
-    ],
-    "blue": []
+    ]
   },
   "defender": {
     "enabled": false,

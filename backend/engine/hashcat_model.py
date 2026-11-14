@@ -61,7 +61,7 @@ def parse(args, state):
         note_cracked(state,matches)
         complete=all(value in matches for value in hashes)
         return TerminalResult(complete,['Status...........: '+('Cracked' if complete else 'Exhausted'),*[value+':'+password for value,password in matches.items()]],exit_code=0 if complete else 1)
-    return TerminalResult(True,['hashcat: traitement en attente…'],QueuedAction('red','red.crack_hash',target.id,
+    return TerminalResult(True,['hashcat: traitement en attente…'],QueuedAction('red.crack_hash',target.id,
         credential.username if credential else None, 'NTLM_HASH' if credential else None, console_id=state.active_terminal_id,
         params={'hashes':hashes,'crack_matches':matches,'wordlist':wordlist}))
 

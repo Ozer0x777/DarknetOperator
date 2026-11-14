@@ -128,7 +128,7 @@ def parse(line: str, state: GameState, abilities):
             return TerminalResult(False, [f"{tool}: outil indisponible pour cette mission."])
         if host is None or host.id not in state.discovered:
             return TerminalResult(False, ["Cible inconnue dans le réseau découvert."])
-        return TerminalResult(True, [f"{tool}: action en attente…"], QueuedAction(team="red",ability_id=ability_id,target_id=host.id,
+        return TerminalResult(True, [f"{tool}: action en attente…"], QueuedAction(ability_id=ability_id,target_id=host.id,
             credential_username=credential.username if credential else None,credential_type=credential.type if credential else None, params={**(extra or {}), **({'credential_value':credential.value} if credential else {})}, console_id=state.active_terminal_id))
     if tool == "nmap":
         targets, i = [], 0

@@ -167,17 +167,28 @@ def _validate(
                     f"'{key}' référence l'hôte inconnu '{host_id}' — vérifie la liste 'hosts'."
                 )
 
-    for objective in data.get("objectives", []):
+    objectives = data.get("objectives")
+    if not isinstance(objectives, list) or not objectives:
+        # Sans objectif, rien ne peut être réussi : la mission ne finirait qu'en échec, au bout du temps.
+        raise ScenarioValidationError(
+            f"Scénario '{data.get('scenario_id')}' : aucun objectif déclaré dans 'objectives'."
+        )
+    for objective in objectives:
         error = condition_error(objective, host_ids, usernames)
         if error:
             raise ScenarioValidationError(f"Objectif invalide : {error}.")
 
+    declared = data.get("available_abilities", {})
+    unknown_lists = sorted(set(declared) - {"red"})
+    if unknown_lists:
+        raise ScenarioValidationError(
+            f"Scénario '{data.get('scenario_id')}' : 'available_abilities' n'accepte que la liste "
+            f"'red' (outils du joueur) ; clé inconnue {unknown_lists}."
+        )
     if known_ability_ids is not None:
-        declared = data.get("available_abilities", {})
-        for team in ("red", "blue"):
-            for ability_id in declared.get(team, []):
-                if ability_id not in known_ability_ids:
-                    raise ScenarioValidationError(
-                        f"Scénario '{data.get('scenario_id')}' référence l'ability "
-                        f"inconnue '{ability_id}' dans available_abilities.{team}."
-                    )
+        for ability_id in declared.get("red", []):
+            if ability_id not in known_ability_ids:
+                raise ScenarioValidationError(
+                    f"Scénario '{data.get('scenario_id')}' référence l'ability "
+                    f"inconnue '{ability_id}' dans available_abilities.red."
+                )

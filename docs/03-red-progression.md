@@ -211,7 +211,7 @@ C'est l'argument pédagogique et ce qui différencie le jeu.
 | Brouillard de guerre | `models.py`, nouvel effet `reveal_host` | Red ne voit que les hôtes et services révélés par ses actions |
 | Profil joueur | `models.py` + `persistence.py` | Palier, argent, réputation, inventaire, sauvegardé entre contrats |
 | Route et traçage | nouveau `engine/trace.py` | Liste d'intermédiaires, jauge de traçage, arrestation |
-| IA défenseur | nouveau `engine/blue_ai.py` | Utilise les abilities Blue existantes selon la suspicion et la difficulté |
+| IA défenseur | nouveau `engine/blue_ai.py` | Isole la machine et désactive les comptes après une alerte grave, sans passer par des abilities |
 | Prédicats | `predicates.py` | `player_owns(item)`, `player_tier_at_least(n)` |
 | Effets | `effects.py` | `reveal_host`, `encrypt_host`, `exfiltrate_file`, `destroy_backups` |
 | Commande de terminal | champ `"command"` dans chaque JSON | `psexec.py {user}@{target_ip}` traduit en action |
@@ -228,8 +228,8 @@ C'est l'argument pédagogique et ce qui différencie le jeu.
    - ✅ Scénario `scenarios/tuto_p0.json` (Cabinet Ravelle & Associés, 3 machines, seul
      POSTE-ACCUEIL connu, aucun défenseur). Chemin : nmap → gophish → mimikatz → psexec.
    - ✅ Objectifs déclarés dans le scénario (`objectives`, registre
-     `win_conditions.OBJECTIVES` : `host_compromised`, `domain_compromised`). Sans
-     objectifs, le mode d'origine s'applique (domaine ou score).
+     `win_conditions.OBJECTIVES` : `host_compromised`, `domain_compromised`). Un
+     scénario sans objectifs est refusé au chargement : rien ne pourrait y être réussi.
    - ✅ Identifiants pilotés par le scénario : `primary_user` (cible du phishing) et
      `cached_logons` (récupérés par mimikatz) sur chaque hôte. Les abilities ne
      contiennent plus de noms d'utilisateurs.

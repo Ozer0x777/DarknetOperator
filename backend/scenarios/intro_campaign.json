@@ -116,8 +116,7 @@
       "red.phishing_initial_access",
       "red.mimikatz_dump",
       "red.psexec_lateral"
-    ],
-    "blue": []
+    ]
   },
   "domain": {
     "name": "ravelle.lab",

@@ -8,7 +8,7 @@ C'est cette classe que l'API (backend/api/) pilote à intervalle régulier.
 """
 from __future__ import annotations
 
-from dataclasses import dataclass, asdict, field
+from dataclasses import dataclass, asdict, field, fields
 from pathlib import Path
 
 from . import ability_engine, blue_ai, contracts, noise, siem, trace, win_conditions
@@ -24,7 +24,7 @@ def load_all_abilities() -> dict[str, Ability]:
 
 @dataclass
 class QueuedAction:
-    team: str                        # toujours "red" : le joueur ; la défense agit dans blue_ai
+    """Action du joueur en attente de résolution. La défense, elle, agit dans blue_ai."""
     ability_id: str
     target_id: str
     credential_username: str | None = None
@@ -33,12 +33,20 @@ class QueuedAction:
     ready_tick: int = 0
     params: dict = field(default_factory=dict)
 
+    @classmethod
+    def from_saved(cls, data: dict) -> "QueuedAction":
+        """Relit une action sauvegardée. Les champs retirés depuis (team, user_username,
+        alert_id, port) sont ignorés : sans cela, une ancienne sauvegarde contenant une action en
+        attente ne pouvait plus être reprise."""
+        known = {f.name for f in fields(cls)}
+        return cls(**{key: value for key, value in data.items() if key in known})
+
 
 class GameLoop:
     def __init__(self, state: GameState, abilities: dict[str, Ability] | None = None):
         self.state = state
         self.abilities = abilities or load_all_abilities()
-        self._queue: list[QueuedAction] = [QueuedAction(**a) for a in state.pending_actions]
+        self._queue: list[QueuedAction] = [QueuedAction.from_saved(a) for a in state.pending_actions]
 
     def submit(self, action: QueuedAction) -> None:
         if self.state.status != "RUNNING":
@@ -85,8 +93,7 @@ class GameLoop:
         from .shell_tools import advance_campaigns
         advance_campaigns(state)
 
-        # 1 & 2. Actions Red puis Blue — §5.2 : phase RED d'abord, phase BLUE
-        #        ensuite, dans l'ordre où elles ont été soumises.
+        # 1. Actions du joueur arrivées à échéance, dans l'ordre où elles ont été soumises.
         pending = [a for a in self._queue if a.ready_tick <= state.tick]
         self._queue = [a for a in self._queue if a.ready_tick > state.tick]
         state.pending_actions = [asdict(a) for a in self._queue]
@@ -95,9 +102,10 @@ class GameLoop:
                 break
             results.append(self._resolve_queued(action))
 
+        # 2. Défense automatique de la cible.
         blue_ai.advance(state)
 
-        # 3. Bruit de fond — §5.5 : logs légitimes qui ne matchent aucune règle.
+        # 3. Bruit de fond : logs légitimes qui ne correspondent à aucune règle.
         noise.generate(state)
 
         # 4. SIEM — évalue tous les logs produits CE tick (actions + bruit).
@@ -105,7 +113,7 @@ class GameLoop:
         siem.evaluate(state, new_logs)
         trace.advance(state)
 
-        # 5. Conditions de victoire — §11.4. 6. Messages du client selon la progression du joueur.
+        # 5. Conditions de fin. 6. Messages du client selon la progression du joueur.
         if not self.finish_if_won(): contracts.advance(state)
 
         return results
@@ -145,14 +153,14 @@ class GameLoop:
         ability = self.abilities.get(action.ability_id)
         if ability is None:
             result = ActionResult(False, f"Ability inconnue: {action.ability_id}", reason="unknown_ability")
-            state.history.append(HistoryEntry(state.tick, action.team, result.message, False, result.reason, action.console_id))
+            state.history.append(HistoryEntry(state.tick, "red", result.message, False, result.reason, action.console_id))
             _log_console(state, action, result.message)
             return result
 
         target = state.hosts.get(action.target_id)
         if target is None:
             result = ActionResult(False, f"Cible inconnue: {action.target_id}", reason="unknown_target")
-            state.history.append(HistoryEntry(state.tick, action.team, result.message, False, result.reason, action.console_id))
+            state.history.append(HistoryEntry(state.tick, "red", result.message, False, result.reason, action.console_id))
             _log_console(state, action, result.message)
             return result
 
@@ -165,7 +173,7 @@ class GameLoop:
         params = dict(action.params)
 
         ctx = ActionContext(
-            actor=action.team, target=target, tick=state.tick,
+            actor="red", target=target, tick=state.tick,
             credential=credential, params=params,
         )
 
@@ -205,7 +213,7 @@ class GameLoop:
                     result.success, result.reason = False, 'wordlist_exhausted'
             if not ctx.params.get('gophish_campaign_id'):
                 state.terminal_last_exit = state.terminal_last_native_exit = 0 if result.success else 1
-        state.history.append(HistoryEntry(state.tick, action.team, result.message, result.success, result.reason, action.console_id, 0 if result.success else 1))
+        state.history.append(HistoryEntry(state.tick, "red", result.message, result.success, result.reason, action.console_id, 0 if result.success else 1))
         _log_console(state, action, result.message)
 
         # Un prérequis manquant est un échec de l'action, jamais une défaite
@@ -231,6 +239,6 @@ class GameLoop:
 
 def _log_console(state, action, message) -> None:
     """Les résultats différés apparaissent aussi dans l'historique sauvegardé de la console."""
-    if action.team == "red" and action.console_id:
+    if action.console_id:
         from .console_sessions import record
         record(state, action.console_id, [f"[{state.tick}] {message}"])

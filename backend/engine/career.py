@@ -4,8 +4,12 @@ import copy
 from .onboarding import forum_unlocked
 from .campaign import summary as campaign_summary
 import json
+import logging
 import os
 from pathlib import Path
+
+_log = logging.getLogger(__name__)
+_legacy_dir_warned = False
 
 CATALOG = [
     {"id": "nullvad", "name": "NullVad — accès au service (50 ₵ / contrat)", "price": 0, "tier": 1},
@@ -31,7 +35,16 @@ class Career:
         default_root = Path.home() / ".local/share"
         if os.name == "nt": default_root = Path(os.environ.get("LOCALAPPDATA", Path.home() / "AppData/Local"))
         elif sys.platform == "darwin": default_root = Path.home() / "Library/Application Support"
-        return Path(os.environ.get("REDTEAM_SAVE_DIR", default_root / "RedTeamSimulator")) / "career.json"
+        folder = os.environ.get("REDTEAM_SAVE_DIR")
+        if not folder and os.environ.get("RVB_SAVE_DIR"):
+            # Ancien nom de la variable : toujours honoré, sinon la carrière du joueur
+            # semblerait perdue et une partie d'essai écrirait dans la vraie.
+            global _legacy_dir_warned
+            folder = os.environ["RVB_SAVE_DIR"]
+            if not _legacy_dir_warned:
+                _legacy_dir_warned = True
+                _log.warning("RVB_SAVE_DIR est l'ancien nom de REDTEAM_SAVE_DIR : il reste pris en compte, mais renomme la variable.")
+        return Path(folder or default_root / "RedTeamSimulator") / "career.json"
 
     def __init__(self, path: Path | None = None):
         self.path = path or self.default_path()
@@ -284,8 +297,7 @@ class Career:
         from .save_store import SaveStore
         try: SaveStore(self.path).autosave(self.data)
         except (OSError, ValueError) as exc:
-            import logging
-            logging.getLogger(__name__).warning("Autosauvegarde impossible : %s", exc)
+            _log.warning("Autosauvegarde impossible : %s", exc)
 
     def settle(self, game_id: str, state) -> None:
         contract = state.contract

@@ -192,14 +192,14 @@ def parse(line: str, state: GameState, abilities):
         host = state.hosts.get(state.terminal_host)
         if not host: return TerminalResult(False, [f"{tool}: aucune session distante"])
         if state.terminal_access != "SYSTEM": return TerminalResult(False, [f"{tool}: Access is denied."])
-        return TerminalResult(True, [f"{tool}: traitement en attente…"], QueuedAction("red", "red.encrypt", host.id, console_id=state.active_terminal_id))
+        return TerminalResult(True, [f"{tool}: traitement en attente…"], QueuedAction("red.encrypt", host.id, console_id=state.active_terminal_id))
     if tool.lower() in {"vssadmin", "vssadmin.exe"}:
         if [a.lower() for a in args] != ["delete", "shadows", "/all", "/quiet"]:
             return TerminalResult(False, ["usage: vssadmin delete shadows /all /quiet"])
         host = state.hosts.get(state.terminal_host)
         if not host: return TerminalResult(False, ["vssadmin: aucune session Windows distante"])
         if state.terminal_access != "SYSTEM": return TerminalResult(False, ["vssadmin: Access is denied."])
-        return TerminalResult(True, [], QueuedAction("red", "red.destroy_backups", host.id, console_id=state.active_terminal_id))
+        return TerminalResult(True, [], QueuedAction("red.destroy_backups", host.id, console_id=state.active_terminal_id))
     return None
 
 
@@ -387,7 +387,7 @@ def _curl_request(args, state, abilities):
                             page = next(r for r in data['pages'] if r['name'] == payload['page']['name'])
                             smtp = next(r for r in data['smtp'] if r['name'] == payload['smtp']['name'])
                             blocked = any(term.casefold() in template.get('subject', '').casefold() for term in hosts[0].phishing.get('blocked_subjects', []))
-                            action = QueuedAction("red", "red.phishing_initial_access", hosts[0].id, console_id=state.active_terminal_id, params={
+                            action = QueuedAction("red.phishing_initial_access", hosts[0].id, console_id=state.active_terminal_id, params={
                                 "gophish_campaign_id": max([c["id"] for c in collection] or [0]) + 1,
                                 "mail_filtered": blocked, "capture_passwords": bool(page.get('capture_credentials') and page.get('capture_passwords')),
                                 "smtp_available": smtp.get('host') == 'smtp.lab.invalid:25'})

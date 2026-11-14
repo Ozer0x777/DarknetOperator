@@ -40,7 +40,7 @@ def test_tutorial_starts_with_a_single_known_host_and_no_defender():
     state = tuto_state()
     assert state.discovered == {"poste-accueil"}
     assert state.scanned == set()
-    assert state.available_abilities["blue"] == []
+    assert set(state.available_abilities) == {"red"} and not state.defender.get("enabled")
     assert state.objectives == [{"type": "host_compromised", "host": "srv-fichiers"}]
 
 

@@ -13,7 +13,6 @@
     }
   ],
   "noise": 60,
-  "cooldown": 0,
   "tier": 1,
   "command": "vssadmin delete shadows /all /quiet",
   "help": "Suppression des sauvegardes simulées",

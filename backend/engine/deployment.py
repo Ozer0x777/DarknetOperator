@@ -142,7 +142,7 @@ def parse(line: str, state: GameState):
     if 'red.exfiltrate' not in state.available_abilities.get('red', []):
         return TerminalResult(False, ['Ce contrat ne prévoit pas de transfert documentaire.'])
     destination = path(state, operation[2])
-    return TerminalResult(True, [f'getting file {operation[1]}'], QueuedAction('red', 'red.exfiltrate', host.id, user, cred.type,
+    return TerminalResult(True, [f'getting file {operation[1]}'], QueuedAction('red.exfiltrate', host.id, user, cred.type,
         console_id=state.active_terminal_id, params={'files': [filename], 'download_destination': destination, 'authenticated_share': True, 'credential_value':cred.value}))
 
 

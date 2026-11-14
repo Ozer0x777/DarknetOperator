@@ -11,7 +11,9 @@
 - Forum et messagerie : plus de reconstruction ni de vue comptée à chaque sondage, lecture marquée au clic, onglets verrouillés ignorés à la fermeture.
 - Moteur : une seule règle de joignabilité (machine isolée ou chiffrée refusée par tous les outils), droits de lecture Windows respectés, fin de mission en un seul endroit, règles de visibilité et mots-clés du dialogue sortis de l’API.
 - Aucun mot de passe n’est cassé sans correspondance dans une liste de mots.
-- Retrait des restes de l’ancien jeu à deux équipes : prototype web, scénario `mvp_demo`, score, capacités de défense jouables, joueurs à jeton, routes `/api/scenarios`, `/api/games/{id}/action` et suppression d’une partie ; une partie est toujours un contrat. La variable `RVB_SAVE_DIR` devient `REDTEAM_SAVE_DIR`.
+- Retrait des restes de l’ancien jeu à deux équipes : prototype web, scénario `mvp_demo`, score, capacités de défense jouables, joueurs à jeton, routes `/api/scenarios`, `/api/games/{id}/action` et suppression d’une partie ; une partie est toujours un contrat. La variable `RVB_SAVE_DIR` devient `REDTEAM_SAVE_DIR` ; l’ancien nom reste accepté avec un avertissement.
+- Suite du retrait : délai de réutilisation des outils, tirage EDR aléatoire et liste `blue` des scénarios supprimés ; un scénario sans objectif ou avec une autre liste que `red` est refusé au chargement.
+- Les sauvegardes antérieures contenant une action en attente se reprennent de nouveau ; une mission terminée est libérée de la mémoire à l’ouverture de la suivante.
 - `scripts/check_ui.py` lance tous les contrôles et affiche un résumé.
 
 ## 0.5.3 — musique continue et lecteur audio

@@ -18,7 +18,6 @@
     }
   ],
   "noise": 40,
-  "cooldown": 0,
   "critical": false,
   "effects": [
     {

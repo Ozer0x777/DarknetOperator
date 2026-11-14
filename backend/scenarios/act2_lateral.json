@@ -174,8 +174,7 @@
       "red.exfiltrate",
       "red.crack_hash",
       "red.psexec_lateral"
-    ],
-    "blue": []
+    ]
   },
   "domain": {
     "name": "orbe.lab",

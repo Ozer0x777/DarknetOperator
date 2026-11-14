@@ -315,11 +315,58 @@ def test_tick_loop_survives_an_error():
     asyncio.run(run())
 
 
-def test_state_without_contract_is_never_written_to_the_career():
+def test_finished_session_is_released_when_the_next_mission_opens():
+    """Une mission terminée reste joignable (terminal, débriefing) jusqu'à l'ouverture de la suivante."""
+    async def run():
+        async with _client() as client:
+            await client.post('/api/profile/new', json={'handle': 'NightShift', 'confirm': True})
+            first = (await client.post('/api/games', json={'contract': 'intro_terminal', 'handle': 'NightShift', 'rng_seed': 0})).json()
+            ended = (await client.post(f"/api/games/{first['id']}/disconnect", json={})).json()
+            assert ended['status'] == 'ENDED'
+            assert (await client.get(f"/api/games/{first['id']}")).status_code == 200
+            assert (await client.post(f"/api/games/{first['id']}/terminal", json={'line': 'pwd'})).status_code == 200
+            second = (await client.post('/api/games', json={'contract': 'intro_terminal', 'handle': 'NightShift', 'rng_seed': 0})).json()
+            assert list(api.GAMES) == [second['id']] and first['id'] not in api.CONNECTIONS
+            assert (await client.get(f"/api/games/{first['id']}")).status_code == 404
+            # Reprendre la mission en cours ne la libère pas.
+            resumed = (await client.post('/api/profile/resume', json={})).json()
+            assert resumed['id'] == second['id'] and list(api.GAMES) == [second['id']]
+            # Une reprise sans mission à reprendre ne retire pas la mission terminée au client.
+            await client.post(f"/api/games/{second['id']}/disconnect", json={})
+            assert (await client.post('/api/profile/resume', json={})).status_code == 404
+            assert list(api.GAMES) == [second['id']]
+            assert (await client.post(f"/api/games/{second['id']}/terminal", json={'line': 'pwd'})).status_code == 200
+    asyncio.run(run())
+
+
+def test_mission_session_requires_a_contract():
+    """Le bureau hors mission n'est pas une session ; une mission en cours sans contrat n'est pas un profil valide."""
+    import copy
+    import pytest
     from engine.models import GameState
-    session = api.GameSession(id='bureau', loop=GameLoop(GameState(hosts={}, users={}), ABILITIES))
-    api._persist(session)
-    assert not api.career().data.get('active')
+    from engine.persistence import state_to_dict
+    from engine.save_store import validate_profile
+    from engine.career import initial
+    with pytest.raises(ValueError, match='contrat'):
+        api.GameSession(id='bureau', loop=GameLoop(GameState(hosts={}, users={}), ABILITIES))
+    state, _ = tutorial()
+    profile = {**initial(), 'active': state_to_dict(state)}
+    assert validate_profile(copy.deepcopy(profile))
+    profile['active']['contract'] = None
+    with pytest.raises(ValueError, match='contrat absent'):
+        validate_profile(profile)
+
+
+def test_saved_mission_without_contract_is_refused_cleanly():
+    async def run():
+        async with _client() as client:
+            await client.post('/api/profile/new', json={'handle': 'NightShift', 'confirm': True})
+            game = (await client.post('/api/games', json={'contract': 'intro_terminal', 'handle': 'NightShift', 'rng_seed': 0})).json()
+            api.GAMES.clear()
+            api.career().data['active']['contract'] = None
+            response = await client.post('/api/profile/resume', json={})
+            assert response.status_code == 409 and 'contrat' in response.json()['detail'] and not api.GAMES
+    asyncio.run(run())
 
 
 def test_purchase_made_during_a_mission_reaches_the_mission():
@@ -486,7 +533,7 @@ def test_cracking_needs_a_wordlist_match():
     state.loot.append(Credential('NTLM_HASH', account, secret, target.id))
     cracked = lambda: any(c.username == account and c.type == 'PLAINTEXT' for c in state.loot)
     # Action directe, sans dictionnaire : refusée, rien n'est révélé.
-    loop.submit(QueuedAction('red', 'red.crack_hash', target.id, account, 'NTLM_HASH'))
+    loop.submit(QueuedAction('red.crack_hash', target.id, account, 'NTLM_HASH'))
     while loop.pending(): loop.tick()
     assert not state.history[-1].success and 'crack_input_present' in state.history[-1].reason
     assert not cracked()
@@ -498,3 +545,21 @@ def test_cracking_needs_a_wordlist_match():
     while loop.pending(): loop.tick()
     assert not state.history[-1].success and state.history[-1].reason == 'wordlist_exhausted'
     assert not cracked()
+
+
+def test_pending_action_from_an_older_save_still_loads():
+    """Les sauvegardes d'avant le retrait du jeu à deux équipes portent encore user_username, alert_id et port."""
+    state, _ = tutorial()
+    state.pending_actions = [{'team': 'red', 'ability_id': 'red.recon_scan', 'target_id': 'poste-accueil', 'credential_username': None,
+        'credential_type': None, 'user_username': None, 'alert_id': None, 'port': None, 'console_id': 'main', 'ready_tick': 3, 'params': {}}]
+    loop = GameLoop(state, ABILITIES)
+    assert [(a.ability_id, a.target_id, a.ready_tick) for a in loop.pending()] == [('red.recon_scan', 'poste-accueil', 3)]
+
+
+def test_former_save_dir_variable_is_still_honoured(tmp_path, monkeypatch):
+    from engine.career import Career
+    monkeypatch.delenv('REDTEAM_SAVE_DIR')
+    monkeypatch.setenv('RVB_SAVE_DIR', str(tmp_path / 'ancien'))
+    assert Career.default_path() == tmp_path / 'ancien' / 'career.json'
+    monkeypatch.setenv('REDTEAM_SAVE_DIR', str(tmp_path / 'nouveau'))
+    assert Career.default_path() == tmp_path / 'nouveau' / 'career.json'

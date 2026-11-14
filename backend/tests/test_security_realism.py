@@ -79,7 +79,7 @@ def test_failed_critical_action_on_isolated_target_keeps_mission_running():
     state.hosts['srv-fichiers'].status = 'ISOLATED'
     state.loot.append(Credential('KRBTGT_HASH', 'krbtgt', 'a'*32, 'srv-fichiers'))
     loop = GameLoop(state, ABILITIES)
-    loop.submit(QueuedAction('red', 'red.golden_ticket', 'srv-fichiers', 'krbtgt', 'KRBTGT_HASH'))
+    loop.submit(QueuedAction('red.golden_ticket', 'srv-fichiers', 'krbtgt', 'KRBTGT_HASH'))
     loop.tick()
     assert state.status == 'RUNNING' and state.winner is None
     assert not state.history[0].success

@@ -167,8 +167,7 @@
       "red.dcsync",
       "red.golden_ticket",
       "red.encrypt"
-    ],
-    "blue": []
+    ]
   },
   "defender": {
     "enabled": true,

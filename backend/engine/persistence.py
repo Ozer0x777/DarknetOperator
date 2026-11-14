@@ -62,7 +62,6 @@ def state_to_dict(state: GameState) -> dict:
         "max_ticks": state.max_ticks,
         "status": state.status,
         "winner": state.winner,
-        "cooldowns": state.cooldowns,
         "rng_state": state.rng.getstate(),
         "next_alert_seq": state.next_alert_seq,
         "scenario_name": state.scenario_name,
@@ -116,8 +115,7 @@ def state_from_dict(data: dict) -> GameState:
     state.max_ticks = data["max_ticks"]
     state.status = data["status"]
     state.winner = data["winner"]
-    # Les anciennes sauvegardes contiennent encore "score", "players" et "firewall_blocks" : ces clés sont ignorées.
-    state.cooldowns = data["cooldowns"]
+    # Les anciennes sauvegardes contiennent encore "score", "players", "firewall_blocks" et "cooldowns" : ces clés sont ignorées.
     state.next_alert_seq = data["next_alert_seq"]
     state.scenario_name = data["scenario_name"]
     state.available_abilities = data["available_abilities"]

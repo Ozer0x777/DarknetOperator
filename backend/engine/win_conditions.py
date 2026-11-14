@@ -239,5 +239,6 @@ def check(state: GameState) -> str | None:
             return "BLUE"  # mission ratée : délai dépassé
         return None
 
-    # Sans objectif déclaré, rien ne peut être réussi : seule la fin du temps termine la mission.
+    # Le chargeur refuse un scénario sans objectif ; ce cas ne reste possible que pour un état
+    # construit à la main. Rien ne peut alors être réussi : seule la fin du temps termine la mission.
     return "BLUE" if state.tick >= state.max_ticks else None

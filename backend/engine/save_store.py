@@ -64,8 +64,11 @@ def validate_profile(data):
             identifiers.add(entry['id'])
     if data.get('active'):
         from .persistence import state_from_dict
-        try: state_from_dict(copy.deepcopy(data['active']))
+        try: mission = state_from_dict(copy.deepcopy(data['active']))
         except Exception as exc: raise ValueError('Mission sauvegardée invalide.') from exc
+        # Sans contrat, une mission en cours ne peut être ni reprise ni réglée, et bloquerait tout autre contrat.
+        if mission.status == 'RUNNING' and not isinstance(mission.contract, dict):
+            raise ValueError('Mission sauvegardée invalide : contrat absent.')
     return data
 
 

@@ -122,8 +122,7 @@
       "red.mimikatz_dump",
       "red.psexec_lateral",
       "red.crack_hash"
-    ],
-    "blue": []
+    ]
   },
   "domain": {
     "name": "ravelle.lab",

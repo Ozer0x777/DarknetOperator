@@ -33,7 +33,6 @@ n'a pas de code propre.
     {"type": "credential_grants_admin_on_target"},
     {"type": "not_blocked_by_firewall", "port": 445}
   ],
-  "edr_block_chance": 0.1,
   "noise": 75,
   "effects": [
     {"type": "mark_compromised", "access_level": "SYSTEM"}

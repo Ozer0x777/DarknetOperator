@@ -24,7 +24,7 @@ def alert(state, severity='CRITICAL'):
 
 
 def act(loop, aid, host='poste-accueil', username=None, ctype=None):
-    loop.submit(QueuedAction('red',aid,host,username,ctype))
+    loop.submit(QueuedAction(aid,host,username,ctype))
     while loop.pending() and loop.state.status=='RUNNING':
         loop.tick()
     entry=loop.state.history[-1]
@@ -138,7 +138,7 @@ def test_campaign_all_tiers_and_settlement_once(tmp_path):
             act(loop,'red.dcsync','srv-fichiers',username=admin)
             act(loop,'red.golden_ticket','srv-fichiers',username='krbtgt')
             assert not state.domain_compromised
-            loop.submit(QueuedAction('red','red.psexec_lateral','srv-fichiers','krbtgt','KRBTGT_HASH',params={'kerberos_ticket':'/home/operator/administrator.ccache','ticket_user':'administrator'}))
+            loop.submit(QueuedAction('red.psexec_lateral','srv-fichiers','krbtgt','KRBTGT_HASH',params={'kerberos_ticket':'/home/operator/administrator.ccache','ticket_user':'administrator'}))
             while loop.pending() and state.status=='RUNNING': loop.tick()
         elif cid!='rival':
             act(loop,'red.psexec_lateral','srv-fichiers',admin)
@@ -275,7 +275,6 @@ def test_authentic_terminal_path_completes_tutorial_without_legacy_flags():
     run('mimikatz "privilege::debug" "sekurlsa::logonpasswords" exit')
     cred=state.find_credential('it.presta','NTLM_HASH')
     run('exit')
-    while state.is_on_cooldown('red.psexec_lateral',state.tick+1):loop.tick()
     run(f'impacket-psexec -hashes :{cred.value} it.presta@10.20.0.10')
     assert state.status=='ENDED' and state.winner=='RED'
 

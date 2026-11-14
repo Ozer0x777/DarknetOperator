@@ -40,8 +40,7 @@
     "red": [
       "red.recon_scan",
       "red.exfiltrate"
-    ],
-    "blue": []
+    ]
   },
   "domain": {
     "name": "ravelle-associes.fr",

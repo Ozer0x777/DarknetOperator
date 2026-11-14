@@ -55,6 +55,9 @@ app = FastAPI(title="RedTeamSimulator — Solo")
 
 @dataclass
 class GameSession:
+    """Une mission en cours ou terminée. Son état porte toujours un contrat : les sessions ne
+    naissent que dans create_game et _resume_career_session. Le bureau hors mission, lui, n'est
+    pas une session (voir workspace())."""
     id: str
     loop: GameLoop
     tick_interval: float = 2.0
@@ -62,6 +65,10 @@ class GameSession:
     task: asyncio.Task | None = None
     saved_signature: tuple = ()
     saved_at: float = 0.0
+
+    def __post_init__(self):
+        if not self.loop.state.contract:
+            raise ValueError("Une session de mission exige un contrat.")
 
     @property
     def state(self):
@@ -100,14 +107,14 @@ async def _tick_loop(game_id: str) -> None:
             break
         if session.paused:
             continue
-        if session.state.contract:
-            career().data['play_seconds'] = career().data.get('play_seconds', 0) + session.tick_interval
+        career().data['play_seconds'] = career().data.get('play_seconds', 0) + session.tick_interval
         # Le tutoriel laisse le temps de lire les messages : le monde avance
         # uniquement lorsqu'une action est en attente.
-        if session.state.contract and (session.state.contract["tier"] == 0 or session.state.contract.get("relaxed_clock")) and not session.loop.has_pending() and not any(t > session.state.tick for t in session.state.cooldowns.values()):
+        contract = session.state.contract
+        if (contract["tier"] == 0 or contract.get("relaxed_clock")) and not session.loop.has_pending():
             continue
         try:
-            if session.state.contract: session.state.environment["world_minute"] = social.prepare(career())["minute"]
+            session.state.environment["world_minute"] = social.prepare(career())["minute"]
             session.loop.tick()
             _persist(session, throttled=True)
         except Exception:
@@ -119,10 +126,8 @@ async def _tick_loop(game_id: str) -> None:
 
 
 def _persist(session: "GameSession", *, throttled: bool = False) -> None:
-    """Écrit une mission de contrat : règlement si elle est terminée, sinon point de sauvegarde.
-    Une partie sans contrat n'écrit jamais dans la carrière."""
+    """Écrit une mission : règlement si elle est terminée, sinon point de sauvegarde."""
     state = session.state
-    if not state.contract: return
     if state.status == "ENDED": career().settle(session.id, state)
     elif throttled: _checkpoint_if_changed(session)
     else: career().checkpoint(state)
@@ -171,7 +176,7 @@ class TerminalRequest(BaseModel):
 
 
 # ---------------------------------------------------------------------------
-# Scénarios
+# État du moteur et outils du joueur
 # ---------------------------------------------------------------------------
 
 @app.get("/api/health")
@@ -183,10 +188,10 @@ async def health():
 async def list_abilities():
     """Outils du joueur et leur syntaxe en ligne de commande, pour l'application « Outils » du bureau."""
     return [
-        {"id": a.id, "team": a.team, "name": a.name, "cooldown": a.cooldown,
+        {"id": a.id, "team": a.team, "name": a.name,
          "noise": a.noise, "critical": a.critical,
          "cli": terminal_native.HELP.get(a.id, ("", "", ""))[1]}
-        for a in ABILITIES.values() if a.team == "red"
+        for a in ABILITIES.values()
     ]
 
 
@@ -270,7 +275,9 @@ async def create_game(req: CreateGameRequest):
         raise HTTPException(400, "Ce pseudo est déjà utilisé par un personnage ; choisis une autre identité.")
     active = career().data.get("active") or {}
     if active.get("status") == "RUNNING" and (active.get("contract") or {}).get("contract_id") == req.contract:
-        return _resume_career_session()
+        result = _resume_career_session()
+        await _release_finished_sessions()
+        return result
     state = contracts.start_contract(
         contract, req.handle, SCENARIOS_DIR,
         rng_seed=req.rng_seed if req.rng_seed is not None else random.SystemRandom().randrange(2**63), known_ability_ids=set(ABILITIES),
@@ -286,7 +293,9 @@ async def create_game(req: CreateGameRequest):
     GAMES[game_id] = session
     shell_tools.prepare(state)
     career().checkpoint(state)
-    return {"id": game_id, "state": serialize_state(state)}
+    result = {"id": game_id, "state": serialize_state(state)}
+    await _release_finished_sessions()
+    return result
 
 
 @app.get("/api/games/{game_id}")
@@ -348,26 +357,39 @@ def _checkpoint_live():
     if career().needs_recovery: return
     active = career().data.get('active') or {}
     for session in GAMES.values():
-        if session.state.contract and session.state.conversation_id == active.get('conversation_id'):
+        if session.state.conversation_id == active.get('conversation_id'):
             career().checkpoint(session.state)  # écrit déjà la carrière
             return
     career().save()
 
 
-async def _stop_live_sessions():
-    global _WORKSPACE
-    sessions=list(GAMES.values())
-    sockets=[socket for group in CONNECTIONS.values() for socket in group]
-    # Révoquer les identifiants avant le premier await : aucune ancienne requête
-    # ne doit agir sur le profil qui vient d’être restauré.
-    GAMES.clear(); CONNECTIONS.clear(); _WORKSPACE=None
-    career().reset_wallet_session()
+async def _drop_sessions(game_ids) -> None:
+    """Retire des sessions, arrête leur boucle et ferme leurs sockets. Les identifiants sont
+    révoqués avant le premier await : aucune requête en cours ne doit retrouver ces sessions."""
+    sessions = [GAMES.pop(game_id) for game_id in game_ids if game_id in GAMES]
+    sockets = [socket for game_id in game_ids for socket in CONNECTIONS.pop(game_id, [])]
     for session in sessions:
-        session.paused=True
+        session.paused = True
         if session.task: session.task.cancel()
     for socket in sockets:
         try: await socket.close()
         except Exception: pass
+
+
+async def _release_finished_sessions() -> None:
+    """Libère les missions terminées une fois qu'une autre mission est ouverte et enregistrée.
+    Pas avant : après la fin d'une mission, le client garde son identifiant pour le terminal et
+    le débriefing, et une ouverture qui échoue ne doit rien lui retirer."""
+    await _drop_sessions([game_id for game_id, session in GAMES.items() if session.state.status == "ENDED"])
+
+
+async def _stop_live_sessions():
+    global _WORKSPACE
+    # Tout est révoqué avant le premier await : aucune ancienne requête
+    # ne doit agir sur le profil qui vient d’être restauré.
+    _WORKSPACE = None
+    career().reset_wallet_session()
+    await _drop_sessions(list(set(GAMES) | set(CONNECTIONS)))
 
 
 @app.post('/api/profile/enroll')
@@ -550,7 +572,7 @@ def _sync_inventory() -> None:
     (GPU, liste de mots, licence) doit y apparaître tout de suite."""
     active = career().data.get('active') or {}
     for session in GAMES.values():
-        if session.state.contract and session.state.conversation_id == active.get('conversation_id'):
+        if session.state.conversation_id == active.get('conversation_id'):
             if session.state.inventory != career().data['inventory']:
                 session.state.inventory = list(career().data['inventory'])
                 career().checkpoint(session.state)
@@ -573,7 +595,7 @@ class GuidanceRequest(BaseModel):
 async def set_guidance(game_id: str, req: GuidanceRequest):
     session = _get_session(game_id)
     session.state.guidance_enabled = req.enabled
-    if session.state.contract: career().checkpoint(session.state)
+    career().checkpoint(session.state)
     return {"enabled": req.enabled}
 
 
@@ -591,10 +613,13 @@ def _resume_career_session():
     if not active or active.get("status") != "RUNNING":
         raise HTTPException(404, "Aucune mission à reprendre.")
     for session in GAMES.values():
-        if session.state.status == "RUNNING" and session.state.contract and session.state.conversation_id == active.get("conversation_id"):
+        if session.state.status == "RUNNING" and session.state.conversation_id == active.get("conversation_id"):
             return {"id": session.id, "state": _with_transcripts(session.state), "resumed": True}
     state = state_from_dict(active)
-    current_contract = _load_contracts().get(state.contract.get("contract_id")) if state.contract else None
+    if not state.contract:
+        # Une mission sauvegardée porte toujours son contrat ; sans lui, rien ne peut la conclure ni la régler.
+        raise HTTPException(409, "La mission sauvegardée est illisible : son contrat est absent. Charge un autre emplacement.")
+    current_contract = _load_contracts().get(state.contract.get("contract_id"))
     if current_contract and not state.contract.get('legacy_in_progress') and current_contract.get("terminal_revision", 0) > state.contract.get("terminal_revision", 0):
         from copy import deepcopy
         current_scenario = load_scenario(SCENARIOS_DIR / f"{current_contract['scenario']}.json")
@@ -619,10 +644,10 @@ def _resume_career_session():
             contracts.send(state, "Ce dossier a été révisé depuis ta sauvegarde, mais son réseau a changé : la mission sauvegardée conserve son réseau, ses comptes, ses consignes et ses choix. Les nouvelles consignes s’appliqueront à un nouveau départ de ce dossier.")
         if revised: contracts.send(state, "Les consignes et les validations de ce dossier ont été précisées. La mission sauvegardée conserve son réseau, ses comptes et ses choix. Écris objectif pour relire le but, ou aide pour un indice adapté à ta progression. Les outils Windows doivent toujours être transférés avant leur exécution.")
         career().checkpoint(state)
-    if state.environment.pop('credential_migration', False) and state.contract:
+    if state.environment.pop('credential_migration', False):
         contracts.send(state, "Les anciennes empreintes artificielles du prototype ont été mises en cohérence avec les mots de passe du laboratoire. Le réseau et les comptes sont conservés ; consulte les fichiers du butin pour les valeurs actualisées.")
         career().checkpoint(state)
-    if state.contract: state.inventory = list(career().data["inventory"])
+    state.inventory = list(career().data["inventory"])
     game_id = uuid.uuid4().hex
     GAMES[game_id] = GameSession(id=game_id, loop=GameLoop(state, ABILITIES), paused=True)
     return {"id": game_id, "state": _with_transcripts(state), "resumed": True}
@@ -638,11 +663,13 @@ def _with_transcripts(state: GameState) -> dict:
 
 @app.post("/api/profile/resume")
 async def resume_career():
-    return _resume_career_session()
+    result = _resume_career_session()
+    await _release_finished_sessions()
+    return result
 
 
 # ---------------------------------------------------------------------------
-# Actions joueur (Red / Blue)
+# Bureau hors mission et terminal
 # ---------------------------------------------------------------------------
 
 def workspace() -> GameState:
@@ -652,7 +679,7 @@ def workspace() -> GameState:
         _WORKSPACE_REVISION = revision
         saved = career().data.get("workspace")
         _WORKSPACE = state_from_dict(saved) if saved else GameState(hosts={}, users={})
-        _WORKSPACE.available_abilities = {"red": [a.id for a in ABILITIES.values() if a.team == "red"]}
+        _WORKSPACE.available_abilities = {"red": list(ABILITIES)}
         shell_tools.prepare(_WORKSPACE)
     return _WORKSPACE
 
@@ -660,7 +687,7 @@ def workspace() -> GameState:
 def _resolve_observations(loop: GameLoop) -> None:
     """Les lectures et comptes rendus peuvent achever un dossier sans tick offensif."""
     state = loop.state
-    if not state.contract or not (state.contract.get('onboarding') or state.contract.get('investigation_steps')): return
+    if not (state.contract.get('onboarding') or state.contract.get('investigation_steps')): return
     if loop.finish_if_won():
         career().settle(next((gid for gid,s in GAMES.items() if s.loop is loop), state.conversation_id),state)
 
@@ -669,6 +696,7 @@ def _terminal_request(state: GameState, req: TerminalRequest, loop: GameLoop | N
     if req.console_id not in state.terminals and len(state.terminals) >= 64:
         raise HTTPException(409, "La limite de 64 sessions de console est atteinte.")
     queued = False
+    # Seul le bureau hors mission (workspace) arrive ici sans contrat.
     if state.contract: state.environment["world_minute"] = social.prepare(career())["minute"]
     before = console_sessions.public_contexts(state).get(req.console_id) or console_sessions.summary(state, console_sessions.initial(), req.console_id)
     with console_sessions.using(state, req.console_id):
@@ -720,10 +748,9 @@ async def workspace_terminal(req: TerminalRequest):
 async def terminal_command(game_id: str, req: TerminalRequest):
     session = _get_session(game_id)
     result = _terminal_request(session.state, req, session.loop)
-    if session.state.contract:
-        career().checkpoint(session.state)
-        if session.state.contract.get('onboarding') or session.state.contract.get('investigation_steps'):
-            result['state'] = serialize_state(session.state)
+    career().checkpoint(session.state)
+    if session.state.contract.get('onboarding') or session.state.contract.get('investigation_steps'):
+        result['state'] = serialize_state(session.state)
     return result
 
 
@@ -732,7 +759,7 @@ async def close_terminal(game_id: str, console_id: str):
     session = _get_session(game_id)
     console_sessions.close(session.state, console_id)
     session.loop.cancel_console(console_id)
-    if session.state.contract: career().checkpoint(session.state)
+    career().checkpoint(session.state)
     return {"status": "closed"}
 
 
@@ -781,7 +808,7 @@ async def send_chat(game_id: str, req: ChatRequest):
     session = _get_session(game_id)
     if not req.text.strip():
         raise HTTPException(400, "Le message est vide.")
-    if req.peer and (not session.state.contract or req.peer != session.state.contract["client"]["handle"]):
+    if req.peer and req.peer != session.state.contract["client"]["handle"]:
         raise HTTPException(400, "Cette conversation ne correspond pas au client du contrat actif.")
     try:
         reply = contracts.player_message(session.state, req.channel, req.text.strip(), defer=not contracts.wants_immediate_answer(req.text))
@@ -790,7 +817,7 @@ async def send_chat(game_id: str, req: ChatRequest):
     # Repéré avant la vérification des objectifs, qui peut ajouter le message de fin du client.
     player_index = max((i for i, m in enumerate(session.state.messages) if m.sender == session.state.player_handle), default=len(session.state.messages) - 1)
     _resolve_observations(session.loop)
-    if session.state.contract: career().checkpoint(session.state)
+    career().checkpoint(session.state)
     if reply:
         social.schedule(career(), kind="chat", target=session.state.contract["client"]["handle"], channel=req.channel,
             author=session.state.contract["client"]["handle"], text=reply,
@@ -1003,7 +1030,7 @@ async def workspace_gophish(req: GophishGuiRequest):
 async def game_gophish(game_id: str, req: GophishGuiRequest):
     session = _get_session(game_id)
     result = _gophish_gui(session.state, session.loop, req)
-    if session.state.contract: career().checkpoint(session.state)
+    career().checkpoint(session.state)
     return result
 
 
@@ -1094,5 +1121,5 @@ async def bloodhound_import(game_id: str, req: BloodHoundImportRequest):
     if session.state.status!='RUNNING':raise HTTPException(409,'Ouvre le dossier de collecte avant cet import.')
     try:result=import_archive(session.state,req.path)
     except ValueError as exc:raise HTTPException(400,str(exc))
-    if session.state.contract: career().checkpoint(session.state)
+    career().checkpoint(session.state)
     return result

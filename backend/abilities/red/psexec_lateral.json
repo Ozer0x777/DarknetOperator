@@ -26,9 +26,7 @@
       "port": 445
     }
   ],
-  "edr_block_chance": 0.1,
   "noise": 75,
-  "cooldown": 0,
   "effects": [
     {
       "type": "mark_compromised",

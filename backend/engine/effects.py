@@ -101,6 +101,8 @@ def compromise_domain(state: GameState, ctx: ActionContext) -> None:
             user.status = "ACTIVE"  # pas de changement réel, juste explicite
 
 
+# Gestes de la défense automatique : blue_ai les appelle directement, aucun fichier
+# d'ability ne les déclare. Ils ne figurent donc pas dans REGISTRY.
 def isolate_host(state: GameState, ctx: ActionContext) -> None:
     ctx.target.status = "ISOLATED"
     ctx.target.isolated_at_tick = ctx.tick
@@ -170,6 +172,4 @@ REGISTRY = {
     "add_primary_user_credential": add_primary_user_credential,
     "add_cached_credentials": add_cached_credentials,
     "compromise_domain": compromise_domain,
-    "isolate_host": isolate_host,
-    "disable_user": disable_user,
 }

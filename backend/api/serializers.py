@@ -38,11 +38,6 @@ def serialize_state(state: GameState) -> dict:
         # Brouillard de guerre : la vue Red ne doit afficher que ces hôtes.
         "discovered": sorted(state.discovered),
         "scanned": sorted(state.scanned),
-        "cooldowns": {
-            ability_id: available_at
-            for ability_id, available_at in state.cooldowns.items()
-            if available_at > state.tick
-        },
         "hosts": [
             {
                 "id": host.id,

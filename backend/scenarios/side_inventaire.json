@@ -38,8 +38,7 @@
       "red.recon_scan",
       "red.exfiltrate",
       "red.crack_hash"
-    ],
-    "blue": []
+    ]
   },
   "domain": {
     "name": "act1.lab",

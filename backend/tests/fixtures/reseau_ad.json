@@ -86,8 +86,7 @@
       "red.psexec_lateral",
       "red.dcsync",
       "red.golden_ticket"
-    ],
-    "blue": []
+    ]
   },
   "domain": {
     "name": "ravelle.lab",

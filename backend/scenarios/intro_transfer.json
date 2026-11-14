@@ -117,8 +117,7 @@
       "red.mimikatz_dump",
       "red.psexec_lateral",
       "red.exfiltrate"
-    ],
-    "blue": []
+    ]
   },
   "domain": {
     "name": "ravelle.lab",

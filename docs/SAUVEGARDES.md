@@ -40,7 +40,8 @@ de mission restent accessibles sur le bureau.
 ## Contenu et emplacements
 
 Sous Linux, le dossier par défaut est `~/.local/share/RedTeamSimulator/`.
-`REDTEAM_SAVE_DIR` permet d'en choisir un autre. Les emplacements Windows et macOS
+`REDTEAM_SAVE_DIR` permet d'en choisir un autre ; son ancien nom, `RVB_SAVE_DIR`,
+reste accepté avec un avertissement. Les emplacements Windows et macOS
 restent ceux de Career.default_path().
 
 - `career.json` : carrière courante, écriture atomique avec fsync du fichier.

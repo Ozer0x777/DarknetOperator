@@ -110,7 +110,7 @@ def test_each_gpu_and_premium_dictionary_has_an_actual_effect():
         state=contracts.start_contract(contracts.load_all_contracts()['intro_hash'],'NightShift')
         state.inventory=inventory
         loop=GameLoop(state)
-        action=QueuedAction('red','red.crack_hash',next(iter(state.hosts)),params={'wordlist':'/home/operator/wordlist.txt'})
+        action=QueuedAction('red.crack_hash',next(iter(state.hosts)),params={'wordlist':'/home/operator/wordlist.txt'})
         loop.submit(action)
         return action.ready_tick-state.tick
     assert [delay([]),delay(['gpu1']),delay(['gpu2']),delay(['gpu3'])]==[9,5,3,2]

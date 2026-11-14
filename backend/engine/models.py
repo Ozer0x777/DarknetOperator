@@ -95,11 +95,11 @@ class ActionResult:
 @dataclass
 class ActionContext:
     """Ce dont un prédicat/effet a besoin pour juger une action."""
-    actor: str                       # "red" | "blue"
+    actor: str                       # "red" (joueur) | "blue" (défense automatique)
     target: Host
     tick: int
     credential: Credential | None = None
-    user: User | None = None         # pour les actions Blue (disable_user…)
+    user: User | None = None         # compte visé par la défense automatique (disable_user)
     params: dict = field(default_factory=dict)
 
 
@@ -138,7 +138,6 @@ class GameState:
     max_ticks: int = 60
     status: str = "RUNNING"           # RUNNING | ENDED
     winner: str | None = None         # "RED" | "BLUE" | None
-    cooldowns: dict[str, int] = field(default_factory=dict)  # ability_id -> tick dispo
     rng: random.Random = field(default_factory=random.Random)
     next_alert_seq: int = 1           # entier simple, pas itertools.count : sérialisable tel quel
     scenario_name: str = ""
@@ -151,7 +150,7 @@ class GameState:
     # Objectifs déclarés par le scénario (voir win_conditions.OBJECTIVES).
     # Une mission se gagne en les atteignant tous avant la fin du temps imparti.
     objectives: list[dict] = field(default_factory=list)
-    # Contrat en cours (engine/contracts.py). None = partie libre, sans client.
+    # Contrat de la mission (engine/contracts.py). None uniquement pour le bureau hors mission.
     contract: dict | None = None
     player_handle: str | None = None
     messages: list[Message] = field(default_factory=list)
@@ -227,9 +226,3 @@ class GameState:
         value = self.next_alert_seq
         self.next_alert_seq += 1
         return value
-
-    def is_on_cooldown(self, ability_id: str, tick: int) -> bool:
-        """Évalué contre le tick DE L'ACTION (ctx.tick), pas self.tick : les
-        deux coïncident dans GameLoop mais pas forcément si resolve() est
-        appelé directement (tests, scripts)."""
-        return tick < self.cooldowns.get(ability_id, 0)

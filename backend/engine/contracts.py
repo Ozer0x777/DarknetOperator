@@ -116,10 +116,6 @@ def load_contract(
     for step in data.get("guide", []):
         if not step.get("message"):
             raise ContractValidationError(f"Contrat '{cid}' : une étape du guide n'a pas de message.")
-    if not (data.get("objectives") or state.objectives):
-        raise ContractValidationError(
-            f"Contrat '{cid}' : aucun objectif (ni dans le contrat, ni dans le scénario)."
-        )
     return data
 
 
