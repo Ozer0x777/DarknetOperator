@@ -1,4 +1,4 @@
-# Acte II — Gagner des accès
+# Acte II - Gagner des accès
 
 **Plan actualisé le 12 novembre 2026 ; les dossiers sont intégrés en 0.5.0.**
 Le guide et l’état réel figurent dans [ACTE_II_GUIDE.md](ACTE_II_GUIDE.md) et

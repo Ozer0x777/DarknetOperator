@@ -166,7 +166,7 @@ Les corrections rendent les causes et les conséquences plus cohérentes et les
 réponses moins prévisibles. Elles ne transforment pas le jeu en émulation exhaustive
 des outils ni en reproduction garantie d'une opération réelle.
 
-## Direction solo Red Team — sécurité des cibles
+## Direction solo Red Team - sécurité des cibles
 
 Cette version propose uniquement le rôle Red Team. La sécurité automatique des
 entreprises produit des obstacles scénarisés ; aucun joueur Blue Team n'est requis.
@@ -227,7 +227,7 @@ La rémunération du contrat de jeu ne prouve aucun de ces faits. Une négociati
 jouable, les décisions d'assureur et le rétablissement détaillé restent à construire.
 
 
-## Acte I — novembre 2026
+## Acte I - novembre 2026
 
 Dix chapitres et huit petits contrats ont des parcours qualifiés, avec deux voies
 finales et des décisions persistantes. Les bases synthétiques produisent des

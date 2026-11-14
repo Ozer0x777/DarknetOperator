@@ -12,7 +12,7 @@
   },
   "bounty": {
     "forum": "exployt",
-    "title": "02 — Un compte ne suffit pas",
+    "title": "02 - Un compte ne suffit pas",
     "body": "Teste le compte ops sur 10.71.1.10. Vérifie identité, version du système et droits, puis récupère seulement CT-26-201 dans ~/loot."
   },
   "brief": "Teste le compte ops sur 10.71.1.10. Vérifie identité, version du système et droits, puis récupère seulement CT-26-201 dans ~/loot.\n\nLes pièces sont dans ~/mission. Écris indice pour une piste ou rappel détaillé pour les commandes de ce dossier. Aucun achat de matériel requis.",

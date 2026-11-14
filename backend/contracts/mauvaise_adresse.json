@@ -15,7 +15,7 @@
   },
   "bounty": {
     "forum": "breachboard",
-    "title": "08 — Mauvaise adresse",
+    "title": "08 - Mauvaise adresse",
     "body": "Dossier prive. Retrouver le document AF-26-118, verifier son origine et livrer la version recente."
   },
   "intro": "On m’a parlé de tes vérifications précédentes. J’ai un document à retrouver : AF-26-118. Regarde le dossier avant d’accepter ; je t’envoie mes informations dans cette conversation.",
@@ -30,7 +30,7 @@
     "aquila-portail"
   ],
   "local_files": {
-    "/home/operator/mission/enquete.txt": "MAUVAISE ADRESSE — carnet\n1. Verifie les mentions du site indique et le fil Aquila / homonymes dans Discussion.\n2. Explique au contact : Aquila Conseil n’est pas Aquila Fret ; reference AF-26-118.\n3. Lis les reponses du fil Portail de suivi Aquila. Verifie les mentions de la nouvelle cible. Envoie le hostname, l’IP et AF-26-118 au contact.\n4. Observe les services et les chemins evoques dans le fil. Un fichier de configuration peut contenir un compte encore valable.\n5. Une session SSH n’accorde que les droits du compte. Lis ses notes, puis cherche le serveur documentaire.\n6. Compare les fichiers : reference exacte, annee, dates et nombre de lignes.\n7. Apres transfert, envoie « livraison AF-26-118 » au contact. Une ancienne version ou un fichier modifie sera refuse.\n\nFiltres Kali : grep -n motif fichier ; grep -i motif fichier ; head -n 5 fichier ; wc -l fichier ; sha256sum fichier.\nPipe : cat fichier | grep motif | cut -d \";\" -f 1 | sort | uniq\nLes commandes du jeu ne touchent pas au systeme reel.\n",
+    "/home/operator/mission/enquete.txt": "MAUVAISE ADRESSE - carnet\n1. Verifie les mentions du site indique et le fil Aquila / homonymes dans Discussion.\n2. Explique au contact : Aquila Conseil n’est pas Aquila Fret ; reference AF-26-118.\n3. Lis les reponses du fil Portail de suivi Aquila. Verifie les mentions de la nouvelle cible. Envoie le hostname, l’IP et AF-26-118 au contact.\n4. Observe les services et les chemins evoques dans le fil. Un fichier de configuration peut contenir un compte encore valable.\n5. Une session SSH n’accorde que les droits du compte. Lis ses notes, puis cherche le serveur documentaire.\n6. Compare les fichiers : reference exacte, annee, dates et nombre de lignes.\n7. Apres transfert, envoie « livraison AF-26-118 » au contact. Une ancienne version ou un fichier modifie sera refuse.\n\nFiltres Kali : grep -n motif fichier ; grep -i motif fichier ; head -n 5 fichier ; wc -l fichier ; sha256sum fichier.\nPipe : cat fichier | grep motif | cut -d \";\" -f 1 | sort | uniq\nLes commandes du jeu ne touchent pas au systeme reel.\n",
     "/home/operator/mission/reperes.txt": "Distinguer identité, adresse actuelle et contenu à livrer. Tu peux contester les informations du client en citant des preuves.\n\nIndice : une piste de raisonnement puis une aide concrète. Rappel détaillé : les commandes de la phase actuelle. L’aide ne retire aucune prime. Les commandes se saisissent dans les consoles du jeu, une par une.\n"
   },
   "investigation_steps": [

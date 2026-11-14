@@ -94,7 +94,7 @@ def render(path):
     return target.name
 
 images=[render(path) for path in sorted(OUTPUT.glob('*.json')) if not args.only or path.stem in args.only]
-gallery='<!doctype html><html lang="fr"><meta charset="utf-8"><title>RedTeamSimulator — revue des interfaces</title><style>body{margin:32px;background:#111622;color:#dce4ef;font:16px system-ui}img{width:100%;border:1px solid #40516b;border-radius:6px}figure{margin:32px 0}a{color:#85c6ff}</style><h1>RedTeamSimulator — interfaces</h1><p>Aperçus vectoriels issus de la géométrie de la scène Godot. Ce ne sont pas des captures du rendu GPU.</p>'
+gallery='<!doctype html><html lang="fr"><meta charset="utf-8"><title>RedTeamSimulator - revue des interfaces</title><style>body{margin:32px;background:#111622;color:#dce4ef;font:16px system-ui}img{width:100%;border:1px solid #40516b;border-radius:6px}figure{margin:32px 0}a{color:#85c6ff}</style><h1>RedTeamSimulator - interfaces</h1><p>Aperçus vectoriels issus de la géométrie de la scène Godot. Ce ne sont pas des captures du rendu GPU.</p>'
 for name in images:gallery+=f'<figure><figcaption>{html.escape(name)}</figcaption><a href="{name}"><img src="{name}"></a></figure>'
 (OUTPUT/'index.html').write_text(gallery+'</html>')
 print(OUTPUT/'index.html')

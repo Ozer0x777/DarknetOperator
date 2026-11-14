@@ -1,4 +1,4 @@
-# Direction artistique orbitale — v0.4.2
+# Direction artistique orbitale - v0.4.2
 
 Mode : outil imagegen intégré, génération avec images de référence. Images opaques 1672 × 941, affichage Godot avec conservation des proportions et recadrage. Les originaux précédents sont conservés.
 

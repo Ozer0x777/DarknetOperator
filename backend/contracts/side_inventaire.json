@@ -41,7 +41,7 @@
         {
           "type": "local_file_equals",
           "path": "/home/operator/loot/resultat.txt",
-          "value": "EXP-26-17 — publication courante"
+          "value": "EXP-26-17 - publication courante"
         }
       ],
       "response": "Résultat conforme au bon de travail. Le paiement de ce petit contrat est enregistré.",

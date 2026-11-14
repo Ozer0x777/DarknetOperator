@@ -1,4 +1,4 @@
-# Les acteurs de l’acte II — 0.5.0
+# Les acteurs de l’acte II - 0.5.0
 
 Le réseau Orbe relie les contrats. Les contacts apparaissent progressivement sur
 Telegrid, après la recommandation de l’acte I et les dossiers précédents.

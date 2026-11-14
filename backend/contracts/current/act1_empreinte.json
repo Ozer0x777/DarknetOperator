@@ -10,7 +10,7 @@
   },
   "bounty": {
     "forum": "breachboard",
-    "title": "06 — Une passation à vérifier",
+    "title": "06 - Une passation à vérifier",
     "body": "Vérifier un compte de lecture fourni, puis livrer le planning courant OR-26-311."
   },
   "brief": "Une passation fournit un compte de lecture pour le planning : planning / Atelier2026!, serveur 10.61.6.21. Vérifie qu’il fonctionne encore et qu’il donne accès au document demandé, sans supposer des droits administrateur.\n\nLis ~/mission/passation.txt. Tu connais SSH et SCP : ouvre la session, vérifie ton identité, puis transfère le planning courant OR-26-311 dans ~/loot depuis une autre console Kali. Relis la copie avant de confirmer la livraison. Aucun cassage de mot de passe demandé ; le secret est fourni par le client.",
@@ -50,7 +50,7 @@
     }
   ],
   "local_files": {
-    "/home/operator/mission/passation.txt": "OR-26-311 — SSH 10.61.6.21\nCompte fourni : planning / Atelier2026!\nPièce : /srv/planning/OR-26-311.csv\nLa passation n’accorde pas des droits administrateur.\n",
+    "/home/operator/mission/passation.txt": "OR-26-311 - SSH 10.61.6.21\nCompte fourni : planning / Atelier2026!\nPièce : /srv/planning/OR-26-311.csv\nLa passation n’accorde pas des droits administrateur.\n",
     "/home/operator/mission/reperes.txt": "SSH ouvre une session utilisateur. whoami vérifie le compte. SCP se lance depuis Kali pour copier un seul fichier. Relire la copie et comparer la référence avant de livrer.\n"
   },
   "investigation_threads": [

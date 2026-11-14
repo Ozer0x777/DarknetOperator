@@ -1,4 +1,4 @@
-# Darknet Operator — identité d'accueil
+# Darknet Operator - identité d'accueil
 
 - `darknet-operator-keyart-v1.png` : illustration d'accueil générée avec imagegen.
 - `darknet-operator-logo-v1.png` : logo sélectionné, version opaque sur fond anthracite,

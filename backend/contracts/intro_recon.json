@@ -10,7 +10,7 @@
   },
   "bounty": {
     "forum": "breachboard",
-    "title": "02 — Un inventaire à vérifier",
+    "title": "02 - Un inventaire à vérifier",
     "body": "Découvrir le serveur indiqué par l’inventaire."
   },
   "brief": "Je n’ai qu’une adresse de départ : 10.20.0.21. Vérifie les machines du sous-réseau avec `nmap -sV 10.20.0.0/24`. /24 fixe le périmètre ; -sV demande les versions disponibles. Lis les noms/IP et les colonnes PORT, STATE, SERVICE. open signifie joignable ; filtered ne prouve pas un service ouvert. Le scan ne fournit aucun mot de passe. Retrouve SRV-FICHIERS dans les résultats.",

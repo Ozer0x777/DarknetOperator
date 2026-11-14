@@ -1,4 +1,4 @@
-# Chapitre 08 — Mauvaise adresse
+# Chapitre 08 - Mauvaise adresse
 
 Dossier jouable : **après le chapitre 7** dans les nouvelles carrières, ou après
 Morel pour les anciennes carrières compatibles. Ouvrir Chordly puis
@@ -33,7 +33,7 @@ Une phrase recopiée sans ces observations ne débloque pas l’étape.
 
 ## Retrouver la bonne infrastructure
 
-Ouvrir **Portail de suivi Aquila — ancienne adresse ?** dans Discussion.
+Ouvrir **Portail de suivi Aquila - ancienne adresse ?** dans Discussion.
 Le premier message est ancien : les réponses corrigent l’adresse .30 en .31.
 
 ```text

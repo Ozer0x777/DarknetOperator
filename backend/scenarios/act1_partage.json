@@ -1,6 +1,6 @@
 {
   "scenario_id": "act1_partage",
-  "name": "02 — Une porte oubliée",
+  "name": "02 - Une porte oubliée",
   "description": "Une porte oubliée",
   "hosts": [
     {

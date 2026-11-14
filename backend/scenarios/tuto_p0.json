@@ -1,6 +1,6 @@
 {
   "scenario_id": "tuto_p0",
-  "name": "Tutoriel — Cabinet Ravelle & Associés",
+  "name": "Tutoriel - Cabinet Ravelle & Associés",
   "description": "Accueil et comptabilité sur un LAN ancien. Le prestataire a ouvert une session de maintenance sur le poste d’accueil.",
   "hosts": [
     {

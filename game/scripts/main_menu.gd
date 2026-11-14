@@ -77,7 +77,7 @@ func _build() -> void:
 	left.custom_minimum_size.x = 420
 	left.add_theme_constant_override("separation", 8)
 	row.add_child(left)
-	var eyebrow: Label = UI.label("D / O     —     CAMPAGNE SOLO", 13, MenuStyle.ACCENT)
+	var eyebrow: Label = UI.label("D / O     -     CAMPAGNE SOLO", 13, MenuStyle.ACCENT)
 	eyebrow.add_theme_font_override("font", UI.MONO)
 	left.add_child(eyebrow)
 	_space(left, 32)
@@ -153,8 +153,8 @@ func _build() -> void:
 	fields.add_child(handle_input)
 	mode_select = OptionButton.new()
 	mode_select.name = "PlayMode"
-	mode_select.add_item("Campagne complète — prélude puis acte I")
-	mode_select.add_item("Démo — trois exercices puis un dossier ouvert")
+	mode_select.add_item("Campagne complète - prélude puis acte I")
+	mode_select.add_item("Démo - trois exercices puis un dossier ouvert")
 	mode_select.custom_minimum_size.y = 42
 	mode_select.tooltip_text = "La démo conserve tes acquis pour poursuivre ensuite la campagne."
 	fields.add_child(mode_select)
@@ -252,7 +252,7 @@ func _settings() -> void:
 func _credits() -> void:
 	var dialog: AcceptDialog = AcceptDialog.new()
 	dialog.title = "Crédits"
-	dialog.dialog_text = "Darknet Operator — projet en développement\nClient Godot · moteur local Python\nPolices et ressources : licences conservées dans game/assets.\nMusiques et effets originaux : compositions synthétisées pour le jeu.\n\nLe nom définitif et les crédits de publication seront complétés avant la sortie."
+	dialog.dialog_text = "Darknet Operator - projet en développement\nClient Godot · moteur local Python\nPolices et ressources : licences conservées dans game/assets.\nMusiques et effets originaux : compositions synthétisées pour le jeu.\n\nLe nom définitif et les crédits de publication seront complétés avant la sortie."
 	add_child(dialog)
 	dialog.popup_centered(Vector2i(650, 250))
 	dialog.confirmed.connect(dialog.queue_free)

@@ -43,15 +43,15 @@ def prepare(career) -> dict:
     archive = career.data.setdefault('conversations', {})
     from .campaign import enabled
     if enabled(career.data) and career.data.get('play_mode') == 'demo':
-        archive.setdefault('journey:welcome', _message('journey:welcome', 'k0rvid', 'chordly', 'k0rvid', 'Bienvenue dans la démo : trois exercices courts, puis miette te confiera un dossier ouvert. Tu choisis tes preuves et ta conclusion. Aucun achat requis ; écris aide si tu bloques. Tu pourras continuer la campagne sur cette sauvegarde.', 0))
+        archive.setdefault('journey:welcome', _message('journey:welcome', 'k0rvid', 'chordly', 'k0rvid', 'Bienvenue dans la démo. Trois exercices courts, puis miette te confie un dossier ouvert. C’est toi qui choisis tes preuves et ta conclusion. Rien à acheter. Écris aide si tu bloques. Tu pourras continuer la campagne sur cette sauvegarde.', 0))
     if enabled(career.data) and career.data.get('play_mode') != 'demo':
         from .onboarding import stages
         count=len(stages(career.data))-1
-        archive.setdefault('journey:welcome', _message('journey:welcome', 'k0rvid', 'chordly', 'k0rvid', f'Bienvenue. On commence par {count} exercices courts, puis un premier dossier complet pour le cabinet Ravelle. Ouvre la carte ci-dessous pour recevoir les pièces. Aucun achat n’est nécessaire ; écris aide pendant un dossier si tu bloques. Les primes arrivent dans ColdVault, hors des forums. Tu peux fermer le jeu et reprendre ta mission.', 0))
+        archive.setdefault('journey:welcome', _message('journey:welcome', 'k0rvid', 'chordly', 'k0rvid', f'Bienvenue. On commence par {count} exercices courts, puis un premier vrai dossier pour le cabinet Ravelle. Ouvre la carte ci-dessous pour recevoir les pièces. Rien à acheter. Si tu bloques pendant un dossier, écris aide. Les primes arrivent dans ColdVault, pas sur les forums. Tu peux fermer le jeu quand tu veux et reprendre ta mission plus tard.', 0))
     from .curriculum import current
     if current(career.data) and career.data.get('forum_invitation_accepted'):
         ident='act2:introduction'
-        archive.setdefault(ident,_message(ident,'cendre','telegrid','cendre','bytewarden m’a transmis ta recommandation. Je suis Cendre : je recoupe les passations et l’état des machines. On commencera par une empreinte et une petite liste fournie, sans achat de GPU. Une correspondance ne prouve pas un accès : nous le vérifierons ensuite. Configure VPN + Tor avec l’accès NullVad gratuit, puis ouvre « Une vieille passation » ici. Tes primes restent dans ColdVault ; ta réputation Exployt se construit séparément de BreachBoard.',world['minute']))
+        archive.setdefault(ident,_message(ident,'cendre','telegrid','cendre','bytewarden m’a transmis ta recommandation. Moi c’est Cendre. Je recoupe les passations et l’état des machines. On commence par une empreinte et une petite liste que je fournis, pas de GPU à acheter. Une correspondance, ça prouve pas un accès, on le vérifiera ensuite. Configure VPN + Tor avec l’accès NullVad gratuit, puis ouvre « Une vieille passation » ici. Tes primes restent dans ColdVault. Ta réputation Exployt se construit à part de celle de BreachBoard.',world['minute']))
     for contact in contacts(career):
         if contact['kind'] != 'group': continue
         ident = 'group:' + contact['id']
@@ -121,10 +121,10 @@ def advance(career, minutes: int = 1) -> None:
         world['milestones'].append(cid)
         followups = {
             'tuto_p0': ('miette', 'chordly', 'J’ai vu que ton profil avait changé de palier. Bien joué. Tu gardes tes notes pour la suite ?'),
-            'morel': ('k0rvid', 'chordly', 'Le document est reçu. Garde une copie de ta chronologie : je préfère pouvoir vérifier le transfert plutôt qu’avoir un simple « terminé ».'),
-            'rival': ('k0rvid', 'chordly', 'Le contrat de passage est réglé. Les discussions de relay sont sur Telegrid. Les règles d’Exployt se lisent avant de publier.'),
-            'varenne': ('relay', 'telegrid', 'J’ai archivé la vérification de l’accès. La création du ticket et son utilisation sont deux étapes distinctes dans le compte rendu.'),
-            'affiliation': ('relay', 'telegrid', 'Le règlement de l’affiliation figure sur ton profil. Spectre demande des passations datées ; précise toujours les limites de l’accès fourni.'),
+            'morel': ('k0rvid', 'chordly', 'Document reçu. Garde une copie de ta chronologie. Je préfère pouvoir vérifier le transfert qu’avoir juste un « terminé ».'),
+            'rival': ('k0rvid', 'chordly', 'Le contrat de passage est réglé. Les discussions de relay sont sur Telegrid. Et lis les règles d’Exployt avant d’y publier quoi que ce soit.'),
+            'varenne': ('relay', 'telegrid', 'Vérification de l’accès archivée. Dans le compte rendu, la création du ticket et son utilisation font deux étapes séparées.'),
+            'affiliation': ('relay', 'telegrid', 'Le règlement de l’affiliation est sur ton profil. Spectre veut des passations datées. Précise toujours les limites de l’accès fourni.'),
             'grand_compte': ('spectre', 'sessyon', 'Dossier clos. Les conditions vérifiées et le montant réglé sont archivés. Une isolation ultérieure ne restaure pas les fichiers chiffrés.'),
         }
         if cid in followups:
@@ -193,19 +193,19 @@ def queue_chat(career, channel: str, peer: str, handle: str, text: str) -> None:
     if pending: return  # Pas une réponse identique pour chaque pression sur Entrée.
     previous = [m for m in career.data['conversations'].values() if m.get('peer') == peer and m.get('sender') == contact['response_author']]
     response = contact['response'].replace('{handle}', handle) if not previous else {
-        'miette': 'Je t’ai lu. Je termine mes notes ; je n’ai pas d’autre information sur ta mission.',
-        'relay': 'Message reçu. Je reviens quand j’ai une disponibilité confirmée.',
+        'miette': 'Je t’ai lu. Je finis mes notes, et j’ai rien de plus sur ta mission.',
+        'relay': 'Reçu. Je reviens vers toi quand j’ai un créneau confirmé.',
         'packetloss': 'Je garde ton message dans le fil. Pour avancer, il me faut des observations datées.',
         'spectre': 'Lu. Je te recontacte si les conditions de la passation évoluent.',
     }.get(contact['response_author'], 'Bien reçu.')
     # Réponses thématiques écrites : aucune invention de secrets ou de paiement.
     topic = text.casefold()
     if any(word in topic for word in ('rançon', 'rancon', 'ransom', 'chiffrement', 'sauvegarde')):
-        response = "Le dossier doit séparer fichiers chiffrés, copies transférées et sauvegardes externes. Une demande de rançon ne prouve pas un paiement ; ton règlement de contrat reste distinct. Lis le fil Après le chiffrement dans le salon privé quand il sera accessible."
+        response = "Dans le dossier, sépare bien les fichiers chiffrés, les copies transférées et les sauvegardes externes. Une demande de rançon, ça prouve pas un paiement, et ton règlement de contrat c'est encore autre chose. Lis le fil Après le chiffrement dans le salon privé quand tu y auras accès."
     elif any(word in topic for word in ('escrow', 'litige', 'arnaque', 'vendeur')):
-        response = "Le fil Litige distingue l’annonce, la preuve datée et la décision de modération. Une bonne réputation ne valide pas les droits annoncés ; ne considère pas un litige comme résolu sans mise à jour."
+        response = "Le fil Litige sépare l’annonce, la preuve datée et la décision de modération. Une bonne réputation, ça valide pas les droits annoncés. Et un litige n'est pas résolu tant qu'il n'y a pas de mise à jour."
     elif any(word in topic for word in ('edr', 'pare-feu', 'firewall')):
-        response = "Observe le résultat et sa date : un port filtré, une authentification refusée et une exécution bloquée sont des causes différentes. Les politiques de maintenance changent selon la machine ; les documents du support peuvent être anciens."
+        response = "Regarde le résultat et sa date. Un port filtré, une authentification refusée et une exécution bloquée, c'est trois causes différentes. Les politiques de maintenance changent d'une machine à l'autre, et les documents du support peuvent être vieux."
     from .relationships import view as relationship_view
     relation = relationship_view(career.data).get(peer)
     if relation and (any(word in topic for word in ('confiance', 'relation', 'contretemps', 'ct-26-071')) or (peer == 'bytewarden' and 'litige' in topic) or (peer == 'nullroute' and 'af-26-118' in topic)):
@@ -294,7 +294,7 @@ def view(career, contracts: dict | None = None) -> dict:
     for contact in peers:
         relation = relations.get(contact['id'])
         if relation:
-            contact['bio'] = contact.get('bio', '') + '\n' + relation['label'] + ' — ' + relation['detail']
+            contact['bio'] = contact.get('bio', '') + '\n' + relation['label'] + ' - ' + relation['detail']
             profiles.setdefault(contact['id'], {}).update(relationship=relation)
     from .journey import view as next_step
     return dict(journey=next_step(career.data),forum_messages=list(career.data.get('forum_messages',{}).values()),offers=offers, minute=world['minute'], time=stamp(world['minute']), threads=threads, profiles=profiles, contacts=peers,

@@ -10,7 +10,7 @@
   },
   "bounty": {
     "forum": "breachboard",
-    "title": "04 — Un document, pas tout le serveur",
+    "title": "04 - Un document, pas tout le serveur",
     "body": "Transférer uniquement le document demandé."
   },
   "brief": "Réutilise le compte de l’exercice précédent : m.leroux / Password123!, poste 10.20.0.21. Il dispose du document fourni dans son profil, sans droits administrateur.\n\nDepuis Kali : `scp m.leroux@10.20.0.21:C:/Users/m.leroux/Documents/transfert.txt ~/loot/transfert.txt`. Saisis le mot de passe à l’invite, attends 100%, puis `cat ~/loot/transfert.txt`. SCP copie, SSH ouvre une session : ne confonds pas les deux. Seule cette pièce est demandée.",

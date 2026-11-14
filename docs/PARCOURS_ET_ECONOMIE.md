@@ -1,4 +1,4 @@
-# Parcours, conséquences et économie — 0.4.4
+# Parcours, conséquences et économie - 0.4.4
 
 ## Début de partie
 

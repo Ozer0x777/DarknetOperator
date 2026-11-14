@@ -2,7 +2,7 @@
 Registre des prédicats utilisables dans le champ "requires" d'une ability.
 Chaque prédicat est une fonction pure : (state, ctx, **params) -> bool.
 Ajouter un prédicat ici le rend disponible à TOUTE ability (existante ou future)
-sans toucher au reste du moteur — voir docs/02-ability-system-design.md.
+sans toucher au reste du moteur - voir docs/02-ability-system-design.md.
 """
 from __future__ import annotations
 

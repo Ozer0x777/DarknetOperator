@@ -51,9 +51,9 @@
         }
       },
       "files": {
-        "/ProgramData/LabEndpoint/policy.txt": "POLITIQUE EFFECTIVE — 09/11/2026\nLabEndpoint — maintenance supervisée\nMode : audit. Services distants, lecture de mémoire sensible et modification massive des fichiers sont surveillés. Les exclusions de maintenance sont limitées à cette machine ; elles ne désactivent pas les journaux.\n",
-        "/Users/Public/Documents/Support/inventaire-2024.txt": "ARCHIVE — inventaire au 12/03/2024\nAncien serveur documentaire : 10.42.8.99\nCe relevé n'est pas une mesure actuelle.\n",
-        "/Users/Public/Documents/Support/migration-2026.txt": "CHG-2026-041 — clôturé le 02/11/2026\nLe serveur .99 a été retiré. Le service documentaire utilise désormais DUM-FS01 (10.42.8.10).\nLe port SMB du poste comptabilité est refusé depuis l'accès externe de maintenance ; les connexions internes suivent une règle distincte. Une authentification valide reste nécessaire.\n"
+        "/ProgramData/LabEndpoint/policy.txt": "POLITIQUE EFFECTIVE - 09/11/2026\nLabEndpoint - maintenance supervisée\nMode : audit. Services distants, lecture de mémoire sensible et modification massive des fichiers sont surveillés. Les exclusions de maintenance sont limitées à cette machine ; elles ne désactivent pas les journaux.\n",
+        "/Users/Public/Documents/Support/inventaire-2024.txt": "ARCHIVE - inventaire au 12/03/2024\nAncien serveur documentaire : 10.42.8.99\nCe relevé n'est pas une mesure actuelle.\n",
+        "/Users/Public/Documents/Support/migration-2026.txt": "CHG-2026-041 - clôturé le 02/11/2026\nLe serveur .99 a été retiré. Le service documentaire utilise désormais DUM-FS01 (10.42.8.10).\nLe port SMB du poste comptabilité est refusé depuis l'accès externe de maintenance ; les connexions internes suivent une règle distincte. Une authentification valide reste nécessaire.\n"
       }
     },
     {
@@ -89,7 +89,7 @@
         ]
       },
       "files": {
-        "/ProgramData/LabEndpoint/policy.txt": "POLITIQUE EFFECTIVE — 09/11/2026\nLabEndpoint — postes comptabilité\nMode : block. Services distants, lecture de mémoire sensible et modification massive des fichiers sont surveillés. Les exclusions de maintenance sont limitées à cette machine ; elles ne désactivent pas les journaux.\n"
+        "/ProgramData/LabEndpoint/policy.txt": "POLITIQUE EFFECTIVE - 09/11/2026\nLabEndpoint - postes comptabilité\nMode : block. Services distants, lecture de mémoire sensible et modification massive des fichiers sont surveillés. Les exclusions de maintenance sont limitées à cette machine ; elles ne désactivent pas les journaux.\n"
       }
     },
     {
@@ -108,9 +108,9 @@
         "maintenance.dumas"
       ],
       "files": {
-        "/srv/contrats_2026.xlsx": "DOCUMENT FICTIF — Atelier Dumas — contrats 2026",
-        "/srv/archive.zip": "ARCHIVE FICTIVE — Atelier Dumas — données administratives de démonstration",
-        "/ProgramData/LabEndpoint/policy.txt": "POLITIQUE EFFECTIVE — 09/11/2026\nLabEndpoint — maintenance supervisée\nMode : audit. Services distants, lecture de mémoire sensible et modification massive des fichiers sont surveillés. Les exclusions de maintenance sont limitées à cette machine ; elles ne désactivent pas les journaux.\n"
+        "/srv/contrats_2026.xlsx": "DOCUMENT FICTIF - Atelier Dumas - contrats 2026",
+        "/srv/archive.zip": "ARCHIVE FICTIVE - Atelier Dumas - données administratives de démonstration",
+        "/ProgramData/LabEndpoint/policy.txt": "POLITIQUE EFFECTIVE - 09/11/2026\nLabEndpoint - maintenance supervisée\nMode : audit. Services distants, lecture de mémoire sensible et modification massive des fichiers sont surveillés. Les exclusions de maintenance sont limitées à cette machine ; elles ne désactivent pas les journaux.\n"
       },
       "os": "Windows Server 2022",
       "is_domain_controller": false,
@@ -186,7 +186,7 @@
     ],
     "endpoint_policies": {
       "poste-accueil": {
-        "name": "LabEndpoint — maintenance supervisée",
+        "name": "LabEndpoint - maintenance supervisée",
         "actions": {
           "red.psexec_lateral": "audit",
           "red.mimikatz_dump": "audit",
@@ -194,7 +194,7 @@
         }
       },
       "poste-compta": {
-        "name": "LabEndpoint — postes comptabilité",
+        "name": "LabEndpoint - postes comptabilité",
         "actions": {
           "red.psexec_lateral": "block",
           "red.mimikatz_dump": "block",
@@ -202,7 +202,7 @@
         }
       },
       "srv-fichiers": {
-        "name": "LabEndpoint — maintenance supervisée",
+        "name": "LabEndpoint - maintenance supervisée",
         "actions": {
           "red.psexec_lateral": "audit",
           "red.mimikatz_dump": "audit",

@@ -1,6 +1,6 @@
 {
   "scenario_id": "intro_evidence",
-  "name": "05 — Deux versions des faits",
+  "name": "05 - Deux versions des faits",
   "description": "Accueil et comptabilité sur un LAN ancien. Le prestataire a ouvert une session de maintenance sur le poste d’accueil.",
   "hosts": [
     {

@@ -12,14 +12,14 @@ _log = logging.getLogger(__name__)
 _legacy_dir_warned = False
 
 CATALOG = [
-    {"id": "nullvad", "name": "NullVad — accès au service (50 ₵ / contrat)", "price": 0, "tier": 1},
+    {"id": "nullvad", "name": "NullVad - accès au service (50 ₵ / contrat)", "price": 0, "tier": 1},
     {"id": "wordlist", "name": "Liste de mots premium", "price": 150, "tier": 1},
     {"id": "gpu1", "name": "GPU niveau 1", "price": 400, "tier": 1},
     {"id": "gpu2", "name": "GPU niveau 2", "price": 1200, "tier": 2},
     {"id": "gpu3", "name": "GPU niveau 3", "price": 3000, "tier": 3},
     {"id": "relay", "name": "Accès SSH jetable", "price": 300, "tier": 3, "consumable": True},
-    {"id": "vesper", "name": "Vesper — affiliation, part opérateur 30 %", "price": 0, "tier": 2},
-    {"id": "glasswing", "name": "Glasswing — licence", "price": 450, "tier": 2},
+    {"id": "vesper", "name": "Vesper - affiliation, part opérateur 30 %", "price": 0, "tier": 2},
+    {"id": "glasswing", "name": "Glasswing - licence", "price": 450, "tier": 2},
 ]
 
 
@@ -127,7 +127,7 @@ class Career:
         if session['pending']:
             if session['pending']['item'] != item_id: raise ValueError('Confirme ou annule le paiement déjà en attente dans ColdVault.')
         else:
-            session['pending'] = {'id': uuid.uuid4().hex, 'item': item_id, 'label': item['name'], 'amount': item['price'], 'recipient': 'Fournisseurs — services et matériel'}
+            session['pending'] = {'id': uuid.uuid4().hex, 'item': item_id, 'label': item['name'], 'amount': item['price'], 'recipient': 'Fournisseurs - services et matériel'}
         return {'paid': False, 'wallet': view(self)}
 
     def view(self) -> dict:
@@ -240,7 +240,7 @@ class Career:
                 if cost > self.data["money"]: raise ValueError("Il faut 50 ₵ pour le premier départ de ce dossier par cette route.")
                 if route == 'relay' and 'relay' not in self.data['inventory']: raise ValueError("Achète un passage SSH pour ce nouveau dossier.")
                 self.data["money"] -= cost
-                if cost: wallet.record(self.data, 'route:'+__import__('uuid').uuid4().hex, 'route', -cost, 'Route de mission — '+contract['contract_id'], 'route')
+                if cost: wallet.record(self.data, 'route:'+__import__('uuid').uuid4().hex, 'route', -cost, 'Route de mission - '+contract['contract_id'], 'route')
                 if route == 'relay': self.data['inventory'].remove('relay')
                 passes.append(key)
         if contract.get("act") == 2: self.data["act2_started"] = True
@@ -260,7 +260,7 @@ class Career:
             from . import console_sessions
             with console_sessions.using(state, "main"):
                 console_sessions.enter(state, host, account, "SYSTEM")
-            state.terminal_files["/home/operator/mission/acces.txt"] = f"Passation vérifiée — laboratoire\nMachine : {host.hostname} ({host.ip})\nCompte : {account}\nMot de passe : {relay_password}\nAccès : session de maintenance administrateur déjà ouverte.\nLimite : le compte peut être désactivé ; les droits des autres machines restent à vérifier.\n"
+            state.terminal_files["/home/operator/mission/acces.txt"] = f"Passation vérifiée - laboratoire\nMachine : {host.hostname} ({host.ip})\nCompte : {account}\nMot de passe : {relay_password}\nAccès : session de maintenance administrateur déjà ouverte.\nLimite : le compte peut être désactivé ; les droits des autres machines restent à vérifier.\n"
         trace.configure(state, self.data["route"])
         self.checkpoint(state)
 

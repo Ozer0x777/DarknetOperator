@@ -181,7 +181,7 @@ Identité d'accueil : **Darknet Operator**, logo et illustration dans
 `game/assets/branding/`. Le dossier du projet et les chemins de sauvegarde
 conservent leur nom technique pour la compatibilité des profils existants.
 
-## Acte I — Darknet Operator
+## Acte I - Darknet Operator
 
 Dix chapitres, huit petits contrats et invitation en MP : [guide et solutions](docs/ACTE_I.md).
 Sauvegardes anciennes compatibles ; durée cible de 4 à 6 h non mesurée en tests joueurs.

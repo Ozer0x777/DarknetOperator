@@ -1,6 +1,6 @@
 {
   "scenario_id": "act1_echantillon",
-  "name": "03 — Échantillon gratuit",
+  "name": "03 - Échantillon gratuit",
   "description": "Échantillon gratuit",
   "hosts": [
     {

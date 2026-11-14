@@ -105,7 +105,7 @@ class ActionContext:
 
 @dataclass
 class HistoryEntry:
-    """Une ligne de narration — alimente le flux temps réel de l'UI."""
+    """Une ligne de narration - alimente le flux temps réel de l'UI."""
     tick: int
     team: str
     message: str

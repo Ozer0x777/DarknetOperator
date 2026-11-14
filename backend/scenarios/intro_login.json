@@ -1,6 +1,6 @@
 {
   "scenario_id": "intro_login",
-  "name": "03 — Vérifier un accès fourni",
+  "name": "03 - Vérifier un accès fourni",
   "description": "Accueil et comptabilité sur un LAN ancien. Le prestataire a ouvert une session de maintenance sur le poste d’accueil.",
   "hosts": [
     {

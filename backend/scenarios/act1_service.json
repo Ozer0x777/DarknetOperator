@@ -1,6 +1,6 @@
 {
   "scenario_id": "act1_service",
-  "name": "07 — Un service fragile",
+  "name": "07 - Un service fragile",
   "description": "Un service fragile",
   "hosts": [
     {

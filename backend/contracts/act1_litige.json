@@ -10,7 +10,7 @@
   },
   "bounty": {
     "forum": "breachboard",
-    "title": "09 — La réputation se paie",
+    "title": "09 - La réputation se paie",
     "body": "Un vendeur conteste ton travail sur le lot 118. Nous devons établir si les deux pièces concernent réellement la même livraison. Le dossier arrive dans tes MP du forum."
   },
   "brief": "Un vendeur conteste ton travail sur le lot 118. Les deux pièces concernent-elles réellement la même livraison ? Le dossier arrive dans tes MP du forum.\n\nTu as déjà comparé des dates avec SQLite. Les pièces sont ~/mission/litige.txt et litige.sql ; lis aussi le fil Litige. Choisis une requête qui permet de relier source, référence et date, puis vérifie tes observations. Le nom de la base locale et l’ordre des colonnes sont libres.\n\nDécide ensuite sur Chordly : « publier dossier 118 » ou « mediation dossier 118 ». Les deux voies exigent les mêmes preuves et règlent le dossier ; la visibilité de ton intervention change. Aucune option ne sera choisie automatiquement. Indice ou rappel détaillé si nécessaire.",

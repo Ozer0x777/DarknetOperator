@@ -142,7 +142,7 @@ def _parse(line: str, state: GameState, abilities: dict[str, Ability]) -> Termin
     import difflib
     known=set(shell_tools.BINARIES)|{'cat','ls','pwd','cd','echo','head','tail','grep','sort','cut','sqlite3','mysql','help','whoami','hostname'}
     guesses=difflib.get_close_matches(head,sorted(known),n=1,cutoff=0.72)
-    message=f"{tokens[0]}: commande inconnue — tape 'help'."
+    message=f"{tokens[0]}: commande inconnue - tape 'help'."
     if guesses:message+=" Voulais-tu écrire "+guesses[0]+" ?"
     if head in {'less','more'}:message=f"{head}: le pager interactif n’est pas simulé. Utilise cat ou head pour lire le fichier."
     windows = bool(state.terminal_host and state.hosts[state.terminal_host].os.startswith("Windows"))

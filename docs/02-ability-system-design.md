@@ -19,7 +19,7 @@ code qui les exécute. On reprend ce principe, en plus simple.
 
 Une ability = un fichier JSON. Le moteur ne connaît que deux registres de fonctions :
 des **prédicats** (vérifient un prérequis) et des **effets** (modifient l'état). Une
-ability ne fait que combiner des prédicats et des effets déjà connus du moteur — elle
+ability ne fait que combiner des prédicats et des effets déjà connus du moteur - elle
 n'a pas de code propre.
 
 ```json
@@ -47,13 +47,13 @@ n'a pas de code propre.
 
 **Pour ajouter une action Red/Blue : un nouveau fichier JSON, zéro ligne de moteur**,
 à condition que les prédicats/effets dont elle a besoin existent déjà. C'est la même
-logique que le blueprint applique déjà aux scénarios (§12, config JSON) — on l'étend
+logique que le blueprint applique déjà aux scénarios (§12, config JSON) - on l'étend
 aux actions elles-mêmes.
 
 ## Ce qui reste du code (volontairement)
 
 Les prédicats et les effets, eux, sont du code Python normal (pas de petit langage
-d'expression maison — trop de risque de sur-ingénierie pour la taille du projet).
+d'expression maison - trop de risque de sur-ingénierie pour la taille du projet).
 Chaque prédicat/effet est une fonction pure, petite, testable isolément :
 
 ```python
@@ -62,7 +62,7 @@ def target_has_service(state, ctx, name, port):
 ```
 
 Quand une nouvelle *mécanique* apparaît (pas juste une nouvelle action, un vrai nouveau
-concept — ex. "Credential Guard bloque le dump LSASS"), on ajoute un prédicat une fois,
+concept - ex. "Credential Guard bloque le dump LSASS"), on ajoute un prédicat une fois,
 et toutes les abilities existantes et futures peuvent s'en servir.
 
 ## Ce que ça donne pour les 6 scénarios du blueprint
@@ -77,12 +77,12 @@ au scénario (ex. `ransomware_deploy`, `supply_chain_backdoor`).
 ## Implémentation
 
 Voir `backend/engine/` :
-- `models.py` — état d'une mission en mémoire.
-- `predicates.py` / `effects.py` — les deux registres.
-- `ability_engine.py` — charge les JSON, résout un outil contre l'état courant.
-- `siem.py` — règles de corrélation, même logique déclarative appliquée aux logs.
-- `blue_ai.py` — défense automatique de la cible (isolement, désactivation de compte) ;
+- `models.py` - état d'une mission en mémoire.
+- `predicates.py` / `effects.py` - les deux registres.
+- `ability_engine.py` - charge les JSON, résout un outil contre l'état courant.
+- `siem.py` - règles de corrélation, même logique déclarative appliquée aux logs.
+- `blue_ai.py` - défense automatique de la cible (isolement, désactivation de compte) ;
   le joueur ne pilote aucune action de défense.
-- `../abilities/red/*.json` — les dix outils du joueur, lancés depuis le terminal.
-- `../scenarios/*.json` — un scénario par contrat.
-- `../tests/fixtures/reseau_ad.json` — réseau de test à trois machines, hors du jeu.
+- `../abilities/red/*.json` - les dix outils du joueur, lancés depuis le terminal.
+- `../scenarios/*.json` - un scénario par contrat.
+- `../tests/fixtures/reseau_ad.json` - réseau de test à trois machines, hors du jeu.

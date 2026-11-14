@@ -10,7 +10,7 @@
   },
   "bounty": {
     "forum": "breachboard",
-    "title": "07 — Empreinte et mot de passe",
+    "title": "07 - Empreinte et mot de passe",
     "body": "Retrouver le mot de passe de l’empreinte fournie."
   },
   "brief": "Voici un exercice hors ligne : `cat ~/mission/exercice.ntlm` affiche une empreinte, pas un mot de passe. Lance `hashcat -m 1000 ~/mission/exercice.ntlm /usr/share/wordlists/rockyou.txt`. -m 1000 choisit NTLM ; le premier fichier contient l’empreinte, le second les candidats. Le fichier appelé rockyou.txt est actuellement une petite liste de démonstration du jeu. Cracked signifie qu’un candidat correspond ; Exhausted signifie aucun résultat dans cette liste. Ne confonds pas attendre et trouver.",

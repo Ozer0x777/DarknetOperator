@@ -121,7 +121,7 @@ def compose(name,bpm,bars,chords,style):
     with tempfile.TemporaryDirectory(prefix='darknet-music-') as directory:
         wav=Path(directory)/(name+'.wav')
         write_wav(wav,mix)
-        subprocess.run(['ffmpeg','-v','error','-y','-i',str(wav),'-c:a','libvorbis','-q:a','4','-metadata','title='+name,'-metadata','artist=Darknet Operator — composition originale',str(OUTPUT/(name+'.ogg'))],check=True)
+        subprocess.run(['ffmpeg','-v','error','-y','-i',str(wav),'-c:a','libvorbis','-q:a','4','-metadata','title='+name,'-metadata','artist=Darknet Operator - composition originale',str(OUTPUT/(name+'.ogg'))],check=True)
     return {'file':name+'.ogg','bpm':bpm,'seconds':round(seconds,3),'style':style,'peak':round(float(np.max(np.abs(mix))),4),'rms':round(float(np.sqrt(np.mean(mix**2))),4)}
 
 

@@ -1,4 +1,4 @@
-# Acte II — Gagner des accès (0.5.0)
+# Acte II - Gagner des accès (0.5.0)
 
 Dix missions principales et six contrats facultatifs sont intégrés. Cette solution
 contient les commandes de référence du laboratoire ; aucun outil réel n’est lancé.
@@ -23,7 +23,7 @@ Les images Linux sont des images anciennes de laboratoire : une image corrigée
 ne devient pas vulnérable du seul fait de partager un numéro de pkexec. Les scripts
 et compilateurs du jeu sont des artefacts virtuels, pas une exécution de code C.
 
-## Solutions — spoilers
+## Solutions - spoilers
 
 
 ### Une vieille passation

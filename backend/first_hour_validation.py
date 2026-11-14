@@ -48,7 +48,7 @@ async def qualify(output):
                     before=profile.data['money']
                     first=await client.post(f'/api/games/{gid}/chat',json={'channel':'chordly','peer':'k0rvid','text':'indice'})
                     assert first.json()['messages'][-1]['text'].startswith('Indice 1/2'),(cid,first.text)
-                    slot=await client.post('/api/saves/write',json={'name':'Lecture en cours — '+cid})
+                    slot=await client.post('/api/saves/write',json={'name':'Lecture en cours - '+cid})
                     assert slot.status_code==200
                     assert (await client.post('/api/saves/load',json={'slot_id':slot.json()['id'],'confirm':True})).status_code==200
                     resumed=await client.post('/api/profile/resume',json={})

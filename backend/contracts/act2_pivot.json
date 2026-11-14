@@ -12,7 +12,7 @@
   },
   "bounty": {
     "forum": "exployt",
-    "title": "05 — Le passage étroit",
+    "title": "05 - Le passage étroit",
     "body": "Récupère OR-NET-205 du portail interne 10.72.0.20 par un passage local SSH. Le port HTTP ne répond pas directement depuis Kali. Le tunnel doit rester ouvert dans sa propre console."
   },
   "brief": "Récupère OR-NET-205 du portail interne 10.72.0.20 par un passage local SSH. Le port HTTP ne répond pas directement depuis Kali. Le tunnel doit rester ouvert dans sa propre console.\n\nLes pièces sont dans ~/mission. Écris indice pour une piste ou rappel détaillé pour les commandes de ce dossier. Aucun achat de matériel requis.",

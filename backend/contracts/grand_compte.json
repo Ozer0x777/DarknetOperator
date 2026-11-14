@@ -13,7 +13,7 @@
     "title": "Groupe hospitalier fictif",
     "body": "Accès de maintenance fourni dans le laboratoire administratif : transfert de l’archive, suppression des sauvegardes locales et seuil de chiffrement. Aucun dispositif médical dans le périmètre."
   },
-  "brief": "Groupe hospitalier Valmont — laboratoire. Adresse connue : 10.75.20.21. Accès fourni pour support.valmont sur le poste de maintenance 10.75.20.21. Les détails sont dans ~/mission/acces.txt. Périmètre : réseau administratif fictif uniquement. Le règlement exige archive.zip transférée, sauvegardes du serveur supprimées et au moins 60 % des machines chiffrées.\n\nLis `cat ~/mission/briefing.txt` pour le contexte et les limites connues. Les horaires sont accélérés ; le réseau continue de vivre pendant tes recherches. Si tu veux un indice facultatif, écris aide ici. Je ne te donnerai pas les droits ou les secrets que tu n’as pas encore découverts. Les exécutables Windows du laboratoire sont dans ~/tools ; leur guide décrit le transfert et les droits requis.",
+  "brief": "Groupe hospitalier Valmont - laboratoire. Adresse connue : 10.75.20.21. Accès fourni pour support.valmont sur le poste de maintenance 10.75.20.21. Les détails sont dans ~/mission/acces.txt. Périmètre : réseau administratif fictif uniquement. Le règlement exige archive.zip transférée, sauvegardes du serveur supprimées et au moins 60 % des machines chiffrées.\n\nLis `cat ~/mission/briefing.txt` pour le contexte et les limites connues. Les horaires sont accélérés ; le réseau continue de vivre pendant tes recherches. Si tu veux un indice facultatif, écris aide ici. Je ne te donnerai pas les droits ou les secrets que tu n’as pas encore découverts. Les exécutables Windows du laboratoire sont dans ~/tools ; leur guide décrit le transfert et les droits requis.",
   "reward": 3500,
   "reputation": 150,
   "required_rep": 300,
@@ -26,7 +26,7 @@
         "type": "host_discovered",
         "host": "srv-fichiers"
       },
-      "message": "Le réseau découvert appartient à Groupe hospitalier Valmont — laboratoire. Compare les services et les droits disponibles avec l’objectif. Un compte récupéré ne donne pas automatiquement une session sur les machines. Écris aide si tu veux relire ce point."
+      "message": "Le réseau découvert appartient à Groupe hospitalier Valmont - laboratoire. Compare les services et les droits disponibles avec l’objectif. Un compte récupéré ne donne pas automatiquement une session sur les machines. Écris aide si tu veux relire ce point."
     },
     {
       "when": {

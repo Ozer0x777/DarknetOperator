@@ -1,6 +1,6 @@
 {
   "scenario_id": "intro_transfer",
-  "name": "04 — Un document, pas tout le serveur",
+  "name": "04 - Un document, pas tout le serveur",
   "description": "Accueil et comptabilité sur un LAN ancien. Le prestataire a ouvert une session de maintenance sur le poste d’accueil.",
   "hosts": [
     {

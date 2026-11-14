@@ -74,7 +74,7 @@ def test_cendre_intro_is_gated_stable_and_survives_reload(tmp_path):
     social.prepare(p)
     first=copy.deepcopy(p.data['conversations']['act2:introduction'])
     assert first['channel']=='telegrid' and first['peer']=='cendre'
-    assert 'ColdVault' in first['text'] and 'séparément' in first['text']
+    assert 'ColdVault' in first['text'] and 'à part' in first['text']
     social.advance(p,5);p.save();reloaded=Career(p.path);social.prepare(reloaded)
     assert reloaded.data['conversations']['act2:introduction']==first
     assert community.scores(reloaded.data)=={'breachboard':500,'exployt':0,'xsx':0}

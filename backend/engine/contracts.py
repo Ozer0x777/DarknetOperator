@@ -152,13 +152,13 @@ def start_contract(
     if state.environment:
         env = state.environment
         known = state.hosts.get(env.get("briefing_host"))
-        text = f"DOSSIER DE MISSION — {env['organization']}\nSecteur : {env['sector']}\nHoraires : {env['business_hours']} ({env['timezone']})\nCréneau : {env['initial_time']}\nAdresse connue : {known.ip if known else 'non fournie'}\nContact connu : {env['known_contact']}\n\n{env['context']}\n\nLes noms, adresses et documents appartiennent au laboratoire. Les durées sont accélérées.\nUne collecte d’identifiants ne crée pas automatiquement une session distante.\nAide facultative : demande aide au client, ou help outil dans le terminal.\n"
+        text = f"DOSSIER DE MISSION - {env['organization']}\nSecteur : {env['sector']}\nHoraires : {env['business_hours']} ({env['timezone']})\nCréneau : {env['initial_time']}\nAdresse connue : {known.ip if known else 'non fournie'}\nContact connu : {env['known_contact']}\n\n{env['context']}\n\nLes noms, adresses et documents appartiennent au laboratoire. Les durées sont accélérées.\nUne collecte d’identifiants ne crée pas automatiquement une session distante.\nAide facultative : demande aide au client, ou help outil dans le terminal.\n"
         state.terminal_files['/home/operator/mission/briefing.txt'] = text
     if contract.get('onboarding'):
         state.terminal_files.update({
             '/home/operator/mission/preparation.txt': 'Dossier reçu. Lire, vérifier, puis conclure ; aucun outil à exécuter dans ce document.\n',
-            '/home/operator/mission/inventaire_ancien.txt': 'ARCHIVE 2024 — serveur en .99, informations non revérifiées.\n',
-            '/home/operator/mission/changement_recent.txt': 'CHG clos le 02/11/2026 — serveur migre ; ancienne adresse retirée.\n'})
+            '/home/operator/mission/inventaire_ancien.txt': 'ARCHIVE 2024 - serveur en .99, informations non revérifiées.\n',
+            '/home/operator/mission/changement_recent.txt': 'CHG clos le 02/11/2026 - serveur migre ; ancienne adresse retirée.\n'})
         if contract['contract_id'] == 'intro_hash':
             from .models import Credential
             from .ntlm import nt_hash
@@ -280,7 +280,7 @@ def player_message(state: GameState, channel: str, text: str, *, defer: bool = F
     elif contract.get("investigation_steps") and asking_help:
         answer = help_text(state,detailed=detailed_help) or contract["brief"]
     elif any(word in lower for word in PAYMENT_WORDS):
-        answer = f"Le règlement de ce contrat est de {state.payout} ₵. Tu le retrouves dans ton profil." if state.contract_outcome == "SUCCESS" else f"La prime annoncée est de {contract['reward']} ₵. Le règlement dépend de l'issue et des conditions du contrat."
+        answer = f"Ce contrat t'a rapporté {state.payout} ₵. C'est dans ton profil." if state.contract_outcome == "SUCCESS" else f"La prime annoncée, c'est {contract['reward']} ₵. Ce que tu touches vraiment dépend du résultat et des conditions du contrat."
     elif asking_help:
         previous = state.guide_index - 1
         guide = contract.get("guide", [])
@@ -288,11 +288,11 @@ def player_message(state: GameState, channel: str, text: str, *, defer: bool = F
     elif any(word in lower for word in OBJECTIVE_WORDS):
         answer = contract.get("bounty", {}).get("body", contract["brief"])
     elif any(word in lower for word in ("salut", "bonjour", "hello")):
-        answer = contract.get("dialogue", {}).get("greeting", "Salut {handle}. Je suis là. Dis-moi si tu veux reparler de l’objectif, du paiement ou si tu es bloqué.")
+        answer = contract.get("dialogue", {}).get("greeting", "Salut {handle}. Je suis là. Tu veux qu'on reparle de l’objectif, du paiement, ou t'es bloqué ?")
     elif any(word in lower for word in ("merci", "reçu", "occupe", "compris", "ok")):
-        answer = contract.get("dialogue", {}).get("ack", "Bien reçu. Je te préviens dès qu’une étape du contrat est validée.")
+        answer = contract.get("dialogue", {}).get("ack", "Bien reçu. Je te fais signe dès qu’une étape est validée.")
     else:
-        answer = "Message reçu. Si tu as besoin d'un point précis, demande-moi l'objectif, de l'aide ou le paiement."
+        answer = "Bien noté. Si tu veux un point précis, demande-moi l'objectif, de l'aide ou le paiement."
     if defer and narrative is None: return render(answer, contract, state.player_handle, state)
     _send(state, answer)
     return None

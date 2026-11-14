@@ -1,4 +1,4 @@
-RedTeamSimulator — version de développement
+RedTeamSimulator - version de développement
 
 Lancer RedTeamSimulator.exe (Windows) ou RedTeamSimulator.x86_64 (Linux).
 Le dossier engine doit rester à côté du jeu : il contient le moteur autonome.

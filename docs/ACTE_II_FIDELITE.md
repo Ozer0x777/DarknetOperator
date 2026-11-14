@@ -1,4 +1,4 @@
-# Fidélité obligatoire — commandes et systèmes de l’acte II
+# Fidélité obligatoire - commandes et systèmes de l’acte II
 
 **Exigence de conception, pas état des fonctionnalités livrées.**
 L’expression « BloodHound simplifié » est retirée du plan : les actions proposées

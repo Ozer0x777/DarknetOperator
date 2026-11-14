@@ -1,4 +1,4 @@
-# Acte I — apprentissage et continuité (0.4.8)
+# Acte I - apprentissage et continuité (0.4.8)
 
 L’acte reste composé de dix chapitres, avec les mêmes objectifs, règlements et
 accès. Aucun achat supplémentaire n’est requis. Demander des indices ne diminue

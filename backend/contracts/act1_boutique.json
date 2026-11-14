@@ -10,7 +10,7 @@
   },
   "bounty": {
     "forum": "breachboard",
-    "title": "04 — Derrière la boutique",
+    "title": "04 - Derrière la boutique",
     "body": "Pivoine : récupérer les commandes courantes, sans le personnel ni les archives. Mon vérificateur exige un CSV correspondant au contenu courant."
   },
   "brief": "Pivoine : livrer les commandes courantes, sans personnel ni archives, dans un CSV complet et relu. Cible : 10.61.4.20.\n\nNouveau : SQLmap sur un paramètre du site. Le contrôle se déroule en deux temps : identifier la page et son paramètre, puis examiner les bases, tables et colonnes avant l’export. Lis le fil Pivoine, observe le site, puis consulte `help sqlmap` ou ~/mission/reperes.txt pour la syntaxe. Une réponse de recherche ne prouve pas une injection.\n\nRéutilise les vérifications de l’échantillon : bonnes données, bon périmètre, relecture. Le nom de l’export dans ~/loot est libre. Confirme la livraison PV-26 des commandes ; indice et rappel détaillé restent disponibles.",

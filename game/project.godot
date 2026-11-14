@@ -3,7 +3,7 @@ config_version=5
 [application]
 config/name="RedTeamSimulator"
 config/version="0.5.3-dev"
-config/description="Darknet Operator — simulation d’opérations cyber"
+config/description="Darknet Operator - simulation d’opérations cyber"
 config/icon="res://assets/icons/terminal.svg"
 run/main_scene="res://scenes/main_menu.tscn"
 config/features=PackedStringArray("4.4", "GL Compatibility")

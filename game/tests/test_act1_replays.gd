@@ -71,5 +71,5 @@ func run() -> void:
 			check(desktop.report.text.contains("SUCCESS"), "Débriefing : " + str(record.contract_id))
 			desktop.queue_free()
 			await process_frame
-	print("Acte I — terminaux : %s contrôles, %s échec(s)" % [checks, failures])
+	print("Acte I - terminaux : %s contrôles, %s échec(s)" % [checks, failures])
 	quit(1 if failures else 0)

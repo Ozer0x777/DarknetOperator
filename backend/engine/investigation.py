@@ -45,12 +45,12 @@ def answer(state, text):
         matching=[step for step in candidates if step.get('exclusive_group')==group]
         if len({step.get('choice', step['id']) for step in matching}) > 1:
             if group in decisions: return 'Ce choix a déjà été enregistré : '+decisions[group]
-            return 'Tu évoques plusieurs décisions. Confirme une seule option avant de poursuivre. Aucun choix n’a été enregistré.'
+            return 'Tu me parles de plusieurs décisions à la fois. Confirme une seule option. Pour l’instant j’ai rien enregistré.'
     if '?' in text and re.match(r"^(?:dois|faut|comment|puis|est-ce|quelle|que choisir|j'hesite)\b",words):
-        return 'Je ne prends pas une question pour une livraison ou une décision. Confirme ton compte rendu quand tu es prêt ; aucun choix n’a été enregistré.'
+        return 'Une question, c’est pas une livraison ni une décision. Confirme ton compte rendu quand t’es prêt. Pour l’instant j’ai rien enregistré.'
     intent=any(token in {'livraison','publier','mediation','signaler','discret','refuser','renegocier'} for step in candidates for token in step['tokens'])
     if intent and (re.search(r'\b(?:pas|sans|aucun)\s+(?:signaler|discret|refuser|renegocier)\b', words) or re.search(r'\b(?:pas(?: encore)?(?: de)?|sans|aucune?|rien(?: de)?)\s+(?:livr\w*|transm\w*|remis\w*|publi\w*|mediat\w*)',words) or re.search(r'\b(?:livr\w*|transm\w*|publi\w*)\s+pas\b',words) or 'pas encore' in words or re.search(r'\b(?:pas|non)\s+(?:termine\w*|valide\w*|pret\w*)',words)):
-        return 'Ton message ne confirme pas encore la livraison ou la décision. Rien n’a été validé ; tu peux poursuivre tes vérifications.'
+        return 'Ton message confirme pas encore la livraison ou la décision. Rien n’est validé, tu peux continuer tes vérifications.'
     # Si plusieurs voies sont nommées, une voie réellement prouvée prime sur une voie incomplète.
     ready=[step for step in candidates if all(objective_met(state,c) for c in step.get('requires',[]))]
     step=(ready or candidates)[0]
@@ -67,7 +67,7 @@ def answer(state, text):
             labels={'smb:list:':'liste du partage observée','sqlmap:injection:':'paramètre de la cible vérifié','sqlmap:dump:':'export par la voie SQLmap observé','mysql:query:':'requête sur le service SQL distant observée','lab:checksec':'protections du binaire observées','lab:symbols':'symboles du binaire observés','lab:access':'session du laboratoire vérifiée','http:':'réponse du service web observée'}
             return next((value for prefix,value in labels.items() if key.startswith(prefix)),'observation vérifiée du dossier')
         labels=list(dict.fromkeys(label(c) for c in missing))
-        return 'Il manque encore : '+', '.join(labels)+'. Demande un indice pour préciser la prochaine vérification.'
+        return 'Il manque encore : '+', '.join(labels)+'. Demande un indice si tu veux savoir quoi vérifier ensuite.'
     if group: decisions[group]=step['id']
     flags(state).append(step['id'])
     state.discovered.update(step.get('discover', []))
@@ -86,7 +86,7 @@ def help_text(state, detailed=False):
         group = step.get('exclusive_group')
         options = [item for item in pending if group and item.get('exclusive_group') == group and all(objective_met(state, c) for c in item.get('requires', []))] if group else [step]
         reports = ' ou '.join(dict.fromkeys('« '+' '.join(item['tokens'])+' »' for item in options))
-        return 'Les preuves nécessaires à cette étape sont vérifiées. Confirme maintenant ton compte rendu : '+reports+'. Choisis une seule option ; aucune décision n’est prise à ta place.'
+        return 'J’ai les preuves qu’il faut pour cette étape. Confirme maintenant ton compte rendu : '+reports+'. Choisis une seule option, je décide rien à ta place.'
     for phase in step.get('help_stages', []):
         if not all(objective_met(state, c) for c in phase['requires']):
             key = state.contract['contract_id']+':investigation:'+step['id']+':'+phase['id']

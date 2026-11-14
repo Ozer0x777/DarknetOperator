@@ -10,7 +10,7 @@
   },
   "bounty": {
     "forum": "breachboard",
-    "title": "03 — Vérifier un accès fourni",
+    "title": "03 - Vérifier un accès fourni",
     "body": "Ouvrir une session avec le compte fourni."
   },
   "brief": "Cette fois je fournis un accès : m.leroux sur 10.20.0.21, mot de passe Password123!. Lance `ssh m.leroux@10.20.0.21`, puis réponds à la demande de mot de passe. SSH ouvre une session ; il ne rend pas administrateur. `hostname` identifie la machine et `whoami` le compte. La cible est Windows : son invite et ses commandes diffèrent de Kali. `exit` permet de revenir au terminal local.",

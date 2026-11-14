@@ -10,7 +10,7 @@
   },
   "bounty": {
     "forum": "breachboard",
-    "title": "10 — Quelqu’un répond de toi",
+    "title": "10 - Quelqu’un répond de toi",
     "body": "k0rvid, hexcache et nullroute proposent de répondre de toi. Dernier dossier : vérifier et livrer les bordereaux BR-26 valides, puis nous déciderons de l’invitation."
   },
   "brief": "k0rvid, hexcache et nullroute proposent de répondre de toi. Dernier dossier : livrer seulement les bordereaux BR-26 au statut valide, puis nous déciderons de l’invitation. Cible connue : 10.61.10.20.\n\nLe dossier est dans tes MP du forum ; le fil Boreal donne le contexte. Observe le site et choisis ta méthode : vérifier un paramètre avec SQLmap, ou rechercher une configuration de connecteur publiée par erreur et utiliser son accès SQL limité. Les deux voies conviennent. À toi de retrouver les points d’entrée et de filtrer les données avec les outils déjà rencontrés.\n\nL’export dans ~/loot doit être complet, ne contenir que les lignes valides et être relu. Son nom est libre. Confirme une livraison BR-26 en précisant la voie choisie, sqlmap ou connecteur. Aucun achat requis. Indice donne une piste ; rappel détaillé reste disponible sans pénalité.",

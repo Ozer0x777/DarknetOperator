@@ -1,6 +1,6 @@
 {
   "scenario_id": "ravelle_current",
-  "name": "Sous recommandation — Ravelle",
+  "name": "Sous recommandation - Ravelle",
   "description": "Vérifier le site du cabinet Ravelle, puis livrer le mandat RAV-26-001 courant. Une source publique ne prouve pas un accès administrateur.",
   "hosts": [
     {
@@ -16,8 +16,8 @@
         }
       ],
       "files": {
-        "/srv/www/index.txt": "Cabinet Ravelle et Associés — www.ravelle-associes.fr\nIdentité : /mentions.txt\nDocuments courants : /documents/RAV-26-001.txt\nArchives : /archives/RAV-24-001.txt\n",
-        "/srv/www/mentions.txt": "Cabinet Ravelle et Associés — comptabilité. Registre publié le 12 novembre 2026.\n",
+        "/srv/www/index.txt": "Cabinet Ravelle et Associés - www.ravelle-associes.fr\nIdentité : /mentions.txt\nDocuments courants : /documents/RAV-26-001.txt\nArchives : /archives/RAV-24-001.txt\n",
+        "/srv/www/mentions.txt": "Cabinet Ravelle et Associés - comptabilité. Registre publié le 12 novembre 2026.\n",
         "/srv/www/current.txt": "REFERENCE: RAV-26-001\nDATE: 2026-11-12\nCLIENT: Cabinet Ravelle et Associés\nSTATUT: mandat courant\n",
         "/srv/www/archive.txt": "REFERENCE: RAV-24-001\nDATE: 2024-02-12\nSTATUT: archive\n"
       }

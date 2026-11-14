@@ -1,4 +1,4 @@
-# Progression Red Team — le parcours du pirate
+# Progression Red Team - le parcours du pirate
 
 > Suivi d’implémentation actuel : `ROADMAP.md`. Architecture PC : `STEAM.md`.
 > Document de conception du jeu solo RedTeamSimulator. Certaines sections
@@ -31,14 +31,14 @@ Tout est simulé : aucune commande réelle n'est exécutée, aucun vrai réseau 
 | Messageries | Noms fictifs (aucune marque commerciale) | voir §3 |
 | Forums | Noms fictifs proches des vrais forums, **à finaliser** | voir §3 |
 | Ransomwares | Familles fictives, achetées | voir §5 |
-| Logiciels commerciaux | **Aucun** (pas de Cobalt Strike, Brute Ratel, etc.) | — |
+| Logiciels commerciaux | **Aucun** (pas de Cobalt Strike, Brute Ratel, etc.) | - |
 
 ---
 
 ## 1. Les trois paliers
 
 ```
-PALIER 1 — Débutant          PALIER 2 — Confirmé           PALIER 3 — Pro
+PALIER 1 - Débutant          PALIER 2 - Confirmé           PALIER 3 - Pro
 ──────────────────────       ──────────────────────        ──────────────────────────
 Discrétion : VPN             Discrétion : VPN + Tor        Discrétion : Tor → RDP/SSH acheté
 Contacts : Chordly + forum   Contacts : Telegrid + forum   Contacts : Sessyon + forum privé

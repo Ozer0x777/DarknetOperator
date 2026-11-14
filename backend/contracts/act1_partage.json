@@ -10,7 +10,7 @@
   },
   "bounty": {
     "forum": "breachboard",
-    "title": "02 — Une porte oubliée",
+    "title": "02 - Une porte oubliée",
     "body": "Retrouver le bon NC-26-041 de novembre sur le partage annoncé à 10.61.2.10. Une ancienne version ne convient pas."
   },
   "brief": "Retrouver le bon NC-26-041 de novembre sur le partage annoncé à 10.61.2.10. Une ancienne version ne convient pas.\n\nNouveau : consulter un partage SMB. Commence par `nmap -sV 10.61.2.10`, puis `smbclient -L 10.61.2.10 -N`. -L liste les partages ; -N essaie une session invitée, sans donner de droits administrateur. Compare les répertoires et les dates, puis conserve et lis le bon document dans ~/loot. Tu peux consulter le fil « Un partage ne donne pas tous les droits ». Confirme ensuite une livraison en citant NC-26-041. Écris indice si tu bloques, ou rappel détaillé pour la syntaxe.",

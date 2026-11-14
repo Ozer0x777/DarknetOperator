@@ -1,6 +1,6 @@
 {
   "scenario_id": "intro_terminal",
-  "name": "01 — Prendre ses marques",
+  "name": "01 - Prendre ses marques",
   "description": "Accueil et comptabilité sur un LAN ancien. Le prestataire a ouvert une session de maintenance sur le poste d’accueil.",
   "hosts": [
     {

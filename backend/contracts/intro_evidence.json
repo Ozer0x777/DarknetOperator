@@ -10,7 +10,7 @@
   },
   "bounty": {
     "forum": "breachboard",
-    "title": "05 — Deux versions des faits",
+    "title": "05 - Deux versions des faits",
     "body": "Lire les preuves et rédiger une conclusion."
   },
   "brief": "Une passation annonce deux adresses. Lis `cat ~/mission/inventaire_ancien.txt`, puis `cat ~/mission/changement_recent.txt`. Compare leurs dates, pas la confiance du vendeur. Une fois les deux documents lus, consigne la conclusion avec `echo \"serveur migre\" > ~/mission/conclusion.txt`. echo produit du texte ; > le place dans ce fichier en remplaçant son contenu. Cette conclusion sera vérifiée, pas seulement la présence du fichier.",

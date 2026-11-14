@@ -1,6 +1,6 @@
 {
   "scenario_id": "intro_campaign",
-  "name": "06 — Une campagne expliquée",
+  "name": "06 - Une campagne expliquée",
   "description": "Accueil et comptabilité sur un LAN ancien. Le prestataire a ouvert une session de maintenance sur le poste d’accueil.",
   "hosts": [
     {

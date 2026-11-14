@@ -33,8 +33,8 @@ def definitions(data,original):
     from .onboarding import CURRENT_STAGES
     for index,cid in enumerate(CURRENT_STAGES[:-1],1):
         if cid in result and cid not in data.get('legacy_completed',[]):
-            label=result[cid]['bounty']['title'].split(' — ',1)[-1]
-            result[cid]['bounty']['title']=f'{index:02} — {label}'
+            label=result[cid]['bounty']['title'].split(' - ',1)[-1]
+            result[cid]['bounty']['title']=f'{index:02} - {label}'
     if 'tuto_p0' in result and result['tuto_p0'].get('curriculum_version')==VERSION:
         # Réaffectation de la prime de l’exercice retiré, sans doubler un acquis.
         if 'intro_hash' not in data.get('completed',[]):

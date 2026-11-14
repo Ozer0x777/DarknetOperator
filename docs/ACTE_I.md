@@ -1,4 +1,4 @@
-# Acte I — Se faire un nom
+# Acte I - Se faire un nom
 
 > Archive de la progression antérieure. Pour une nouvelle carrière 0.5.1, suivre [l’acte I actuel](ACTE_I_ACTUEL.md). Les passages remplacés restent utiles aux dossiers anciens déjà lancés.
 
@@ -58,7 +58,7 @@ chemins dangereux. Aucun outil ne contacte le réseau extérieur au jeu.
 Le petit dictionnaire de démonstration n’est pas rockyou complet et aucun hashrate
 RTX 5090 mesuré n’est implémenté.
 
-## Solutions — spoilers complets
+## Solutions - spoilers complets
 
 Une commande à la fois dans les **terminaux du jeu**. Les lignes Forum se font dans
 le navigateur ; les messages Chordly vont au client du dossier. « Session » désigne
@@ -694,7 +694,7 @@ cat ~/mission/entree.txt | sort | uniq > ~/loot/resultat.txt
 Puis envoyer `livraison tri` à miette.
 
 
-## Dossier facultatif — Le contretemps (0.4.7)
+## Dossier facultatif - Le contretemps (0.4.7)
 
 Après Une porte oubliée, miette propose une enquête à deux sources et un choix
 de transmission. Elle ne compte pas parmi les dix chapitres obligatoires.

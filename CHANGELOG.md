@@ -1,6 +1,6 @@
 # Journal des changements
 
-## Non publié — corrections de revue
+## Non publié - corrections de revue
 
 - Tutoriel : consignes GoPhish complètes dans Chordly ; dossier Ravelle avec domaine, DNS simulé (`host`) et IP publique.
 - Fin de mission : l’état final arrive toujours au client (tampon temps réel agrandi, relecture HTTP en secours) ; la boucle de jeu survit à une erreur ponctuelle.
@@ -16,7 +16,7 @@
 - Les sauvegardes antérieures contenant une action en attente se reprennent de nouveau ; une mission terminée est libérée de la mémoire à l’ouverture de la suivante.
 - `scripts/check_ui.py` lance tous les contrôles et affiche un résumé.
 
-## 0.5.3 — musique continue et lecteur audio
+## 0.5.3 - musique continue et lecteur audio
 
 - La réussite d’une étape, le débriefing, la pause de mission et le lancement du dossier suivant ne changent plus de morceau.
 - Playlist continue avec fondu de 2,5 secondes, précédent/suivant, pause/reprise, volume et recherche dans le morceau.
@@ -27,7 +27,7 @@
 - L’audio YouTube n’a pas pu être téléchargé (DNS bloqué) et n’est pas inclus. La bibliothèque originale sert de repli jusqu’à l’import d’un fichier source.
 
 
-## 0.5.2 — finition du parcours et des échanges
+## 0.5.2 - finition du parcours et des échanges
 
 - Ravelle : titre, indices et débriefing alignés sur les sources publiques ; retrait des anciens conseils administrateur.
 - Offres isolées par messagerie ; contact rencontré sur un canal conservé sur ce canal.
@@ -40,7 +40,7 @@
 - Sept tests de régression moteur supplémentaires et neuf contrôles d’interface supplémentaires.
 
 
-## 0.5.1 — actes mieux séparés
+## 0.5.1 - actes mieux séparés
 
 - Nouveau cursus par défaut : sept exercices, transfert utilisateur et Ravelle fondé sur les sources publiques.
 - Planning : compte de lecture fourni ; service : permissions et configuration, sans exploitation binaire.
@@ -50,7 +50,7 @@
 - Chargement d’un ancien emplacement : adaptation de la suite, original de l’emplacement conservé.
 - Qualification de deux cursus actuels complets jusqu’aux deux finales de l’acte II, en plus des archives classiques.
 
-## 0.5.0 — Gagner des accès
+## 0.5.0 - Gagner des accès
 
 - Acte II : dix dossiers séquentiels, six contrats facultatifs et deux voies finales.
 - Nouveaux contacts Cendre, Traverse, Iris et Quartz ; réactions et choix de partenaire conservés.
@@ -63,7 +63,7 @@
 - Qualification des deux parcours depuis l’acte I, des contrats secondaires et des reprises.
 - Couverture bornée et documentée ; aucune exécution d’attaque sur le système hôte.
 
-## 0.4.8 — apprentissage et continuité de l’acte I
+## 0.4.8 - apprentissage et continuité de l’acte I
 
 - Briefings gradués : nouvelle notion accompagnée, puis réutilisation et choix autonome.
 - Échantillon : les chiffres du rapport ne sont plus donnés dans les consignes.
@@ -74,7 +74,7 @@
 - Invitation finale liée à la résolution du litige et à la voie réellement utilisée.
 - Sauvegardes en cours : ajout des repères manquants sans écraser les notes du joueur.
 
-## 0.4.7 — dossier ouvert, relations et démo
+## 0.4.7 - dossier ouvert, relations et démo
 
 - Le contretemps : registre HTTP ou partage SMB, archives trompeuses et journal facultatif.
 - Choix explicite de signalement ou de remise privée, vérifié sur les preuves courantes.
@@ -83,7 +83,7 @@
 - Acte I inchangé à dix chapitres ; nouveau dossier facultatif après Une porte oubliée.
 - Parcours API et interface sans affichage ; qualification graphique native toujours à faire.
 
-## 0.4.6 — cohérence des missions et reprises
+## 0.4.6 - cohérence des missions et reprises
 
 - Exports et bases nommés librement, colonnes SQL réordonnées et contrôles de contenu conservés.
 - Preuves de lecture liées à la version du fichier ; suivi des bases SQLite copiées ou déplacées.
@@ -92,7 +92,7 @@
 - Les relectures ne réécrivent pas les décisions de carrière.
 - Chargement écrit avant fermeture des sessions ; reprises sensibles qualifiées.
 
-## 0.4.5 — premiers pas et lecture
+## 0.4.5 - premiers pas et lecture
 
 - Accès Console / Objectif / Indice dans le dossier, sans toucher au brouillon.
 - Résumés automatiques courts, indices progressifs et rappel détaillé sur demande.
@@ -102,7 +102,7 @@
 - Parcours novice qualifié avec erreurs et reprises ; lancement graphique bloqué
   dans l’environnement de validation, sans mesure d’une heure humaine.
 
-## 0.4.4 — parcours, conséquences et économie
+## 0.4.4 - parcours, conséquences et économie
 
 - Accueil privé et prochaine piste contextualisée dans les offres et la campagne.
 - Résultats persistants : retour client, recommandation publique de Ravelle et suivi des échecs.
@@ -114,7 +114,7 @@
   confirmé puis restauré ; 214 tests backend et suite d’interface sans échec.
 - Les tests automatisés ne remplacent pas une partie manuelle avec affichage réel.
 
-## 0.4.0 — consoles et outils
+## 0.4.0 - consoles et outils
 
 - Plusieurs consoles, avec contextes, historique et sorties indépendants.
 - Commandes disponibles avant mission et découverte via ls /usr/bin / which.
@@ -124,7 +124,7 @@
 - 94 tests backend et 60 contrôles d’interface, plus le test de clics/bordures.
 
 
-## Correctif des clics — 10 novembre 2026
+## Correctif des clics - 10 novembre 2026
 
 - Les poignées de redimensionnement sont confinées aux bordures, au lieu d'être
   étirées par PanelContainer sur toute la fenêtre.
@@ -132,7 +132,7 @@
 - Ajout d'un test de distribution réelle des événements souris : bouton, champ,
   coin de redimensionnement, maximisation et restauration.
 
-## 0.3.0 — 10 novembre 2026 (développement)
+## 0.3.0 - 10 novembre 2026 (développement)
 
 - Refonte du bureau selon les conventions Kali/Xfce : panneau, menu, espaces de
   travail, fenêtres, raccourcis, icônes, fond vectoriel et polices embarquées.
@@ -143,7 +143,7 @@
 - Galerie de onze compositions, 53 contrôles d’interface et 86 tests backend.
 
 
-## 0.2.0 — 10 novembre 2026 (développement)
+## 0.2.0 - 10 novembre 2026 (développement)
 
 - Ajout du bureau Godot et de ses neuf applications.
 - Ajout du lancement coordonné du client et du moteur local.
@@ -158,7 +158,7 @@
 Les paquets exportés, la validation graphique interactive et la fidélité complète
 aux outils ne sont pas encore validés. Voir docs/ROADMAP.md et docs/VERIFICATION.md.
 
-## Réalisme et vie des communautés — 10 novembre 2026
+## Réalisme et vie des communautés - 10 novembre 2026
 
 - Six environnements distincts ; dossiers de mission et passation de maintenance.
 - Six parcours par l’API/CLI, avec 18 sauvegardes/reprises et vérification du règlement.
@@ -171,7 +171,7 @@ aux outils ne sont pas encore validés. Voir docs/ROADMAP.md et docs/VERIFICATIO
 - Indices automatiques réglables ; copie individuelle des commandes du tutoriel.
 - Conservation des anciens environnements lors d’une reprise de sauvegarde.
 
-## Compléments du réalisme — 10 novembre 2026
+## Compléments du réalisme - 10 novembre 2026
 
 - Retrait des grammaires simplifiées --as ; tests migrés vers les commandes reconnues.
 - Déploiement d’artefacts virtuels avec SCP/SMB et contrôle des droits.
@@ -234,7 +234,7 @@ aux outils ne sont pas encore validés. Voir docs/ROADMAP.md et docs/VERIFICATIO
 - Titre de fenêtre et crédits mis à jour ; chemins des profils conservés.
 - Sources visuelles conservées dans game/assets/branding et aperçus adaptés au PNG.
 
-## 0.4.1 — Progression et fonds
+## 0.4.1 - Progression et fonds
 
 - Réputation distincte par communauté, attribution unique et migration des anciens profils.
 - Boutique et forums contrôlés dans le moteur, l’API et le client ; accès avancés sur progression et recommandation.

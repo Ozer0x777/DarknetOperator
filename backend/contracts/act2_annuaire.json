@@ -12,7 +12,7 @@
   },
   "bounty": {
     "forum": "exployt",
-    "title": "06 — Le réseau du prestataire",
+    "title": "06 - Le réseau du prestataire",
     "body": "Consulte l’annuaire orbe.lab au contrôleur 10.71.2.10 avec le compte audit. Prépare une collecte SharpHound depuis ORBE-POSTE 10.71.2.21, récupère l’archive et examine ses relations dans BloodHound."
   },
   "brief": "Consulte l’annuaire orbe.lab au contrôleur 10.71.2.10 avec le compte audit. Prépare une collecte SharpHound depuis ORBE-POSTE 10.71.2.21, récupère l’archive et examine ses relations dans BloodHound.\n\nLes pièces sont dans ~/mission. Écris indice pour une piste ou rappel détaillé pour les commandes de ce dossier. Aucun achat de matériel requis.",

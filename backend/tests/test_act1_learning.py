@@ -33,7 +33,7 @@ def test_sql_help_stays_on_current_evidence_and_resumes_per_phase():
     run(s,'sqlite3 ~/loot/libre.db < ~/mission/echantillon.sql')
     run(s,'sqlite3 ~/loot/libre.db "SELECT date,COUNT(*) FROM clients GROUP BY date;"')
     ready=investigation.help_text(s)
-    assert 'preuves nécessaires' in ready and 'compte rendu' in ready
+    assert 'preuves qu’il faut' in ready and 'compte rendu' in ready
     assert not investigation.flags(s)  # L’aide ne soumet rien à la place du joueur.
 
 
@@ -138,7 +138,7 @@ def test_direct_valid_delivery_does_not_require_optional_help_observations():
     s=state('act1_partage')
     run(s,'smbclient //10.61.2.10/public -N -c "get courant/NC-26-041.txt /home/operator/loot/ma-copie.txt"')
     run(s,'cat ~/loot/ma-copie.txt')
-    assert 'preuves nécessaires' in investigation.help_text(s)
+    assert 'preuves qu’il faut' in investigation.help_text(s)
     assert 'smb:list:nacre-fichiers:public' not in s.tool_data.get('facts',{})
     investigation.answer(s,'livraison NC-26-041')
     assert investigation.flags(s)==['partage_livre']

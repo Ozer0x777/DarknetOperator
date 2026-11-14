@@ -1,4 +1,4 @@
-# Prélude privé — solutions et explications
+# Prélude privé - solutions et explications
 
 > Archive de la progression antérieure. Pour une nouvelle carrière 0.5.1, suivre [l’acte I actuel](ACTE_I_ACTUEL.md). Les passages remplacés restent utiles aux dossiers anciens déjà lancés.
 

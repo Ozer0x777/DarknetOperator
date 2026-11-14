@@ -67,14 +67,14 @@ def settle(career,state):
             if not any(post.get('id')==ident for post in posts):
                 posts.append(social._post(ident,state.player_handle,'Comparaison vérifiée : AF-26-118 daté du 07/11/2026 ; AF-24-118 daté du 12/03/2024. Les deux livraisons sont différentes.',data.get('social',{}).get('minute',0)))
         else:
-            data.setdefault('forum_messages',{}).setdefault(ident,dict(id=ident,forum='breachboard',author='bytewarden',subject='Médiation confidentielle — dossier 118',body='Tes preuves sont archivées en privé. Le vendeur doit corriger son annonce ; ton pseudo n’est pas publié dans le fil.',minute=data.get('social',{}).get('minute',0),read=False))
+            data.setdefault('forum_messages',{}).setdefault(ident,dict(id=ident,forum='breachboard',author='bytewarden',subject='Médiation confidentielle - dossier 118',body='Tes preuves sont archivées en privé. Le vendeur doit corriger son annonce, et ton pseudo n’apparaît pas dans le fil.',minute=data.get('social',{}).get('minute',0),read=False))
     if state.contract['contract_id']!='act1_recommandation':return
     if not all(cid in data['completed'] for cid,*_ in CHAPTERS):return
     messages=data.setdefault('forum_messages',{})
-    privacy = 'Tu as choisi une publication documentée lors du litige 118.' if data.get('choices', {}).get('litige118') == 'publication' else 'Tu as choisi la médiation privée lors du litige 118 ; ta recommandation ne t’oblige pas à rendre cette intervention publique.'
+    privacy = 'Tu as choisi une publication documentée lors du litige 118.' if data.get('choices', {}).get('litige118') == 'publication' else 'Tu as choisi la médiation privée lors du litige 118, et ta recommandation ne t’oblige pas à rendre cette intervention publique.'
     route = 'La livraison finale a été vérifiée par la voie SQLmap.' if data.get('choices', {}).get('finale') == 'finale_sqlmap' else 'La livraison finale a été vérifiée par le connecteur SQL limité.'
-    messages.setdefault('act1-invitation',dict(id='act1-invitation',forum='breachboard',author='bytewarden',subject='Invitation — quelqu’un répond de toi',
-        body='k0rvid, hexcache et nullroute ont confirmé tes livraisons. Ton dossier de litige est archivé. Tu as montré que tu sais vérifier une source et tenir un engagement. Je te propose une place sur Exployt. Accepte cette invitation ici ; configure ensuite une route Tor dans la boutique. Garde ton pseudo, on répond de toi. '+privacy+' '+route,
+    messages.setdefault('act1-invitation',dict(id='act1-invitation',forum='breachboard',author='bytewarden',subject='Invitation - quelqu’un répond de toi',
+        body='k0rvid, hexcache et nullroute ont confirmé tes livraisons. Ton dossier de litige est archivé. Tu sais vérifier une source et tenir un engagement, tu l’as montré. Je te propose une place sur Exployt. Accepte l’invitation ici, puis configure une route Tor dans la boutique. Garde ton pseudo, on répond de toi. '+privacy+' '+route,
         minute=data.get('social',{}).get('minute',0),read=False,invitation='exployt'))
 
 

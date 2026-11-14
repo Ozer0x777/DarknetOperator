@@ -10,7 +10,7 @@
   },
   "bounty": {
     "forum": "breachboard",
-    "title": "[Débutants] Ravelle — vérifier un mandat public",
+    "title": "[Débutants] Ravelle - vérifier un mandat public",
     "body": "Vérifier le site du cabinet Ravelle, puis livrer le mandat RAV-26-001 courant. Une source publique ne prouve pas un accès administrateur."
   },
   "intro": "Je te confie une première vérification pour Ravelle : identifier la source et livrer la bonne version du mandat. Ouvre le dossier ; les pièces sont publiques et le périmètre est limité.",
@@ -40,7 +40,7 @@
   ],
   "curriculum_version": 4,
   "local_files": {
-    "/home/operator/mission/ravelle.txt": "RAV-26-001 — Cabinet Ravelle et Associés. Mandat de novembre 2026 demandé ; une archive de 2024 ne convient pas.\nSite public : www.ravelle-associes.fr (DNS : `host www.ravelle-associes.fr`).\nLivraison : écrire « livraison RAV-26-001 » à k0rvid sur Chordly.\n"
+    "/home/operator/mission/ravelle.txt": "RAV-26-001 - Cabinet Ravelle et Associés. Mandat de novembre 2026 demandé ; une archive de 2024 ne convient pas.\nSite public : www.ravelle-associes.fr (DNS : `host www.ravelle-associes.fr`).\nLivraison : écrire « livraison RAV-26-001 » à k0rvid sur Chordly.\n"
   },
   "investigation_threads": [],
   "investigation_steps": [

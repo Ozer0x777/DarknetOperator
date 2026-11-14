@@ -155,7 +155,7 @@ Le [guide de l’acte I](ACTE_I.md) indique les commandes qualifiées pour chaqu
 Les variantes de syntaxe, les preuves et les reprises vérifiées en 0.4.6 sont
 détaillées dans [QUALITE_MISSIONS_ET_REPRISES.md](QUALITE_MISSIONS_ET_REPRISES.md).
 
-## Extension acte II — 0.5.0
+## Extension acte II - 0.5.0
 
 La couverture ajoutée (inventaire système, tunnel, LDAP, collecte, graphe,
 Kerberoasting RC4 et Hashcat 13100) est détaillée dans

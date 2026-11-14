@@ -88,7 +88,7 @@ def reveal_network(state: GameState, ctx: ActionContext, prefix_octets: int = 3)
 def forge_ticket(state: GameState, ctx: ActionContext) -> None:
     username = ctx.params.get("ticket_user", "administrator")
     filename = f"/home/operator/{username}.ccache"
-    state.terminal_files[filename] = "Fichier ccache virtuel du laboratoire — aucune clé réelle."
+    state.terminal_files[filename] = "Fichier ccache virtuel du laboratoire - aucune clé réelle."
     state.tool_data.setdefault("kerberos", {})[filename] = {"username": username, "domain": state.domain.get("name"), "source": ctx.credential.value if ctx.credential else None, "expires_minute": state.environment.get("world_minute", 0) + ctx.params.get("ticket_hours", 87600) * 60}
 
 

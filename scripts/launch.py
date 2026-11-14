@@ -13,7 +13,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 def main():
-    parser = argparse.ArgumentParser(description='RedTeamSimulator — bureau natif')
+    parser = argparse.ArgumentParser(description='RedTeamSimulator - bureau natif')
     parser.add_argument('--editor', action='store_true', help='ouvrir le projet dans Godot')
     parser.add_argument('--port', type=int, default=0, help='port local du moteur (automatique par défaut)')
     args = parser.parse_args()

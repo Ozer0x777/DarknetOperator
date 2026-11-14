@@ -1,4 +1,4 @@
-# Réputation, accès et portefeuille — 0.4.1
+# Réputation, accès et portefeuille - 0.4.1
 
 ## Réputation et progression
 

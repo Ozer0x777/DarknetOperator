@@ -98,7 +98,7 @@ def self_test():
 
 
 def main():
-    parser = argparse.ArgumentParser(description='Darknet Operator — Linux portable x86_64')
+    parser = argparse.ArgumentParser(description='Darknet Operator - Linux portable x86_64')
     parser.add_argument('--self-test', action='store_true', help='vérifier le contenu embarqué sans modifier les sauvegardes du joueur')
     parser.add_argument('--headless', action='store_true', help='démarrage sans affichage, pour diagnostic')
     parser.add_argument('--smoke-test', action='store_true', help='ouvrir le menu pendant cinq secondes, puis arrêter le paquet')

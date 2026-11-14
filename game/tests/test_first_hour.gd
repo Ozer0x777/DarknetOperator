@@ -22,7 +22,7 @@ func run() -> void:
 	chat.hint_requested.disconnect(desktop._request_mission_hint)
 	var requests: Array = []
 	chat.hint_requested.connect(func(channel: String, peer: String) -> void: requests.append([channel,peer]))
-	var context: Dictionary = {"contract_id":"intro_terminal","client":"k0rvid","title":"Prendre ses marques — un premier dossier", "goal":"Lire le document de préparation du dossier, sans exécuter son contenu. Une seule lecture correcte suffit pour terminer cette étape.","running":true}
+	var context: Dictionary = {"contract_id":"intro_terminal","client":"k0rvid","title":"Prendre ses marques - un premier dossier", "goal":"Lire le document de préparation du dossier, sans exécuter son contenu. Une seule lecture correcte suffit pour terminer cette étape.","running":true}
 	chat.set_mission_context(context)
 	chat._select_peer("k0rvid")
 	desktop._open("Chordly")

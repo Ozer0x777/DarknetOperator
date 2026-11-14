@@ -12,7 +12,7 @@
   },
   "bounty": {
     "forum": "exployt",
-    "title": "09 — La passation douteuse",
+    "title": "09 - La passation douteuse",
     "body": "Un vendeur promet un administrateur de domaine. Vérifie la portée réelle du reçu AC-26-209. Tu peux refuser cette annonce ou renégocier une délégation limitée ; les deux choix règlent le dossier."
   },
   "brief": "Un vendeur promet un administrateur de domaine. Vérifie la portée réelle du reçu AC-26-209. Tu peux refuser cette annonce ou renégocier une délégation limitée ; les deux choix règlent le dossier.\n\nLes pièces sont dans ~/mission. Écris indice pour une piste ou rappel détaillé pour les commandes de ce dossier. Aucun achat de matériel requis.\n\nLa promesse écrite est dans ~/mission/garant.txt. Compare-la au reçu du relais ou au registre du portail interne /garant.txt, récupéré par le passage SSH. Ces deux sources peuvent prouver la limite ; confirme ensuite une seule décision.",
@@ -158,7 +158,7 @@
     "/home/operator/mission/services.txt": "Service2024!\nService2025!\nService2026!\n",
     "/home/operator/mission/acces.txt": "Compte de consultation fourni pour le domaine : audit / Audit2026!\nORBE-POSTE : 10.71.2.21 ; contrôleur : 10.71.2.10.\n",
     "/home/operator/mission/brief-act2.txt": "Un vendeur promet un administrateur de domaine. Vérifie la portée réelle du reçu AC-26-209. Tu peux refuser cette annonce ou renégocier une délégation limitée ; les deux choix règlent le dossier.\n",
-    "/home/operator/mission/garant.txt": "AC-26-209 — annonce du vendeur, 10 novembre 2026 : administrateur de domaine, accès illimité annoncé. Aucun contrôle récent joint.\n"
+    "/home/operator/mission/garant.txt": "AC-26-209 - annonce du vendeur, 10 novembre 2026 : administrateur de domaine, accès illimité annoncé. Aucun contrôle récent joint.\n"
   },
   "private_offer": true,
   "intro": "Un vendeur promet un administrateur de domaine. Vérifie la portée réelle du reçu AC-26-209. Tu peux refuser cette annonce ou renégocier une délégation limitée ; les deux choix règlent le dossier. Ouvre le dossier pour recevoir les pièces ; les échanges se font ici, sur Telegrid.",

@@ -1,4 +1,4 @@
-# Vérification — révision du réalisme
+# Vérification - révision du réalisme
 
 État du 11 novembre 2026. Les limites sont décrites dans [REALISME.md](REALISME.md).
 

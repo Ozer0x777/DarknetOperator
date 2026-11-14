@@ -186,7 +186,7 @@ func _address(address: String) -> void:
 		if lower.contains(brand):
 			navigate(brand)
 			return
-	_url.text = "Adresse interne inconnue — BreachBoard / Exployt / XSX"
+	_url.text = "Adresse interne inconnue - BreachBoard / Exployt / XSX"
 
 func _set_palette() -> void:
 	var p: Dictionary = {
@@ -870,7 +870,7 @@ func _local_reputation() -> int:
 func _render_campaign(content: VBoxContainer) -> void:
 	var is_second: bool = selected_forum == "exployt" and not profile.get("act2", {}).is_empty()
 	var current: Dictionary = profile.get("act2", {}) if is_second else profile.get("campaign", {})
-	content.add_child(UI.wrapped("Acte II — Gagner des accès" if is_second else "Acte I — Se faire un nom", 23))
+	content.add_child(UI.wrapped("Acte II - Gagner des accès" if is_second else "Acte I - Se faire un nom", 23))
 	content.add_child(UI.wrapped("%s / %s dossiers validés" % [int(current.get("completed",0)),int(current.get("total",10))],14,_accent))
 	var next_step: Dictionary = profile.get("journey", {})
 	if not next_step.is_empty():

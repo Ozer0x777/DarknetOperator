@@ -7,7 +7,7 @@ def progressive(state, key, hints, full, detailed=False):
         requests[key]=len(hints)
         return 'Rappel détaillé de cette étape :\n'+full
     requests[key]=level+1
-    return f'Indice {level+1}/{len(hints)} : '+hints[level]+'\nDemande un autre indice si nécessaire ; le rappel détaillé vient ensuite.'
+    return f'Indice {level+1}/{len(hints)} : '+hints[level]+'\nDemande un autre indice si ça suffit pas. Après, il y a le rappel détaillé.'
 
 
 def hint(state, *, detailed=False):

@@ -1,6 +1,6 @@
 {
   "scenario_id": "intro_hash",
-  "name": "07 — Empreinte et mot de passe",
+  "name": "07 - Empreinte et mot de passe",
   "description": "Accueil et comptabilité sur un LAN ancien. Le prestataire a ouvert une session de maintenance sur le poste d’accueil.",
   "hosts": [
     {

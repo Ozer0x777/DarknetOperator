@@ -12,7 +12,7 @@
   },
   "bounty": {
     "forum": "exployt",
-    "title": "03 — Une machine mal entretenue",
+    "title": "03 - Une machine mal entretenue",
     "body": "Compare les images 10.71.1.10 et 10.71.1.11. La même version de pkexec peut cacher un correctif rétroporté. Vérifie paquets et droits avant d’utiliser l’artefact du laboratoire sur l’image vulnérable. Il faut lire OR-ROOT-203."
   },
   "brief": "Compare les images 10.71.1.10 et 10.71.1.11. La même version de pkexec peut cacher un correctif rétroporté. Vérifie paquets et droits avant d’utiliser l’artefact du laboratoire sur l’image vulnérable. Il faut lire OR-ROOT-203.\n\nLes pièces sont dans ~/mission. Écris indice pour une piste ou rappel détaillé pour les commandes de ce dossier. Aucun achat de matériel requis.",

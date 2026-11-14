@@ -1,6 +1,6 @@
 {
   "scenario_id": "act1_recommandation",
-  "name": "10 — Quelqu’un répond de toi",
+  "name": "10 - Quelqu’un répond de toi",
   "description": "Quelqu’un répond de toi",
   "hosts": [
     {
@@ -16,7 +16,7 @@
         }
       ],
       "files": {
-        "/web/index": "Boreal — bordereaux /bordereau?id=1 ; fichiers de support /support/\n",
+        "/web/index": "Boreal - bordereaux /bordereau?id=1 ; fichiers de support /support/\n",
         "/web/robots": "User-agent: *\nDisallow: /support/\n",
         "/web/config.old": "SQL_HOST=10.61.10.10\nSQL_DATABASE=boreal\nSQL_USER=boreal_ro\nSQL_PASSWORD=BorealRead2026!\n"
       }

@@ -1,4 +1,4 @@
-# Son et musique — 0.5.3
+# Son et musique - 0.5.3
 
 ## Continuité
 

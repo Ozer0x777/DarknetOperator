@@ -21,13 +21,13 @@
         }
       ],
       "files": {
-        "/srv/web/index.txt": "Atelier Cobalt — suivi public\nRegistre actuel : /suivi.txt\nAnciennes annonces : /archive.txt\nChronologie facultative : /journal.txt\nLe partage SMB public propose aussi le registre courant et ses archives.\n",
+        "/srv/web/index.txt": "Atelier Cobalt - suivi public\nRegistre actuel : /suivi.txt\nAnciennes annonces : /archive.txt\nChronologie facultative : /journal.txt\nLe partage SMB public propose aussi le registre courant et ses archives.\n",
         "/srv/web/suivi.txt": "REFERENCE: CT-26-071\nDATE: 2026-11-09\nSTATUT: reporte\nDESTINATION: Atelier Cobalt\nPROCHAINE LIVRAISON: 2026-11-12\n",
         "/srv/web/archive.txt": "NOTE DU 2026-11-06\nCT-26-071 : livraison prevue le 09 novembre ; cochee livree par anticipation.\n",
         "/srv/web/journal.txt": "2026-11-06 : annonce previsionnelle publiee.\n2026-11-08 : transport annule.\n2026-11-09 : registre mis a jour, report au 12 novembre.\nLa capture du 06 ne constitue pas une preuve de reception.\n",
         "/srv/public/README.txt": "courant/ contient le registre à jour ; archives/ conserve les annonces prévisionnelles.\n",
         "/srv/public/courant/CT-26-071.txt": "REFERENCE: CT-26-071\nDATE: 2026-11-09\nSTATUT: reporte\nDESTINATION: Atelier Cobalt\nPROCHAINE LIVRAISON: 2026-11-12\n",
-        "/srv/public/archives/CT-26-071.txt": "2026-11-06 — CT-26-071 — livraison prevue puis cochee livree par anticipation.\n"
+        "/srv/public/archives/CT-26-071.txt": "2026-11-06 - CT-26-071 - livraison prevue puis cochee livree par anticipation.\n"
       }
     }
   ],

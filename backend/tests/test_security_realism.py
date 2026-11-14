@@ -106,7 +106,7 @@ def test_forum_dispute_and_contextual_reply_persist(tmp_path):
     social.queue_chat(career, 'chordly', 'miette', 'Operator', 'Une rançon signifie un paiement ?')
     career.save(); career = Career(career.path)
     social.advance(career, 5)
-    assert any('ne prouve pas un paiement' in m['text'] for m in career.data['conversations'].values())
+    assert any('ça prouve pas un paiement' in m['text'] for m in career.data['conversations'].values())
     count = len(career.data['forum_posts']['seller-dispute'])
     social.advance(career, 40)
     assert len(career.data['forum_posts']['seller-dispute']) == count + 1

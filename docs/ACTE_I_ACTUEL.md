@@ -1,4 +1,4 @@
-# Acte I actuel — Se faire un nom (0.5.1)
+# Acte I actuel - Se faire un nom (0.5.1)
 
 Les nouvelles carrières utilisent la progression 4 : sept exercices privés,
 puis Ravelle, dix chapitres au total et sept petits contrats facultatifs.
@@ -47,7 +47,7 @@ Leurs solutions figurent dans [le guide de l’acte I](ACTE_I.md), à l’except
 des chapitres 6 et 7 remplacés ci-dessous. Le petit contrat ancien lié au hash
 est réservé à la suite ; les sept autres restent facultatifs.
 
-### 6 — Une passation à vérifier
+### 6 - Une passation à vérifier
 
 Le compte est fourni. Vérifier la session, récupérer le document et lire la preuve.
 Utiliser deux consoles pour garder la session distante ouverte pendant le transfert.
@@ -69,7 +69,7 @@ cat ~/loot/planning.csv
 
 Compte rendu : `livraison OR-26-311`.
 
-### 7 — Un service, des permissions
+### 7 - Un service, des permissions
 
 Le compte de maintenance fourni permet d’examiner le service et sa configuration.
 Il conserve des droits limités ; le compte SQL ne peut lire que le périmètre prévu.

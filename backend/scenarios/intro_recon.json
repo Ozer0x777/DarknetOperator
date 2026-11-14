@@ -1,6 +1,6 @@
 {
   "scenario_id": "intro_recon",
-  "name": "02 — Un inventaire à vérifier",
+  "name": "02 - Un inventaire à vérifier",
   "description": "Accueil et comptabilité sur un LAN ancien. Le prestataire a ouvert une session de maintenance sur le poste d’accueil.",
   "hosts": [
     {

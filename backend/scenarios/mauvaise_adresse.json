@@ -1,6 +1,6 @@
 {
   "scenario_id": "mauvaise_adresse",
-  "name": "08 — Mauvaise adresse",
+  "name": "08 - Mauvaise adresse",
   "description": "Une homonymie, des preuves contradictoires et un dossier documentaire à retrouver.",
   "hosts": [
     {
@@ -17,8 +17,8 @@
         }
       ],
       "files": {
-        "/var/www/mentions.txt": "AQUILA CONSEIL — conseil en gestion\nIdentifiant societe : AQC-441\nDomaine : aquila-conseil.lab\nNous ne gerons aucune activite de fret. Les references AF appartiennent a une autre societe.\n",
-        "/var/www/index.txt": "Aquila Conseil — conseil en gestion. Informations legales : /mentions.txt\n"
+        "/var/www/mentions.txt": "AQUILA CONSEIL - conseil en gestion\nIdentifiant societe : AQC-441\nDomaine : aquila-conseil.lab\nNous ne gerons aucune activite de fret. Les references AF appartiennent a une autre societe.\n",
+        "/var/www/index.txt": "Aquila Conseil - conseil en gestion. Informations legales : /mentions.txt\n"
       }
     },
     {
@@ -43,11 +43,11 @@
         }
       ],
       "files": {
-        "/web/index.txt": "Aquila Fret — portail de suivi\nReferences de lots AF. Informations legales : /mentions.txt\n",
-        "/web/mentions.txt": "AQUILA FRET — transport et logistique\nIdentifiant societe : AQF-882\nDomaine actuel : aquila-fret.lab\nPortail AQF-PORTAIL — exploitation des lots AF en novembre 2026.\n",
+        "/web/index.txt": "Aquila Fret - portail de suivi\nReferences de lots AF. Informations legales : /mentions.txt\n",
+        "/web/mentions.txt": "AQUILA FRET - transport et logistique\nIdentifiant societe : AQF-882\nDomaine actuel : aquila-fret.lab\nPortail AQF-PORTAIL - exploitation des lots AF en novembre 2026.\n",
         "/web/robots.txt": "User-agent: *\nDisallow: /exports/\n",
-        "/web/support.env.old": "# Ancienne copie de configuration — aurait du etre retiree du repertoire web\nSSH_USER=svc.portail\nSSH_PASSWORD=PortailFret2026!\nSUPPORT_NOTE=C:/Users/svc.portail/Documents/reprise.txt\n",
-        "/Users/svc.portail/Documents/reprise.txt": "CHG-2026-118 — liaison documentaire\nLe connecteur se configure dans C:\\Users\\svc.portail\\Documents\\connecteur.ini.\nLe compte du portail est un utilisateur limite. Un refus sur C$ ne signifie pas que le mot de passe est faux.\n",
+        "/web/support.env.old": "# Ancienne copie de configuration - aurait du etre retiree du repertoire web\nSSH_USER=svc.portail\nSSH_PASSWORD=PortailFret2026!\nSUPPORT_NOTE=C:/Users/svc.portail/Documents/reprise.txt\n",
+        "/Users/svc.portail/Documents/reprise.txt": "CHG-2026-118 - liaison documentaire\nLe connecteur se configure dans C:\\Users\\svc.portail\\Documents\\connecteur.ini.\nLe compte du portail est un utilisateur limite. Un refus sur C$ ne signifie pas que le mot de passe est faux.\n",
         "/Users/svc.portail/Documents/connecteur.ini": "[documentaire]\nhost=10.48.8.10\nuser=svc.docs\npassword=DocsFret2026!\nshare=C$\npath=Data/Livraisons/2026/\n# Le connecteur historique utilise malheureusement un compte administrateur du serveur documentaire.\n",
         "/ProgramData/LabEndpoint/policy.txt": "LabEndpoint : blocage des outils de lecture memoire ; le compte svc.portail reste limite.\n"
       }
@@ -103,7 +103,7 @@
     "sid": "S-1-5-21-480001-480002-480003"
   },
   "environment": {
-    "organization": "Dossier Aquila — identite a verifier",
+    "organization": "Dossier Aquila - identite a verifier",
     "sector": "Societes homonymes",
     "timezone": "Europe/Paris",
     "business_hours": "09:00–18:00",

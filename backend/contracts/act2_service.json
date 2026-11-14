@@ -12,7 +12,7 @@
   },
   "bounty": {
     "forum": "exployt",
-    "title": "07 — Un service trop privilégié",
+    "title": "07 - Un service trop privilégié",
     "body": "Le compte audit peut consulter les SPN. Vérifie les services, demande le ticket du laboratoire puis teste le dictionnaire local. Une correspondance ne prouve pas les droits administrateur du domaine."
   },
   "brief": "Le compte audit peut consulter les SPN. Vérifie les services, demande le ticket du laboratoire puis teste le dictionnaire local. Une correspondance ne prouve pas les droits administrateur du domaine.\n\nLes pièces sont dans ~/mission. Écris indice pour une piste ou rappel détaillé pour les commandes de ce dossier. Aucun achat de matériel requis.",

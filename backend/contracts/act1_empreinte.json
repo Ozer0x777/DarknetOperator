@@ -10,7 +10,7 @@
   },
   "bounty": {
     "forum": "breachboard",
-    "title": "06 — Le mot de passe de trop",
+    "title": "06 - Le mot de passe de trop",
     "body": "Un hash du compte planning apparaît dans une ancienne passation. Retrouve le mot de passe si le dictionnaire le permet, puis vérifie si l’accès fonctionne encore."
   },
   "brief": "Une ancienne passation contient le hash du compte planning. Retrouve un mot de passe seulement si le dictionnaire fourni correspond, puis vérifie si cet accès fonctionne encore.\n\nTu as déjà utilisé Hashcat pendant le prélude. Les pièces sont ~/mission/planning.ntlm, mots.txt et passation.txt ; le mode 1000 correspond à NTLM. Un résultat dans Hashcat ne prouve pas encore que le service accepte le compte.\n\nVérifie l’accès, récupère par SCP le planning OR-26-311 dans ~/loot et relis ta copie avant de confirmer la livraison. Choisis le nom de fichier. Le dictionnaire fourni suffit à cette mission : aucun GPU ni achat requis. Écris indice pour une piste ou rappel détaillé pour la syntaxe.",
@@ -56,7 +56,7 @@
   "local_files": {
     "/home/operator/mission/planning.ntlm": "26ec8c3dcd1d479673086b1bdd69b7e6\n",
     "/home/operator/mission/mots.txt": "Atelier2024!\nAtelier2025!\nAtelier2026!\n",
-    "/home/operator/mission/passation.txt": "OR-26-311 — service SSH 10.61.6.21\nCompte planning à revérifier ; l’ancienne entrée planning.old n’est plus autorisée.\n",
+    "/home/operator/mission/passation.txt": "OR-26-311 - service SSH 10.61.6.21\nCompte planning à revérifier ; l’ancienne entrée planning.old n’est plus autorisée.\n",
     "/home/operator/mission/reperes.txt": "Hashcat vérifie une correspondance. SSH ouvre une session ; SCP copie un fichier. Chaque console conserve son propre contexte.\n\nIndice : une piste de raisonnement puis une aide concrète. Rappel détaillé : les commandes de la phase actuelle. L’aide ne retire aucune prime. Les commandes se saisissent dans les consoles du jeu, une par une.\n"
   },
   "investigation_threads": [

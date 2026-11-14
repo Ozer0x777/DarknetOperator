@@ -20,7 +20,7 @@ func run() -> void:
 	await settle()
 	var chat: Control = desktop.messengers.chordly
 	chat._select_peer("k0rvid")
-	chat.set_journey({"title":"Premier contrat — cabinet Ravelle", "detail":"Aucun achat requis. Consulte ColdVault pour les règlements ; demande aide au client si tu bloques.", "app":"ColdVault", "peer":"k0rvid", "contract_id":"tuto_p0"})
+	chat.set_journey({"title":"Premier contrat - cabinet Ravelle", "detail":"Aucun achat requis. Consulte ColdVault pour les règlements ; demande aide au client si tu bloques.", "app":"ColdVault", "peer":"k0rvid", "contract_id":"tuto_p0"})
 	desktop._open("Chordly")
 	var frame: Control = desktop.apps.Chordly
 	frame.position = Vector2(60,60)
@@ -62,7 +62,7 @@ func run() -> void:
 	desktop.apps.Chordly.close_window()
 	desktop._render_shop([
 		{"id":"gpu2","name":"GPU niveau 2","price":800,"description":"Hashcat : trois ticks de base. Le prix reprend la valeur du GPU déjà acquis.","owned":false,"unlocked":true,"reason":"","reserve":50},
-		{"id":"glasswing","name":"Glasswing — licence","price":450,"description":"Conserve 100 % du règlement modulé des contrats affiliation. Comparer le coût et les conditions avant de payer.","owned":false,"unlocked":false,"reason":"Garde 300 ₵ pour la route obligatoire du prochain dossier.","reserve":300}])
+		{"id":"glasswing","name":"Glasswing - licence","price":450,"description":"Conserve 100 % du règlement modulé des contrats affiliation. Comparer le coût et les conditions avant de payer.","owned":false,"unlocked":false,"reason":"Garde 300 ₵ pour la route obligatoire du prochain dossier.","reserve":300}])
 	frame = desktop.apps.Boutique
 	frame.open_window(0)
 	frame.position = Vector2(60,60)

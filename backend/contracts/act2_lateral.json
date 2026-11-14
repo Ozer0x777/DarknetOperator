@@ -12,7 +12,7 @@
   },
   "bounty": {
     "forum": "exployt",
-    "title": "08 — Changer de machine",
+    "title": "08 - Changer de machine",
     "body": "Vérifie si le compte de sauvegarde obtenu permet une session sur ORBE-ARCHIVE 10.71.2.30. Contrôle le contexte Windows, les correctifs et le fichier OR-26-208. Livre seulement ce fichier."
   },
   "brief": "Vérifie si le compte de sauvegarde obtenu permet une session sur ORBE-ARCHIVE 10.71.2.30. Contrôle le contexte Windows, les correctifs et le fichier OR-26-208. Livre seulement ce fichier.\n\nLes pièces sont dans ~/mission. Écris indice pour une piste ou rappel détaillé pour les commandes de ce dossier. Aucun achat de matériel requis.",

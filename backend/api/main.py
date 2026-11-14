@@ -49,7 +49,7 @@ def career() -> Career:
     return _CAREER
 
 
-app = FastAPI(title="RedTeamSimulator — Solo")
+app = FastAPI(title="RedTeamSimulator - Solo")
 
 
 

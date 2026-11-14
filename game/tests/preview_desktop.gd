@@ -317,7 +317,7 @@ func _run() -> void:
 	desktop._applications.hide()
 	desktop.apps.BreachBoard.close_window()
 	var wallet_data: Dictionary = {"device_id": "CV-DEMO", "balance": 1000, "connected": false, "unlocked": false,
-		"pending": {"id": "demo-payment", "label": "GPU niveau 1", "amount": 400, "recipient": "Fournisseurs — services et matériel"},
+		"pending": {"id": "demo-payment", "label": "GPU niveau 1", "amount": 400, "recipient": "Fournisseurs - services et matériel"},
 		"entries": [{"id": "opening", "label": "Solde repris", "amount": 1000, "balance": 1000}]}
 	desktop.wallet_view.set_data(wallet_data)
 	desktop._open("ColdVault")
@@ -391,8 +391,8 @@ func _run() -> void:
 	var demo_chat: Control = desktop.messengers.chordly
 	demo_chat.set_mission_context({})
 	demo_chat.set_offers([])
-	demo_chat.set_contacts([{"id":"miette", "name":"miette", "channel":"chordly", "kind":"direct", "members":["miette"], "bio":"Confiance établie — Tu as vérifié les sources avant de conclure."}])
-	demo_chat.set_journey({"title":"Démo terminée — une annonce corrigée dans ton dossier", "detail":"Tu as confronté une annonce aux faits par le partage public. Le client conserve les preuves en privé. Miette se souvient de ta vérification. Tes primes, preuves et décisions restent sauvegardées. Continue la campagne pour découvrir les autres outils, Ravelle et BreachBoard.", "app":"Chordly", "peer":"miette", "action":"continue_campaign"})
+	demo_chat.set_contacts([{"id":"miette", "name":"miette", "channel":"chordly", "kind":"direct", "members":["miette"], "bio":"Confiance établie - Tu as vérifié les sources avant de conclure."}])
+	demo_chat.set_journey({"title":"Démo terminée - une annonce corrigée dans ton dossier", "detail":"Tu as confronté une annonce aux faits par le partage public. Le client conserve les preuves en privé. Miette se souvient de ta vérification. Tes primes, preuves et décisions restent sauvegardées. Continue la campagne pour découvrir les autres outils, Ravelle et BreachBoard.", "app":"Chordly", "peer":"miette", "action":"continue_campaign"})
 	demo_chat._select_peer("miette")
 	desktop._open("Chordly")
 	desktop.apps.Chordly.position = Vector2(280,60)

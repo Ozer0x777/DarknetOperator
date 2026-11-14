@@ -12,7 +12,7 @@
   },
   "bounty": {
     "forum": "exployt",
-    "title": "04 — Derrière le serveur",
+    "title": "04 - Derrière le serveur",
     "body": "Identifie le réseau que voit ORBE-RELAIS et le service du portail interne. Ne confonds pas connaître une adresse et pouvoir y accéder depuis Kali."
   },
   "brief": "Identifie le réseau que voit ORBE-RELAIS et le service du portail interne. Ne confonds pas connaître une adresse et pouvoir y accéder depuis Kali.\n\nLes pièces sont dans ~/mission. Écris indice pour une piste ou rappel détaillé pour les commandes de ce dossier. Aucun achat de matériel requis.",

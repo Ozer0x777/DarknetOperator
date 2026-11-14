@@ -1,4 +1,4 @@
-# Accueil et sauvegardes — client Godot
+# Accueil et sauvegardes - client Godot
 
 Le jeu démarre maintenant sur le menu d'accueil : Continuer, Nouvelle partie,
 Sauvegardes / Charger, Paramètres, Crédits et Quitter. Le nom RedTeamSimulator

@@ -35,7 +35,7 @@ func run() -> void:
 	var transport: Transport = Transport.new()
 	desktop.session.request_transport = transport
 	var chat: Control = desktop.messengers.chordly
-	desktop._update_social({"journey": {"title": "Démo terminée", "detail": "Miette conserve tes preuves. Les primes et décisions restent sauvegardées.", "app": "Chordly", "peer": "miette", "action": "continue_campaign"}, "contacts": [{"id": "miette", "name": "miette", "kind": "direct", "channel": "chordly", "members": ["miette"], "bio": "Confiance établie — preuves vérifiées."}], "messages": [], "offers": []})
+	desktop._update_social({"journey": {"title": "Démo terminée", "detail": "Miette conserve tes preuves. Les primes et décisions restent sauvegardées.", "app": "Chordly", "peer": "miette", "action": "continue_campaign"}, "contacts": [{"id": "miette", "name": "miette", "kind": "direct", "channel": "chordly", "members": ["miette"], "bio": "Confiance établie - preuves vérifiées."}], "messages": [], "offers": []})
 	desktop._open("Chordly")
 	var frame: Control = desktop.apps.Chordly
 	frame.position = Vector2(60,60)

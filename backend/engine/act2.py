@@ -28,8 +28,8 @@ def view(data):
 def journey(data):
     if not data.get('forum_invitation_accepted') or not data.get('act2_started'):return None
     next_row=next((r for r in view(data)['chapters'] if r['status']!='completed'),None)
-    if not next_row:return dict(title='Acte II terminé — la passation tient',detail='Tes preuves et tes choix sont conservés. Les actes III et IV restent à préparer ; tu peux explorer les contrats facultatifs et les discussions.',app='Telegrid',peer='quartz')
-    return dict(title='Acte II · '+str(next_row['number'])+'/10 — '+next_row['title'],detail='Le dossier t’attend sur Telegrid. Les commandes, observations et droits déterminent le résultat. Les indices ne retirent aucune prime.',app='Telegrid',peer=next_row['peer'],contract_id=next_row['id'])
+    if not next_row:return dict(title='Acte II terminé - la passation tient',detail='Tes preuves et tes choix sont conservés. Les actes III et IV ne sont pas encore prêts. En attendant, tu peux faire les contrats facultatifs et lire les discussions.',app='Telegrid',peer='quartz')
+    return dict(title='Acte II · '+str(next_row['number'])+'/10 - '+next_row['title'],detail='Le dossier t’attend sur Telegrid. Le résultat dépend de tes commandes, de tes observations et des droits que tu obtiens. Les indices ne retirent rien à la prime.',app='Telegrid',peer=next_row['peer'],contract_id=next_row['id'])
 
 
 def settle(career,state):
@@ -37,14 +37,14 @@ def settle(career,state):
     from . import social
     cid=state.contract['contract_id'];peer=state.contract['client']['handle'];choice=career.data.get('choices',{})
     lines={
-      'act2_passation':'Une correspondance hors ligne ne prouve pas encore un accès. Vérifie le compte sur la machine de la passation.',
-      'act2_compte':'L’accès est limité, mais ta livraison respecte ce périmètre. Le prochain dossier porte sur les versions et les correctifs.',
-      'act2_polkit':'Tu as distingué l’image vulnérable de l’image corrigée. Traverse vérifiera maintenant ce que cette machine voit du réseau.',
-      'act2_reseau':'Tu as identifié le réseau interne. Il faudra un passage précis ; connaître une IP ne rend pas son service joignable.',
-      'act2_pivot':'Le passage est vérifié. Iris examine l’annuaire du prestataire ; elle te demandera de séparer la collecte du graphe et les droits réels.',
-      'act2_annuaire':'La collecte est reçue. Un lien dans le graphe est une piste à vérifier, pas un accès déjà acquis.',
-      'act2_service':'L’empreinte correspond. Quartz t’attend pour vérifier où ce compte peut réellement ouvrir une session.',
-      'act2_lateral':'La copie est reçue. Relay a une passation à comparer à tes observations ; ne prends pas la promesse du vendeur pour une preuve.',
+      'act2_passation':'Une correspondance hors ligne, ça prouve pas encore un accès. Vérifie le compte sur la machine de la passation.',
+      'act2_compte':'L’accès est limité, et ta livraison reste dedans. Le prochain dossier parle de versions et de correctifs.',
+      'act2_polkit':'Tu as fait la différence entre l’image vulnérable et l’image corrigée. Traverse va maintenant regarder ce que cette machine voit du réseau.',
+      'act2_reseau':'Tu as trouvé le réseau interne. Il va falloir un passage précis. Connaître une IP, ça rend pas son service joignable.',
+      'act2_pivot':'Le passage est vérifié. Iris regarde l’annuaire du prestataire. Elle te demandera de pas confondre la collecte du graphe et les droits réels.',
+      'act2_annuaire':'Collecte reçue. Un lien dans le graphe, c’est une piste à vérifier. C’est pas un accès que t’as déjà.',
+      'act2_service':'L’empreinte correspond. Quartz t’attend pour vérifier où ce compte peut vraiment ouvrir une session.',
+      'act2_lateral':'Copie reçue. Relay a une passation à comparer avec tes observations. Prends pas la promesse du vendeur pour une preuve.',
       'act2_garant':('Tu as refusé la passation annoncée comme illimitée.' if choice.get('act2_garant','').startswith('refus') else 'Tu as négocié une passation limitée et vérifiable.')+' Quartz conserve cette décision pour la finale.',
       'act2_binome':'La passation est close. '+('Tu as livré par le passage HTTP interne.' if choice.get('act2_binome')=='binome_pivot' else 'Tu as livré par les droits SMB vérifiés.')+' Le partenaire reçoit les preuves du seul lot demandé.'}
     if cid not in lines:return

@@ -44,7 +44,7 @@ func run() -> void:
 	desktop.apps.BloodHound.size = Vector2(720,500)
 	await settle()
 	check(analysis.size.x <= desktop.apps.BloodHound.size.x and desktop.apps.BloodHound.size.y<=501,"L’analyse tient dans la fenêtre sans agrandissement forcé")
-	desktop._profile = {"journey":{"title":"Acte II — Une vieille passation","detail":"Cendre te propose le premier dossier.","app":"Telegrid","peer":"cendre","contract_id":"act2_passation"},"act2":{"completed":0.0,"total":10.0,"unlocked":true,"chapters":[{"id":"act2_passation","number":1,"title":"Une vieille passation","peer":"cendre","channel":"telegrid","status":"available"}]}}
+	desktop._profile = {"journey":{"title":"Acte II - Une vieille passation","detail":"Cendre te propose le premier dossier.","app":"Telegrid","peer":"cendre","contract_id":"act2_passation"},"act2":{"completed":0.0,"total":10.0,"unlocked":true,"chapters":[{"id":"act2_passation","number":1,"title":"Une vieille passation","peer":"cendre","channel":"telegrid","status":"available"}]}}
 	desktop._profile.merge({"tier":2,"route":"tor","forum_unlocked":true,"campaign":{"invitation_accepted":true},"access":{"forums":{"exployt":{"unlocked":true,"reason":""}}}})
 	desktop.forum_view.update_data([],desktop._profile,"NightShift",false)
 	desktop.forum_view.navigate("exployt","","Campagne")

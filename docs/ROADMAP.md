@@ -1,6 +1,6 @@
 # Plan de Claude : suivi de réalisation
 
-## État courant — 0.5.2, 12 novembre 2026
+## État courant - 0.5.2, 12 novembre 2026
 
 L’acte I courant comporte sept exercices privés, dix chapitres et sept petits
 contrats facultatifs, sans achat payant obligatoire. Les anciennes sauvegardes
@@ -83,7 +83,7 @@ La révision actuelle ajoute des politiques EDR explicites (audit/blocage), des
 règles réseau par origine, des documents anciens contredits par une migration,
 des litiges de vendeurs et une analyse des conséquences de l'incident.
 
-## Menu d'accueil, nom et sauvegardes — exigences utilisateur
+## Menu d'accueil, nom et sauvegardes - exigences utilisateur
 
 Exigences retenues, désormais partiellement livrées :
 - Un véritable menu avant le bureau, avec Continuer, Nouvelle partie, Charger,
@@ -124,11 +124,11 @@ Les essais automatisés ne prouvent pas 4 à 6 heures de jeu ni une émulation e
 
 ## Proposition de prochaine tranche de campagne
 
-[Acte II — La chaîne de confiance](ACTE_II_PROPOSITION.md) décrit six missions
+[Acte II - La chaîne de confiance](ACTE_II_PROPOSITION.md) décrit six missions
 et recommande de commencer par deux dossiers complets et reliés. C’est une
 proposition de conception, distincte des chapitres déjà jouables de l’acte I.
 
-## Passe acte I — 12 novembre 2026 (0.4.8)
+## Passe acte I - 12 novembre 2026 (0.4.8)
 
 Consignes graduées, aide liée aux phases observées et repères locaux intégrés.
 Les réactions et la recommandation reflètent les décisions conservées.
@@ -136,7 +136,7 @@ Il reste à mesurer la compréhension, le rythme et la difficulté avec un vrai
 débutant, puis à valider une session graphique native complète. Les contrôles
 automatisés ne remplacent pas ces deux étapes.
 
-## Acte II — 0.5.0
+## Acte II - 0.5.0
 
 Dix dossiers, six secondaires, quatre nouveaux contacts, inventaire système,
 redirection SSH, annuaire, collecte et graphe sont intégrés. Voir

@@ -36,7 +36,7 @@ def test_all_rewards_and_bonus_are_one_time_even_with_new_game_id(tmp_path):
     assert first.payout>0 and replay.payout==0
     assert profile.data['money']==money and profile.data['reputation']==reputation
     assert len([e for e in profile.data['wallet']['entries'] if e['kind']=='reward'])==1
-    assert any('aucune nouvelle prime' in message['text'] for message in profile.data['conversations'].values())
+    assert any('ni prime ni réputation' in message['text'] for message in profile.data['conversations'].values())
 
 
 def test_failed_vpn_route_is_covered_after_reload_and_never_debits_twice(tmp_path):
@@ -135,7 +135,7 @@ def test_failures_are_persistent_private_and_idempotent(tmp_path):
     finish(profile,'act1_partage','failed2',False)
     assert len(profile.data['career_events'])==2
     assert profile.data['money']==before and profile.data['forum_reputation']==reputation
-    assert any('Plusieurs tentatives' in message['text'] for message in profile.data['conversations'].values())
+    assert any('plusieurs tentatives' in message['text'] for message in profile.data['conversations'].values())
     assert not any(post.get('id','').startswith('outcome:') for posts in profile.data['forum_posts'].values() for post in posts)
     loaded=Career(profile.path)
     assert loaded.data['career_events']==profile.data['career_events']
@@ -150,7 +150,7 @@ def test_journey_does_not_skip_first_mission_or_force_a_purchase(tmp_path):
     assert journey.view(profile.data)['contract_id']=='tuto_p0'
     profile.data['completed']=STAGES
     assert journey.view(profile.data)['contract_id']=='act1_partage'
-    assert 'facultatifs' in journey.view(profile.data)['detail']
+    assert 'Rien d’obligatoire à acheter' in journey.view(profile.data)['detail']
 
 
 def test_next_piste_matches_the_actual_offer_channel(tmp_path):

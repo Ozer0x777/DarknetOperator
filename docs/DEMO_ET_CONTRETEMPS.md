@@ -1,4 +1,4 @@
-# Démo, dossier ouvert et relations — 0.4.7
+# Démo, dossier ouvert et relations - 0.4.7
 
 La création d’une partie propose Campagne complète (par défaut) ou Démo.
 Une ancienne sauvegarde continue en campagne. La démo comprend :

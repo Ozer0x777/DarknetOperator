@@ -1,6 +1,6 @@
 {
   "scenario_id": "act1_portail",
-  "name": "05 — Le carnet d’adresses",
+  "name": "05 - Le carnet d’adresses",
   "description": "Le carnet d’adresses",
   "hosts": [
     {

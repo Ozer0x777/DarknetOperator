@@ -108,7 +108,7 @@ class GameLoop:
         # 3. Bruit de fond : logs légitimes qui ne correspondent à aucune règle.
         noise.generate(state)
 
-        # 4. SIEM — évalue tous les logs produits CE tick (actions + bruit).
+        # 4. SIEM - évalue tous les logs produits CE tick (actions + bruit).
         new_logs = [log for log in state.logs if log.tick == state.tick]
         siem.evaluate(state, new_logs)
         trace.advance(state)

@@ -1,4 +1,4 @@
-Darknet Operator — version de développement 0.5.3
+Darknet Operator - version de développement 0.5.3
 Paquet portable Linux x86_64, construit depuis les sources du 12 novembre 2026.
 
 JOUER
@@ -15,7 +15,7 @@ Conserver ensemble Jouer.sh, launcher.py, runtime, engine et game.
 Le moteur ouvre uniquement un port local sur 127.0.0.1 ; un environnement qui
 interdit les connexions locales ne permet pas de jouer.
 
-SOLUTION COMPLÈTE — SPOILERS
+SOLUTION COMPLÈTE - SPOILERS
 Ouvrir Solution/SOLUTION_COMPLETE.html dans un navigateur.
 Le document contient le prélude Chordly, les dix chapitres de l’acte I, les deux
 voies finales, les sept petits contrats actuels et les anciens scénarios de campagne.

@@ -1,4 +1,4 @@
-# Direction de campagne — Darknet Operator
+# Direction de campagne - Darknet Operator
 
 L’acte I possède dix chapitres jouables, huit petits contrats facultatifs et une
 finale qui envoie une invitation dans les MP de BreachBoard. Voir [ACTE_I.md](ACTE_I.md).
@@ -8,7 +8,7 @@ Les actes II à VI ci-dessous restent une direction de conception.
 
 ## Actes envisagés
 
-1. **BreachBoard — se faire un nom** : premier apprentissage, petits contrats,
+1. **BreachBoard - se faire un nom** : premier apprentissage, petits contrats,
    preuves de résultat, premiers litiges, choix de partenaires. Construire un arc
    complet sur cette communauté avant d'accorder l'accès au cercle suivant.
 2. **Le réseau des intermédiaires** : prestataires, passations et périmètres
@@ -46,6 +46,6 @@ sur machine réelle, le son et les finitions commerciales.
 
 ## Prochaine tranche proposée
 
-[Acte II — La chaîne de confiance](ACTE_II_PROPOSITION.md) précise six missions,
+[Acte II - La chaîne de confiance](ACTE_II_PROPOSITION.md) précise six missions,
 leurs conséquences et une première tranche de deux dossiers. Il s’agit d’une
 proposition de conception ; ces nouveaux chapitres ne sont pas implémentés.

@@ -10,7 +10,7 @@
   },
   "bounty": {
     "forum": "breachboard",
-    "title": "01 — Prendre ses marques",
+    "title": "01 - Prendre ses marques",
     "body": "Lire le dossier de préparation."
   },
   "brief": "Premier petit job, {handle}. Avant de parler réseau, ouvre une console avec Ctrl+Alt+T (ou le menu Applications → Terminal). `pwd` indique ton dossier courant, `ls ~/mission` liste le dossier mission et `cat ~/mission/preparation.txt` lit le dossier de préparation. Lire un fichier ne l’exécute pas. Ton objectif est simplement de consulter ce document. Une commande par Entrée ; le début de l’invite ne se recopie pas.",

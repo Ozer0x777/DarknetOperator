@@ -1,4 +1,4 @@
-# Passe de finition — 0.5.2
+# Passe de finition - 0.5.2
 
 ## Orientation et premiers pas
 

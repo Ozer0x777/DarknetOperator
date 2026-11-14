@@ -1,5 +1,5 @@
 """
-Règles SIEM de la défense automatique — même principe déclaratif que les
+Règles SIEM de la défense automatique - même principe déclaratif que les
 outils du joueur : Pass-the-Hash, exécution Mimikatz, DCSync.
 """
 from __future__ import annotations
@@ -27,7 +27,7 @@ def _match_dcsync(log: LogEvent) -> bool:
 RULES = [
     ("SIEM-RULE-011", "Service d’administration distante créé", "MEDIUM", lambda log: log.event_id == "7045"),
     ("SIEM-RULE-010", "Chiffrement massif détecté", "CRITICAL", lambda log: log.event_id == "SIM-ENCRYPT"),
-    ("SIEM-RULE-002", "Authentification NTLM atypique — à qualifier", "HIGH", _match_pass_the_hash),
+    ("SIEM-RULE-002", "Authentification NTLM atypique - à qualifier", "HIGH", _match_pass_the_hash),
     ("SIEM-RULE-004", "Mimikatz Execution", "CRITICAL", _match_mimikatz),
     ("SIEM-RULE-005", "DCSync Detected", "CRITICAL", _match_dcsync),
 ]

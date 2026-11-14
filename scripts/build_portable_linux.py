@@ -103,15 +103,15 @@ def licenses(stage, libraries, godot, python):
 def solution(stage):
     destination = stage/'Solution'
     copy_tree(ROOT/'docs', destination/'docs')
-    contents = ['# Solution complète — Darknet Operator\n\nSpoilers complets. Ce guide couvre le contenu jouable de cette archive : prélude, actes I et II, démo et anciens scénarios. Les commandes se saisissent dans les terminaux du jeu, une à la fois. Les actes III et IV restent à préparer.\n']
-    for title, name in [('Première partie — Acte I actuel et transition','ACTE_I_ACTUEL.md'),('Archives — Prélude antérieur','PRELUDE_CHORDLY.md'),('Archives — Ancien acte I et petits contrats','ACTE_I.md'),('Troisième partie — Démo et Le contretemps','DEMO_ET_CONTRETEMPS.md'),('Quatrième partie — Acte II','ACTE_II_GUIDE.md'),('Cinquième partie — Anciens scénarios et références','GUIDE_COMPLET_SCENARIOS.md')]:
+    contents = ['# Solution complète - Darknet Operator\n\nSpoilers complets. Ce guide couvre le contenu jouable de cette archive : prélude, actes I et II, démo et anciens scénarios. Les commandes se saisissent dans les terminaux du jeu, une à la fois. Les actes III et IV restent à préparer.\n']
+    for title, name in [('Première partie - Acte I actuel et transition','ACTE_I_ACTUEL.md'),('Archives - Prélude antérieur','PRELUDE_CHORDLY.md'),('Archives - Ancien acte I et petits contrats','ACTE_I.md'),('Troisième partie - Démo et Le contretemps','DEMO_ET_CONTRETEMPS.md'),('Quatrième partie - Acte II','ACTE_II_GUIDE.md'),('Cinquième partie - Anciens scénarios et références','GUIDE_COMPLET_SCENARIOS.md')]:
         text = (ROOT/'docs'/name).read_text()
         text = re.sub(r'(?m)^(#{1,5}) ',r'\1# ',text)
         text = re.sub(r'\]\((?!https?://)([A-Za-z0-9_./-]+\.md)(#[^)]*)?\)', lambda m: '](docs/'+m.group(1)+(m.group(2) or '')+')', text)
         contents.append('\n# '+title+'\n\n'+text)
     markdown = destination/'SOLUTION_COMPLETE.md'
     markdown.write_text('\n'.join(contents))
-    subprocess.run(['pandoc',str(markdown),'--standalone','--toc','--toc-depth=3','--metadata','title=Solution complète — Darknet Operator','--metadata','lang=fr','--include-in-header',str(ROOT/'packaging/solution-style.html'),'-o',str(destination/'SOLUTION_COMPLETE.html')],check=True)
+    subprocess.run(['pandoc',str(markdown),'--standalone','--toc','--toc-depth=3','--metadata','title=Solution complète - Darknet Operator','--metadata','lang=fr','--include-in-header',str(ROOT/'packaging/solution-style.html'),'-o',str(destination/'SOLUTION_COMPLETE.html')],check=True)
 
 
 def build():
@@ -190,7 +190,7 @@ def archive():
         for path in files: output.write(path,Path(NAME)/path.relative_to(STAGE))
     digest = hashlib.file_digest(target.open('rb'),'sha256').hexdigest()
     target.with_suffix('.zip.sha256').write_text(digest+'  '+target.name+'\n')
-    print(f'{target} — {target.stat().st_size/1024/1024:.1f} Mio\nSHA256 {digest}',flush=True)
+    print(f'{target} - {target.stat().st_size/1024/1024:.1f} Mio\nSHA256 {digest}',flush=True)
 
 
 if __name__ == '__main__':

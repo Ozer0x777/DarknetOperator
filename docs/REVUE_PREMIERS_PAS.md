@@ -1,4 +1,4 @@
-# Revue des premiers pas — 0.4.5
+# Revue des premiers pas - 0.4.5
 
 ## Portée réelle
 

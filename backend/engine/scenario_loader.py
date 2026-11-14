@@ -86,7 +86,7 @@ def _validate(
             if username not in users:
                 raise ScenarioValidationError(
                     f"Host '{h['hostname']}' référence l'utilisateur inconnu "
-                    f"'{username}' dans '{field_name}' — vérifie la liste 'users' du scénario."
+                    f"'{username}' dans '{field_name}' - vérifie la liste 'users' du scénario."
                 )
     import ipaddress
     addresses = [host.ip for host in hosts.values()]
@@ -164,7 +164,7 @@ def _validate(
         for host_id in data.get(key, []):
             if host_id not in host_ids:
                 raise ScenarioValidationError(
-                    f"'{key}' référence l'hôte inconnu '{host_id}' — vérifie la liste 'hosts'."
+                    f"'{key}' référence l'hôte inconnu '{host_id}' - vérifie la liste 'hosts'."
                 )
 
     objectives = data.get("objectives")

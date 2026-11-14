@@ -1,4 +1,4 @@
-# Acte II — couverture livrée et limites (0.5.0)
+# Acte II - couverture livrée et limites (0.5.0)
 
 Dix missions et six contrats facultatifs sont intégrés aux contrats, à l’API et
 au bureau. Leur qualification joue les commandes, les observations, les choix

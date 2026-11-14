@@ -1,6 +1,6 @@
 {
   "scenario_id": "act1_empreinte",
-  "name": "06 — Le mot de passe de trop",
+  "name": "06 - Le mot de passe de trop",
   "description": "Le mot de passe de trop",
   "hosts": [
     {

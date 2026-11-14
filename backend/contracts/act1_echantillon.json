@@ -10,7 +10,7 @@
   },
   "bounty": {
     "forum": "breachboard",
-    "title": "03 — Échantillon gratuit",
+    "title": "03 - Échantillon gratuit",
     "body": "Vérifier l’échantillon NX-26 avant achat : 40 lignes annoncées de novembre. Je te contacte en MP du forum ; on compare les résultats dans Chordly."
   },
   "brief": "NX-26 : le vendeur annonce 40 clients tous récents. Vérifie cette affirmation, sans rien acheter. Le dossier est dans tes MP du forum ; nous comparons les résultats ici.\n\nNouveau : interroger une base locale. Lis ~/mission/annonce.txt, puis importe la pièce avec `sqlite3 ~/loot/echantillon.db < ~/mission/echantillon.sql`. Le fichier .sql contient la structure et les données ; la base .db permet de les interroger. `.tables` liste les tables ; `.schema clients` décrit leurs colonnes. Cherche combien de lignes appartiennent à chaque date.\n\nTon rapport doit citer NX-26 et les nombres de lignes anciennes et récentes observés. Les chiffres ne sont pas fournis : ils doivent venir des données. Le nom de ta base est libre. Écris indice pour avancer ou rappel détaillé pour les commandes.",

@@ -65,7 +65,7 @@ async def play(profile,variant='pivot',sides=True,bootstrap=True):
                     profile.checkpoint(api.GAMES[gid].state)
                     record['operations'].append(dict(kind=kind,line=line))
                     if index==max(0,(len(operations)-1)//2) and api.GAMES[gid].state.status=='RUNNING':
-                        slot=await client.post('/api/saves/write',json={'name':'Acte II — '+cid})
+                        slot=await client.post('/api/saves/write',json={'name':'Acte II - '+cid})
                         loaded=await client.post('/api/saves/load',json={'slot_id':slot.json()['id'],'confirm':True})
                         assert loaded.status_code==200,loaded.text
                         resumed=await client.post('/api/profile/resume',json={});assert resumed.status_code==200,resumed.text

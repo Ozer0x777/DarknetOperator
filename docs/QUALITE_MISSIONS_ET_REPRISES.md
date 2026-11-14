@@ -1,4 +1,4 @@
-# Missions, terminal et reprises — 0.4.6
+# Missions, terminal et reprises - 0.4.6
 
 ## Cohérence entre demande et validation
 

@@ -21,7 +21,7 @@ def parse(args,state):
             if args[i]=='-N':i+=1;continue
             if args[i] in {'-U','-c'} and i+1<len(args):
                 if args[i]=='-U':
-                    if '%' not in args[i+1]:raise ValueError('smbclient: mot de passe requis — utilise -U utilisateur%mot_de_passe (l’invite interactive n’est pas simulée).')
+                    if '%' not in args[i+1]:raise ValueError('smbclient: mot de passe requis - utilise -U utilisateur%mot_de_passe (l’invite interactive n’est pas simulée).')
                     username,secret=args[i+1].split('%',1)
                 else:command=args[i+1]
                 i+=2;continue

@@ -1,6 +1,6 @@
 {
   "scenario_id": "reseau_ad",
-  "name": "Réseau de test — poste, serveur de fichiers et contrôleur de domaine",
+  "name": "Réseau de test - poste, serveur de fichiers et contrôleur de domaine",
   "hosts": [
     {
       "id": "pc-01",

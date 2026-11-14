@@ -1,7 +1,7 @@
 """
 Interprète les fichiers JSON d'abilities (backend/abilities/red/*.json)
 contre l'état courant du jeu. Le moteur ne connaît QUE les registres de
-predicates.py / effects.py — il n'a aucune logique spécifique à "psexec" ou
+predicates.py / effects.py - il n'a aucune logique spécifique à "psexec" ou
 "DCSync". Voir docs/02-ability-system-design.md pour le pourquoi.
 """
 from __future__ import annotations
@@ -66,7 +66,7 @@ def resolve(ability: Ability, state: GameState, ctx: ActionContext) -> ActionRes
     if protected is not None:
         return protected
 
-    # 3. Effets — mutent l'état.
+    # 3. Effets - mutent l'état.
     for eff in ability.effects:
         eff = dict(eff)
         eff_type = eff.pop("type")
@@ -75,7 +75,7 @@ def resolve(ability: Ability, state: GameState, ctx: ActionContext) -> ActionRes
             raise KeyError(f"Effet inconnu: {eff_type} (ability {ability.id})")
         effect_fn(state, ctx, **eff)
 
-    # 4. Logs générés depuis les artifacts déclarés — alimentent le SIEM (siem.py).
+    # 4. Logs générés depuis les artifacts déclarés - alimentent le SIEM (siem.py).
     for artifact in ability.artifacts:
         artifact = {**artifact, "data": dict(artifact.get("data", {}))}
         if artifact["event_id"] == "4624":
