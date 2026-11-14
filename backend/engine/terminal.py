@@ -154,7 +154,11 @@ def _hosts(state: GameState) -> TerminalResult:
     if not known:
         return TerminalResult(True, ["Aucune machine connue."])
     lines = []
-    for h in sorted(known, key=lambda x: tuple(int(p) for p in x.ip.split("."))):
+    import ipaddress
+    def address(host):  # le chargeur de scénario accepte aussi une adresse IPv6
+        ip = ipaddress.ip_address(host.ip)
+        return ip.version, int(ip)
+    for h in sorted(known, key=address):
         if h.id in state.scanned:
             services = ", ".join(f"{s.name}/{s.port}" for s in h.services if h.id not in state.known_ports or s.port in state.known_ports[h.id]) or "aucun service exposé"
         else:

@@ -160,7 +160,7 @@ def parse(line,state):
             else:return TerminalResult(False,['GetUserSPNs: unrecognized argument '+a])
             i+=1
         directory=state.environment.get('directory',{});dc=state.find_host(options.get('-dc-ip',directory.get('host','')))
-        if not identity or '/' not in identity or ':' not in identity:return TerminalResult(False,['GetUserSPNs: expected domain/username:password'])
+        if not identity or '/' not in identity or ':' not in identity.split('/',1)[1]:return TerminalResult(False,['GetUserSPNs: expected domain/username:password'])
         domain,account=identity.split('/',1);user,secret=account.split(':',1)
         domain_users={str(e.get('sAMAccountName','')).casefold() for e in directory.get('entries',[]) if 'user' in e.get('objectClass',[])}
         if not dc or user.casefold() not in domain_users or domain.casefold()!=state.domain.get('name','').casefold() or state.is_blocked(dc.id,389) or not authenticate(state,dc,user,secret):return TerminalResult(False,['LDAP SessionError: invalid credentials or server unavailable'])

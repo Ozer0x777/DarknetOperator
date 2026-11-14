@@ -115,7 +115,8 @@
           "start": 480,
           "end": 960
         }
-      ]
+      ],
+      "gone_after": "act1_recommandation"
     },
     "sable": {
       "role": "Membre confirmé",
@@ -222,6 +223,18 @@
         {
           "start": 0,
           "end": 1440
+        }
+      ]
+    },
+    "Madame_TLS": {
+      "role": "Membre confirmé",
+      "reputation": 167,
+      "age": 388,
+      "bio": "Sites web, certificats, portails mal rangés. Je réponds le matin.",
+      "availability": [
+        {
+          "start": 420,
+          "end": 900
         }
       ]
     }
@@ -764,6 +777,11 @@
           "author": "0xvanta",
           "text": "Annonce retirée ce matin. Le dossier reste en archive. La vente a pas été validée.",
           "minute": -80
+        },
+        {
+          "author": "Madame_TLS",
+          "text": "Pareil pour les captures de sites. Une page change en une nuit. Sans date dessus, votre capture ne vaut rien.",
+          "minute": -72
         }
       ]
     },
@@ -791,6 +809,11 @@
           "author": "nullroute",
           "text": "Ce qui me sert le plus, c’est un carnet que j’arrive à relire le lendemain.",
           "minute": -80
+        },
+        {
+          "author": "Madame_TLS",
+          "text": "Rien du tout. Je travaille le matin, fenêtre ouverte. La nuit je dors, comme les gens normaux.",
+          "minute": -70
         }
       ]
     },
@@ -983,6 +1006,47 @@
           "minute": -230
         }
       ]
+    },
+    {
+      "id": "cadenas",
+      "forum": "breachboard",
+      "section": "Discussion",
+      "title": "Le cadenas ne dit pas à qui tu parles",
+      "author": "Madame_TLS",
+      "body": "Petit rappel pour les nouveaux, parce que je revois la question chaque mois. Le cadenas dans la barre d’adresse dit une seule chose : personne ne lit la conversation en route. Il ne dit pas que le site est honnête, ni que la personne en face est celle qu’elle prétend. Avant de croire une page, regardez qui a signé le certificat et depuis quand.",
+      "pinned": false,
+      "reputation": 167,
+      "age": 388,
+      "role": "Membre confirmé",
+      "created_minute": -4320,
+      "locked": false,
+      "posts": [
+        {
+          "author": "nullpointer",
+          "text": "Donc mon grille-pain connecté est chiffré ET malhonnête. Je me sens mieux.",
+          "minute": -4301
+        },
+        {
+          "author": "miette",
+          "text": "Attends, donc un site avec le cadenas peut quand même être un faux ? Je croyais que c’était justement ça, la vérification.",
+          "minute": -4288
+        },
+        {
+          "author": "Madame_TLS",
+          "text": "Oui miette. Le cadenas protège le trajet, pas la destination. C’est une erreur très répandue, tu es en bonne compagnie.",
+          "minute": -4279
+        },
+        {
+          "author": "packetloss",
+          "text": "Et regardez la date du certificat. Un site « historique » avec un certificat de la semaine dernière, ça mérite une question.",
+          "minute": -4240
+        }
+      ],
+      "response": {
+        "author": "Madame_TLS",
+        "text": "Bonne question {handle}. Regarde d’abord qui a émis le certificat et à quelle date. Le reste vient après."
+      },
+      "views": 412
     }
   ],
   "contacts": [
@@ -1013,7 +1077,8 @@
       ],
       "bio": "On parle matériel et notes, on s’entraide. Les missions, ça reste en privé.",
       "response_author": "miette",
-      "response": "Salut {handle}. Pour une mission, demande plutôt de l’aide à ton contact en privé. Ici on se partage surtout nos méthodes de travail."
+      "response": "Salut {handle}. Pour une mission, demande plutôt de l’aide à ton contact en privé. Ici on se partage surtout nos méthodes de travail.",
+      "followup": "Je t’ai lu. Je finis mes notes, et j’ai rien de plus sur ta mission."
     },
     {
       "id": "miette",
@@ -1026,7 +1091,8 @@
       ],
       "bio": "J’apprends. Je note tout, mes notes valent mieux que ma mémoire.",
       "response_author": "miette",
-      "response": "Salut {handle} ! Moi aussi j’apprends encore. Je garde mes résultats dans un carnet. Pour ta mission par contre, ton client connaît le contexte mieux que moi."
+      "response": "Salut {handle} ! Moi aussi j’apprends encore. Je garde mes résultats dans un carnet. Pour ta mission par contre, ton client connaît le contexte mieux que moi.",
+      "followup": "Je t’ai lu. Je finis mes notes, et j’ai rien de plus sur ta mission."
     },
     {
       "id": "veille",
@@ -1041,7 +1107,8 @@
       ],
       "bio": "Notes datées. Je fais des retours sur les comptes rendus.",
       "response_author": "packetloss",
-      "response": "Lu, {handle}. Si tu veux mon avis sur un compte rendu, joins une chronologie et les observations qu’on peut vérifier."
+      "response": "Lu, {handle}. Si tu veux mon avis sur un compte rendu, joins une chronologie et les observations qu’on peut vérifier.",
+      "followup": "Je garde ton message dans le fil. Pour avancer, il me faut des observations datées."
     },
     {
       "id": "relay",
@@ -1054,7 +1121,8 @@
       ],
       "bio": "Je fais le support des accès relais. Je réponds en différé.",
       "response_author": "relay",
-      "response": "Je viens de lire, {handle}. J’ai peu de créneaux. Regarde les conditions et la disponibilité dans le catalogue avant de préparer une passation."
+      "response": "Je viens de lire, {handle}. J’ai peu de créneaux. Regarde les conditions et la disponibilité dans le catalogue avant de préparer une passation.",
+      "followup": "Reçu. Je reviens vers toi quand j’ai un créneau confirmé."
     },
     {
       "id": "passations",
@@ -1068,7 +1136,8 @@
       ],
       "bio": "Je demande le périmètre, les droits vérifiés, les limites connues.",
       "response_author": "spectre",
-      "response": "Reçu, {handle}. Pour une passation : périmètre, dernière vérification, limites connues."
+      "response": "Reçu, {handle}. Pour une passation : périmètre, dernière vérification, limites connues.",
+      "followup": "Lu. Je te recontacte si les conditions de la passation évoluent."
     },
     {
       "id": "nullroute",
@@ -1198,6 +1267,24 @@
       ],
       "response_author": "quartz",
       "response": "Bien lu, {handle}. Conditions et preuves utiles sont dans notre dossier. Si tu coinces pendant la mission, demande un indice."
+    },
+    {
+      "id": "Madame_TLS",
+      "name": "Madame_TLS",
+      "channel": "chordly",
+      "tier": 1,
+      "kind": "direct",
+      "members": [
+        "Madame_TLS"
+      ],
+      "requires_completed": [
+        "act1_portail"
+      ],
+      "bio": "Rencontrée sur BreachBoard. Elle lit un site comme d’autres lisent un contrat.",
+      "response_author": "Madame_TLS",
+      "response": "Bonjour {handle}. Je réponds surtout le matin. Dis-moi ce que tu regardes, et qui te l’a demandé.",
+      "followup": "Je te lis. Dis-moi ce que tu regardes, et qui te l’a demandé. Je réponds le matin.",
+      "opening_event": "tls-contact"
     }
   ],
   "events": [
@@ -1408,6 +1495,374 @@
       "author": "spectre",
       "text": "Le dossier de reprise reste ouvert. Fin du contrat, retour du réseau, restauration des données : trois choses distinctes.",
       "after": 100
+    },
+    {
+      "id": "tls-accueil",
+      "after": 44,
+      "kind": "forum",
+      "target": "introductions",
+      "author": "Madame_TLS",
+      "text": "Bienvenue aux nouveaux. Pour une question sur un site ou un certificat, mon fil est ouvert. Je réponds le matin."
+    },
+    {
+      "id": "tls-contact",
+      "after": 6,
+      "kind": "chat",
+      "target": "Madame_TLS",
+      "author": "Madame_TLS",
+      "text": "Bonjour {handle}. J’ai vu passer ton nom dans le dossier de 0xvanta. Tu lis les pages avant de cliquer, c’est rare ici. Si un portail te résiste, écris-moi.",
+      "requires_completed": [
+        "act1_portail"
+      ]
+    },
+    {
+      "id": "tls-tableau",
+      "after": 9,
+      "kind": "chat",
+      "target": "Madame_TLS",
+      "author": "Madame_TLS",
+      "text": "Il paraît que nullroute s’est encore trompé d’adresse. Il achète ses tableaux à qui, tu le sais ?",
+      "requires_completed": [
+        "mauvaise_adresse"
+      ],
+      "follows": "tls-contact"
+    },
+    {
+      "id": "tls-exployt",
+      "after": 8,
+      "kind": "chat",
+      "target": "Madame_TLS",
+      "author": "Madame_TLS",
+      "text": "Félicitations pour Exployt. Tu vas rencontrer du monde là-bas. Tu me diras qui t’a accueilli ? Simple curiosité.",
+      "requires_completed": [
+        "act1_recommandation"
+      ],
+      "follows": "tls-tableau"
+    },
+    {
+      "id": "tls-cinquieme",
+      "after": 10,
+      "kind": "chat",
+      "target": "Madame_TLS",
+      "author": "Madame_TLS",
+      "text": "Traverse travaille toujours seul sur les passages ? Avant ils étaient cinq dans cette équipe. Je me demande ce qu’est devenu cinquième.",
+      "requires_completed": [
+        "act2_pivot"
+      ],
+      "follows": "tls-exployt"
+    },
+    {
+      "id": "tls-fuseau",
+      "after": 12,
+      "kind": "forum",
+      "target": "timezones",
+      "author": "packetloss",
+      "text": "Curiosité du jour. Un membre de BreachBoard poste tous les jours entre 7 h et 15 h, jamais après. On dirait des horaires de bureau, mais pas dans notre fuseau.",
+      "requires_completed": [
+        "act2_annuaire"
+      ]
+    },
+    {
+      "id": "tls-proposition",
+      "after": 14,
+      "kind": "chat",
+      "target": "Madame_TLS",
+      "author": "Madame_TLS",
+      "text": "Tu as bien travaillé avec quartz. J’aurais une proposition pour toi, hors forum. Rien d’urgent. On en reparle quand tu as le temps ?",
+      "requires_completed": [
+        "act2_binome"
+      ],
+      "follows": "tls-cinquieme"
+    },
+    {
+      "id": "hexane-depart",
+      "after": 5,
+      "kind": "chat",
+      "target": "atelier",
+      "author": "hexane",
+      "text": "Je ferme l’atelier quelques jours. On m’a proposé un gros dossier, je vous raconte en rentrant.",
+      "requires_completed": [
+        "act1_recommandation"
+      ]
+    },
+    {
+      "id": "hexane-silence",
+      "after": 8,
+      "kind": "chat",
+      "target": "atelier",
+      "author": "nullpointer",
+      "text": "Quelqu’un a des nouvelles de hexane ? Il devait me renvoyer une alimentation. Je commence à faire le deuil de l’alimentation.",
+      "requires_completed": [
+        "act2_compte"
+      ],
+      "follows": "hexane-depart"
+    },
+    {
+      "id": "hexane-annonce",
+      "after": 10,
+      "kind": "chat",
+      "target": "atelier",
+      "author": "miette",
+      "text": "Toujours rien de hexane. Son annonce de portable est encore en ligne, ça me fait bizarre de la voir.",
+      "requires_completed": [
+        "act2_reseau"
+      ],
+      "follows": "hexane-silence"
+    },
+    {
+      "id": "hexane-archives",
+      "after": 12,
+      "kind": "forum",
+      "target": "hardware",
+      "author": "sable",
+      "text": "Je remonte le sujet. Si quelqu’un veut reprendre les mesures de hexane, j’ai ses fichiers dans mes archives. Il me les avait confiés avant de partir.",
+      "requires_completed": [
+        "act2_annuaire"
+      ],
+      "follows": "hexane-annonce"
+    },
+    {
+      "id": "hexane-tabou",
+      "after": 15,
+      "kind": "chat",
+      "target": "atelier",
+      "author": "nullpointer",
+      "text": "On arrête de demander pour hexane ? À chaque fois que quelqu’un pose la question sur le forum, bytewarden déplace le sujet.",
+      "requires_completed": [
+        "act2_garant"
+      ],
+      "follows": "hexane-archives"
+    },
+    {
+      "id": "regles-1",
+      "after": 7,
+      "kind": "forum",
+      "target": "seller-dispute",
+      "author": "mod_echo",
+      "text": "Troisième annonce suspendue ce mois-ci pour la même raison. Je demande que la règle s’applique aussi aux comptes anciens.",
+      "requires_completed": [
+        "act1_service"
+      ]
+    },
+    {
+      "id": "regles-2",
+      "after": 9,
+      "kind": "forum",
+      "target": "seller-dispute",
+      "author": "bytewarden",
+      "text": "Les suspensions se décident au cas par cas. On ne règle pas ça dans un fil public.",
+      "requires_completed": [
+        "act1_service"
+      ],
+      "follows": "regles-1"
+    },
+    {
+      "id": "regles-publication",
+      "after": 9,
+      "kind": "forum",
+      "target": "act1-litige",
+      "author": "mod_echo",
+      "text": "Merci à {handle} d’avoir posé les deux pièces ici. Avec ça, la suspension se justifie toute seule et personne ne peut dire que c’est arbitraire.",
+      "requires_completed": [
+        "act1_litige"
+      ],
+      "requires_choice": {
+        "litige118": "publication"
+      }
+    },
+    {
+      "id": "regles-mediation",
+      "after": 9,
+      "kind": "forum",
+      "target": "seller-dispute",
+      "author": "mod_echo",
+      "text": "Encore un litige réglé en privé. Je ne sais pas ce qui a été décidé, et c’est bien ça le problème.",
+      "requires_completed": [
+        "act1_litige"
+      ],
+      "requires_choice": {
+        "litige118": "mediation"
+      }
+    },
+    {
+      "id": "regles-3",
+      "after": 10,
+      "kind": "forum",
+      "target": "escrow",
+      "author": "mod_echo",
+      "text": "Je propose une règle simple. Une annonce suspendue deux fois pour la même raison ferme le compte, quelle que soit son ancienneté. Qu’en pense l’administration ?",
+      "requires_completed": [
+        "act2_polkit"
+      ]
+    },
+    {
+      "id": "regles-4",
+      "after": 12,
+      "kind": "forum",
+      "target": "escrow",
+      "author": "bytewarden",
+      "text": "L’administration en pense que ce forum existe encore parce qu’on n’a pas fermé tout le monde à la première erreur. On en reparle en privé.",
+      "requires_completed": [
+        "act2_polkit"
+      ],
+      "follows": "regles-3"
+    },
+    {
+      "id": "miette-parole",
+      "after": 12,
+      "kind": "chat",
+      "target": "atelier",
+      "author": "miette",
+      "text": "Question bête. Quand un client vous dit que c’est livré, vous le croyez sur parole ? Je demande pour une amie.",
+      "requires_completed": [
+        "tuto_p0"
+      ]
+    },
+    {
+      "id": "miette-habituee",
+      "after": 9,
+      "kind": "forum",
+      "target": "introductions",
+      "author": "miette",
+      "text": "Trois mois que je suis là. J’ai arrêté de poser les questions qui sont déjà dans les sujets épinglés. Enfin presque.",
+      "requires_completed": [
+        "act1_boutique"
+      ]
+    },
+    {
+      "id": "miette-accueil",
+      "after": 14,
+      "kind": "forum",
+      "target": "introductions",
+      "author": "miette",
+      "text": "Bienvenue aux nouveaux. Lisez les épinglés, prenez des notes, et demandez quand même. Tout le monde a commencé perdu, moi la première.",
+      "requires_completed": [
+        "act1_recommandation"
+      ],
+      "follows": "miette-habituee"
+    },
+    {
+      "id": "miette-telegrid",
+      "after": 11,
+      "kind": "chat",
+      "target": "miette",
+      "author": "miette",
+      "text": "J’ai eu mon premier contrat sur Telegrid ! Bon, c’est celui que tu regardais la semaine dernière. On reste amis ?",
+      "requires_completed": [
+        "act2_reseau"
+      ]
+    },
+    {
+      "id": "choix-contretemps-signaler",
+      "after": 8,
+      "kind": "chat",
+      "target": "miette",
+      "author": "miette",
+      "text": "Cobalt a refait son annonce, avec la date du registre cette fois. Ton signalement a servi. Je te dois un café, enfin tu vois l’idée.",
+      "requires_completed": [
+        "act1_boutique"
+      ],
+      "requires_choice": {
+        "contretemps": "*_signaler"
+      }
+    },
+    {
+      "id": "choix-contretemps-discret",
+      "after": 8,
+      "kind": "chat",
+      "target": "miette",
+      "author": "miette",
+      "text": "Cobalt vient d’annoncer une autre livraison en avance. Même formule que la dernière fois. On aurait peut-être dû le dire, non ?",
+      "requires_completed": [
+        "act1_boutique"
+      ],
+      "requires_choice": {
+        "contretemps": "*_discret"
+      }
+    },
+    {
+      "id": "choix-litige-publication",
+      "after": 10,
+      "kind": "chat",
+      "target": "bytewarden",
+      "author": "bytewarden",
+      "text": "Ta publication m’a obligé à suspendre un compte que j’aurais préféré garder. Tu avais raison sur les pièces. Ça ne veut pas dire que ça m’arrange.",
+      "requires_completed": [
+        "act2_compte"
+      ],
+      "requires_choice": {
+        "litige118": "publication"
+      }
+    },
+    {
+      "id": "choix-litige-mediation",
+      "after": 10,
+      "kind": "chat",
+      "target": "bytewarden",
+      "author": "bytewarden",
+      "text": "J’ai réglé le 118 sans bruit, grâce à toi. Le vendeur a rouvert une annonce la semaine suivante. Je te le dis pour que tu le saches.",
+      "requires_completed": [
+        "act2_compte"
+      ],
+      "requires_choice": {
+        "litige118": "mediation"
+      }
+    },
+    {
+      "id": "choix-garant-refus",
+      "after": 9,
+      "kind": "chat",
+      "target": "relay",
+      "author": "relay",
+      "text": "Le vendeur que tu as refusé a trouvé preneur ailleurs. L’acheteur est revenu me voir, furieux. Je garde ton nom pour les dossiers sérieux.",
+      "requires_completed": [
+        "act2_binome"
+      ],
+      "requires_choice": {
+        "act2_garant": "refus*"
+      }
+    },
+    {
+      "id": "choix-garant-renegociation",
+      "after": 9,
+      "kind": "chat",
+      "target": "relay",
+      "author": "relay",
+      "text": "La délégation que tu as renégociée a tenu. Le vendeur raconte partout qu’il s’est fait avoir. Bonne publicité pour toi.",
+      "requires_completed": [
+        "act2_binome"
+      ],
+      "requires_choice": {
+        "act2_garant": "renegociation*"
+      }
+    },
+    {
+      "id": "choix-finale-sqlmap",
+      "after": 10,
+      "kind": "chat",
+      "target": "0xvanta",
+      "author": "0xvanta",
+      "text": "J’ai relu ta livraison pour bytewarden. Elle a laissé des traces partout dans les journaux. Sur un labo, ça passe. Ailleurs, quelqu’un les lit.",
+      "requires_completed": [
+        "act2_passation"
+      ],
+      "requires_choice": {
+        "finale": "finale_sqlmap"
+      }
+    },
+    {
+      "id": "choix-finale-connecteur",
+      "after": 10,
+      "kind": "chat",
+      "target": "0xvanta",
+      "author": "0xvanta",
+      "text": "J’ai relu ta livraison pour bytewarden. Presque rien dans les journaux. C’est comme ça qu’on dure.",
+      "requires_completed": [
+        "act2_passation"
+      ],
+      "requires_choice": {
+        "finale": "finale_connecteur"
+      }
     }
   ]
 }

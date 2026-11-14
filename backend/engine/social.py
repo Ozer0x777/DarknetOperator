@@ -15,6 +15,8 @@ import json
 import time
 
 EPOCH = datetime(2026, 11, 9, 9, 0)
+# Sur une sauvegarde antérieure aux messages d'histoire, ceux qui sont déjà dus arrivent étalés.
+BACKLOG_SPACING = 60
 FORUM_TIERS = {'breachboard': 0, 'exployt': 2, 'xsx': 3}
 
 
@@ -28,7 +30,7 @@ def stamp(minute: int) -> str:
 
 
 def prepare(career) -> dict:
-    world = career.data.setdefault('social', {'minute': 0, 'sequence': 0, 'published': [], 'pending': [], 'seen': {}, 'milestones': []})
+    world = career.data.setdefault('social', {'minute': 0, 'sequence': 0, 'published': [], 'pending': [], 'seen': {}, 'milestones': [], 'armed': {}, 'posted': {}})
     unlocked_at = world.setdefault('unlocked_at', {})
     for contact in contacts(career): unlocked_at.setdefault('chat:' + contact['id'], world['minute'])
     for forum in FORUM_TIERS:
@@ -90,21 +92,44 @@ def advance(career, minutes: int = 1) -> None:
     world['minute'] += max(0, minutes)
     minute = world['minute']
     unlocked = {c['id']: c for c in contacts(career)}
-    for event in content()['events']:
-        if event['id'] in world['published'] or event['after'] > minute: continue
-        author_ready = event['after'] + wait_until_available(event['after'], content()['profiles'].get(event['author'], {}).get('availability'))
+    events = content()['events']
+    if 'armed' not in world:
+        # Première lecture d'une sauvegarde plus ancienne : ces messages auraient dû paraître au fil des dossiers.
+        world['late'] = [e['id'] for e in events if _is_story(e) and _conditions_met(career.data, e)]
+    armed, posted, late = world.setdefault('armed', {}), world.setdefault('posted', {}), world.get('late', [])
+    handle, gone, backlog = career.data.get('handle') or '', _gone(career.data), 0
+    for event in events:
+        if event['id'] in world['published']: continue
+        story = _is_story(event)
+        if not story and event['author'] in gone:
+            world['published'].append(event['id'])  # un personnage parti ne poste plus ses messages de fond
+            continue
+        if '{handle}' in event['text'] and not handle: continue
+        start = 0
+        if story:
+            # Un message d'histoire attend ses dossiers, ses choix et le message auquel il fait suite.
+            if not _conditions_met(career.data, event) or event.get('follows', event['id']) not in world['published'] + [event['id']]: continue
+            if event['id'] not in armed:
+                backlog += event['id'] in late
+                armed[event['id']] = minute + (BACKLOG_SPACING * backlog if event['id'] in late else 0)
+            start = armed[event['id']]
+        due = start + event['after']
+        if due > minute: continue
+        author_ready = due + wait_until_available(due, content()['profiles'].get(event['author'], {}).get('availability'))
         if author_ready > minute: continue
+        text = event['text'].replace('{handle}', handle)
         if event['kind'] == 'chat':
             if event['target'] not in unlocked: continue
             contact = unlocked[event['target']]
-            message = _message(event['id'], contact['id'], contact['channel'], event['author'], event['text'], max(author_ready, world['unlocked_at'].get('chat:' + contact['id'], minute)))
-            career.data['conversations'].setdefault(event['id'], message)
+            posted_at = max(author_ready, world['unlocked_at'].get('chat:' + contact['id'], minute))
+            career.data['conversations'].setdefault(event['id'], _message(event['id'], contact['id'], contact['channel'], event['author'], text, posted_at))
         else:
             thread = next(t for t in content()['threads'] if t['id'] == event['target'])
             if not forum_allowed(career, thread['forum']): continue
             posted_at = max(author_ready, world['unlocked_at'].get('forum:' + thread['forum'], minute))
-            career.data['forum_posts'][thread['id']].append(_post(event['id'], event['author'], event['text'], posted_at))
+            career.data['forum_posts'][thread['id']].append(_post(event['id'], event['author'], text, posted_at))
         world['published'].append(event['id'])
+        posted[event['id']] = posted_at
     due = [event for event in world['pending'] if event['due'] <= minute]
     world['pending'] = [event for event in world['pending'] if event['due'] > minute]
     for event in due:
@@ -132,6 +157,28 @@ def advance(career, minutes: int = 1) -> None:
             _schedule(career, kind='chat', target=author, channel=channel, author=author, text=text, delay=3)
 
 
+def _is_story(event: dict) -> bool:
+    """Un message de fond paraît à une minute fixe de la carrière. Un message d'histoire déclare
+    `requires_completed` (dossiers terminés), `requires_choice` (décision de carrière, motif à la
+    fnmatch) ou `follows` (message auquel il fait suite) : son délai `after` part du moment où
+    ces conditions sont réunies, ce qui permet à un personnage de réagir quelques dossiers
+    après un choix, toujours après le message qu'il commente."""
+    return any(key in event for key in ('requires_completed', 'requires_choice', 'follows'))
+
+
+def _conditions_met(data: dict, event: dict) -> bool:
+    from fnmatch import fnmatchcase
+    if any(cid not in data['completed'] for cid in event.get('requires_completed', [])): return False
+    choices = data.get('choices', {})
+    return all(fnmatchcase(str(choices.get(key, '')), pattern) for key, pattern in event.get('requires_choice', {}).items())
+
+
+def _gone(data: dict) -> set[str]:
+    """Personnages qui ont quitté le forum à ce stade de l'histoire (`gone_after` dans leur profil) :
+    leurs messages de fond et leurs réponses automatiques cessent."""
+    return {name for name, profile in content()['profiles'].items() if profile.get('gone_after') in data.get('completed', [])}
+
+
 def refresh(career, now: float | None = None) -> None:
     """Le nombre de requêtes ne change pas la vitesse de l'horloge."""
     now = time.monotonic() if now is None else now
@@ -153,7 +200,7 @@ def _signature(career) -> tuple:
     world = career.data.get('social')
     if world is None: return ()
     return (world.get('minute'), world.get('sequence'), len(world.get('published', [])), len(world.get('pending', [])),
-            len(world.get('unlocked_at', {})), len(world.get('seen', {})), len(world.get('milestones', [])),
+            len(world.get('unlocked_at', {})), len(world.get('seen', {})), len(world.get('milestones', [])), len(world.get('armed', {})),
             len(career.data.get('conversations', {})), sum(len(posts) for posts in career.data.get('forum_posts', {}).values()))
 
 
@@ -192,12 +239,9 @@ def queue_chat(career, channel: str, peer: str, handle: str, text: str) -> None:
     pending = next((e for e in world['pending'] if e['kind'] == 'chat' and e['target'] == peer), None)
     if pending: return  # Pas une réponse identique pour chaque pression sur Entrée.
     previous = [m for m in career.data['conversations'].values() if m.get('peer') == peer and m.get('sender') == contact['response_author']]
-    response = contact['response'].replace('{handle}', handle) if not previous else {
-        'miette': 'Je t’ai lu. Je finis mes notes, et j’ai rien de plus sur ta mission.',
-        'relay': 'Reçu. Je reviens vers toi quand j’ai un créneau confirmé.',
-        'packetloss': 'Je garde ton message dans le fil. Pour avancer, il me faut des observations datées.',
-        'spectre': 'Lu. Je te recontacte si les conditions de la passation évoluent.',
-    }.get(contact['response_author'], 'Bien reçu.')
+    # Un contact qui va écrire le premier (`opening_event`) ne se présente pas deux fois.
+    introduced = previous or contact.get('opening_event', '') not in world['published'] + ['']
+    response = contact.get('followup', 'Bien reçu.') if introduced else contact['response'].replace('{handle}', handle)
     # Réponses thématiques écrites : aucune invention de secrets ou de paiement.
     topic = text.casefold()
     if any(word in topic for word in ('rançon', 'rancon', 'ransom', 'chiffrement', 'sauvegarde')):
@@ -216,7 +260,7 @@ def queue_chat(career, channel: str, peer: str, handle: str, text: str) -> None:
 def queue_forum_reply(career, thread_id: str, handle: str) -> None:
     world = prepare(career)
     topic = next((t for t in content()['threads'] if t['id'] == thread_id), None)
-    if not topic or not topic.get('response'): return
+    if not topic or not topic.get('response') or topic['response']['author'] in _gone(career.data): return
     if any(e['kind'] == 'forum' and e['target'] == thread_id for e in world['pending']): return
     # Un membre ne répète pas le même accueil indéfiniment.
     if any(p.get('response_to') == handle for p in career.data['forum_posts'][thread_id]): return

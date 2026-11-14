@@ -15,6 +15,9 @@
 - Suite du retrait : délai de réutilisation des outils, tirage EDR aléatoire et liste `blue` des scénarios supprimés ; un scénario sans objectif ou avec une autre liste que `red` est refusé au chargement.
 - Les sauvegardes antérieures contenant une action en attente se reprennent de nouveau ; une mission terminée est libérée de la mémoire à l’ouverture de la suivante.
 - `scripts/check_ui.py` lance tous les contrôles et affiche un résumé.
+- Monde social : messages d’histoire qui suivent les dossiers terminés et les choix du joueur. Nouveau personnage Madame_TLS, trois intrigues de forum (hexane, la modération, miette) et réactions différées aux quatre choix de carrière, sans rien bloquer. Voir `docs/PERSONNAGES.md`.
+- Textes : plus aucun tiret long ; forum, messageries et messages du moteur réécrits dans un ton parlé.
+- Terminal : test de robustesse sur des milliers de lignes mal formées ; `impacket-GetUserSPNs` refuse proprement une identité mal formée et `hosts` trie aussi les adresses IPv6.
 
 ## 0.5.3 - musique continue et lecteur audio
 
