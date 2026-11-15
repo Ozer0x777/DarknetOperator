@@ -14,7 +14,7 @@ import sysconfig
 import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
-NAME = 'DarknetOperator-0.5.3-dev-Linux-x86_64'
+NAME = 'DarknetOperator-0.5.4-dev-Linux-x86_64'
 STAGE = ROOT/'build/portable-linux'/NAME
 DIST = ROOT/'dist'
 EXCLUDED = {'__pycache__', '.pytest_cache', '.venv', 'site-packages', 'ensurepip', 'idlelib', 'turtledemo', 'test', 'tests', 'pip'}
@@ -172,7 +172,7 @@ exec "$PACKAGE_DIR/runtime/ld-linux-x86-64.so.2" --library-path "$PACKAGE_DIR/ru
     for name in ('generate_audio.py','check_audio.py','import_chapter_music.py'):
         if (ROOT/'scripts'/name).exists(): shutil.copy2(ROOT/'scripts'/name,STAGE/'scripts'/name)
     packages = licenses(STAGE,libraries,godot,python)
-    metadata = {'game':'Darknet Operator','version':'0.5.3-dev','architecture':'Linux x86_64','type':'portable-source-runtime','godot':subprocess.check_output([str(godot),'--version'],text=True).strip(),'python':sys.version,'libraries':libraries,'system_packages':packages,'python_packages':{d.metadata['Name']:d.version for d in importlib.metadata.distributions() if d.metadata['Name'].lower() not in {'pip','pytest','pygments','pluggy','iniconfig'}},'personal_saves_included':False}
+    metadata = {'game':'Darknet Operator','version':'0.5.4-dev','architecture':'Linux x86_64','type':'portable-source-runtime','godot':subprocess.check_output([str(godot),'--version'],text=True).strip(),'python':sys.version,'libraries':libraries,'system_packages':packages,'python_packages':{d.metadata['Name']:d.version for d in importlib.metadata.distributions() if d.metadata['Name'].lower() not in {'pip','pytest','pygments','pluggy','iniconfig'}},'personal_saves_included':False}
     (STAGE/'CONSTRUCTION.json').write_text(json.dumps(metadata,ensure_ascii=False,indent=2)+'\n')
     (STAGE/'VALIDATION.txt').write_text('Construction effectuée. Exécuter Verifier.sh puis consigner les vérifications avant diffusion.\n')
     print(STAGE,flush=True)

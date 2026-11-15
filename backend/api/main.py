@@ -205,7 +205,7 @@ class TerminalRequest(BaseModel):
 
 @app.get("/api/health")
 async def health():
-    return {"status": "ok", "application": "RedTeamSimulator", "version": "0.5.3-dev"}
+    return {"status": "ok", "application": "RedTeamSimulator", "version": "0.5.4-dev"}
 
 
 @app.get("/api/abilities")

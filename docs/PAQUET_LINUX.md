@@ -13,7 +13,7 @@ utilisés ; aucun téléchargement n’est effectué.
 
 ```bash
 backend/.venv/bin/python scripts/build_portable_linux.py --no-zip
-build/portable-linux/DarknetOperator-0.5.3-dev-Linux-x86_64/Verifier.sh
+build/portable-linux/DarknetOperator-0.5.4-dev-Linux-x86_64/Verifier.sh
 backend/.venv/bin/python scripts/build_portable_linux.py --zip-existing
 ```
 

@@ -1,6 +1,6 @@
 # Journal des changements
 
-## Non publié - corrections de revue
+## 0.5.4 - revue, textes et vie du forum
 
 - Tutoriel : consignes GoPhish complètes dans Chordly ; dossier Ravelle avec domaine, DNS simulé (`host`) et IP publique.
 - Fin de mission : l’état final arrive toujours au client (tampon temps réel agrandi, relecture HTTP en secours) ; la boucle de jeu survit à une erreur ponctuelle.

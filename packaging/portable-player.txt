@@ -1,4 +1,4 @@
-Darknet Operator - version de développement 0.5.3
+Darknet Operator - version de développement 0.5.4
 Paquet portable Linux x86_64, construit depuis les sources du 12 novembre 2026.
 
 JOUER

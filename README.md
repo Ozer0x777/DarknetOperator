@@ -1,7 +1,7 @@
 # Darknet Operator
 
 Jeu solo pour PC : bureau natif inspiré de Kali/Xfce, terminal, contrats,
-progression et rapport des détections sur les cibles. Version de développement **0.5.3**.
+progression et rapport des détections sur les cibles. Version de développement **0.5.4**.
 
 Le projet RedVsBlue reste indépendant dans son propre dossier.
 
