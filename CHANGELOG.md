@@ -1,5 +1,9 @@
 # Journal des changements
 
+## 0.6.1-dev.1 — préversion
+
+Ouverture du prochain cycle sur `dev`, avec le contenu de la 0.6.0 comme point de départ.
+
 ## 0.6.0 — 15 novembre 2026
 
 Version regroupant les conversations à choix, l’arc de Madame_TLS, les forums et portraits, et les douze missions de l’acte III décrits ci-dessous. Distribution Linux portable et branches de publication `main` / `dev`.

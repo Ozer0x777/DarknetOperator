@@ -1,7 +1,7 @@
 # Darknet Operator
 
 Jeu solo pour PC : bureau natif inspiré de Kali/Xfce, terminal, contrats,
-progression et rapport des détections sur les cibles. Version de développement **0.6.0**.
+progression et rapport des détections sur les cibles. Version de développement **0.6.1-dev.1**.
 
 [Télécharger la version main](https://github.com/Ozer0x777/DarknetOperator/releases/latest) · [Préversion dev](https://github.com/Ozer0x777/DarknetOperator/releases/tag/v0.6.1-dev.1) · [Guide des commandes](docs/COMMANDES.md)
 
