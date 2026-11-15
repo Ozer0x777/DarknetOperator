@@ -8,10 +8,19 @@ les retransformer en tuples avant setstate() (random.setstate l'exige).
 """
 from __future__ import annotations
 
+from dataclasses import fields
+
 from .models import (
     Alert, Credential, GameState, HistoryEntry, Host, LogEvent, Message,
     Service, User,
 )
+
+
+def _restore(cls, row: dict):
+    """Recrée un objet sauvegardé en ignorant les champs que sa classe n'a plus : retirer un
+    champ d'un modèle ne doit pas rendre les anciennes sauvegardes illisibles."""
+    known = {f.name for f in fields(cls)}
+    return cls(**{key: value for key, value in row.items() if key in known})
 
 
 def _tupleify(value):
@@ -106,10 +115,10 @@ def state_from_dict(data: dict) -> GameState:
     }
 
     state = GameState(hosts=hosts, users=users)
-    state.loot = [Credential(**c) for c in data["loot"]]
-    state.logs = [LogEvent(**l) for l in data["logs"]]
-    state.alerts = [Alert(**a) for a in data["alerts"]]
-    state.history = [HistoryEntry(**h) for h in data["history"]]
+    state.loot = [_restore(Credential, c) for c in data["loot"]]
+    state.logs = [_restore(LogEvent, l) for l in data["logs"]]
+    state.alerts = [_restore(Alert, a) for a in data["alerts"]]
+    state.history = [_restore(HistoryEntry, h) for h in data["history"]]
     state.domain_compromised = data["domain_compromised"]
     state.tick = data["tick"]
     state.max_ticks = data["max_ticks"]
@@ -125,7 +134,7 @@ def state_from_dict(data: dict) -> GameState:
     state.objectives = data.get("objectives", [])
     state.contract = data.get("contract")
     state.player_handle = data.get("player_handle")
-    state.messages = [Message(**m) for m in data.get("messages", [])]
+    state.messages = [_restore(Message, m) for m in data.get("messages", [])]
     state.guide_index = data.get("guide_index", 0)
     state.contract_outcome = data.get("contract_outcome")
 

@@ -300,9 +300,19 @@ class Career:
             _log.warning("Autosauvegarde impossible : %s", exc)
 
     def settle(self, game_id: str, state) -> None:
-        contract = state.contract
-        if not contract or not state.contract_outcome or game_id in self.data["settled"]:
+        """Règle une mission terminée, une seule fois. Tout ou rien : si une étape ou l'écriture
+        échoue, la carrière en mémoire revient à son état d'avant et l'appel suivant recommence.
+        Sans cela, une mission marquée réglée pouvait rester sans prime ni progression."""
+        if not state.contract or not state.contract_outcome or game_id in self.data["settled"]:
             return
+        before, payout = copy.deepcopy(self.data), state.payout
+        try: self._settle(game_id, state)
+        except Exception:
+            self.data, state.payout = before, payout
+            raise
+
+    def _settle(self, game_id: str, state) -> None:
+        contract = state.contract
         from . import community, wallet
         community.scores(self.data)
         wallet.ensure(self.data)

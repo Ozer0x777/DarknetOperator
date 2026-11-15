@@ -18,6 +18,7 @@
 - Monde social : messages d’histoire qui suivent les dossiers terminés et les choix du joueur. Nouveau personnage Madame_TLS, trois intrigues de forum (hexane, la modération, miette) et réactions différées aux quatre choix de carrière, sans rien bloquer. Voir `docs/PERSONNAGES.md`.
 - Textes : plus aucun tiret long ; forum, messageries et messages du moteur réécrits dans un ton parlé.
 - Terminal : test de robustesse sur des milliers de lignes mal formées ; `impacket-GetUserSPNs` refuse proprement une identité mal formée et `hosts` trie aussi les adresses IPv6.
+- Sauvegardes : le règlement d’une fin de mission est tout ou rien et retenté s’il échoue (disque plein, fichier verrouillé) ; un champ retiré d’un modèle ne rend plus une ancienne sauvegarde illisible ; deux sauvegardes de référence écrites par d’anciens moteurs sont reprises à chaque lancement des tests.
 
 ## 0.5.3 - musique continue et lecteur audio
 

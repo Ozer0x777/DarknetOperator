@@ -122,7 +122,24 @@ async def _tick_loop(game_id: str) -> None:
             # sans cette boucle, plus aucun tick, plus aucune commande résolue, plus aucune diffusion.
             logging.getLogger(__name__).exception("Tick en échec pour la partie %s ; la boucle continue.", game_id)
         await _broadcast(game_id)
+    # Mission finie mais règlement refusé (disque plein, fichier verrouillé) : quelques nouvelles tentatives.
+    for _ in range(SETTLE_RETRIES):
+        session = GAMES.get(game_id)
+        if session is None or not _unsettled(session): break
+        await asyncio.sleep(session.tick_interval)
+        try: _persist(session)
+        except Exception:
+            logging.getLogger(__name__).exception("Règlement en échec pour la partie %s.", game_id)
     await _broadcast(game_id)  # diffuse l'état final (ENDED)
+
+
+SETTLE_RETRIES = 3
+
+
+def _unsettled(session: "GameSession") -> bool:
+    """Vrai si la mission est terminée et que la carrière n'en a pas encore reçu le règlement."""
+    state = session.state
+    return state.status == "ENDED" and bool(state.contract_outcome) and session.id not in career().data["settled"]
 
 
 def _persist(session: "GameSession", *, throttled: bool = False) -> None:
@@ -131,6 +148,13 @@ def _persist(session: "GameSession", *, throttled: bool = False) -> None:
     if state.status == "ENDED": career().settle(session.id, state)
     elif throttled: _checkpoint_if_changed(session)
     else: career().checkpoint(state)
+
+
+def _save_session(session: "GameSession") -> None:
+    """Écriture après une action du joueur. Si le règlement de fin de mission avait échoué,
+    il est retenté ici (Career.settle écrit lui-même la carrière)."""
+    if _unsettled(session): career().settle(session.id, session.state)
+    else: career().checkpoint(session.state)
 
 
 CHECKPOINT_IDLE_SECONDS = 20.0
@@ -358,7 +382,7 @@ def _checkpoint_live():
     active = career().data.get('active') or {}
     for session in GAMES.values():
         if session.state.conversation_id == active.get('conversation_id'):
-            career().checkpoint(session.state)  # écrit déjà la carrière
+            _save_session(session)  # écrit déjà la carrière
             return
     career().save()
 
@@ -595,16 +619,19 @@ class GuidanceRequest(BaseModel):
 async def set_guidance(game_id: str, req: GuidanceRequest):
     session = _get_session(game_id)
     session.state.guidance_enabled = req.enabled
-    career().checkpoint(session.state)
+    _save_session(session)
     return {"enabled": req.enabled}
 
 
 @app.post("/api/games/{game_id}/disconnect")
 async def disconnect_game(game_id: str):
     session = _get_session(game_id)
-    if session.loop.abandon():
-        career().settle(game_id, session.state)
-        await _broadcast(game_id)
+    abandoned = session.loop.abandon()
+    if _unsettled(session):  # y compris après un premier règlement refusé
+        try: career().settle(game_id, session.state)
+        except OSError:
+            raise HTTPException(503, 'Impossible d’écrire le règlement de la mission. Elle reste ouverte ; réessaie dans un instant.')
+    if abandoned: await _broadcast(game_id)
     return serialize_state(session.state)
 
 
@@ -748,7 +775,7 @@ async def workspace_terminal(req: TerminalRequest):
 async def terminal_command(game_id: str, req: TerminalRequest):
     session = _get_session(game_id)
     result = _terminal_request(session.state, req, session.loop)
-    career().checkpoint(session.state)
+    _save_session(session)
     if session.state.contract.get('onboarding') or session.state.contract.get('investigation_steps'):
         result['state'] = serialize_state(session.state)
     return result
@@ -759,7 +786,7 @@ async def close_terminal(game_id: str, console_id: str):
     session = _get_session(game_id)
     console_sessions.close(session.state, console_id)
     session.loop.cancel_console(console_id)
-    career().checkpoint(session.state)
+    _save_session(session)
     return {"status": "closed"}
 
 
@@ -817,7 +844,7 @@ async def send_chat(game_id: str, req: ChatRequest):
     # Repéré avant la vérification des objectifs, qui peut ajouter le message de fin du client.
     player_index = max((i for i, m in enumerate(session.state.messages) if m.sender == session.state.player_handle), default=len(session.state.messages) - 1)
     _resolve_observations(session.loop)
-    career().checkpoint(session.state)
+    _save_session(session)
     if reply:
         social.schedule(career(), kind="chat", target=session.state.contract["client"]["handle"], channel=req.channel,
             author=session.state.contract["client"]["handle"], text=reply,
@@ -1030,7 +1057,7 @@ async def workspace_gophish(req: GophishGuiRequest):
 async def game_gophish(game_id: str, req: GophishGuiRequest):
     session = _get_session(game_id)
     result = _gophish_gui(session.state, session.loop, req)
-    career().checkpoint(session.state)
+    _save_session(session)
     return result
 
 
@@ -1121,5 +1148,5 @@ async def bloodhound_import(game_id: str, req: BloodHoundImportRequest):
     if session.state.status!='RUNNING':raise HTTPException(409,'Ouvre le dossier de collecte avant cet import.')
     try:result=import_archive(session.state,req.path)
     except ValueError as exc:raise HTTPException(400,str(exc))
-    career().checkpoint(session.state)
+    _save_session(session)
     return result
