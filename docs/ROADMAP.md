@@ -5,7 +5,7 @@ décrit douze missions sur huit segments, les outils de transport prévus et
 l'exigence de résolution sans recherche sur Internet. La [couverture livrée](ACTE_III_COUVERTURE.md) décrit les douze dossiers
 jouables et les limites des outils et de l'infrastructure.
 
-## État courant - 0.6.0, passe narrative du 15 novembre 2026
+## État courant - 0.6.1-dev.1, passe narrative du 15 novembre 2026
 
 L’acte I courant comporte sept exercices privés, dix chapitres et sept petits
 contrats facultatifs, sans achat payant obligatoire. Les anciennes sauvegardes
