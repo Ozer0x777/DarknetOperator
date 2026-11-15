@@ -108,7 +108,7 @@ func _build() -> void:
 	var spacer: Control = Control.new()
 	spacer.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	left.add_child(spacer)
-	left.add_child(UI.label("VERSION %s  /  EN DÉVELOPPEMENT" % str(ProjectSettings.get_setting("application/config/version", "0.6.0")), 11, Color("686b75")))
+	left.add_child(UI.label("VERSION %s  /  EN DÉVELOPPEMENT" % str(ProjectSettings.get_setting("application/config/version", "0.6.1-dev.1")), 11, Color("686b75")))
 	var right: VBoxContainer = VBoxContainer.new()
 	right.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	row.add_child(right)
