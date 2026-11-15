@@ -1,0 +1,78 @@
+{
+  "type": "Aperçus de composition reconstruits depuis la scène Godot ; aucune capture GPU.",
+  "generation": "python3 scripts/preview_ui.py --only 12-plusieurs-consoles 01-bureau 72-forum-culture-1040 65-madame-tls-reponses 74-forum-profil-tls 58-bloodhound-collecte-et-relations 46-coldvault-confirmer-paiement",
+  "source_scene": "game/tests/preview_desktop.gd",
+  "renderer": "Godot (géométrie), SVG puis rsvg-convert (PNG)",
+  "views": [
+    {
+      "file": "consoles.png",
+      "view": "12-plusieurs-consoles",
+      "description": "Deux consoles indépendantes sur le bureau",
+      "dimensions": [
+        1440,
+        900
+      ],
+      "sha256": "cffce2b6d07b0ec0db8b746342273ee529d44164af7008cf4281851033e336d9"
+    },
+    {
+      "file": "bureau.png",
+      "view": "01-bureau",
+      "description": "Bureau Kali/Xfce et fond orbital",
+      "dimensions": [
+        1440,
+        900
+      ],
+      "sha256": "b813ce4fb3a8c7d15c42e3d51c49bf06ab56653a110f3f82d11fa6dcc1701478"
+    },
+    {
+      "file": "forum.png",
+      "view": "72-forum-culture-1040",
+      "description": "Forum BreachBoard : catégories, bannière et discussion",
+      "dimensions": [
+        1280,
+        720
+      ],
+      "sha256": "ef0f5fd7991d44f1ed8c78bb033ea0330059cae2c6cc04bbe1c361c33c22c01b"
+    },
+    {
+      "file": "dialogues.png",
+      "view": "65-madame-tls-reponses",
+      "description": "Madame_TLS : question et trois réponses du joueur",
+      "dimensions": [
+        1280,
+        720
+      ],
+      "sha256": "69b8736338bc2ed070a3d15382d1d658ad43f09f71420ce458907a46cc90b43b"
+    },
+    {
+      "file": "profil-madame-tls.png",
+      "view": "74-forum-profil-tls",
+      "description": "Profil de Madame_TLS et portrait carré",
+      "dimensions": [
+        1280,
+        720
+      ],
+      "sha256": "80a864e7a41d51b095533cb849b69be1e3cf430e86b374a7a2961b1c21c41fc9"
+    },
+    {
+      "file": "bloodhound.png",
+      "view": "58-bloodhound-collecte-et-relations",
+      "description": "BloodHound : objets et relations du domaine simulé",
+      "dimensions": [
+        1280,
+        720
+      ],
+      "sha256": "1074eac56295f9d2a3d592175bc10bff2bc7033e3a09de95ffc6df2fdb879c91"
+    },
+    {
+      "file": "coldvault.png",
+      "view": "46-coldvault-confirmer-paiement",
+      "description": "ColdVault : validation du paiement sur l’appareil simulé",
+      "dimensions": [
+        1280,
+        720
+      ],
+      "sha256": "00e70572e629241b33de66e2ec714e4a7ae8f17c11a4fa095c995522dfd942b7"
+    }
+  ]
+}

@@ -3,12 +3,42 @@
 Jeu solo pour PC : bureau natif inspiré de Kali/Xfce, terminal, contrats,
 progression et rapport des détections sur les cibles. Version de développement **0.6.0**.
 
-Le projet RedVsBlue reste indépendant dans son propre dossier.
+[Télécharger la version main](https://github.com/Ozer0x777/DarknetOperator/releases/latest) · [Préversion dev](https://github.com/Ozer0x777/DarknetOperator/releases/tag/v0.6.1-dev.1) · [Guide des commandes](docs/COMMANDES.md)
+
+Pour jouer sous Linux x86_64 : télécharger le ZIP, l’extraire entièrement puis
+lancer `./Jouer.sh`. Python et Godot sont inclus dans l’archive portable.
+
+![Darknet Operator : bureau orbital et consoles indépendantes](docs/screenshots/consoles.png)
+
+## Aperçus du jeu
+
+Chaque image s’ouvre en grand au clic. Aperçus de composition reconstruits depuis
+l’interface Godot avec des profils fictifs ; ce ne sont pas des captures GPU.
+
+<table>
+  <tr>
+    <td width="50%"><strong>Forums et communauté</strong><br><a href="docs/screenshots/forum.png"><img src="docs/screenshots/forum.png" alt="Forums et communauté dans Darknet Operator" width="600"></a></td>
+    <td width="50%"><strong>Conversations à choix</strong><br><a href="docs/screenshots/dialogues.png"><img src="docs/screenshots/dialogues.png" alt="Conversations à choix dans Darknet Operator" width="600"></a></td>
+  </tr>
+  <tr>
+    <td width="50%"><strong>Profils et personnages</strong><br><a href="docs/screenshots/profil-madame-tls.png"><img src="docs/screenshots/profil-madame-tls.png" alt="Profils et personnages dans Darknet Operator" width="600"></a></td>
+    <td width="50%"><strong>Analyse des relations</strong><br><a href="docs/screenshots/bloodhound.png"><img src="docs/screenshots/bloodhound.png" alt="Analyse des relations dans Darknet Operator" width="600"></a></td>
+  </tr>
+  <tr>
+    <td width="50%"><strong>Bureau et ambiance</strong><br><a href="docs/screenshots/bureau.png"><img src="docs/screenshots/bureau.png" alt="Bureau et ambiance dans Darknet Operator" width="600"></a></td>
+    <td width="50%"><strong>Portefeuille ColdVault</strong><br><a href="docs/screenshots/coldvault.png"><img src="docs/screenshots/coldvault.png" alt="Portefeuille ColdVault dans Darknet Operator" width="600"></a></td>
+  </tr>
+</table>
+
+Les commandes restent dans le monde simulé du jeu. Les documents techniques et
+les indices sont accessibles depuis le bureau.
+
+[Origine et régénération des images](docs/screenshots/README.md).
 
 ## Jouer depuis les sources
 
 Prérequis : **Godot 4 standard**, Python 3 et les dépendances du moteur.
-L'environnement Python est déjà préparé sur cette machine.
+Installe les dépendances du moteur avec les commandes ci-dessous.
 
 ```bash
 cd DarknetOperator
@@ -57,17 +87,6 @@ reproduite en complément de son API en ligne de commande.
 haut et bas parcourent l'historique. **Super+E** ouvre les fichiers, **Super+W** le
 navigateur, **Super+D** affiche le bureau, **Alt+Tab** change de fenêtre et
 **Ctrl+Alt+←/→** change d'espace de travail.
-
-## Voir les interfaces
-
-La [galerie locale](build/ui-previews/index.html) présente les vues de composition :
-bureau, menu, trois messageries, index et sujets de forum, terminal, ainsi que
-les dispositions compactes de 600 px et la rédaction multiligne. Elles sont
-reconstruites depuis la géométrie de la scène Godot et ne sont pas des captures GPU.
-
-Pour les régénérer : `python3 scripts/preview_ui.py`. Les SVG sont autonomes ;
-la conversion PNG utilise `rsvg-convert` lorsqu'il est installé. Les ressources
-visuelles et leurs licences sont décrites dans [game/assets/CREDITS.md](game/assets/CREDITS.md).
 
 ## Plusieurs consoles et découverte des outils
 
@@ -135,9 +154,10 @@ Voir [docs/VERIFICATION.md](docs/VERIFICATION.md) pour les résultats et leurs l
 - `packaging/` : dépendances de construction et notice du paquet.
 
 L'architecture retenue conserve le moteur Python testé et utilise Godot pour le
-bureau et la distribution PC. Le paquet prévoit un moteur autonome : le joueur
-n'aura pas à installer Python. La construction de ce paquet n'a pas encore pu
-être validée ici ; voir [docs/STEAM.md](docs/STEAM.md).
+bureau et la distribution PC. La distribution Linux portable embarque Python
+et Godot ; sa construction et ses tests sont décrits dans
+[docs/PAQUET_LINUX.md](docs/PAQUET_LINUX.md). L’export Godot/PyInstaller reste
+un chemin distinct, décrit dans [docs/STEAM.md](docs/STEAM.md).
 
 Le prototype web a été retiré : le jeu se lance uniquement avec `./run.sh`.
 Un verrou empêche deux moteurs de modifier simultanément le même dossier de sauvegarde.
