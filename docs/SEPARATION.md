@@ -12,8 +12,10 @@ RedVsBlue reprend la base Red/Blue du commit
 RedTeamSimulator reprend les sources de travail du jeu solo présentes au moment
 de la séparation, avec les modifications non enregistrées.
 
-Les deux dépôts conservent l'historique commun antérieur à la séparation.
-Ils n'ont aucun remote entre eux et évoluent séparément. Les moteurs sont des
+RedVsBlue conserve l'historique commun antérieur à la séparation. Depuis le
+15 novembre 2026, l'historique de RedTeamSimulator commence au premier commit du
+jeu solo : les deux commits du prototype à deux équipes en ont été retirés.
+Les dépôts n'ont aucun remote entre eux et évoluent séparément. Les moteurs sont des
 copies indépendantes : une évolution dans un projet ne modifie pas l'autre.
 
 ## Sauvegarde
