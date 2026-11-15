@@ -52,7 +52,48 @@ def view(data):
         public = decision == 'publication'
         previous = relations.get('bytewarden', {}).get('detail', '')
         relations['bytewarden'] = dict(label='Preuves publiques assumées' if public else 'Médiation de confiance', detail=('Tu as choisi une résolution publique fondée sur les deux pièces.' if public else 'Tu as confié les deux pièces à la modération sans publier ton intervention.') + (' '+previous if previous else ''))
+    from .conversation_scenes import bonds
+    labels = {'professionnel': 'Lien professionnel choisi', 'amitie': 'Lien amical choisi',
+              'attirance': 'Attirance partagée', 'rivalite_amicale': 'Rivalité amicale',
+              'reserve': 'Distance préservée', 'dialogue': 'Dialogue ouvert', 'exigeant': 'Franchise assumée',
+              'humour': 'Complicité', 'complicite': 'Complicité'}
+    for peer, bond in bonds(data).items():
+        relation = relations.setdefault(peer, dict(label='Premiers échanges', detail='Tes réponses de conversation sont conservées.'))
+        relation['bond'] = bond
+        if bond.get('stance') in labels:
+            previous_detail = relation['detail'] if peer in relations and relation['label'] != 'Premiers échanges' else ''
+            relation.update(label=labels[bond['stance']], detail='Tu as choisi la nature de ce lien. Tu pourras la préciser lors des prochaines conversations.' + (' ' + previous_detail if previous_detail else ''))
     return relations
+
+
+def conversation_reply(data, peer, text):
+    """Rappelle une décision réellement prise, dans la voix du personnage.
+
+    Les libellés de la fiche relation restent à l'interface. Une conversation
+    ne doit pas sonner comme une lecture de cette fiche.
+    """
+    from .dialogue import intent
+    topic = intent(text)
+    if topic not in {'trust', 'dispute', 'unknown'}:
+        return None
+    if topic == 'unknown' and 'af-26-118' not in text.casefold():
+        return None
+    choices = data.get('choices', {})
+    decision = choices.get('contretemps', '')
+    if peer == 'miette' and decision and topic == 'trust':
+        return ('Je repense à Cobalt. Tu as vérifié avant de demander la correction. '
+                'J’aurais aimé avoir ce réflexe sans ton aide.' if decision.endswith('_signaler') else
+                'Pour Cobalt, tu as tenu la remise en privé. Je sais pourquoi on l’a fait. '
+                'Je me demande encore si on aurait dû prévenir les autres, ça ne veut pas dire que je t’en veux.')
+    if peer == 'bytewarden' and choices.get('litige118'):
+        return ('Sur le 118, tu as publié les deux pièces. Ça m’a mis dans une position difficile, '
+                'mais je ne vais pas te demander de regretter une comparaison juste.'
+                if choices['litige118'] == 'publication' else
+                'Tu m’as confié les pièces du 118 sans les publier. Je garde cette intervention privée. '
+                'Ta recommandation ne dépend pas de changer ce choix.')
+    if peer == 'nullroute' and 'mauvaise_adresse' in data.get('completed', []):
+        return 'Mon tableau Aquila était faux. Tu l’as dit avant de livrer sur la mauvaise cible. Ça m’a vexé sur le moment. Je préfère ça à quelqu’un qui me laisse me planter.'
+    return None
 
 
 def record(career, state):

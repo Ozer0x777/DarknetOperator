@@ -134,6 +134,7 @@ class Career:
         from . import community, wallet, journey
         from .relationships import view as relationships
         from .act2 import view as act2_summary
+        from .act3 import view as act3_summary
         access = community.access(self.data)
         wallet.ensure(self.data)
         active = self.data.get("active") or {}
@@ -146,7 +147,7 @@ class Career:
                 "tick": active.get("tick", 0), "max_ticks": active.get("max_ticks", 0)}
         return {**copy.deepcopy({k: v for k, v in self.data.items() if k not in {"active", "settled", "conversations", "forum_posts", "workspace", "social"}}),
             "forum_counts": {key: len(posts) for key, posts in self.data.get("forum_posts", {}).items()},
-            "act2": act2_summary(self.data), "relationships": relationships(self.data), "has_active": running, "active_contract": active_contract, "recovery_required": self.needs_recovery, "forum_unlocked": forum_unlocked(self.data), "campaign": campaign_summary(self.data), "access": access, "wallet": wallet.view(self), "journey": journey.view(self.data)}
+            "act2": act2_summary(self.data), "act3": act3_summary(self.data), "relationships": relationships(self.data), "has_active": running, "active_contract": active_contract, "recovery_required": self.needs_recovery, "forum_unlocked": forum_unlocked(self.data), "campaign": campaign_summary(self.data), "access": access, "wallet": wallet.view(self), "journey": journey.view(self.data)}
 
     def lock_reason(self, contract: dict) -> str:
         from .onboarding import lock_reason
@@ -154,6 +155,9 @@ class Career:
         if reason: return reason
         from .campaign import lock_reason as campaign_lock, enabled as act1_enabled
         from .act2 import lock_reason as act2_lock
+        from .act3 import lock_reason as act3_lock
+        reason = act3_lock(self.data,contract)
+        if reason: return reason
         reason = act2_lock(self.data,contract)
         if reason: return reason
         reason = campaign_lock(self.data,contract)
@@ -275,6 +279,8 @@ class Career:
 
     def checkpoint(self, state) -> None:
         from .persistence import state_to_dict
+        from .conversation_scenes import provision_files
+        provision_files(state, self.data)
         if not state.conversation_id:
             import uuid
             state.conversation_id = uuid.uuid4().hex
@@ -349,6 +355,8 @@ class Career:
         if state.contract_outcome == "SUCCESS" and first_success:
             from .campaign import settle as settle_campaign
             settle_campaign(self,state)
+            from .act3 import settle as settle_act3
+            settle_act3(self,state)
         from . import journey
         journey.record(self, state, game_id, first_success)
         self.checkpoint(state)

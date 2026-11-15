@@ -15,15 +15,15 @@
     "title": "04 - Derrière le serveur",
     "body": "Identifie le réseau que voit ORBE-RELAIS et le service du portail interne. Ne confonds pas connaître une adresse et pouvoir y accéder depuis Kali."
   },
-  "brief": "Identifie le réseau que voit ORBE-RELAIS et le service du portail interne. Ne confonds pas connaître une adresse et pouvoir y accéder depuis Kali.\n\nLes pièces sont dans ~/mission. Écris indice pour une piste ou rappel détaillé pour les commandes de ce dossier. Aucun achat de matériel requis.",
+  "brief": "Identifie le réseau que voit ORBE-RELAIS et le service du portail interne. Ne confonds pas connaître une adresse et pouvoir y accéder depuis Kali.\n\nVoilà le point de départ. On vérifie le trajet avant de conclure.\n\nLes pièces sont dans ~/mission. Écris indice pour une piste ou rappel détaillé pour les commandes de ce dossier. Aucun achat de matériel requis.",
   "reward": 300,
   "reputation": 20,
   "required_items": [],
   "required_completed": [
     "act2_polkit"
   ],
-  "success_message": "Preuves vérifiées. {reward} ₵ réglés dans ColdVault ; tes choix sont conservés.",
-  "failure_message": "Dossier interrompu, sans prime. Les accès acquis et les observations sauvegardées restent disponibles pour une reprise.",
+  "success_message": "On sait ce qui répond et depuis où. Parfait, je peux préparer le passage avec autre chose qu’un dessin optimiste. La prime annoncée est de {reward} ₵ ; le règlement exact figure dans ColdVault.",
+  "failure_message": "Le passage n’a pas tenu jusqu’au résultat. Garde le débriefing, on saura au moins depuis où reprendre les vérifications au prochain essai.",
   "guide": [],
   "investigation_steps": [
     {
@@ -47,8 +47,8 @@
           "host": "bridge"
         }
       ],
-      "response": "Le réseau interne est confirmé depuis son point de vue.",
-      "already": "Cette preuve est déjà enregistrée.",
+      "response": "Le réseau interne est confirmé depuis la machine qui le voit. Là on a un point de départ utile pour préparer le passage.",
+      "already": "Oui, reçu. On garde ce point de départ pour la suite.",
       "missing": "Vérifie les observations et la version des pièces ; demande indice si nécessaire.",
       "hint": "Ouvre SSH vers le relais. Dans la session : `ip addr`, `ip route`, `ss -lntp`, `cat /home/ops/reseau.txt`. Confirme le réseau 10.72.0.0/24 dans ton rapport.",
       "hints": [
@@ -64,7 +64,12 @@
     "/home/operator/mission/brief-act2.txt": "Identifie le réseau que voit ORBE-RELAIS et le service du portail interne. Ne confonds pas connaître une adresse et pouvoir y accéder depuis Kali.\n"
   },
   "private_offer": true,
-  "intro": "Identifie le réseau que voit ORBE-RELAIS et le service du portail interne. Ne confonds pas connaître une adresse et pouvoir y accéder depuis Kali. Ouvre le dossier pour recevoir les pièces ; les échanges se font ici, sur Telegrid.",
+  "intro": "Traverse. Cendre m’a passé le relais. On va regarder ce qui répond vraiment depuis chaque origine, pas ce que le schéma promet. Les adresses et les pièces arrivent avec le dossier. Garde Telegrid ouvert si tu as une question.",
   "relaxed_clock": true,
-  "terminal_revision": 1
+  "terminal_revision": 1,
+  "dialogue": {
+    "greeting": "Salut ! Je venais de quitter le terminal. Deux minutes, je suis à toi.",
+    "ack": "Ça marche. Et merci d’avoir dit d’où venait le problème, on s’épargne un tour.",
+    "fallback": "Tu m’as perdu. Reprends juste le point qui te gêne."
+  }
 }

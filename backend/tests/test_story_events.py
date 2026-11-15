@@ -92,8 +92,9 @@ def test_contact_who_writes_first_does_not_greet_twice(tmp_path):
     social.advance(career, 1)
     social.queue_chat(career, 'chordly', 'Madame_TLS', 'NightShift', 'Bonjour')
     _wait(career, 24 * 60)
-    hers = [m['text'] for m in career.data['conversations'].values() if m.get('peer') == 'Madame_TLS' and m.get('sender') == 'Madame_TLS']
+    hers = [m['text'] for m in career.data['conversations'].values() if m.get('peer') == 'Madame_TLS' and m.get('sender') == 'Madame_TLS' and not m.get('scene_id')]
     assert len(hers) == 2 and sum(text.startswith('Bonjour') for text in hers) == 1
+    assert career.data['social']['scenes']['active']['Madame_TLS'] == 'tls-premier-lien'
 
 
 def test_older_save_receives_overdue_messages_spread_out_and_in_order(tmp_path):

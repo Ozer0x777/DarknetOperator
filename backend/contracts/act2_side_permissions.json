@@ -22,8 +22,8 @@
   "required_completed": [
     "act2_compte"
   ],
-  "success_message": "Preuves vérifiées. {reward} ₵ réglés dans ColdVault ; tes choix sont conservés.",
-  "failure_message": "Dossier interrompu, sans prime. Les accès acquis et les observations sauvegardées restent disponibles pour une reprise.",
+  "success_message": "Les droits sont vérifiés. Merci, je n’aimais pas laisser cette ligne de la passation sans contrôle. La prime annoncée est de {reward} ₵ ; le règlement exact figure dans ColdVault.",
+  "failure_message": "On s’arrête ici. Je préfère garder ce qu’on a vraiment observé plutôt que compléter de mémoire. Relis le débriefing avant de retenter.",
   "guide": [],
   "investigation_steps": [
     {
@@ -42,8 +42,8 @@
           "key": "system:bridge:sudo"
         }
       ],
-      "response": "Contre-vérification reçue.",
-      "already": "Cette preuve est déjà enregistrée.",
+      "response": "Les droits sont vérifiés. Merci, je n’aimais pas laisser cette ligne de la passation sans contrôle.",
+      "already": "Je l’ai conservé avec les pièces. Pas besoin de refaire cette vérification pour moi.",
       "missing": "Vérifie les observations et la version des pièces ; demande indice si nécessaire.",
       "hint": "`ssh ops@10.71.1.10`, saisis le résultat de la passation. Dans la session : `id`, `uname -a`, `sudo -l`, `cat /home/ops/README.txt`. Depuis une console Kali : `scp ops@10.71.1.10:/srv/exports/CT-26-201.txt ~/loot/compte.txt`, puis lis ta copie et confirme CT-26-201. Puis confirme « rapport act2_side_permissions ».",
       "hints": [
@@ -59,8 +59,13 @@
     "/home/operator/mission/brief-act2.txt": "Teste le compte ops sur 10.71.1.10. Vérifie identité, version du système et droits, puis récupère seulement CT-26-201 dans ~/loot.\n"
   },
   "private_offer": true,
-  "intro": "Contre-vérification ciblée, après act2_compte. Réutilise les commandes déjà rencontrées, puis confirme « rapport act2_side_permissions ». Aucun nouveau logiciel requis.",
+  "intro": "J’ai un doute sur les permissions annoncées. Pas un gros dossier, mais j’aimerais qu’il soit vérifié aussi soigneusement que les autres. Pièces et consigne sur Telegrid.",
   "relaxed_clock": true,
   "terminal_revision": 1,
-  "side_job": true
+  "side_job": true,
+  "dialogue": {
+    "greeting": "Salut. J’avais gardé le fil ouvert au cas où tu repassais.",
+    "ack": "Merci à toi d’avoir attendu. Je sais que je peux être lent.",
+    "fallback": "Je relis et je ne suis pas certain de comprendre. On reprend depuis quel point ?"
+  }
 }

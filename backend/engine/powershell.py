@@ -30,6 +30,9 @@ def parse(line: str, state: GameState):
     if not words: return TerminalResult(True)
     command = ALIASES.get(words[0].casefold(), words[0].casefold())
     args = words[1:]
+    from .endpoint_tools import parse as parse_endpoint
+    endpoint = parse_endpoint(command, args, state)
+    if endpoint is not None: return endpoint
     if command == 'exit' and not args:
         leave(state)
         return TerminalResult(True)
@@ -44,7 +47,7 @@ def parse(line: str, state: GameState):
     if command == 'write-output':
         return TerminalResult(True, [re.sub(r'\$env:([\w]+)', lambda m: state.terminal_env.get(m[1].upper(), ''), ' '.join(args), flags=re.I)])
     if command in {'get-help', 'get-command'}:
-        names = ['Get-ChildItem', 'Get-Content', 'Set-Location', 'Get-Location', 'Test-Path', 'Copy-Item', 'Get-Process', 'Get-Service', 'Write-Output', 'Test-NetConnection', 'Get-HotFix', 'Get-CimInstance', 'Get-Acl']
+        names = ['Get-MpComputerStatus', 'Get-MpPreference', 'Set-MpPreference', 'Get-WinEvent', 'Get-ChildItem', 'Get-Content', 'Set-Location', 'Get-Location', 'Test-Path', 'Copy-Item', 'Get-Process', 'Get-Service', 'Write-Output', 'Test-NetConnection', 'Get-HotFix', 'Get-CimInstance', 'Get-Acl']
         if len(args) != 1: return TerminalResult(False, [f'{command} : Specify one command name.'])
         found = next((name for name in names if name.casefold() == ALIASES.get(args[0].casefold(), args[0].casefold())), None)
         if not found: return TerminalResult(False, ['Get-Command : The term is not recognized as the name of a cmdlet.'])

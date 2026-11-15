@@ -16,7 +16,12 @@ OUTPUT=ROOT/'build/ui-previews'
 godot=os.environ.get('GODOT') or shutil.which('godot') or shutil.which('godot4')
 if not godot: raise SystemExit('Godot 4 est requis pour construire les aperçus.')
 subprocess.run([os.environ.get('PYTHON', str(ROOT/'backend/.venv/bin/python')), str(ROOT/'backend/export_world_preview.py'), str(ROOT/'build/validation/social-preview.json')], check=True)
-result=subprocess.run([godot,'--headless','--path',str(ROOT/'game'),'--script','tests/preview_desktop.gd','--','--offline-test'],capture_output=True,text=True,timeout=45)
+try:
+    result=subprocess.run([godot,'--headless','--path',str(ROOT/'game'),'--script','tests/preview_desktop.gd','--','--offline-test'],capture_output=True,text=True,timeout=60)
+except subprocess.TimeoutExpired as error:
+    for value in (error.stdout, error.stderr):
+        if value: print(value.decode(errors='replace') if isinstance(value, bytes) else value)
+    raise SystemExit('Le rendu Godot dépasse 60 secondes ; voir les derniers messages ci-dessus.')
 print(result.stdout,end='')
 if result.returncode or 'ERROR:' in result.stderr:
     raise SystemExit(result.stderr or result.returncode)
@@ -54,7 +59,7 @@ def render(path):
                 parts.append(f'<defs><clipPath id="avatar{index}"><ellipse cx="{x+w/2}" cy="{y+h/2}" rx="{w/2}" ry="{h/2}"/></clipPath></defs><g clip-path="url(#avatar{index})">')
             if node.get('atlas_region'):
                 ax,ay,aw,ah=node['atlas_region']
-                parts.append(f'<svg x="{x}" y="{y}" width="{w}" height="{h}" viewBox="{ax} {ay} {aw} {ah}" preserveAspectRatio="xMidYMid meet"><image href="{image_data(node["image"])}" width="{node["atlas_size"][0]}" height="{node["atlas_size"][1]}"/></svg>')
+                parts.append(f'<svg x="{x}" y="{y}" width="{w}" height="{h}" viewBox="{ax} {ay} {aw} {ah}" preserveAspectRatio="xMidYMid {"slice" if node.get("cover") else "meet"}"><image href="{image_data(node["image"])}" width="{node["atlas_size"][0]}" height="{node["atlas_size"][1]}"/></svg>')
             else:
                 parts.append(f'<image href="{image_data(node["image"])}" x="{x}" y="{y}" width="{w}" height="{h}" preserveAspectRatio="xMidYMid {"slice" if node.get("cover") else "meet"}"/>')
         if node.get('image') and node.get('round_avatar'): parts.append('</g>')

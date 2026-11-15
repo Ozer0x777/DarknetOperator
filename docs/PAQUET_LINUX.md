@@ -13,7 +13,7 @@ utilisés ; aucun téléchargement n’est effectué.
 
 ```bash
 backend/.venv/bin/python scripts/build_portable_linux.py --no-zip
-build/portable-linux/DarknetOperator-0.5.4-dev-Linux-x86_64/Verifier.sh
+build/portable-linux/DarknetOperator-0.6.0-Linux-x86_64/Verifier.sh
 backend/.venv/bin/python scripts/build_portable_linux.py --zip-existing
 ```
 
@@ -63,3 +63,23 @@ L’album YouTube demandé n’est pas inclus : sa récupération est bloquée p
 
 Le paquet comporte `Verifier.sh` et un mode `--headless --smoke-test` pour refaire
 ces vérifications sans toucher à la carrière du joueur.
+
+
+## Distribution 0.6.0 — 15 novembre 2026
+
+- Sources : 500 tests moteur et 35/35 contrôles API/Godot réussis.
+- Démarrage Linux portable sans affichage : API HTTP sur 127.0.0.1, ouverture
+  du menu Godot puis arrêt des processus réussis avec une sauvegarde temporaire.
+- Le vérificateur embarqué couvre désormais aussi les douze missions de l’acte
+  III, l’arc TLS, les choix et les profils de forum. Ses corpus sont produits
+  dans un dossier temporaire ; ils ne supposent pas un checkout du dépôt.
+- L’assemblage sélectionne les ressources distribuables selon Git ; l’album
+  local et ses imports sont exclus. Le manifeste de titres reste fourni pour
+  permettre l’import facultatif par le joueur.
+- Les archives de `main` et `dev` possèdent leur empreinte SHA-256 et un fichier
+  `VALIDATION.txt` avec les résultats propres au paquet.
+
+Le test sans affichage ne remplace pas une partie graphique native sur d’autres
+distributions. Les limites Steam et Steam Deck restent inchangées. Les blocages
+de sockets mentionnés dans le bilan historique ci-dessus ne s’appliquent pas
+au test HTTP local réalisé pour cette version.

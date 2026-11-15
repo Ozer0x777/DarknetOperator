@@ -31,8 +31,9 @@
   "reputation": 0,
   "terminal_revision": 6,
   "dialogue": {
-    "greeting": "Salut {handle}. Je suis là. On garde un objectif à la fois. Dis-moi ce qui te bloque.",
-    "ack": "Reçu. Prends le temps de vérifier le résultat avant d’enchaîner."
+    "greeting": "Salut {handle}. Je finis un compte rendu. Qu’est-ce qu’il y a ?",
+    "ack": "Garde tes remerciements pour quand tu sauras refaire sans moi. Mais oui, j’ai lu.",
+    "fallback": "Je ne suis pas sûr de ce que tu me demandes. Tu peux préciser ?"
   },
   "hints": [
     "Commence par le site www.ravelle-associes.fr : `host` donne son adresse, curl affiche ses pages.",
@@ -69,9 +70,9 @@
         "Le site donne les chemins des mentions, des archives et des documents actuels. Une copie dans ~/loot doit être relue."
       ],
       "hint": "Dans Kali : `curl http://www.ravelle-associes.fr/mentions.txt`, puis `curl -o ~/loot/ravelle.txt http://www.ravelle-associes.fr/documents/RAV-26-001.txt` et `cat ~/loot/ravelle.txt`. Quand c’est fait, écris-moi `livraison RAV-26-001`.",
-      "response": "L’identité du cabinet et le mandat courant sont vérifiés. Je réponds de cette première livraison.",
+      "response": "Le cabinet et le mandat courant sont vérifiés. C’est le travail que j’attendais, je peux répondre de cette première livraison.",
       "missing": "Il manque une observation vérifiable avant la livraison : lis les mentions du site, enregistre le mandat dans ~/loot et relis-le, puis écris de nouveau livraison RAV-26-001. Écris aide pour l’étape suivante.",
-      "already": "Cette étape est déjà enregistrée."
+      "already": "Oui, j’ai gardé cette vérification. Tu peux passer à la suite."
     }
   ]
 }

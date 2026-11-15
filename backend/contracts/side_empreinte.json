@@ -17,8 +17,8 @@
   "reward": 70,
   "reputation": 0,
   "required_items": [],
-  "success_message": "Livraison vérifiée. {reward} ₵ annoncés au contrat ; le règlement exact figure dans ton profil. Merci {handle}, je conserve tes preuves.",
-  "failure_message": "Dossier interrompu. Reprends une sauvegarde ou relance le contrat pour retenter le parcours.",
+  "success_message": "La sortie est vérifiée. Bon, on a une vraie réponse avec cette liste, pas un pari sur le GPU. La prime annoncée est de {reward} ₵ ; le règlement exact figure dans ColdVault.",
+  "failure_message": "On n’a pas fini, d’accord. Je préfère qu’on s’arrête là plutôt que d’envoyer quelque chose dont on doute. On pourra retenter le dossier.",
   "guide": [],
   "investigation_steps": [
     {
@@ -38,9 +38,9 @@
           "value": "356a3a41e5e3695eb6e75d7385155d2f:MiniLab2026!"
         }
       ],
-      "response": "Résultat conforme au bon de travail. Le paiement de ce petit contrat est enregistré.",
+      "response": "La sortie est vérifiée. Bon, on a une vraie réponse avec cette liste, pas un pari sur le GPU.",
       "missing": "Il manque une observation vérifiable. Une commande possible : `sha256sum ~/mission/entree.txt > ~/loot/resultat.txt`, puis envoie livraison empreinte.",
-      "already": "Cette étape est déjà enregistrée.",
+      "already": "Oui, je l’ai ! Pas besoin de me le renvoyer, je garde ton premier rapport.",
       "hint": "hashcat -m 1000 entree.txt candidats.txt calcule ; --show restitue les correspondances du potfile. Utilise les chemins ~/mission puis redirige --show vers ~/loot/resultat.txt.",
       "hints": [
         "Relis le bon et les pièces fournies pour identifier le résultat attendu.",
@@ -63,7 +63,7 @@
     "act1-boreal"
   ],
   "private_offer": false,
-  "intro": "On m’a recommandé ton pseudo. Vérifier une empreinte : les pièces sont fournies. Paiement unique, aucun effet sur l’ordre des chapitres. Ouvre le dossier pour recevoir les pièces ; la suite se passe dans notre conversation Chordly.",
+  "intro": "J’ai une empreinte NTLM et une petite liste de candidats. Je veux juste voir s’il y a une correspondance, pas te faire acheter une carte. Les pièces sont dans le dossier sur Chordly.",
   "relaxed_clock": true,
   "side_job": true,
   "required_completed": [
@@ -73,5 +73,10 @@
     "hashcat -m 1000 ~/mission/entree.txt ~/mission/candidats.txt",
     "hashcat -m 1000 --show ~/mission/entree.txt > ~/loot/resultat.txt"
   ],
-  "terminal_revision": 1
+  "terminal_revision": 1,
+  "dialogue": {
+    "greeting": "Hey ! J’étais justement en train de faire semblant de comprendre un tableau. Tu me sauves quelques minutes.",
+    "ack": "De rien ! Enfin, si ça t’a servi. J’ai toujours peur d’expliquer de travers.",
+    "fallback": "Je crois que j’ai compris la moitié. Tu me redis autrement ?"
+  }
 }

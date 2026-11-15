@@ -22,8 +22,8 @@
   "required_completed": [
     "act2_lateral"
   ],
-  "success_message": "Preuves vérifiées. {reward} ₵ réglés dans ColdVault ; tes choix sont conservés.",
-  "failure_message": "Dossier interrompu, sans prime. Les accès acquis et les observations sauvegardées restent disponibles pour une reprise.",
+  "success_message": "Correctifs vérifiés. Merci pour le second regard, je préfère comparer maintenant que découvrir l’écart pendant une reprise. La prime annoncée est de {reward} ₵ ; le règlement exact figure dans ColdVault.",
+  "failure_message": "On n’a pas livré cette fois. Je garde le débriefing, on verra ce qu’il faut revoir avant un nouvel essai.",
   "guide": [],
   "investigation_steps": [
     {
@@ -42,8 +42,8 @@
           "key": "system:archive:get-hotfix"
         }
       ],
-      "response": "Contre-vérification reçue.",
-      "already": "Cette preuve est déjà enregistrée.",
+      "response": "Correctifs vérifiés. Merci pour le second regard, je préfère comparer maintenant que découvrir l’écart pendant une reprise.",
+      "already": "J’ai déjà la passation. Je reprends celle qu’on a vérifiée.",
       "missing": "Vérifie les observations et la version des pièces ; demande indice si nécessaire.",
       "hint": "Dans la session Windows : `systeminfo`, `powershell`, puis `Get-HotFix`. Confirme rapport act2_side_correctifs.",
       "hints": [
@@ -61,8 +61,13 @@
     "/home/operator/mission/brief-act2.txt": "Vérifie si le compte de sauvegarde obtenu permet une session sur ORBE-ARCHIVE 10.71.2.30. Contrôle le contexte Windows, les correctifs et le fichier OR-26-208. Livre seulement ce fichier.\n"
   },
   "private_offer": true,
-  "intro": "Comparer le build et les correctifs visibles sur ORBE-ARCHIVE. Un numéro de version seul ne suffit pas.",
+  "intro": "J’aimerais un second regard sur des correctifs. Tu as la consigne et les pièces dans le dossier. Si tu le prends, je reste sur Telegrid.",
   "relaxed_clock": true,
   "terminal_revision": 1,
-  "side_job": true
+  "side_job": true,
+  "dialogue": {
+    "greeting": "Salut. Tu viens pour le dossier ou tu fais une pause aussi ?",
+    "ack": "Merci de m’avoir tenu au courant. Ça change beaucoup de choses de ne pas attendre dans le vide.",
+    "fallback": "Je préfère te demander : qu’est-ce que tu attends de moi là-dessus ?"
+  }
 }

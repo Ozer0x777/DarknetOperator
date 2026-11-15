@@ -15,15 +15,15 @@
     "title": "06 - Le réseau du prestataire",
     "body": "Consulte l’annuaire orbe.lab au contrôleur 10.71.2.10 avec le compte audit. Prépare une collecte SharpHound depuis ORBE-POSTE 10.71.2.21, récupère l’archive et examine ses relations dans BloodHound."
   },
-  "brief": "Consulte l’annuaire orbe.lab au contrôleur 10.71.2.10 avec le compte audit. Prépare une collecte SharpHound depuis ORBE-POSTE 10.71.2.21, récupère l’archive et examine ses relations dans BloodHound.\n\nLes pièces sont dans ~/mission. Écris indice pour une piste ou rappel détaillé pour les commandes de ce dossier. Aucun achat de matériel requis.",
+  "brief": "Consulte l’annuaire orbe.lab au contrôleur 10.71.2.10 avec le compte audit. Prépare une collecte SharpHound depuis ORBE-POSTE 10.71.2.21, récupère l’archive et examine ses relations dans BloodHound.\n\nGardons les pièces à portée, on va devoir relier les observations.\n\nLes pièces sont dans ~/mission. Écris indice pour une piste ou rappel détaillé pour les commandes de ce dossier. Aucun achat de matériel requis.",
   "reward": 360,
   "reputation": 20,
   "required_items": [],
   "required_completed": [
     "act2_pivot"
   ],
-  "success_message": "Preuves vérifiées. {reward} ₵ réglés dans ColdVault ; tes choix sont conservés.",
-  "failure_message": "Dossier interrompu, sans prime. Les accès acquis et les observations sauvegardées restent disponibles pour une reprise.",
+  "success_message": "Collecte relue et relations vérifiées. Merci d’avoir gardé les pièces derrière le graphe. Je suis plus tranquille avec ça qu’avec une flèche toute seule. La prime annoncée est de {reward} ₵ ; le règlement exact figure dans ColdVault.",
+  "failure_message": "Je ne valide pas avec les éléments qu’on a. Le débriefing nous aidera à reprendre sans transformer une hypothèse en fait.",
   "guide": [],
   "investigation_steps": [
     {
@@ -46,8 +46,8 @@
           "key": "bloodhound:import"
         }
       ],
-      "response": "Collecte et analyse reçues ; les relations du graphe restent à vérifier sur les machines.",
-      "already": "Cette preuve est déjà enregistrée.",
+      "response": "Collecte reçue, analyse relue. Les relations donnent des pistes. Il reste à vérifier leurs effets sur les machines, je ne veux pas confondre ça avec un accès acquis.",
+      "already": "J’ai cette pièce. Il n’est pas nécessaire de refaire la collecte pour la renvoyer.",
       "missing": "Vérifie les observations et la version des pièces ; demande indice si nécessaire.",
       "hint": "LDAP : `ldapsearch -x -H ldap://10.71.2.10 -D audit@orbe.lab -W -b \"DC=orbe,DC=lab\" \"(objectClass=*)\"`. Le secret audit est dans ~/mission/acces.txt. Transfère ~/tools/sharphound.exe vers C:/Users/audit/sharphound.exe par SCP puis ouvre SSH audit@10.71.2.21. Lance `C:\\Users\\audit\\sharphound.exe --CollectionMethods Group,ObjectProps --OutputDirectory C:\\Users\\audit --ZipFileName orbe.zip`. Récupère C:/Users/audit/orbe.zip dans ~/loot, importe-la dans BloodHound puis confirme OR-AD-206.",
       "hints": [
@@ -64,7 +64,12 @@
     "/home/operator/mission/brief-act2.txt": "Consulte l’annuaire orbe.lab au contrôleur 10.71.2.10 avec le compte audit. Prépare une collecte SharpHound depuis ORBE-POSTE 10.71.2.21, récupère l’archive et examine ses relations dans BloodHound.\n"
   },
   "private_offer": true,
-  "intro": "Consulte l’annuaire orbe.lab au contrôleur 10.71.2.10 avec le compte audit. Prépare une collecte SharpHound depuis ORBE-POSTE 10.71.2.21, récupère l’archive et examine ses relations dans BloodHound. Ouvre le dossier pour recevoir les pièces ; les échanges se font ici, sur Telegrid.",
+  "intro": "Bonjour, Iris. On va regarder l’annuaire orbe.lab avec audit sur 10.71.2.10, puis la collecte SharpHound depuis ORBE-POSTE, 10.71.2.21. Je veux qu’on puisse expliquer les relations du graphe, pas seulement afficher une image. Pièces au dossier, échanges sur Telegrid.",
   "relaxed_clock": true,
-  "terminal_revision": 1
+  "terminal_revision": 1,
+  "dialogue": {
+    "greeting": "Bonjour. Je termine une note, je te lis.",
+    "ack": "De rien. Dis-moi aussi si j’ai mal compris ta question.",
+    "fallback": "Je ne veux pas te répondre à côté. Tu peux préciser ce que tu cherches ?"
+  }
 }

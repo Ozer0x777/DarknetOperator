@@ -74,10 +74,14 @@ def self_test():
     from demo_validation import qualify as qualify_demo
     from act2_validation import qualify as qualify_act2
     from curriculum_validation import qualify as qualify_curriculum
+    from act3_validation import qualify as qualify_act3
+    from tls_arc_validation import play as qualify_tls
+    from export_world_preview import export as export_social_preview
     with tempfile.TemporaryDirectory(prefix='darknet-operator-verification-') as folder:
         output = Path(folder)
         os.environ['REDTEAM_SAVE_DIR'] = str(output/'career')
         os.environ['XDG_DATA_HOME'] = str(output/'client')
+        os.environ['REDTEAM_VALIDATION_DIR'] = str(output)
         asyncio.run(qualify(output))
         asyncio.run(qualify_act1(output))
         asyncio.run(qualify_journey(output))
@@ -87,11 +91,19 @@ def self_test():
         asyncio.run(qualify_demo(output))
         asyncio.run(qualify_act2(output))
         asyncio.run(qualify_curriculum(output))
+        asyncio.run(qualify_act3(output))
+        asyncio.run(qualify_tls(output))
+        export_social_preview(output/"social-preview.json")
         asyncio.run(check_wallet(output))
         print('Moteur embarqué : campagnes, données et reprises validées en mémoire.')
-        for script in ('tests/test_audio.gd', 'tests/test_music_player.gd', 'tests/test_main_menu.gd', 'tests/test_desktop.gd', 'tests/test_social_layout.gd', 'tests/test_social_workflow.gd', 'tests/test_progression_wallet.gd', 'tests/test_journey.gd', 'tests/test_demo.gd', 'tests/test_act2.gd', 'tests/test_first_hour.gd'):
-            result = subprocess.run(command(RUNTIME/'godot', '--headless', '--path', ROOT/'game', '--script', script, '--', '--offline-test'),
-                                    cwd=ROOT, text=True, capture_output=True, timeout=60)
+        for script in ('tests/test_audio.gd', 'tests/test_music_player.gd', 'tests/test_main_menu.gd', 'tests/test_desktop.gd', 'tests/test_social_layout.gd', 'tests/test_social_workflow.gd', 'tests/test_progression_wallet.gd', 'tests/test_journey.gd', 'tests/test_demo.gd', 'tests/test_act2.gd', 'tests/test_first_hour.gd', 'tests/test_forum_community.gd', 'tests/test_dialogue_choices.gd', 'tests/test_tls_arc.gd', 'tests/test_act3.gd'):
+            try:
+                result = subprocess.run(command(RUNTIME/'godot', '--headless', '--path', ROOT/'game', '--script', script, '--', '--offline-test'),
+                                        cwd=ROOT, text=True, capture_output=True, timeout=120 if script.endswith('test_tls_arc.gd') else 60)
+            except subprocess.TimeoutExpired as error:
+                for value in (error.stdout, error.stderr):
+                    if value: print(value.decode(errors='replace') if isinstance(value, bytes) else value)
+                raise RuntimeError(f'{script} : délai de vérification dépassé.') from error
             check_result(result, script)
     print('Vérification hors réseau réussie. Elle ne valide pas une session graphique ni l’ouverture des ports locaux.')
     return 0

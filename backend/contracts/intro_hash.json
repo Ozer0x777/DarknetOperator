@@ -19,8 +19,8 @@
   "required_items": [],
   "guide": [],
   "onboarding": true,
-  "success_message": "Résultat vérifié. {reward} ₵ réglés ; ton prochain dossier est disponible dans cette conversation. Garde tes notes, on réutilisera cette compétence.",
-  "failure_message": "On reprend ce dossier à ton rythme ; vérifie le résultat avant de conclure.",
+  "success_message": "La correspondance vient bien de la liste. Garde cette distinction : attendre ne fait pas apparaître un mot qui n’y est pas. La prime annoncée est de {reward} ₵ ; le règlement exact figure dans ColdVault.",
+  "failure_message": "On s’arrête là pour ce dossier. Garde le débriefing, on reprendra ce qui a coincé au prochain essai.",
   "debrief_hints": [
     "Retrouver le mot de passe de l’empreinte fournie.",
     "Une nouvelle compétence à la fois ; la réussite est vérifiée dans le monde simulé."
@@ -29,5 +29,10 @@
   "hints": [
     "Hashcat compare une empreinte aux candidats d’un dictionnaire. Le fichier d’exercice et la liste de démonstration sont déjà fournis.",
     "Lance `hashcat -m 1000 ~/mission/exercice.ntlm /usr/share/wordlists/rockyou.txt`. Attends la fin ; Exhausted ne signifie pas un mot de passe trouvé."
-  ]
+  ],
+  "dialogue": {
+    "greeting": "Salut {handle}. Je finis un compte rendu. Qu’est-ce qu’il y a ?",
+    "ack": "Garde tes remerciements pour quand tu sauras refaire sans moi. Mais oui, j’ai lu.",
+    "fallback": "Je ne suis pas sûr de ce que tu me demandes. Tu peux préciser ?"
+  }
 }

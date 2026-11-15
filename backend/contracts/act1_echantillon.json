@@ -13,12 +13,12 @@
     "title": "03 - Échantillon gratuit",
     "body": "Vérifier l’échantillon NX-26 avant achat : 40 lignes annoncées de novembre. Je te contacte en MP du forum ; on compare les résultats dans Chordly."
   },
-  "brief": "NX-26 : le vendeur annonce 40 clients tous récents. Vérifie cette affirmation, sans rien acheter. Le dossier est dans tes MP du forum ; nous comparons les résultats ici.\n\nNouveau : interroger une base locale. Lis ~/mission/annonce.txt, puis importe la pièce avec `sqlite3 ~/loot/echantillon.db < ~/mission/echantillon.sql`. Le fichier .sql contient la structure et les données ; la base .db permet de les interroger. `.tables` liste les tables ; `.schema clients` décrit leurs colonnes. Cherche combien de lignes appartiennent à chaque date.\n\nTon rapport doit citer NX-26 et les nombres de lignes anciennes et récentes observés. Les chiffres ne sont pas fournis : ils doivent venir des données. Le nom de ta base est libre. Écris indice pour avancer ou rappel détaillé pour les commandes.",
+  "brief": "NX-26 : le vendeur annonce 40 clients tous récents. Vérifie cette affirmation, sans rien acheter. Le dossier est dans tes MP du forum ; nous comparons les résultats ici.\n\nVoici ce que j’aimerais vérifier avec toi.\n\nNouveau : interroger une base locale. Lis ~/mission/annonce.txt, puis importe la pièce avec `sqlite3 ~/loot/echantillon.db < ~/mission/echantillon.sql`. Le fichier .sql contient la structure et les données ; la base .db permet de les interroger. `.tables` liste les tables ; `.schema clients` décrit leurs colonnes. Cherche combien de lignes appartiennent à chaque date.\n\nTon rapport doit citer NX-26 et les nombres de lignes anciennes et récentes observés. Les chiffres ne sont pas fournis : ils doivent venir des données. Le nom de ta base est libre. Écris indice pour avancer ou rappel détaillé pour les commandes.",
   "reward": 220,
   "reputation": 45,
   "required_items": [],
-  "success_message": "Livraison vérifiée. {reward} ₵ annoncés au contrat ; le règlement exact figure dans ton profil. Merci {handle}, je conserve tes preuves.",
-  "failure_message": "Dossier interrompu. Reprends une sauvegarde ou relance le contrat pour retenter le parcours.",
+  "success_message": "J’ai tes comptes pour NX-26. Merci d’avoir regardé les lignes au lieu de reprendre l’annonce. Ça m’évite un achat que j’aurais regretté. La prime annoncée est de {reward} ₵ ; le règlement exact figure dans ColdVault.",
+  "failure_message": "Je ne peux pas valider cette livraison. Relisons le débriefing avant de recommencer, il doit rester une observation utile dans l’essai.",
   "guide": [],
   "investigation_steps": [
     {
@@ -57,9 +57,9 @@
           "unordered": true
         }
       ],
-      "response": "Tu as établi que 36 lignes sont anciennes, 4 seulement récentes. Je renonce au prix annoncé ; j’ai un vrai dossier pour toi ensuite.",
+      "response": "36 lignes anciennes, 4 seulement récentes. On est loin de l’annonce. Merci d’avoir compté, je renonce à ce prix. J’ai un autre dossier pour toi si tu veux.",
       "missing": "Il manque une observation vérifiable. Importe le dump puis lance SELECT date, COUNT(*) FROM clients GROUP BY date; dans sqlite3. Compare avec l’annonce avant d’envoyer ton rapport.",
-      "already": "Cette étape est déjà enregistrée.",
+      "already": "J’ai déjà cette observation au dossier. Merci, inutile de la transmettre deux fois.",
       "hint": "Importe le dump puis lance SELECT date, COUNT(*) FROM clients GROUP BY date; dans sqlite3. Compare avec l’annonce avant d’envoyer ton rapport.",
       "hints": [
         "Vérifie la date réelle des lignes plutôt que le total annoncé par le vendeur.",
@@ -125,7 +125,7 @@
     "act1-echantillon-annonce"
   ],
   "private_offer": true,
-  "intro": "On m’a recommandé ton pseudo. Vérifier l’échantillon NX-26 avant achat : 40 lignes annoncées de novembre. Je te contacte en MP du forum ; on compare les résultats dans Chordly. Ouvre le dossier pour recevoir les pièces ; la suite se passe dans notre conversation Chordly.",
+  "intro": "Salut. k0rvid m’a parlé de toi. On me propose NX-26 : 40 lignes, toutes de novembre selon le vendeur. J’aimerais que quelqu’un d’autre les compte avant que je paie. Tu as le dossier dans les MP du forum, puis on en parle sur Chordly.",
   "relaxed_clock": true,
   "side_job": false,
   "chapter": 3,
@@ -133,5 +133,10 @@
   "required_completed": [
     "act1_partage"
   ],
-  "terminal_revision": 2
+  "terminal_revision": 2,
+  "dialogue": {
+    "greeting": "Bonjour. Je peux prendre quelques minutes.",
+    "ack": "Merci d’avoir pris le temps. Je sais que mes demandes peuvent être pénibles.",
+    "fallback": "Je préfère te faire préciser plutôt que supposer. Qu’est-ce que tu veux savoir ?"
+  }
 }

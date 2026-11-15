@@ -19,6 +19,7 @@ PERSISTENT_TOOL_DATA = (
     "hashcat",                                        # potfile : conservé, voir docs/COMMANDES.md
     "sqlite",                                         # bases créées par le joueur dans ses fichiers locaux
     "bloodhound",                                     # collecte importée, marquée périmée hors de son contrat
+    "narrative_documents",                            # pièces déjà reçues : ne pas ressusciter leurs copies effacées
 )
 
 
@@ -41,14 +42,15 @@ def inherit(state, source: dict | None, contract: dict | None = None) -> None:
                 context["terminal_env"] = console_sessions.initial()["terminal_env"]
             context["terminal_shell"] = "bash"
             context["terminal_return_stack"] = []
+            context["terminal_network_path"] = {}
             context["terminal_host"], context["terminal_user"], context["terminal_auth"] = None, "operator", {}
             context["terminal_access"] = "USER"
             context["terminal_cwd"] = "/home/operator"
     for service in state.tool_services.values():
-        if service.get("kind") == "ssh-forward": service["running"] = False
+        if service.get("kind") in {"ssh-forward", "chisel-server", "chisel-client"}: service["running"] = False
     for context in state.terminals.values():
         pid = context.get("terminal_foreground")
-        if any(s.get("kind") == "ssh-forward" and s.get("pid") == pid for s in state.tool_services.values()):
+        if any(s.get("kind") in {"ssh-forward", "chisel-server", "chisel-client"} and s.get("pid") == pid for s in state.tool_services.values()):
             context["terminal_foreground"] = None
     # Hashes obtenus pendant CETTE mission : le potfile conservé ne valide pas seul un objectif.
     state.tool_data["hashcat_session"] = []

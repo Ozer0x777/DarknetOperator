@@ -19,7 +19,7 @@
   "required_rep": 100,
   "required_items": [],
   "success_message": "L’authentification avec le ticket a été vérifiée. Le périmètre demandé est atteint. Consulte la chronologie : la défense peut avoir vu les opérations précédentes.",
-  "failure_message": "Le contrat s’arrête ici. Le rapport distingue la déconnexion, la fin du délai et la réaction de la défense. Aucun objectif non vérifié ne sera considéré comme rempli.",
+  "failure_message": "Le contrat n’est pas rempli. Je garde les conditions et le résultat observé au dossier. Regarde le débriefing avant de retenter.",
   "guide": [
     {
       "when": {
@@ -51,7 +51,8 @@
   "require_route": "tor",
   "terminal_revision": 5,
   "dialogue": {
-    "greeting": "Bonjour {handle}. Je consulte les messages par créneaux. Pose ta question avec le résultat observé ; je répondrai au prochain passage.",
-    "ack": "Lu. Je note l’avancement ; les accès et les droits doivent encore être vérifiés."
+    "greeting": "Salut. J’ai un petit moment avant le prochain appel.",
+    "ack": "Ça marche. Pour une fois qu’un échange se termine sans une condition oubliée.",
+    "fallback": "Il me manque le contexte. Une phrase de plus avant mon prochain passage ?"
   }
 }

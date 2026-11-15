@@ -42,5 +42,5 @@ def request(state, url, method, include=False, fail=False, headers=None):
             if key not in read: read.append(key)
             from .data_tools import fact
             if forward: fact(state,'http:pivot:'+host.id,jump=forward['jump'],pid=forward['pid'])
-            fact(state,'http:'+host.id+':'+(target.path or '/')+(':'+object_id if object_id is not None else ''),file=filename,content=host.files[filename])
-    return TerminalResult(True, lines)
+            fact(state,'http:'+host.id+':'+(target.path or '/')+(':'+object_id if object_id is not None else ''),file=filename,content=host.files[filename], source=state.network_origin(), network_path=dict(state.terminal_network_path), isolated=[h.id for h in state.hosts.values() if h.status == "ISOLATED"])
+    return TerminalResult(True, lines, stdout="\n".join(lines))

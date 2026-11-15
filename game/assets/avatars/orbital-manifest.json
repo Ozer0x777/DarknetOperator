@@ -1,0 +1,295 @@
+{
+  "collection": "Portraits orbitaux",
+  "version": 1,
+  "portraits": [
+    {
+      "handle": "bytewarden",
+      "file": "bytewarden-orbital-v1.png",
+      "prompt": "Use case: stylized-concept. Asset type: one square original avatar portrait for Darknet Operator. Image 1 is the reference for art style ONLY, not character design. Hand-drawn 1990s science-fiction anime film cel: confident dark ink outlines, restrained flat shadows, matte painted colors, faint analog grain. Muted charcoal plum, faded olive, pale mint lighting and small coral accents. One fictional adult, head and shoulders, face centered and fully inside circular-crop safe area. Full-bleed opaque square background with no drawn frame, no circles or borders. Clear silhouette and readable at 48 pixels. No typography, logos, watermark, glossy 3D, photorealism, weapon, cybernetic implants or sexualized pose. Subject: An adult man about 48, tired kind eyes, short salt-and-pepper hair, neat beard, faded olive overshirt, upright calm expression; a veteran community administrator. Sparse charcoal background.",
+      "references": [
+        "game/assets/backgrounds/orbital-drift-desktop-v1.png"
+      ],
+      "mode": "imagegen intégré",
+      "sha256": "2b1866d3bd22c2cb47b50aa45f133dd9f69c16f808ab53416f79aaf862001a68",
+      "dimensions": [
+        1254,
+        1254
+      ]
+    },
+    {
+      "handle": "mod_echo",
+      "file": "mod_echo-orbital-v1.png",
+      "prompt": "Use case: stylized-concept. Asset type: one square original avatar portrait for Darknet Operator. Image 1 is the reference for art style ONLY, not character design. Hand-drawn 1990s science-fiction anime film cel: confident dark ink outlines, restrained flat shadows, matte painted colors, faint analog grain. Muted charcoal plum, faded olive, pale mint lighting and small coral accents. One fictional adult, head and shoulders, face centered and fully inside circular-crop safe area. Full-bleed opaque square background with no drawn frame, no circles or borders. Clear silhouette and readable at 48 pixels. No typography, logos, watermark, glossy 3D, photorealism, weapon, cybernetic implants or sexualized pose. Subject: An adult androgynous person about 34, dark cropped hair, one silver streak, rectangular thin spectacles, midnight teal jacket, direct composed expression, reserved but approachable. Sparse charcoal background.",
+      "references": [
+        "game/assets/backgrounds/orbital-drift-desktop-v1.png"
+      ],
+      "mode": "imagegen intégré",
+      "sha256": "f363b7dea416bf9101b83ab437ff9b7093e146b274bb126733327d58b78bbafb",
+      "dimensions": [
+        1254,
+        1254
+      ]
+    },
+    {
+      "handle": "nullpointer",
+      "file": "nullpointer-orbital-v1.png",
+      "prompt": "Use case: stylized-concept. Asset type: one square original avatar portrait for Darknet Operator. Image 1 is the reference for art style ONLY, not character design. Hand-drawn 1990s science-fiction anime film cel: confident dark ink outlines, restrained flat shadows, matte painted colors, faint analog grain. Muted charcoal plum, faded olive, pale mint lighting and small coral accents. One fictional adult, head and shoulders, face centered and fully inside circular-crop safe area. Full-bleed opaque square background with no drawn frame, no circles or borders. Clear silhouette and readable at 48 pixels. No typography, logos, watermark, glossy 3D, photorealism, weapon, cybernetic implants or sexualized pose. Subject: An adult man about 38, warm brown skin, curly dark hair, slight stubble, faded work jacket, dry amused half smile, tiny soldering pencil tucked in a pocket. Sparse charcoal background.",
+      "references": [
+        "game/assets/backgrounds/orbital-drift-desktop-v1.png"
+      ],
+      "mode": "imagegen intégré",
+      "sha256": "494e472430cb6d5c017e9de578f4466b5f78dbd97c8f2a977700f226f36cabfd",
+      "dimensions": [
+        1254,
+        1254
+      ]
+    },
+    {
+      "handle": "packetloss",
+      "file": "packetloss-orbital-v1.png",
+      "prompt": "Use case: stylized-concept. Asset type: one square original avatar portrait for Darknet Operator. Image 1 is the reference for art style ONLY, not character design. Hand-drawn 1990s science-fiction anime film cel: confident dark ink outlines, restrained flat shadows, matte painted colors, faint analog grain. Muted charcoal plum, faded olive, pale mint lighting and small coral accents. One fictional adult, head and shoulders, face centered and fully inside circular-crop safe area. Full-bleed opaque square background with no drawn frame, no circles or borders. Clear silhouette and readable at 48 pixels. No typography, logos, watermark, glossy 3D, photorealism, weapon, cybernetic implants or sexualized pose. Subject: An adult woman about 40, short dark auburn crop, precise oval spectacles, muted olive turtleneck, thoughtful alert expression, understated analog wristwatch partly visible. Sparse charcoal background.",
+      "references": [
+        "game/assets/backgrounds/orbital-drift-desktop-v1.png"
+      ],
+      "mode": "imagegen intégré",
+      "sha256": "5277dd005d8961802a87d94b6dffc50db2d7d56b28046ab1d9405c064be7aa7f",
+      "dimensions": [
+        1254,
+        1254
+      ]
+    },
+    {
+      "handle": "relay",
+      "file": "relay-orbital-v1.png",
+      "prompt": "Use case: stylized-concept. Asset type: one square original avatar portrait for Darknet Operator. Image 1 is the reference for art style ONLY, not character design. Hand-drawn 1990s science-fiction anime film cel: confident dark ink outlines, restrained flat shadows, matte painted colors, faint analog grain. Muted charcoal plum, faded olive, pale mint lighting and small coral accents. One fictional adult, head and shoulders, face centered and fully inside circular-crop safe area. Full-bleed opaque square background with no drawn frame, no circles or borders. Clear silhouette and readable at 48 pixels. No typography, logos, watermark, glossy 3D, photorealism, weapon, cybernetic implants or sexualized pose. Subject: An adult man about 42, medium brown skin, slicked back dark hair with gray at the temples, charcoal plum collared jacket, poised neutral expression. Sparse charcoal background.",
+      "references": [
+        "game/assets/backgrounds/orbital-drift-desktop-v1.png"
+      ],
+      "mode": "imagegen intégré",
+      "sha256": "4585eccd982db170393a20d6766239828e60fb3782e5f782726165139869058f",
+      "dimensions": [
+        1254,
+        1254
+      ]
+    },
+    {
+      "handle": "spectre",
+      "file": "spectre-orbital-v1.png",
+      "prompt": "Use case: stylized-concept. Asset type: one square original avatar portrait for Darknet Operator. Image 1 is the reference for art style ONLY, not character design. Hand-drawn 1990s science-fiction anime film cel: confident dark ink outlines, restrained flat shadows, matte painted colors, faint analog grain. Muted charcoal plum, faded olive, pale mint lighting and small coral accents. One fictional adult, head and shoulders, face centered and fully inside circular-crop safe area. Full-bleed opaque square background with no drawn frame, no circles or borders. Clear silhouette and readable at 48 pixels. No typography, logos, watermark, glossy 3D, photorealism, weapon, cybernetic implants or sexualized pose. Subject: An adult person about 45, black high collar and dark shoulder-length hair, face partially in strong ink shadow yet legible eyes and nose, remote composed expression, no mask or skull. Sparse charcoal background.",
+      "references": [
+        "game/assets/backgrounds/orbital-drift-desktop-v1.png"
+      ],
+      "mode": "imagegen intégré",
+      "sha256": "26dccd3d2340238ff073628288989473a7b56a6c096698d3723eb4a9d15c4fd1",
+      "dimensions": [
+        1254,
+        1254
+      ]
+    },
+    {
+      "handle": "hexane",
+      "file": "hexane-orbital-v1.png",
+      "prompt": "Use case: stylized-concept. Asset type: one square original avatar portrait for Darknet Operator. Image 1 is the reference for art style ONLY, not character design. Hand-drawn 1990s science-fiction anime film cel: confident dark ink outlines, restrained flat shadows, matte painted colors, faint analog grain. Muted charcoal plum, faded olive, pale mint lighting and small coral accents. One fictional adult, head and shoulders, face centered and fully inside circular-crop safe area. Full-bleed opaque square background with no drawn frame, no circles or borders. Clear silhouette and readable at 48 pixels. No typography, logos, watermark, glossy 3D, photorealism, weapon, cybernetic implants or sexualized pose. Subject: An adult man about 32, warm tan skin, tousled copper hair, work goggles resting above forehead, patched faded olive work jacket, cheerful absorbed look. Sparse charcoal background. Make the face distinct from the reference. No facial beauty mark.",
+      "references": [
+        "game/assets/backgrounds/orbital-drift-desktop-v1.png"
+      ],
+      "mode": "imagegen intégré",
+      "sha256": "0ee30f6f3bd03522a200568723717d88fa6377ca27ed870293eec5916c07762a",
+      "dimensions": [
+        1254,
+        1254
+      ]
+    },
+    {
+      "handle": "nullroute",
+      "file": "nullroute-orbital-v1.png",
+      "prompt": "Use case: stylized-concept. Asset type: one square original avatar portrait for Darknet Operator. Image 1 is the reference for art style ONLY, not character design. Hand-drawn 1990s science-fiction anime film cel: confident dark ink outlines, restrained flat shadows, matte painted colors, faint analog grain. Muted charcoal plum, faded olive, pale mint lighting and small coral accents. One fictional adult, head and shoulders, face centered and fully inside circular-crop safe area. Full-bleed opaque square background with no drawn frame, no circles or borders. Clear silhouette and readable at 48 pixels. No typography, logos, watermark, glossy 3D, photorealism, weapon, cybernetic implants or sexualized pose. Subject: An adult man about 37, angular face, dark short hair and pronounced eyebrows, muted teal crewneck and dark jacket, skeptical concentrated expression without menace. Sparse charcoal background. Make the face distinct from the reference. No facial beauty mark.",
+      "references": [
+        "game/assets/backgrounds/orbital-drift-desktop-v1.png"
+      ],
+      "mode": "imagegen intégré",
+      "sha256": "ce9144677c2c7d125d00409c2fee0eaf9fa8b043dd0c7c50913994295a270ffa",
+      "dimensions": [
+        1254,
+        1254
+      ]
+    },
+    {
+      "handle": "0xvanta",
+      "file": "0xvanta-orbital-v1.png",
+      "prompt": "Use case: stylized-concept. Asset type: one square original avatar portrait for Darknet Operator. Image 1 is the reference for art style ONLY, not character design. Hand-drawn 1990s science-fiction anime film cel: confident dark ink outlines, restrained flat shadows, matte painted colors, faint analog grain. Muted charcoal plum, faded olive, pale mint lighting and small coral accents. One fictional adult, head and shoulders, face centered and fully inside circular-crop safe area. Full-bleed opaque square background with no drawn frame, no circles or borders. Clear silhouette and readable at 48 pixels. No typography, logos, watermark, glossy 3D, photorealism, weapon, cybernetic implants or sexualized pose. Subject: An adult man about 33, medium dark skin, short black twists, tired eyes, charcoal plum crewneck, quiet introspective expression, pale mint light from one side. Sparse charcoal background. Make the face distinct from the reference. No facial beauty mark.",
+      "references": [
+        "game/assets/backgrounds/orbital-drift-desktop-v1.png"
+      ],
+      "mode": "imagegen intégré",
+      "sha256": "d1ceb782f40c3e3a1f28a112c86f109e8e06c29d11d991e755eb0478e757e9ee",
+      "dimensions": [
+        1254,
+        1254
+      ]
+    },
+    {
+      "handle": "hexcache",
+      "file": "hexcache-orbital-v1.png",
+      "prompt": "Use case: stylized-concept. Asset type: one square original avatar portrait for Darknet Operator. Image 1 is the reference for art style ONLY, not character design. Hand-drawn 1990s science-fiction anime film cel: confident dark ink outlines, restrained flat shadows, matte painted colors, faint analog grain. Muted charcoal plum, faded olive, pale mint lighting and small coral accents. One fictional adult, head and shoulders, face centered and fully inside circular-crop safe area. Full-bleed opaque square background with no drawn frame, no circles or borders. Clear silhouette and readable at 48 pixels. No typography, logos, watermark, glossy 3D, photorealism, weapon, cybernetic implants or sexualized pose. Subject: An adult man about 39, close-cropped dark hair, short beard, round thin glasses, muted brown-olive cardigan, patient meticulous expression. Sparse charcoal background. Make the face distinct from the reference. No facial beauty mark.",
+      "references": [
+        "game/assets/backgrounds/orbital-drift-desktop-v1.png"
+      ],
+      "mode": "imagegen intégré",
+      "sha256": "ac665db1f44bc7084bf1be4c75db0a4bd2c2cb9c7eeceeb41de7ae7f806ac3d0",
+      "dimensions": [
+        1254,
+        1254
+      ]
+    },
+    {
+      "handle": "cendre",
+      "file": "cendre-orbital-v1.png",
+      "prompt": "Use case: stylized-concept. Asset type: one square original avatar portrait for Darknet Operator. Image 1 is the reference for art style ONLY, not character design. Hand-drawn 1990s science-fiction anime film cel: confident dark ink outlines, restrained flat shadows, matte painted colors, faint analog grain. Muted charcoal plum, faded olive, pale mint lighting and small coral accents. One fictional adult, head and shoulders, face centered and fully inside circular-crop safe area. Full-bleed opaque square background with no drawn frame, no circles or borders. Clear silhouette and readable at 48 pixels. No typography, logos, watermark, glossy 3D, photorealism, weapon, cybernetic implants or sexualized pose. Subject: An adult woman about 43, short ash gray hair, medium brown skin, thin reading glasses, faded olive utility vest over dark shirt, thoughtful patient expression. Sparse charcoal background. Make the face distinct from the reference. No facial beauty mark.",
+      "references": [
+        "game/assets/backgrounds/orbital-drift-desktop-v1.png"
+      ],
+      "mode": "imagegen intégré",
+      "sha256": "c8fedd1819d66f01f579ef1bcbb338a2e7c91b96e3e8207bcc08e46d90371167",
+      "dimensions": [
+        1254,
+        1254
+      ]
+    },
+    {
+      "handle": "traverse",
+      "file": "traverse-orbital-v1.png",
+      "prompt": "Use case: stylized-concept. Asset type: one square original avatar portrait for Darknet Operator. Image 1 is the reference for art style ONLY, not character design. Hand-drawn 1990s science-fiction anime film cel: confident dark ink outlines, restrained flat shadows, matte painted colors, faint analog grain. Muted charcoal plum, faded olive, pale mint lighting and small coral accents. One fictional adult, head and shoulders, face centered and fully inside circular-crop safe area. Full-bleed opaque square background with no drawn frame, no circles or borders. Clear silhouette and readable at 48 pixels. No typography, logos, watermark, glossy 3D, photorealism, weapon, cybernetic implants or sexualized pose. Subject: An adult man about 36, dark wavy hair tied loosely behind neck, tan skin, faint stubble, worn dark teal field jacket, focused alert gaze. Sparse charcoal background. Make the face distinct from the reference. No facial beauty mark.",
+      "references": [
+        "game/assets/backgrounds/orbital-drift-desktop-v1.png"
+      ],
+      "mode": "imagegen intégré",
+      "sha256": "6f802fe34fe7436709c29047a4df297338f7839c09fcb2270072a0a0b96c29ab",
+      "dimensions": [
+        1254,
+        1254
+      ]
+    },
+    {
+      "handle": "iris",
+      "file": "iris-orbital-v1.png",
+      "prompt": "Use case: stylized-concept. Asset type: one square original avatar portrait for Darknet Operator. Image 1 is the reference for art style ONLY, not character design. Hand-drawn 1990s science-fiction anime film cel: confident dark ink outlines, restrained flat shadows, matte painted colors, faint analog grain. Muted charcoal plum, faded olive, pale mint lighting and small coral accents. One fictional adult, head and shoulders, face centered and fully inside circular-crop safe area. Full-bleed opaque square background with no drawn frame, no circles or borders. Clear silhouette and readable at 48 pixels. No typography, logos, watermark, glossy 3D, photorealism, weapon, cybernetic implants or sexualized pose. Subject: An adult woman about 34, dark skin, tight black curls gathered back, subtle narrow spectacles, charcoal plum knit top, composed questioning expression. Sparse charcoal background. Make the face distinct from the reference. Preserve the specified character identity. No facial beauty mark unless present in identity reference.",
+      "references": [
+        "game/assets/backgrounds/orbital-drift-desktop-v1.png"
+      ],
+      "mode": "imagegen intégré",
+      "sha256": "ca3674fc4f06d8275ba3a69efcfe4ba304dd2a86fcc46fc747c9e0c1081d8e3a",
+      "dimensions": [
+        1254,
+        1254
+      ]
+    },
+    {
+      "handle": "quartz",
+      "file": "quartz-orbital-v1.png",
+      "prompt": "Use case: stylized-concept. Asset type: one square original avatar portrait for Darknet Operator. Image 1 is the reference for art style ONLY, not character design. Hand-drawn 1990s science-fiction anime film cel: confident dark ink outlines, restrained flat shadows, matte painted colors, faint analog grain. Muted charcoal plum, faded olive, pale mint lighting and small coral accents. One fictional adult, head and shoulders, face centered and fully inside circular-crop safe area. Full-bleed opaque square background with no drawn frame, no circles or borders. Clear silhouette and readable at 48 pixels. No typography, logos, watermark, glossy 3D, photorealism, weapon, cybernetic implants or sexualized pose. Subject: An adult woman about 31, short sandy blonde undercut, muted olive casual jacket over charcoal top, steady frank expression with slight friendly smile, tiny coral lapel stitching. Sparse charcoal background. Make the face distinct from the reference. Preserve the specified character identity. No facial beauty mark unless present in identity reference.",
+      "references": [
+        "game/assets/backgrounds/orbital-drift-desktop-v1.png"
+      ],
+      "mode": "imagegen intégré",
+      "sha256": "0fb74e111c835e9bb6467a7773dcd552a61016c2ac15c8e4883d6350908ba65a",
+      "dimensions": [
+        1254,
+        1254
+      ]
+    },
+    {
+      "handle": "k0rvid",
+      "file": "k0rvid-orbital-v1.png",
+      "prompt": "Use case: stylized-concept. Asset type: one square original avatar portrait for Darknet Operator. Image 1 is the reference for art style ONLY, not character design. Hand-drawn 1990s science-fiction anime film cel: confident dark ink outlines, restrained flat shadows, matte painted colors, faint analog grain. Muted charcoal plum, faded olive, pale mint lighting and small coral accents. One fictional adult, head and shoulders, face centered and fully inside circular-crop safe area. Full-bleed opaque square background with no drawn frame, no circles or borders. Clear silhouette and readable at 48 pixels. No typography, logos, watermark, glossy 3D, photorealism, weapon, cybernetic implants or sexualized pose. Subject: Preserve the adult character identity from reference image 2: silver hair and red-black palette; render in the matte restrained anime cel art style of image 1. Patient reserved expression, charcoal outfit with small faded coral accent, no additional costume elements. Make the face distinct from the reference. Preserve the specified character identity. No facial beauty mark unless present in identity reference.",
+      "references": [
+        "game/assets/backgrounds/orbital-drift-desktop-v1.png",
+        "game/assets/avatars/k0rvid-v1.png"
+      ],
+      "mode": "imagegen intégré",
+      "sha256": "d6199438f3ea0c22fdf95d37202fafca0f2c97b610fd406020e2c1b0a15dfaba",
+      "dimensions": [
+        1254,
+        1254
+      ]
+    },
+    {
+      "handle": "miette",
+      "file": "miette-orbital-v1.png",
+      "prompt": "Use case: stylized-concept. Asset type: one square original avatar portrait for Darknet Operator. Image 1 is the reference for art style ONLY, not character design. Hand-drawn 1990s science-fiction anime film cel: confident dark ink outlines, restrained flat shadows, matte painted colors, faint analog grain. Muted charcoal plum, faded olive, pale mint lighting and small coral accents. One fictional adult, head and shoulders, face centered and fully inside circular-crop safe area. Full-bleed opaque square background with no drawn frame, no circles or borders. Clear silhouette and readable at 48 pixels. No typography, logos, watermark, glossy 3D, photorealism, weapon, cybernetic implants or sexualized pose. Subject: Preserve the adult woman identity from reference image 2: aubergine purple bob, thin round glasses and dark hoodie. Render in the matte restrained anime cel art style of image 1, curious thoughtful expression. No added accessories.",
+      "references": [
+        "game/assets/backgrounds/orbital-drift-desktop-v1.png",
+        "game/assets/avatars/miette-v1.png"
+      ],
+      "mode": "imagegen intégré",
+      "sha256": "86747eed3bc08e2bb6947f7f67652f00d626de0d7d841662050412d4c0f683be",
+      "dimensions": [
+        1254,
+        1254
+      ]
+    },
+    {
+      "handle": "sable",
+      "file": "sable-orbital-v1.png",
+      "prompt": "Use case: stylized-concept. Asset type: one square original avatar portrait for Darknet Operator. Image 1 is the reference for art style ONLY, not character design. Hand-drawn 1990s science-fiction anime film cel: confident dark ink outlines, restrained flat shadows, matte painted colors, faint analog grain. Muted charcoal plum, faded olive, pale mint lighting and small coral accents. One fictional adult, head and shoulders, face centered and fully inside circular-crop safe area. Full-bleed opaque square background with no drawn frame, no circles or borders. Clear silhouette and readable at 48 pixels. No typography, logos, watermark, glossy 3D, photorealism, weapon, cybernetic implants or sexualized pose. Subject: Preserve the adult character identity from reference image 2: dark hair and red hair clip. Render in the matte restrained anime cel art style of image 1, calm slightly nostalgic expression. No added accessories.",
+      "references": [
+        "game/assets/backgrounds/orbital-drift-desktop-v1.png",
+        "game/assets/avatars/sable-v1.png"
+      ],
+      "mode": "imagegen intégré",
+      "sha256": "fa2a1bb01c89bc1390c6a2db97739a80e2eef46104e053592a9569ed1e4b29bd",
+      "dimensions": [
+        1254,
+        1254
+      ]
+    },
+    {
+      "handle": "Madame_TLS",
+      "file": "madame-tls-orbital-v2.png",
+      "prompt": "Use case: stylized-concept. Asset type: replacement square avatar for Madame_TLS in the French game Darknet Operator. Input image 1 is the user's character appearance inspiration: long straight pale blonde hair with bangs, vivid blue eyes, distinctive pink triangular earrings, elegant adult woman looking slightly over her shoulder. Input image 2 is the project's required art style and FULL-BLEED SQUARE framing reference, not the character's appearance. Create one original fictional adult woman aged about 30-35 inspired by image 1, head and shoulders, face prominent and fully readable at 200x200 and 48x48, subtle poised knowing expression, elegant understated plum jacket over a light top, long blonde hair and pink triangular earrings visible. Match image 2's hand-inked 1990s anime film cel look, restrained flat shading, matte muted colors, very fine analog grain, dark charcoal-plum background and soft mint rim light; retain blue eyes and pale blonde hair. FULL-BLEED 1:1 SQUARE: fill the entire image to all four corners with the same painted background. Absolutely NO drawn circle, NO circular vignette, NO medallion, NO rounded frame, NO border, no black corner cutouts. No text, logo, watermark, weapons, computer interfaces or photorealism. Keep a natural adult head/neck/shoulder anatomy and an elegant cultured social persona, not a tactical cyberpunk hacker.",
+      "references": [
+        "pasted file.png",
+        "game/assets/avatars/iris-orbital-v1.png"
+      ],
+      "mode": "imagegen intégré",
+      "sha256": "93de80a7e9407542d78f9db2ae3612a0e843899ecb763163c88928b575bca970",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "previous_versions": [
+        {
+          "handle": "Madame_TLS",
+          "file": "madame-tls-orbital-v1.png",
+          "prompt": "Use case: stylized-concept. Asset type: square community avatar for Darknet Operator, one portrait only. Reference image is ONLY for the art style and muted palette, do not copy the courier character. Original fictional adult woman Madame_TLS, around 35, cultivated and sociable strategic-intelligence analyst, sporty and interested in fashion and museums. Warm attentive expression with a slight knowing smile, dark chestnut hair tucked behind one ear, tasteful plum tailored jacket and simple ivory top, small sculptural earring. Head and shoulders, clear silhouette, face centered and wholly inside a circular crop safe area, sparse dark painted teal background with a hint of museum glass, not a literal spy scene. Match the reference's hand-drawn 1990s science-fiction anime cel film aesthetic: confident dark ink contours, restrained flat shadows, matte painted colors, faint analog grain. Charcoal plum, faded olive, pale mint light and tiny coral accents. Opaque square, no typography, no logos, no watermark, no badge or weapon, no glossy 3D, no photorealism, no sexualized pose.",
+          "references": [
+            "game/assets/backgrounds/orbital-drift-desktop-v1.png"
+          ],
+          "mode": "imagegen intégré",
+          "sha256": "462af82c41cfd459d2eb98f0e0c728e89268cc4319c9dea8bbba91c31c5f57d8",
+          "dimensions": [
+            1254,
+            1254
+          ]
+        }
+      ],
+      "framing": "Carré plein cadre, sans cercle dessiné ; affichage forum 200 × 200.",
+      "reference_note": "Image de personnage fournie par l’utilisateur comme inspiration ; provenance externe non déterminée, non utilisée comme ressource du jeu."
+    },
+    {
+      "handle": "urgent_client_01",
+      "file": "urgent_client_01-orbital-v1.png",
+      "prompt": "Use case: stylized-concept. Asset type: a single square avatar for the newly registered fictional forum account urgent_client_01 in Darknet Operator. Reference is only for hand-drawn 1990s science-fiction anime cel film style and muted charcoal plum, faded olive, pale mint palette. Original fictional adult man around 35, short neat black hair, gray plain collared jacket, reserved neutral expression facing slightly aside, head and shoulders, clear silhouette, quiet full-bleed dark painted background. Matte flat shadows, crisp dark ink and subtle analog grain, readable at 200 pixels and small thumbnail. This is a chosen forum avatar, not a real photograph. No frame, no typography, no logo, no watermark, no weapon, no mask, no glamour or glossy 3D.",
+      "references": [
+        "game/assets/backgrounds/orbital-drift-desktop-v1.png"
+      ],
+      "mode": "imagegen intégré",
+      "sha256": "a86ffc464008b140adb6bba860d591504ff5288eea0cb8139bf71eb04e4c36ea",
+      "dimensions": [
+        1254,
+        1254
+      ]
+    }
+  ],
+  "runtime_texture_limit": 200
+}

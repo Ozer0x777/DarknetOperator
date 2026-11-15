@@ -17,8 +17,8 @@
   "reward": 30,
   "reputation": 0,
   "required_items": [],
-  "success_message": "Livraison vérifiée. {reward} ₵ annoncés au contrat ; le règlement exact figure dans ton profil. Merci {handle}, je conserve tes preuves.",
-  "failure_message": "Dossier interrompu. Reprends une sauvegarde ou relance le contrat pour retenter le parcours.",
+  "success_message": "C’est bien LOT-77. Tu as regardé dans l’archive avant de livrer, ça m’évite de transmettre encore la mauvaise pièce. La prime annoncée est de {reward} ₵ ; le règlement exact figure dans ColdVault.",
+  "failure_message": "On n’a pas fini, d’accord. Je préfère qu’on s’arrête là plutôt que d’envoyer quelque chose dont on doute. On pourra retenter le dossier.",
   "guide": [],
   "investigation_steps": [
     {
@@ -46,9 +46,9 @@
           "value": "LOT-77;2026-11-07"
         }
       ],
-      "response": "Résultat conforme au bon de travail. Le paiement de ce petit contrat est enregistré.",
+      "response": "C’est bien LOT-77. Tu as regardé dans l’archive avant de livrer, ça m’évite de transmettre encore la mauvaise pièce.",
       "missing": "Il manque une observation vérifiable. Une commande possible : `cat ~/mission/entree.txt | wc -l > ~/loot/resultat.txt`, puis envoie livraison comptage.",
-      "already": "Cette étape est déjà enregistrée.",
+      "already": "Oui, je l’ai ! Pas besoin de me le renvoyer, je garde ton premier rapport.",
       "hint": "tar -tf liste ; tar -xf archive -C ~/loot extrait. Cherche LOT-77 dans la pièce courante et garde la ligne dans resultat.txt.",
       "hints": [
         "Relis le bon et les pièces fournies pour identifier le résultat attendu.",
@@ -71,7 +71,7 @@
     "act1-boreal"
   ],
   "private_offer": false,
-  "intro": "On m’a recommandé ton pseudo. Contrôler un lot : les pièces sont fournies. Paiement unique, aucun effet sur l’ordre des chapitres. Ouvre le dossier pour recevoir les pièces ; la suite se passe dans notre conversation Chordly.",
+  "intro": "J’ai une archive et un bon qui demande LOT-77. Je préfère te laisser regarder le contenu plutôt que te dire « prends le premier fichier ». Dossier sur Chordly si ça te tente.",
   "relaxed_clock": true,
   "side_job": true,
   "required_completed": [
@@ -83,5 +83,10 @@
     "cat ~/loot/courant/lot.txt",
     "grep LOT-77 ~/loot/courant/lot.txt > ~/loot/resultat.txt"
   ],
-  "terminal_revision": 1
+  "terminal_revision": 1,
+  "dialogue": {
+    "greeting": "Hey ! J’étais justement en train de faire semblant de comprendre un tableau. Tu me sauves quelques minutes.",
+    "ack": "De rien ! Enfin, si ça t’a servi. J’ai toujours peur d’expliquer de travers.",
+    "fallback": "Je crois que j’ai compris la moitié. Tu me redis autrement ?"
+  }
 }

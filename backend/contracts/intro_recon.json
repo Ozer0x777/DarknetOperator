@@ -19,8 +19,8 @@
   "required_items": [],
   "guide": [],
   "onboarding": true,
-  "success_message": "Résultat vérifié. {reward} ₵ réglés ; ton prochain dossier est disponible dans cette conversation. Garde tes notes, on réutilisera cette compétence.",
-  "failure_message": "On reprend ce dossier à ton rythme ; vérifie le résultat avant de conclure.",
+  "success_message": "Tu as retrouvé SRV-FICHIERS. Garde les noms et les adresses ensemble, ça t’évitera de viser de mémoire. La prime annoncée est de {reward} ₵ ; le règlement exact figure dans ColdVault.",
+  "failure_message": "On s’arrête là pour ce dossier. Garde le débriefing, on reprendra ce qui a coincé au prochain essai.",
   "debrief_hints": [
     "Découvrir le serveur indiqué par l’inventaire.",
     "Une nouvelle compétence à la fois ; la réussite est vérifiée dans le monde simulé."
@@ -29,5 +29,10 @@
   "hints": [
     "Le périmètre connu est 10.20.0.0/24. Un scan doit identifier les machines et leurs services, pas seulement une adresse.",
     "Depuis Kali : `nmap -sV 10.20.0.0/24`. Attends la fin du traitement et repère le serveur dans les résultats."
-  ]
+  ],
+  "dialogue": {
+    "greeting": "Salut {handle}. Je finis un compte rendu. Qu’est-ce qu’il y a ?",
+    "ack": "Garde tes remerciements pour quand tu sauras refaire sans moi. Mais oui, j’ai lu.",
+    "fallback": "Je ne suis pas sûr de ce que tu me demandes. Tu peux préciser ?"
+  }
 }

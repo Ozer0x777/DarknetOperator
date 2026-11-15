@@ -1,0 +1,4 @@
+interface:
+  display_name: "Vérification — Darknet Operator"
+  short_description: "Parcours, sauvegardes et interface Godot"
+  default_prompt: "Utilise $redteam-game-qa pour vérifier les changements du jeu et préciser ce qui a réellement été testé."

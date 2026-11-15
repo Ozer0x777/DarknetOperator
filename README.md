@@ -1,7 +1,7 @@
 # Darknet Operator
 
 Jeu solo pour PC : bureau natif inspiré de Kali/Xfce, terminal, contrats,
-progression et rapport des détections sur les cibles. Version de développement **0.5.4**.
+progression et rapport des détections sur les cibles. Version de développement **0.6.0**.
 
 Le projet RedVsBlue reste indépendant dans son propre dossier.
 
@@ -11,7 +11,7 @@ Prérequis : **Godot 4 standard**, Python 3 et les dépendances du moteur.
 L'environnement Python est déjà préparé sur cette machine.
 
 ```bash
-cd /home/ozer/Documents/RedTeamSimulator
+cd DarknetOperator
 ./run.sh
 ```
 
@@ -40,7 +40,7 @@ Python de l'environnement, puis `python scripts/launch.py` pour lancer le jeu.
   navigation des résultats, messages, rédaction multiligne, non-lus et brouillons locaux persistants.
 - Forums BreachBoard, Exployt et XSX : navigation, catégories, sujets, profils,
   citations et réponses persistantes. Accès avancés selon le palier et la route.
-- Six contrats de campagne, du tutoriel au palier 3, et une offre piège optionnelle.
+- Acte I : exercices privés, dix chapitres et contrats facultatifs ; acte II : dix missions et six dossiers facultatifs ; acte III : douze missions Lenoir/Aster.
 - Profil sauvegardé, argent, réputation, achats, GPU, listes de mots et passages
   de palier par contrat. Sauvegarde et reprise de la mission en cours.
 - Routes FreeShield, NullVad, Tor et relais SSH ; exposition de la route sans arrestation automatique.
@@ -48,7 +48,7 @@ Python de l'environnement, puis `python scripts/launch.py` pour lancer le jeu.
 - Exfiltration, sauvegardes et chiffrement représentés dans l'état du monde.
 - Débriefing avec historique, alertes, événements et déroulement du traçage.
 
-Le tutoriel commence sur BreachBoard. Les messages arrivent dans la messagerie du
+Les premiers exercices arrivent dans Chordly ; BreachBoard se débloque au fil du prélude. Le tutoriel se poursuit sur BreachBoard. Les messages arrivent dans la messagerie du
 client ; les objectifs et la route sont dans le centre d’opération **Outils**.
 Les actions se pilotent depuis les consoles. **Outils** est désormais un catalogue,
 pas un panneau de boutons d'attaque. GoPhish possède sa propre interface web,
@@ -229,3 +229,17 @@ Ravelle ; les anciennes missions en cours gardent leur contenu et leur prime.
 La [passe de finition 0.5.2](docs/FINITION_ACTE_I.md) précise les corrections de parcours, de budget et de messageries ainsi que les limites de validation.
 
 Le lecteur audio et la [playlist par chapitres](docs/SON_ET_MUSIQUE.md) continuent entre les étapes et missions. L’album YouTube demandé attend son fichier source local ; il n’est pas inclus dans l’archive.
+
+
+## Branches et releases
+
+Le dépôt est privé. `main` correspond à la version publiée et vérifiée ; `dev`
+porte la prochaine version de développement. La release `v0.6.0` vise `main` ;
+la préversion `v0.6.1-dev.1` vise `dev`. Chaque archive Linux dispose d’une
+empreinte SHA-256. Les sources restent disponibles sur les deux branches.
+
+Le paquet Linux portable contient Python, Godot et les bibliothèques nécessaires.
+Après extraction, lancer `./Jouer.sh` ; `./Verifier.sh` exécute les parcours de
+vérification hors réseau. Les résultats et limites de la distribution figurent
+dans [PAQUET_LINUX.md](docs/PAQUET_LINUX.md). Aucun paquet Windows n’est fourni
+pour cette release.

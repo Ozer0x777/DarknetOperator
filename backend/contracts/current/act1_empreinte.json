@@ -13,12 +13,12 @@
     "title": "06 - Une passation à vérifier",
     "body": "Vérifier un compte de lecture fourni, puis livrer le planning courant OR-26-311."
   },
-  "brief": "Une passation fournit un compte de lecture pour le planning : planning / Atelier2026!, serveur 10.61.6.21. Vérifie qu’il fonctionne encore et qu’il donne accès au document demandé, sans supposer des droits administrateur.\n\nLis ~/mission/passation.txt. Tu connais SSH et SCP : ouvre la session, vérifie ton identité, puis transfère le planning courant OR-26-311 dans ~/loot depuis une autre console Kali. Relis la copie avant de confirmer la livraison. Aucun cassage de mot de passe demandé ; le secret est fourni par le client.",
+  "brief": "Une passation fournit un compte de lecture pour le planning : planning / Atelier2026!, serveur 10.61.6.21. Vérifie qu’il fonctionne encore et qu’il donne accès au document demandé, sans supposer des droits administrateur.\n\nLes repères utiles sont ci-dessous.\n\nLis ~/mission/passation.txt. Tu connais SSH et SCP : ouvre la session, vérifie ton identité, puis transfère le planning courant OR-26-311 dans ~/loot depuis une autre console Kali. Relis la copie avant de confirmer la livraison. Aucun cassage de mot de passe demandé ; le secret est fourni par le client.",
   "reward": 320,
   "reputation": 45,
   "required_items": [],
-  "success_message": "Livraison vérifiée. {reward} ₵ annoncés au contrat ; le règlement exact figure dans ton profil. Merci {handle}, je conserve tes preuves.",
-  "failure_message": "Dossier interrompu. Reprends une sauvegarde ou relance le contrat pour retenter le parcours.",
+  "success_message": "Planning reçu. Accès vérifié, copie relue. Bien. La prime annoncée est de {reward} ₵ ; le règlement exact figure dans ColdVault.",
+  "failure_message": "Dossier interrompu. Garde le débriefing. On reprend au prochain essai.",
   "guide": [],
   "investigation_steps": [
     {
@@ -39,9 +39,9 @@
           "inspected": true
         }
       ],
-      "response": "L’accès de lecture fonctionne et le planning courant est reçu. La passation a été vérifiée sans étendre les droits.",
+      "response": "Accès de lecture vérifié, planning courant reçu. Le compte fourni suffisait. Bien d’avoir relu la copie avant de conclure.",
       "missing": "Il faut vérifier l’accès fourni, transférer le planning actuel et relire sa copie.",
-      "already": "Cette étape est déjà enregistrée.",
+      "already": "Déjà reçu. Garde la copie.",
       "hint": "Dans Kali : `ssh planning@10.61.6.21`, puis le secret fourni. Vérifie `whoami`. Dans une autre console Kali : `scp planning@10.61.6.21:/srv/planning/OR-26-311.csv ~/loot/planning.csv`, saisis le secret puis `cat ~/loot/planning.csv`. Confirme livraison OR-26-311.",
       "hints": [
         "Un compte donné par le client reste à tester ; il ne prouve pas des droits étendus.",
@@ -60,7 +60,7 @@
     "act1-verre"
   ],
   "private_offer": true,
-  "intro": "J’ai une passation de lecture à revérifier. Le compte est fourni ; je veux une preuve d’accès et la bonne version du planning, pas une élévation de privilèges.",
+  "intro": "J’ai une passation pour le compte planning. Compte de lecture fourni, pas de mot de passe à chercher. Vérifie l’accès puis le planning OR-26-311. Pièces au dossier. On reste sur Chordly.",
   "relaxed_clock": true,
   "side_job": false,
   "chapter": 6,
@@ -68,5 +68,10 @@
     "act1_portail"
   ],
   "terminal_revision": 4,
-  "curriculum_version": 4
+  "curriculum_version": 4,
+  "dialogue": {
+    "greeting": "Salut. Encore debout ?",
+    "ack": "De rien. Garde la copie.",
+    "fallback": "Pas sûr d’avoir suivi. Précise."
+  }
 }

@@ -15,15 +15,15 @@
     "title": "07 - Un service trop privilégié",
     "body": "Le compte audit peut consulter les SPN. Vérifie les services, demande le ticket du laboratoire puis teste le dictionnaire local. Une correspondance ne prouve pas les droits administrateur du domaine."
   },
-  "brief": "Le compte audit peut consulter les SPN. Vérifie les services, demande le ticket du laboratoire puis teste le dictionnaire local. Une correspondance ne prouve pas les droits administrateur du domaine.\n\nLes pièces sont dans ~/mission. Écris indice pour une piste ou rappel détaillé pour les commandes de ce dossier. Aucun achat de matériel requis.",
+  "brief": "Le compte audit peut consulter les SPN. Vérifie les services, demande le ticket du laboratoire puis teste le dictionnaire local. Une correspondance ne prouve pas les droits administrateur du domaine.\n\nGardons les pièces à portée, on va devoir relier les observations.\n\nLes pièces sont dans ~/mission. Écris indice pour une piste ou rappel détaillé pour les commandes de ce dossier. Aucun achat de matériel requis.",
   "reward": 390,
   "reputation": 20,
   "required_items": [],
   "required_completed": [
     "act2_annuaire"
   ],
-  "success_message": "Preuves vérifiées. {reward} ₵ réglés dans ColdVault ; tes choix sont conservés.",
-  "failure_message": "Dossier interrompu, sans prime. Les accès acquis et les observations sauvegardées restent disponibles pour une reprise.",
+  "success_message": "Le compte de service et ses limites sont vérifiés. On a quelque chose à transmettre, sans inventer les droits qui nous arrangeraient. La prime annoncée est de {reward} ₵ ; le règlement exact figure dans ColdVault.",
+  "failure_message": "Je ne valide pas avec les éléments qu’on a. Le débriefing nous aidera à reprendre sans transformer une hypothèse en fait.",
   "guide": [],
   "investigation_steps": [
     {
@@ -46,8 +46,8 @@
           "key": "hashcat:tgs"
         }
       ],
-      "response": "La correspondance hors ligne est reçue ; Quartz vérifiera l’usage du compte.",
-      "already": "Cette preuve est déjà enregistrée.",
+      "response": "Correspondance reçue. Je passe les pièces à Quartz, qui vérifiera où ce compte peut réellement ouvrir une session.",
+      "already": "J’ai cette pièce. Il n’est pas nécessaire de refaire la collecte pour la renvoyer.",
       "missing": "Vérifie les observations et la version des pièces ; demande indice si nécessaire.",
       "hint": "Depuis Kali : `impacket-GetUserSPNs orbe.lab/audit:Audit2026! -dc-ip 10.71.2.10`, puis ajoute `-request -outputfile /home/operator/loot/tickets.txt`. Lance `hashcat -m 13100 ~/loot/tickets.txt ~/mission/services.txt`, puis `hashcat -m 13100 --show ~/loot/tickets.txt`. Confirme OR-SPN-207.",
       "hints": [
@@ -65,7 +65,12 @@
     "/home/operator/mission/brief-act2.txt": "Le compte audit peut consulter les SPN. Vérifie les services, demande le ticket du laboratoire puis teste le dictionnaire local. Une correspondance ne prouve pas les droits administrateur du domaine.\n"
   },
   "private_offer": true,
-  "intro": "Le compte audit peut consulter les SPN. Vérifie les services, demande le ticket du laboratoire puis teste le dictionnaire local. Une correspondance ne prouve pas les droits administrateur du domaine. Ouvre le dossier pour recevoir les pièces ; les échanges se font ici, sur Telegrid.",
+  "intro": "J’ai gardé un dossier pour reprendre la différence entre compte de service et droits obtenus. On utilisera les pièces fournies, pas une supposition à partir d’un nom de compte. Regarde la proposition, on reste sur Telegrid.",
   "relaxed_clock": true,
-  "terminal_revision": 1
+  "terminal_revision": 1,
+  "dialogue": {
+    "greeting": "Bonjour. Je termine une note, je te lis.",
+    "ack": "De rien. Dis-moi aussi si j’ai mal compris ta question.",
+    "fallback": "Je ne veux pas te répondre à côté. Tu peux préciser ce que tu cherches ?"
+  }
 }

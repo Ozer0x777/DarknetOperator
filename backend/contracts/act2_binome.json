@@ -15,15 +15,15 @@
     "title": "10 - Premier travail en binôme",
     "body": "Livre seulement le bordereau OR-26-210 valide. Choisis le portail interne via le passage SSH ou le partage du serveur de sauvegarde avec les droits vérifiés. Ton partenaire reprendra la même limite d’accès."
   },
-  "brief": "Livre seulement le bordereau OR-26-210 valide. Choisis le portail interne via le passage SSH ou le partage du serveur de sauvegarde avec les droits vérifiés. Ton partenaire reprendra la même limite d’accès.\n\nLes pièces sont dans ~/mission. Écris indice pour une piste ou rappel détaillé pour les commandes de ce dossier. Aucun achat de matériel requis.",
+  "brief": "Livre seulement le bordereau OR-26-210 valide. Choisis le portail interne via le passage SSH ou le partage du serveur de sauvegarde avec les droits vérifiés. Ton partenaire reprendra la même limite d’accès.\n\nOn garde le même périmètre tous les deux.\n\nLes pièces sont dans ~/mission. Écris indice pour une piste ou rappel détaillé pour les commandes de ce dossier. Aucun achat de matériel requis.",
   "reward": 480,
   "reputation": 20,
   "required_items": [],
   "required_completed": [
     "act2_garant"
   ],
-  "success_message": "Preuves vérifiées. {reward} ₵ réglés dans ColdVault ; tes choix sont conservés.",
-  "failure_message": "Dossier interrompu, sans prime. Les accès acquis et les observations sauvegardées restent disponibles pour une reprise.",
+  "success_message": "OR-26-210 valide, même périmètre des deux côtés. Merci. J’avais envie d’un binôme avec qui je n’aurais pas à deviner ce qui a changé. La prime annoncée est de {reward} ₵ ; le règlement exact figure dans ColdVault.",
+  "failure_message": "On n’a pas livré cette fois. Je garde le débriefing, on verra ce qu’il faut revoir avant un nouvel essai.",
   "guide": [],
   "investigation_steps": [
     {
@@ -46,8 +46,8 @@
           "inspected": true
         }
       ],
-      "response": "Passation reçue par le réseau interne.",
-      "already": "Cette preuve est déjà enregistrée.",
+      "response": "Reçu par le réseau interne. On a bien le lot demandé, avec la même limite pour celui qui reprend.",
+      "already": "J’ai déjà la passation. Je reprends celle qu’on a vérifiée.",
       "missing": "Vérifie les observations et la version des pièces ; demande indice si nécessaire.",
       "hint": "Une seule voie suffit. Pivot : garde un tunnel SSH vers le portail, puis `curl -o ~/loot/binome.csv http://127.0.0.1:8080/bordereau.csv`. SMB : `smbclient //10.71.2.30/C$ -U svc.backup%Service2026! -c \"get Data/exports/OR-26-210.csv /home/operator/loot/binome.csv\"`. Relis ta copie puis confirme OR-26-210 en précisant pivot ou smb.",
       "hints": [
@@ -71,8 +71,8 @@
           "inspected": true
         }
       ],
-      "response": "Passation reçue par le partage autorisé.",
-      "already": "Cette preuve est déjà enregistrée.",
+      "response": "Reçu par le partage autorisé. Je peux reprendre les mêmes droits, sans demander au suivant de deviner ce qui a marché.",
+      "already": "J’ai déjà la passation. Je reprends celle qu’on a vérifiée.",
       "missing": "Vérifie les observations et la version des pièces ; demande indice si nécessaire.",
       "hint": "Une seule voie suffit. Pivot : garde un tunnel SSH vers le portail, puis `curl -o ~/loot/binome.csv http://127.0.0.1:8080/bordereau.csv`. SMB : `smbclient //10.71.2.30/C$ -U svc.backup%Service2026! -c \"get Data/exports/OR-26-210.csv /home/operator/loot/binome.csv\"`. Relis ta copie puis confirme OR-26-210 en précisant pivot ou smb.",
       "hints": [
@@ -91,7 +91,12 @@
     "/home/operator/mission/brief-act2.txt": "Livre seulement le bordereau OR-26-210 valide. Choisis le portail interne via le passage SSH ou le partage du serveur de sauvegarde avec les droits vérifiés. Ton partenaire reprendra la même limite d’accès.\n"
   },
   "private_offer": true,
-  "intro": "Livre seulement le bordereau OR-26-210 valide. Choisis le portail interne via le passage SSH ou le partage du serveur de sauvegarde avec les droits vérifiés. Ton partenaire reprendra la même limite d’accès. Ouvre le dossier pour recevoir les pièces ; les échanges se font ici, sur Telegrid.",
+  "intro": "J’aimerais qu’on fasse le dernier dossier ensemble. OR-26-210 valide, et rien de plus. Portail interne par SSH ou partage de sauvegarde : choisis la voie dont tu peux vérifier les droits. Je reprendrai la même limite. Pièces au dossier, on reste sur Telegrid.",
   "relaxed_clock": true,
-  "terminal_revision": 1
+  "terminal_revision": 1,
+  "dialogue": {
+    "greeting": "Salut. Tu viens pour le dossier ou tu fais une pause aussi ?",
+    "ack": "Merci de m’avoir tenu au courant. Ça change beaucoup de choses de ne pas attendre dans le vide.",
+    "fallback": "Je préfère te demander : qu’est-ce que tu attends de moi là-dessus ?"
+  }
 }

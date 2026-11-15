@@ -14,7 +14,10 @@ import sysconfig
 import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
-NAME = 'DarknetOperator-0.5.4-dev-Linux-x86_64'
+VERSION = re.search(r'^config/version="([^"]+)"', (ROOT/'game/project.godot').read_text(), re.MULTILINE)[1]
+if not re.fullmatch(r'[0-9]+\.[0-9]+\.[0-9]+(?:-[A-Za-z0-9.-]+)?', VERSION):
+    raise ValueError('Version de paquet invalide.')
+NAME = f'DarknetOperator-{VERSION}-Linux-x86_64'
 STAGE = ROOT/'build/portable-linux'/NAME
 DIST = ROOT/'dist'
 EXCLUDED = {'__pycache__', '.pytest_cache', '.venv', 'site-packages', 'ensurepip', 'idlelib', 'turtledemo', 'test', 'tests', 'pip'}
@@ -27,6 +30,11 @@ def ignored(_directory, names):
 
 def copy_tree(source, target, ignore=None):
     shutil.copytree(source, target, dirs_exist_ok=True, ignore=ignore)
+
+
+def game_source_files(root=ROOT):
+    raw = subprocess.check_output(['git','ls-files','--cached','--others','--exclude-standard','-z','game'], cwd=root)
+    return [root/name for name in sorted(set(raw.decode().split('\0'))) if name and (root/name).is_file()]
 
 
 def dependencies(binary):
@@ -103,8 +111,8 @@ def licenses(stage, libraries, godot, python):
 def solution(stage):
     destination = stage/'Solution'
     copy_tree(ROOT/'docs', destination/'docs')
-    contents = ['# Solution complète - Darknet Operator\n\nSpoilers complets. Ce guide couvre le contenu jouable de cette archive : prélude, actes I et II, démo et anciens scénarios. Les commandes se saisissent dans les terminaux du jeu, une à la fois. Les actes III et IV restent à préparer.\n']
-    for title, name in [('Première partie - Acte I actuel et transition','ACTE_I_ACTUEL.md'),('Archives - Prélude antérieur','PRELUDE_CHORDLY.md'),('Archives - Ancien acte I et petits contrats','ACTE_I.md'),('Troisième partie - Démo et Le contretemps','DEMO_ET_CONTRETEMPS.md'),('Quatrième partie - Acte II','ACTE_II_GUIDE.md'),('Cinquième partie - Anciens scénarios et références','GUIDE_COMPLET_SCENARIOS.md')]:
+    contents = ['# Solution complète - Darknet Operator\n\nSpoilers complets. Ce guide couvre le contenu jouable de cette archive : prélude, actes I et II, démo et anciens scénarios. Les commandes se saisissent dans les terminaux du jeu, une à la fois. L’acte III comporte douze missions ; l’acte IV reste à préparer.\n']
+    for title, name in [('Première partie - Acte I actuel et transition','ACTE_I_ACTUEL.md'),('Archives - Prélude antérieur','PRELUDE_CHORDLY.md'),('Archives - Ancien acte I et petits contrats','ACTE_I.md'),('Troisième partie - Démo et Le contretemps','DEMO_ET_CONTRETEMPS.md'),('Quatrième partie - Acte II','ACTE_II_GUIDE.md'),('Cinquième partie - Acte III','ACTE_III_COUVERTURE.md'),('Sixième partie - Anciens scénarios et références','GUIDE_COMPLET_SCENARIOS.md')]:
         text = (ROOT/'docs'/name).read_text()
         text = re.sub(r'(?m)^(#{1,5}) ',r'\1# ',text)
         text = re.sub(r'\]\((?!https?://)([A-Za-z0-9_./-]+\.md)(#[^)]*)?\)', lambda m: '](docs/'+m.group(1)+(m.group(2) or '')+')', text)
@@ -140,15 +148,28 @@ def build():
     print(f'{len(libraries)} bibliothèques natives incluses.',flush=True)
     for folder in ('api','engine','abilities','contracts','scenarios','data'):
         copy_tree(ROOT/'backend'/folder,STAGE/'engine'/folder,shutil.ignore_patterns('__pycache__','*.pyc'))
-    for filename in ('desktop_server.py','validation.py','validation_suite.py','act1_validation.py','journey_validation.py','first_hour_validation.py','mission_review_validation.py','save_review_validation.py','demo_validation.py','act2_validation.py','curriculum_validation.py','requirements.txt'):
+    for filename in ('desktop_server.py','validation.py','validation_suite.py','act1_validation.py','journey_validation.py','first_hour_validation.py','mission_review_validation.py','save_review_validation.py','demo_validation.py','act2_validation.py','curriculum_validation.py','act3_validation.py','tls_arc_validation.py','export_world_preview.py','requirements.txt'):
         shutil.copy2(ROOT/'backend'/filename,STAGE/'engine'/filename)
-    copy_tree(ROOT/'game',STAGE/'game',shutil.ignore_patterns('.godot'))
+    # Les fichiers ignorés localement (album personnel, caches) ne sont jamais distribués.
+    imports = set()
+    for source in game_source_files():
+        relative = source.relative_to(ROOT)
+        target = STAGE/relative
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(source, target)
+        if source.suffix == '.import':
+            imports.update(re.findall(r'res://(\.godot/imported/[^"\n]+)', source.read_text()))
+    for relative in sorted(imports):
+        source = ROOT/'game'/relative
+        if not source.is_file(): raise RuntimeError(f'Ressource non importée : {source}')
+        target = STAGE/'game'/relative
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(source,target)
     for filename in ('uid_cache.bin','global_script_class_cache.cfg'):
         source = ROOT/'game/.godot'/filename
         if source.exists():
             (STAGE/'game/.godot').mkdir(exist_ok=True)
             shutil.copy2(source,STAGE/'game/.godot'/filename)
-    copy_tree(ROOT/'game/.godot/imported',STAGE/'game/.godot/imported')
     shutil.copy2(ROOT/'packaging/portable_launcher.py',STAGE/'launcher.py')
     shell = '''#!/bin/sh
 set -eu
@@ -172,7 +193,7 @@ exec "$PACKAGE_DIR/runtime/ld-linux-x86-64.so.2" --library-path "$PACKAGE_DIR/ru
     for name in ('generate_audio.py','check_audio.py','import_chapter_music.py'):
         if (ROOT/'scripts'/name).exists(): shutil.copy2(ROOT/'scripts'/name,STAGE/'scripts'/name)
     packages = licenses(STAGE,libraries,godot,python)
-    metadata = {'game':'Darknet Operator','version':'0.5.4-dev','architecture':'Linux x86_64','type':'portable-source-runtime','godot':subprocess.check_output([str(godot),'--version'],text=True).strip(),'python':sys.version,'libraries':libraries,'system_packages':packages,'python_packages':{d.metadata['Name']:d.version for d in importlib.metadata.distributions() if d.metadata['Name'].lower() not in {'pip','pytest','pygments','pluggy','iniconfig'}},'personal_saves_included':False}
+    metadata = {'game':'Darknet Operator','version':VERSION,'architecture':'Linux x86_64','type':'portable-source-runtime','godot':subprocess.check_output([str(godot),'--version'],text=True).strip(),'python':sys.version,'libraries':libraries,'system_packages':packages,'python_packages':{d.metadata['Name']:d.version for d in importlib.metadata.distributions() if d.metadata['Name'].lower() not in {'pip','pytest','pygments','pluggy','iniconfig'}},'personal_saves_included':False}
     (STAGE/'CONSTRUCTION.json').write_text(json.dumps(metadata,ensure_ascii=False,indent=2)+'\n')
     (STAGE/'VALIDATION.txt').write_text('Construction effectuée. Exécuter Verifier.sh puis consigner les vérifications avant diffusion.\n')
     print(STAGE,flush=True)

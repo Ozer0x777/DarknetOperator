@@ -22,8 +22,8 @@
   "required_completed": [
     "act2_annuaire"
   ],
-  "success_message": "Preuves vérifiées. {reward} ₵ réglés dans ColdVault ; tes choix sont conservés.",
-  "failure_message": "Dossier interrompu, sans prime. Les accès acquis et les observations sauvegardées restent disponibles pour une reprise.",
+  "success_message": "L’extrait est recoupé. J’aime quand un petit dossier finit avec une conclusion de la même taille, pas une promesse énorme. La prime annoncée est de {reward} ₵ ; le règlement exact figure dans ColdVault.",
+  "failure_message": "Je ne valide pas avec les éléments qu’on a. Le débriefing nous aidera à reprendre sans transformer une hypothèse en fait.",
   "guide": [],
   "investigation_steps": [
     {
@@ -40,8 +40,8 @@
           ]
         }
       ],
-      "response": "Contre-vérification reçue.",
-      "already": "Cette preuve est déjà enregistrée.",
+      "response": "L’extrait est recoupé. J’aime quand un petit dossier finit avec une conclusion de la même taille, pas une promesse énorme.",
+      "already": "J’ai cette pièce. Il n’est pas nécessaire de refaire la collecte pour la renvoyer.",
       "missing": "Vérifie les observations et la version des pièces ; demande indice si nécessaire.",
       "hint": "Utilise ldapsearch avec le filtre \"(servicePrincipalName=*)\", puis confirme rapport act2_side_annuaire.",
       "hints": [
@@ -58,8 +58,13 @@
     "/home/operator/mission/brief-act2.txt": "Consulte l’annuaire orbe.lab au contrôleur 10.71.2.10 avec le compte audit. Prépare une collecte SharpHound depuis ORBE-POSTE 10.71.2.21, récupère l’archive et examine ses relations dans BloodHound.\n"
   },
   "private_offer": true,
-  "intro": "Inventorier seulement les comptes possédant un servicePrincipalName dans orbe.lab. Ne remets pas tout l’annuaire.",
+  "intro": "Un extrait d’annuaire à relire. Ça a l’air simple, c’est justement le genre de dossier où on va trop vite. Pièces au dossier, sur Telegrid.",
   "relaxed_clock": true,
   "terminal_revision": 1,
-  "side_job": true
+  "side_job": true,
+  "dialogue": {
+    "greeting": "Bonjour. Je termine une note, je te lis.",
+    "ack": "De rien. Dis-moi aussi si j’ai mal compris ta question.",
+    "fallback": "Je ne veux pas te répondre à côté. Tu peux préciser ce que tu cherches ?"
+  }
 }

@@ -15,13 +15,13 @@
     "title": "01 - Une vieille passation",
     "body": "Une empreinte du compte ops figure dans une passation. Vérifie une correspondance hors ligne avec la liste fournie ; cela ne prouve pas encore un accès."
   },
-  "brief": "Une empreinte du compte ops figure dans une passation. Vérifie une correspondance hors ligne avec la liste fournie ; cela ne prouve pas encore un accès.\n\nLes pièces sont dans ~/mission. Écris indice pour une piste ou rappel détaillé pour les commandes de ce dossier. Aucun achat de matériel requis.",
+  "brief": "Une empreinte du compte ops figure dans une passation. Vérifie une correspondance hors ligne avec la liste fournie ; cela ne prouve pas encore un accès.\n\nJ’ai regroupé ce qu’on peut contrôler, pour ne rien supposer entre deux étapes.\n\nLes pièces sont dans ~/mission. Écris indice pour une piste ou rappel détaillé pour les commandes de ce dossier. Aucun achat de matériel requis.",
   "reward": 210,
   "reputation": 20,
   "required_items": [],
   "required_completed": [],
-  "success_message": "Preuves vérifiées. {reward} ₵ réglés dans ColdVault ; tes choix sont conservés.",
-  "failure_message": "Dossier interrompu, sans prime. Les accès acquis et les observations sauvegardées restent disponibles pour une reprise.",
+  "success_message": "La correspondance tient avec la liste fournie. Merci d’avoir pris le temps. Je ne marque pas encore l’accès comme valide, on le vérifiera ensuite. La prime annoncée est de {reward} ₵ ; le règlement exact figure dans ColdVault.",
+  "failure_message": "On s’arrête ici. Je préfère garder ce qu’on a vraiment observé plutôt que compléter de mémoire. Relis le débriefing avant de retenter.",
   "guide": [],
   "investigation_steps": [
     {
@@ -40,8 +40,8 @@
           "source": "/home/operator/mission/ops.ntlm"
         }
       ],
-      "response": "La correspondance est vérifiée ; le compte reste à tester.",
-      "already": "Cette preuve est déjà enregistrée.",
+      "response": "La correspondance est vérifiée. Je garde encore un point d’interrogation sur l’accès, on va le tester ensuite.",
+      "already": "Je l’ai conservé avec les pièces. Pas besoin de refaire cette vérification pour moi.",
       "missing": "Vérifie les observations et la version des pièces ; demande indice si nécessaire.",
       "hint": "Lis ~/mission/passation.txt, puis `hashcat -m 1000 ~/mission/ops.ntlm ~/mission/mots.txt` et `hashcat -m 1000 --show ~/mission/ops.ntlm`. Rapporte OR-26-201 après le résultat.",
       "hints": [
@@ -57,7 +57,12 @@
     "/home/operator/mission/brief-act2.txt": "Une empreinte du compte ops figure dans une passation. Vérifie une correspondance hors ligne avec la liste fournie ; cela ne prouve pas encore un accès.\n"
   },
   "private_offer": true,
-  "intro": "Une empreinte du compte ops figure dans une passation. Vérifie une correspondance hors ligne avec la liste fournie ; cela ne prouve pas encore un accès. Ouvre le dossier pour recevoir les pièces ; les échanges se font ici, sur Telegrid.",
+  "intro": "Salut, c’est Cendre. On m’a transmis une empreinte du compte ops. J’aimerais la vérifier avec la petite liste fournie avant de transmettre quoi que ce soit. Aucun achat nécessaire. Ouvre le dossier, les pièces suivront. Je reste sur Telegrid.",
   "relaxed_clock": true,
-  "terminal_revision": 1
+  "terminal_revision": 1,
+  "dialogue": {
+    "greeting": "Salut. J’avais gardé le fil ouvert au cas où tu repassais.",
+    "ack": "Merci à toi d’avoir attendu. Je sais que je peux être lent.",
+    "fallback": "Je relis et je ne suis pas certain de comprendre. On reprend depuis quel point ?"
+  }
 }

@@ -18,13 +18,13 @@
     "title": "08 - Mauvaise adresse",
     "body": "Dossier prive. Retrouver le document AF-26-118, verifier son origine et livrer la version recente."
   },
-  "intro": "On m’a parlé de tes vérifications précédentes. J’ai un document à retrouver : AF-26-118. Regarde le dossier avant d’accepter ; je t’envoie mes informations dans cette conversation.",
+  "intro": "Salut. On m’a parlé de tes vérifications. Je cherche AF-26-118 et j’ai un tableau d’adresses à te transmettre. Il n’est pas tout neuf. Regarde le dossier, pose tes questions ici avant d’accepter si quelque chose te paraît bizarre.",
   "brief": "Salut {handle}. Je cherche AF-26-118, trois lignes de données de novembre 2026. Mon tableau indique Aquila Conseil, 10.48.1.20, mais cette attribution n’a pas été revérifiée.\n\nCette fois, vérifie aussi mon brief : confronte les mentions du site aux échanges Aquila de BreachBoard. Tu connais déjà curl, les sessions et les transferts ; à toi de choisir leur ordre selon les preuves. Si l’attribution est fausse, explique ici la différence entre les deux sociétés en citant AF-26-118. Nous confirmerons la cible avant la récupération.\n\nLe carnet ~/mission/enquete.txt conserve les repères du dossier. Les archives peuvent être trompeuses ; aucune action sur une machine ne remplace la vérification de son identité. Indice et rappel détaillé restent disponibles à chaque étape.",
   "reward": 650,
   "reputation": 65,
   "required_items": [],
   "success_message": "Document AF-26-118 recu : trois lignes, dates recentes, contenu conforme. Tu as corrige mon erreur et retrouve la bonne source. {reward} ₵ regles. Je retiens surtout la qualite de tes preuves, {handle}.",
-  "failure_message": "Dossier interrompu. Les preuves restent dans la sauvegarde ; aucun fichier non verifie ne sera considere comme livre.",
+  "failure_message": "Ça n’a pas tenu. Relis le débriefing avant de retenter, et recoupe mes informations aussi.",
   "investigation_threads": [
     "aquila-homonymes",
     "aquila-portail"
@@ -53,7 +53,7 @@
         }
       ],
       "missing": "Il me manque des preuves consultees : lis les mentions d’Aquila Conseil et les reponses du fil « Aquila : deux societes, deux activites ». Les noms seuls ne suffisent pas.",
-      "response": "Tu as raison : AQC-441 fait du conseil, AQF-882 du fret. J’ai fusionne deux lignes de mon tableau. AF-26-118 concerne Aquila Fret. Le fil « Portail de suivi Aquila » contient un echange de hexcache et 0xvanta ; retrouve leur infrastructure actuelle et confirme-la moi avec le hostname, l’IP et la reference.",
+      "response": "Tu as raison. AQC-441, conseil. AQF-882, fret. J’ai fusionné deux lignes de mon tableau, AF-26-118 concerne Aquila Fret. Merci d’avoir vérifié avant de récupérer le mauvais document. Le fil « Portail de suivi Aquila » contient un échange de hexcache et 0xvanta. Retrouve leur infrastructure actuelle et confirme le hostname, l’IP et la référence ici.",
       "already": "L’erreur d’attribution est deja corrigee. Poursuis la recherche de la bonne infrastructure.",
       "hint": "Lis `curl http://10.48.1.20/mentions.txt`, puis les reponses du fil Aquila / deux societes dans Discussion. Explique ici que Aquila Conseil et Aquila Fret sont distinctes, en citant AF-26-118.",
       "hints": [
@@ -84,7 +84,7 @@
         }
       ],
       "missing": "Confirme d’abord mon erreur, lis les reponses sur le portail et verifie les mentions de l’adresse proposee. Une ancienne IP citee dans le fil n’est pas une preuve actuelle.",
-      "response": "Cible confirmee : AQF-PORTAIL, Aquila Fret. Observe les services avec Nmap et recoupe les chemins evoques dans la discussion. Le fichier demande doit venir du stockage documentaire, pas d’un echantillon du forum. Aide reste disponible pour les syntaxes.",
+      "response": "D’accord, AQF-PORTAIL chez Aquila Fret. Cette fois on a recoupé. Observe les services avec Nmap et reprends les chemins cités dans le fil. Le document doit venir du stockage, pas de l’échantillon du forum. Demande aide si la syntaxe te manque.",
       "already": "AQF-PORTAIL est deja confirme. Il reste a retrouver et verifier le fichier.",
       "hint": "Dans Discussion, recherche « Portail de suivi Aquila ». Lis aussi les reponses : elles corrigent l’ancienne adresse. Verifie les mentions du nouveau site, puis envoie AQF-PORTAIL, son IP actuelle et AF-26-118.",
       "hints": [
@@ -125,7 +125,7 @@
         }
       ],
       "missing": "Livraison refusee : verifie la cible, la chaine d’acces et le transfert du fichier recent intact dans ~/loot. Le carnet enquete.txt rappelle les criteres. Un echantillon, l’archive 2024 ou une copie modifiee ne conviennent pas.",
-      "response": "Je verifie la livraison AF-26-118 et les observations du dossier. Le fichier recent est bien present et intact ; validation en cours.",
+      "response": "Je relis AF-26-118 avec tes observations. La pièce récente est là, intacte. Je termine la validation.",
       "already": "La livraison a deja ete validee.",
       "hint": "Observe `nmap -sV 10.48.8.31`, puis `curl http://10.48.8.31/robots.txt` et le chemin de sauvegarde mentionne dans le fil. Le compte recupere permet SSH ; sa note donne la configuration documentaire. Depuis Kali, help smbclient ou `cat ~/tools/README.txt` rappelle les transferts. Lis ~/mission/enquete.txt puis compare l’archive et le fichier de novembre avant d’envoyer livraison AF-26-118.",
       "hints": [
@@ -141,7 +141,9 @@
     "Le fichier recent et l’archive appartiennent a des lots distincts. Le paiement exige une copie intacte et un compte rendu."
   ],
   "dialogue": {
-    "greeting": "Salut {handle}. Dis-moi tes observations ; je peux me tromper, alors verifie mes informations."
+    "greeting": "Salut. Si c’est encore mon tableau, je suis dessus.",
+    "ack": "Oui. Bon. Ça m’a évité une autre erreur, donc merci à toi aussi.",
+    "fallback": "Attends, je suis pas sûr de te suivre. Tu parles de quoi exactement ?"
   },
   "act1_previous": "act1_service",
   "terminal_revision": 2

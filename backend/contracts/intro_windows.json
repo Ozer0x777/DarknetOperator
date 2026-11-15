@@ -19,8 +19,8 @@
   "required_items": [],
   "guide": [],
   "onboarding": true,
-  "success_message": "Résultat vérifié. {reward} ₵ réglés ; ton prochain dossier est disponible dans cette conversation. Garde tes notes, on réutilisera cette compétence.",
-  "failure_message": "On reprend ce dossier à ton rythme ; vérifie le résultat avant de conclure.",
+  "success_message": "C’est le bon contenu dans la copie distante. Ça paraît peu, mais c’est une différence utile à garder en tête. La prime annoncée est de {reward} ₵ ; le règlement exact figure dans ColdVault.",
+  "failure_message": "On s’arrête là pour ce dossier. Garde le débriefing, on reprendra ce qui a coincé au prochain essai.",
   "debrief_hints": [
     "Créer une copie du document dans sa session Windows.",
     "Une nouvelle compétence à la fois ; la réussite est vérifiée dans le monde simulé."
@@ -29,5 +29,10 @@
   "hints": [
     "Vérifie d’abord le contexte avec hostname et whoami. La lecture et la copie demandées se font sur Windows, pas dans Kali.",
     "Après SSH et le mot de passe du brief, lis `type C:\\Users\\m.leroux\\note.txt`, puis `copy C:\\Users\\m.leroux\\note.txt C:\\Users\\m.leroux\\preuve.txt`. Cette copie reste sur la machine distante."
-  ]
+  ],
+  "dialogue": {
+    "greeting": "Salut {handle}. Je finis un compte rendu. Qu’est-ce qu’il y a ?",
+    "ack": "Garde tes remerciements pour quand tu sauras refaire sans moi. Mais oui, j’ai lu.",
+    "fallback": "Je ne suis pas sûr de ce que tu me demandes. Tu peux préciser ?"
+  }
 }

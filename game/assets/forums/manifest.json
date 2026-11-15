@@ -1,0 +1,51 @@
+{
+  "version": 1,
+  "banners": [
+    {
+      "forum": "breachboard",
+      "file": "breachboard-orbital-v1.png",
+      "initialPrompt": "Use case: stylized-concept. Asset type: original panoramic forum header banner for Darknet Operator. Extra wide 4:1 landscape composition, intended for a shallow horizontal crop, keep every essential element in the central horizontal band. Reference image is only the style and palette guide; create a new scene. Hand-drawn 1990s science-fiction anime cel film aesthetic, confident ink outlines, restrained flat shadow shapes, matte painted setting, subtle analog grain, no photorealism or glossy 3D. Opaque edge-to-edge image. No text, typography, symbols, logo, watermark, faces, charts or UI. Scene: A lived-in orbital radio repair desk beside an observation window, faded coral and warm amber instrument lights, weathered dark olive equipment, a small emerald planetary limb far right. Friendly workshop atmosphere, no people. The left half is quiet dark charcoal for a forum title overlay.",
+      "editPrompt": "Edit target: image 1, the existing original forum banner. Style reference: image 2, the game's orbital wallpaper. Preserve the banner's palette, existing orbital setting, painted grain and inked 1990s anime cel treatment, and its extra-wide opaque landscape format. Change only the addition of a female character and the immediate foreground necessary to seat or stand her naturally. Add one original adult woman, about 30, copper-red short hair, faded olive work jacket and dark fully covered clothing, seated at the right-hand radio desk, calm welcoming expression, hands naturally near the radio. Keep the left half dark and empty. Important shallow-banner crop safety: the woman's head including hair must fit entirely in the central 40 percent of image height (between y=30% and y=70%), with her face centered vertically at y=50%, so she remains identifiable when the image is cropped into a wide forum header. Keep her head relatively small in the overall panorama, not a huge portrait. No text, logo, watermark, sexualized pose, photorealism or glossy 3D.",
+      "references": [
+        "game/assets/backgrounds/orbital-drift-desktop-v1.png"
+      ],
+      "mode": "imagegen intégré : génération puis ajout du personnage féminin",
+      "sha256": "a0f1f420e273782776664b3220242037972b647e4e5049697ae912d51ba3e04f",
+      "dimensions": [
+        2172,
+        724
+      ]
+    },
+    {
+      "forum": "exployt",
+      "file": "exployt-orbital-v1.png",
+      "initialPrompt": "Use case: stylized-concept. Asset type: original panoramic forum header banner for Darknet Operator. Extra wide 4:1 landscape composition, intended for a shallow horizontal crop, keep every essential element in the central horizontal band. Reference image is only the style and palette guide; create a new scene. Hand-drawn 1990s science-fiction anime cel film aesthetic, confident ink outlines, restrained flat shadow shapes, matte painted setting, subtle analog grain, no photorealism or glossy 3D. Opaque edge-to-edge image. No text, typography, symbols, logo, watermark, faces, charts or UI. Scene: Exterior of an orbital communications relay with a precise sparse antenna lattice on the right and an emerald planetary horizon, deep midnight teal, pale mint and restrained cool blue light, analytical quiet atmosphere. No people. The left half is quiet dark charcoal for a forum title overlay.",
+      "editPrompt": "Edit target: image 1, the existing original forum banner. Style reference: image 2, the game's orbital wallpaper. Preserve the banner's palette, existing orbital setting, painted grain and inked 1990s anime cel treatment, and its extra-wide opaque landscape format. Change only the addition of a female character and the immediate foreground necessary to seat or stand her naturally. Add one original adult woman, about 35, short silver bob, dark teal flight jacket and fully covered clothing, seen from a foreground observation cockpit on the right looking toward the communications array through glass. Keep the left half dark and empty. Important shallow-banner crop safety: the woman's head including hair must fit entirely in the central 40 percent of image height (between y=30% and y=70%), with her face centered vertically at y=50%, so she remains identifiable when the image is cropped into a wide forum header. Keep her head relatively small in the overall panorama, not a huge portrait. No text, logo, watermark, sexualized pose, photorealism or glossy 3D.",
+      "references": [
+        "game/assets/backgrounds/orbital-drift-desktop-v1.png"
+      ],
+      "mode": "imagegen intégré : génération puis ajout du personnage féminin",
+      "sha256": "47638b3e5b60cce42935935c7d5fefcdf294383555407722e90dfff79d3bb881",
+      "dimensions": [
+        2172,
+        724
+      ]
+    },
+    {
+      "forum": "xsx",
+      "file": "xsx-orbital-v1.png",
+      "initialPrompt": "Use case: stylized-concept. Asset type: original panoramic forum header banner for Darknet Operator. Extra wide 4:1 landscape composition, intended for a shallow horizontal crop, keep every essential element in the central horizontal band. Reference image is only the style and palette guide; create a new scene. Hand-drawn 1990s science-fiction anime cel film aesthetic, confident ink outlines, restrained flat shadow shapes, matte painted setting, subtle analog grain, no photorealism or glossy 3D. Opaque edge-to-edge image. No text, typography, symbols, logo, watermark, faces, charts or UI. Scene: A secluded orbital observation gallery with heavy shadowed framing on the right, distant partial planetary eclipse, muted olive green and charcoal plum, tiny pale mint glints, private restrained atmosphere. No people. The left half is quiet near-black for a forum title overlay.",
+      "editPrompt": "Edit target: image 1, the existing original forum banner. Style reference: image 2, the game's orbital wallpaper. Preserve the banner's palette, existing orbital setting, painted grain and inked 1990s anime cel treatment, and its extra-wide opaque landscape format. Change only the addition of a female character and the immediate foreground necessary to seat or stand her naturally. Add one original adult woman, about 38, long dark chestnut hair and a restrained charcoal plum coat over fully covered clothing, standing calmly in the right-hand observation gallery, thoughtful profile and clearly readable face. Keep the left half dark and empty. Important shallow-banner crop safety: the woman's head including hair must fit entirely in the central 40 percent of image height (between y=30% and y=70%), with her face centered vertically at y=50%, so she remains identifiable when the image is cropped into a wide forum header. Keep her head relatively small in the overall panorama, not a huge portrait. No text, logo, watermark, sexualized pose, photorealism or glossy 3D.",
+      "references": [
+        "game/assets/backgrounds/orbital-drift-desktop-v1.png"
+      ],
+      "mode": "imagegen intégré : génération puis ajout du personnage féminin",
+      "sha256": "0590aaf3fb95a4cfea568a52ff275fc8eb2d1a0b411d9bc52bb447393358b872",
+      "dimensions": [
+        2172,
+        724
+      ]
+    }
+  ],
+  "runtime_texture_limit": 2048
+}

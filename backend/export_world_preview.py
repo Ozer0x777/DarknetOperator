@@ -13,6 +13,7 @@ def export(target: Path):
         career.data.update(tier=3, route='relay', handle='nightshift', reputation=350)
         social.advance(career, 96)
         data = social.view(career, contracts.load_all_contracts())
+        data['culture_posts'] = career.data['forum_posts']['musee-dimanche']
         from engine.save_store import SaveStore
         slot = SaveStore(career.path).write(career.data, 'Avant le serveur')
         data['save_slots'] = [slot | {'valid': True}]
@@ -55,6 +56,19 @@ def export(target: Path):
         transition.data.update(campaign_version=4,handle='nightshift',tier=2,route='tor',inventory=['nullvad'],completed=list(dict.fromkeys(CURRENT_STAGES+[row[0] for row in CHAPTERS])),forum_invitation_accepted=True,reputation=500,forum_reputation={'breachboard':500,'exployt':0,'xsx':0})
         data['transition_world']=social.view(transition,curriculum.definitions(transition.data,contracts.load_all_contracts()))
         data['transition_profile']=transition.view()
+        tls=Career(Path(directory)/'tls.json')
+        tls.data.update(campaign_version=4,handle='nightshift',tier=1,completed=['tuto_p0','act1_portail'],reputation=100)
+        social.prepare(tls)['published'].append('tls-contact')
+        data['tls_world']=social.view(tls,contracts.load_all_contracts())
+        arc_path=target.parent/'tls-arc-replays.json'
+        if arc_path.is_file():
+            arc=json.loads(arc_path.read_text(encoding='utf-8'))
+            data['tls_arc_previews']=[
+                dict(stance=route['stance'],scene_id=step['scene_id'],world=step['before'])
+                for route in arc['routes'] for step in route['steps']
+                if (route['stance'],step['scene_id']) in {
+                    ('amitie','tls-arc-desaccord'),('professionnel','tls-arc-limite'),
+                    ('professionnel','tls-arc-retour'),('attirance','tls-arc-retour')}]
 
         data['onboarding_brief'] = contracts.load_all_contracts()['intro_terminal']['brief']
         chapter = Career(Path(directory) / 'chapter.json')

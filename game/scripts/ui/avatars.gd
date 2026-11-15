@@ -1,5 +1,25 @@
 extends RefCounted
-const PORTRAITS = {"k0rvid":"res://assets/avatars/k0rvid-v1.png", "miette":"res://assets/avatars/miette-v1.png", "sable":"res://assets/avatars/sable-v1.png"}
+const PORTRAITS = {
+  "bytewarden": "res://assets/avatars/bytewarden-orbital-v1.png",
+  "mod_echo": "res://assets/avatars/mod_echo-orbital-v1.png",
+  "nullpointer": "res://assets/avatars/nullpointer-orbital-v1.png",
+  "packetloss": "res://assets/avatars/packetloss-orbital-v1.png",
+  "relay": "res://assets/avatars/relay-orbital-v1.png",
+  "spectre": "res://assets/avatars/spectre-orbital-v1.png",
+  "hexane": "res://assets/avatars/hexane-orbital-v1.png",
+  "nullroute": "res://assets/avatars/nullroute-orbital-v1.png",
+  "0xvanta": "res://assets/avatars/0xvanta-orbital-v1.png",
+  "hexcache": "res://assets/avatars/hexcache-orbital-v1.png",
+  "cendre": "res://assets/avatars/cendre-orbital-v1.png",
+  "traverse": "res://assets/avatars/traverse-orbital-v1.png",
+  "iris": "res://assets/avatars/iris-orbital-v1.png",
+  "quartz": "res://assets/avatars/quartz-orbital-v1.png",
+  "k0rvid": "res://assets/avatars/k0rvid-orbital-v1.png",
+  "miette": "res://assets/avatars/miette-orbital-v1.png",
+  "sable": "res://assets/avatars/sable-orbital-v1.png",
+  "Madame_TLS": "res://assets/avatars/madame-tls-orbital-v2.png",
+  "urgent_client_01": "res://assets/avatars/urgent_client_01-orbital-v1.png"
+}
 
 static func apply(panel: PanelContainer, handle: String, rounded: bool = false) -> void:
 	for child: Node in panel.get_children():

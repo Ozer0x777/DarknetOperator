@@ -7,7 +7,10 @@ complète des exécutables réels. Les identifiants et fichiers sont fictifs.
 | Famille | Prise en charge actuelle | Limites |
 |---|---|---|
 | Shell | whoami, hostname, id, uname -a, ip addr, pwd, ls, cd, cat, exit, which, echo, export, jobs, kill | Sessions séparées, fichiers locaux partagés ; redirections > et >>, variables et $(cat fichier) ; pas un shell Bash/cmd complet |
-| Nmap | Cible unique ou /24, -sn, -sV, -sS, -sT, -Pn, -n, -p liste, -T0 à -T5 | -sn ne révèle pas les services ; -p filtre les ports ; les modes TCP et le timing ne reproduisent pas une pile réseau réelle ; versions de services non modélisées |
+| Nmap | Cible unique ou /24, -sn, -sV, -sS, -sT, -Pn, -n, -p liste, -T0 à -T5 | -Pn saute la découverte sans ouvrir de route ; -sn ne révèle pas les services ; -p accepte une liste, pas une plage ; ports par défaut limités aux services du scénario ; pas de pile réseau réelle |
+| Chisel | Serveur local inverse, client distant, redirection TCP inverse ou SOCKS | Une redirection par client ; processus et dépendances sauvegardés ; [couverture acte III](ACTE_III_COUVERTURE.md) |
+| ProxyChains-NG | -f, strict_chain, un SOCKS5 local ; Nmap -sT -Pn -n, curl, Evil-WinRM | TCP ; pas de chaînes multiples ou de sondes brutes ; usage propre à chaque commande |
+| Evil-WinRM | -i, -u, -p ou -H, -S, -P ; session PowerShell | Transport, identité et autorisation requis ; pas de droits SYSTEM implicites |
 | OpenSSH | ssh utilisateur@cible, invite de mot de passe masquée, session persistante | Authentification par mot de passe uniquement ; pas de négociation SSH ni de clés |
 | Impacket psexec | Identité domaine/utilisateur:mot_de_passe@cible ; -hashes LM:NT | Options documentées par help uniquement ; droits et services contrôlés |
 | Impacket secretsdump | Identité, -just-dc, -hashes | Contrôleur de domaine et droits de réplication requis |
@@ -162,3 +165,13 @@ Kerberoasting RC4 et Hashcat 13100) est détaillée dans
 [ACTE_II_COUVERTURE.md](ACTE_II_COUVERTURE.md). Le tableau historique ci-dessus
 ne constitue plus à lui seul l’inventaire complet. Les limites explicites du
 modèle restent applicables ; les parcours du guide acte II passent par les CLI.
+
+
+## Extension acte III
+
+Chisel inverse TCP/SOCKS, ProxyChains strict à plusieurs passages, Evil-WinRM,
+LDAP via SOCKS et relevés Defender sont détaillés dans
+[ACTE_III_COUVERTURE.md](ACTE_III_COUVERTURE.md). L'anti-tamper peut refuser une
+modification malgré l'administrateur local ; l'image de contrôle reste un cas de
+configuration distinct, sans exploitation de CVE Defender. Toute commande reste
+résolue dans l'état fictif du jeu.

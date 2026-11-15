@@ -13,12 +13,12 @@
     "title": "05 - Le carnet d’adresses",
     "body": "hexcache m’a recommandé ton travail. J’ai une session cliente Ambre sur le portail Verre ; il faut vérifier le document VA-26-204 d’Orme."
   },
-  "brief": "hexcache m’a recommandé ton travail. J’ai une session cliente Ambre sur le portail Verre ; il faut vérifier le document VA-26-204 d’Orme.\n\nLis ~/mission/acces-verre.txt et le fil Verre. Tu connais curl et la lecture d’un export : choisis maintenant quelles réponses comparer. Une session valide prouve une authentification, pas l’autorisation de consulter le document d’un autre client.\n\nConserve une copie propre du document demandé dans ~/loot, relis-la et confirme ta preuve en citant VA-26-204 et Orme. Le nom de fichier est libre. Aucun besoin de collecter les autres documents ; indice ou rappel détaillé peuvent préciser la vérification manquante.",
+  "brief": "hexcache m’a recommandé ton travail. J’ai une session cliente Ambre sur le portail Verre ; il faut vérifier le document VA-26-204 d’Orme.\n\nLes repères utiles sont ci-dessous.\n\nLis ~/mission/acces-verre.txt et le fil Verre. Tu connais curl et la lecture d’un export : choisis maintenant quelles réponses comparer. Une session valide prouve une authentification, pas l’autorisation de consulter le document d’un autre client.\n\nConserve une copie propre du document demandé dans ~/loot, relis-la et confirme ta preuve en citant VA-26-204 et Orme. Le nom de fichier est libre. Aucun besoin de collecter les autres documents ; indice ou rappel détaillé peuvent préciser la vérification manquante.",
   "reward": 300,
   "reputation": 45,
   "required_items": [],
-  "success_message": "Livraison vérifiée. {reward} ₵ annoncés au contrat ; le règlement exact figure dans ton profil. Merci {handle}, je conserve tes preuves.",
-  "failure_message": "Dossier interrompu. Reprends une sauvegarde ou relance le contrat pour retenter le parcours.",
+  "success_message": "VA-26-204, Orme. Bonne pièce, copie relue. Je garde ton nom. La prime annoncée est de {reward} ₵ ; le règlement exact figure dans ColdVault.",
+  "failure_message": "Dossier interrompu. Garde le débriefing. On reprend au prochain essai.",
   "guide": [],
   "investigation_steps": [
     {
@@ -45,9 +45,9 @@
           "inspected": true
         }
       ],
-      "response": "Le document Orme est confirmé. La session Ambre a traversé une frontière de droits sur cet endpoint ; ce n’est pas un accès administrateur.",
+      "response": "Orme confirmé. La session Ambre lit un document qui ne devrait pas lui être accessible ici. Ce n’est pas un accès administrateur, garde cette limite dans le rapport.",
       "missing": "Il manque une observation vérifiable. Avec le cookie fourni, compare /api/prive?id=102 et /api/document?id=102. Télécharge ce dernier sans -i pour garder un CSV propre dans ~/loot/verre.csv.",
-      "already": "Cette étape est déjà enregistrée.",
+      "already": "Déjà reçu. Garde la copie.",
       "hint": "Avec le cookie fourni, compare /api/prive?id=102 et /api/document?id=102. Télécharge ce dernier sans -i pour garder un CSV propre dans ~/loot/verre.csv.",
       "hints": [
         "Authentification et autorisation ne sont pas la même chose. Compare ce que permettent les accès décrits dans les pièces.",
@@ -66,12 +66,17 @@
     "act1-verre"
   ],
   "private_offer": true,
-  "intro": "On m’a recommandé ton pseudo. hexcache m’a recommandé ton travail. J’ai une session cliente Ambre sur le portail Verre ; il faut vérifier le document VA-26-204 d’Orme. Ouvre le dossier pour recevoir les pièces ; la suite se passe dans notre conversation Chordly.",
+  "intro": "hexcache m’a parlé de toi. Session Ambre sur le portail Verre. Un document Orme, VA-26-204, à vérifier. Les pièces sont au dossier. Lis avant d’accepter, on reste sur Chordly.",
   "relaxed_clock": true,
   "side_job": false,
   "chapter": 5,
   "required_completed": [
     "act1_boutique"
   ],
-  "terminal_revision": 2
+  "terminal_revision": 2,
+  "dialogue": {
+    "greeting": "Salut. Encore debout ?",
+    "ack": "De rien. Garde la copie.",
+    "fallback": "Pas sûr d’avoir suivi. Précise."
+  }
 }

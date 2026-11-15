@@ -209,6 +209,7 @@ func _build_desktop() -> void:
 		body.add_child(messenger)
 		messenger.setup(entry[0], "operator")
 		messenger.send_message.connect(_send_message)
+		messenger.dialogue_choice.connect(_choose_dialogue)
 		messenger.conversation_read.connect(_read_conversation)
 		messenger.open_app.connect(_open)
 		messenger.continue_campaign.connect(_continue_campaign)
@@ -1159,6 +1160,17 @@ func _send_message(channel: String, text: String) -> void:
 		if mission_client: session.apply_state(result.data)
 		else: _update_social(result.data)
 
+func _choose_dialogue(channel: String, peer: String, scene_id: String, option_id: String) -> void:
+	var messenger: Messenger = messengers[channel]
+	if "--offline-test" in OS.get_cmdline_user_args() and session.request_transport == null:
+		messenger.acknowledge_choice(false, "Moteur hors ligne.")
+		return
+	var result: Dictionary = await session.request("/api/social/choice", {
+		"handle": session.handle, "channel": channel, "peer": peer, "scene_id": scene_id, "option_id": option_id})
+	messenger.acknowledge_choice(not result.has("error"), str(result.get("error", "")))
+	if not result.has("error"): _update_social(result.data)
+	else: _sound("error")
+
 func _update_social(data: Dictionary) -> void:
 	for message: Dictionary in data.get("forum_messages", []):
 		if _social_ready and not _seen_forum_messages.has(message.id) and not message.get("read", false):
@@ -1181,6 +1193,7 @@ func _update_social(data: Dictionary) -> void:
 			messengers[channel].add_message(message, announce)
 			if announce and is_new and message.get("sender") != session.handle:
 				_queue_message_notification("%s · %s" % [str(message.get("sender", "")), str(message.get("text", "")).left(110)], app, str(message.get("peer", "")))
+	for messenger: Messenger in messengers.values(): messenger.set_scene_choices(data.get("scene_choices", []))
 	if not _social_ready and data.get("journey", {}).get("action", "") == "continue_campaign":
 		messengers.chordly._select_peer("miette")
 	_social_ready = true

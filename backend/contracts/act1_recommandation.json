@@ -13,12 +13,12 @@
     "title": "10 - Quelqu’un répond de toi",
     "body": "k0rvid, hexcache et nullroute proposent de répondre de toi. Dernier dossier : vérifier et livrer les bordereaux BR-26 valides, puis nous déciderons de l’invitation."
   },
-  "brief": "k0rvid, hexcache et nullroute proposent de répondre de toi. Dernier dossier : livrer seulement les bordereaux BR-26 au statut valide, puis nous déciderons de l’invitation. Cible connue : 10.61.10.20.\n\nLe dossier est dans tes MP du forum ; le fil Boreal donne le contexte. Observe le site et choisis ta méthode : vérifier un paramètre avec SQLmap, ou rechercher une configuration de connecteur publiée par erreur et utiliser son accès SQL limité. Les deux voies conviennent. À toi de retrouver les points d’entrée et de filtrer les données avec les outils déjà rencontrés.\n\nL’export dans ~/loot doit être complet, ne contenir que les lignes valides et être relu. Son nom est libre. Confirme une livraison BR-26 en précisant la voie choisie, sqlmap ou connecteur. Aucun achat requis. Indice donne une piste ; rappel détaillé reste disponible sans pénalité.",
+  "brief": "k0rvid, hexcache et nullroute proposent de répondre de toi. Dernier dossier : livrer seulement les bordereaux BR-26 au statut valide, puis nous déciderons de l’invitation. Cible connue : 10.61.10.20.\n\nVoici les pièces sur lesquelles je peux décider.\n\nLe dossier est dans tes MP du forum ; le fil Boreal donne le contexte. Observe le site et choisis ta méthode : vérifier un paramètre avec SQLmap, ou rechercher une configuration de connecteur publiée par erreur et utiliser son accès SQL limité. Les deux voies conviennent. À toi de retrouver les points d’entrée et de filtrer les données avec les outils déjà rencontrés.\n\nL’export dans ~/loot doit être complet, ne contenir que les lignes valides et être relu. Son nom est libre. Confirme une livraison BR-26 en précisant la voie choisie, sqlmap ou connecteur. Aucun achat requis. Indice donne une piste ; rappel détaillé reste disponible sans pénalité.",
   "reward": 700,
   "reputation": 45,
   "required_items": [],
-  "success_message": "Livraison vérifiée. {reward} ₵ annoncés au contrat ; le règlement exact figure dans ton profil. Merci {handle}, je conserve tes preuves.",
-  "failure_message": "Dossier interrompu. Reprends une sauvegarde ou relance le contrat pour retenter le parcours.",
+  "success_message": "Les bordereaux BR-26 sont vérifiés. J’ai ce qu’il me faut pour répondre de toi. Regarde tes MP sur BreachBoard, je t’y ai laissé la suite. La prime annoncée est de {reward} ₵ ; le règlement exact figure dans ColdVault.",
+  "failure_message": "Je ne peux pas clore ce dossier sur ce résultat. Garde les pièces et le débriefing pour une nouvelle tentative.",
   "guide": [],
   "investigation_steps": [
     {
@@ -48,9 +48,9 @@
           "inspected": true
         }
       ],
-      "response": "Bordereaux de novembre vérifiés par la voie SQLmap. Les recommandations sont réunies ; consulte tes MP sur BreachBoard.",
+      "response": "J’ai les bordereaux de novembre, vérifiés par SQLmap. Les autres ont confirmé leurs recommandations. Regarde tes MP sur BreachBoard, je t’y ai laissé l’invitation.",
       "missing": "Il manque une observation vérifiable. Choisis une voie et filtre le statut valide. Avec SQLmap : --where=\"statut='valide'\". Lis le CSV avant « livraison BR-26 sqlmap ».",
-      "already": "Cette étape est déjà enregistrée.",
+      "already": "C’est enregistré. Je garde la première décision, je ne te la redemande pas.",
       "hint": "Choisis une voie et filtre le statut valide. Avec SQLmap : --where=\"statut='valide'\". Lis le CSV avant « livraison BR-26 sqlmap ».",
       "exclusive_group": "finale",
       "hints": [
@@ -89,9 +89,9 @@
           "inspected": true
         }
       ],
-      "response": "Bordereaux de novembre vérifiés par le connecteur. Les recommandations sont réunies ; consulte tes MP sur BreachBoard.",
+      "response": "Bordereaux de novembre reçus par le connecteur. Les autres ont confirmé leurs recommandations. Je t’ai laissé l’invitation dans tes MP sur BreachBoard.",
       "missing": "Il manque une observation vérifiable. Lis la configuration exposée, puis utilise MySQL en lecture avec WHERE statut='valide' ; garde le résultat dans ~/loot/boreal.tsv et envoie « livraison BR-26 connecteur ».",
-      "already": "Cette étape est déjà enregistrée.",
+      "already": "C’est enregistré. Je garde la première décision, je ne te la redemande pas.",
       "hint": "Lis la configuration exposée, puis utilise MySQL en lecture avec WHERE statut='valide' ; garde le résultat dans ~/loot/boreal.tsv et envoie « livraison BR-26 connecteur ».",
       "exclusive_group": "finale",
       "hints": [
@@ -113,7 +113,7 @@
     "act1-boreal"
   ],
   "private_offer": true,
-  "intro": "On m’a recommandé ton pseudo. k0rvid, hexcache et nullroute proposent de répondre de toi. Dernier dossier : vérifier et livrer les bordereaux BR-26 valides, puis nous déciderons de l’invitation. Ouvre le dossier pour recevoir les pièces ; la suite se passe dans notre conversation Chordly.",
+  "intro": "k0rvid, hexcache et nullroute sont prêts à répondre de toi. Avant l’invitation, j’ai un dernier dossier : les bordereaux BR-26 valides, pas le reste. Regarde les pièces dans tes MP. On en parle sur Chordly quand tu l’ouvres.",
   "relaxed_clock": true,
   "side_job": false,
   "chapter": 10,
@@ -121,5 +121,10 @@
   "required_completed": [
     "act1_litige"
   ],
-  "terminal_revision": 2
+  "terminal_revision": 2,
+  "dialogue": {
+    "greeting": "Salut. Je sors de la modération, je vais essayer de ne pas te répondre comme à un signalement.",
+    "ack": "Merci à toi d’avoir pris le temps de répondre calmement. C’est pas si fréquent.",
+    "fallback": "Tu parles du dossier ou de ce qui se passe sur le forum ?"
+  }
 }

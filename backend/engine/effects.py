@@ -74,6 +74,8 @@ def reveal_network(state: GameState, ctx: ActionContext, prefix_octets: int = 3)
     prefix = ".".join(ctx.target.ip.split(".")[:prefix_octets]) + "."
     for host in state.hosts.values():
         if host.ip.startswith(prefix) and (ctx.params.get("scan_scope") != "host" or host.id == ctx.target.id):
+            if not ctx.params.get("skip_discovery") and not state.discovery_visible(host):
+                continue
             state.discovered.add(host.id)
             if ctx.params.get("discovery_only"):
                 continue
@@ -81,7 +83,8 @@ def reveal_network(state: GameState, ctx: ActionContext, prefix_octets: int = 3)
             if ctx.params.get("scan_versions"):
                 versions = state.tool_data.setdefault("recon", {}).setdefault("versions", [])
                 if host.id not in versions: versions.append(host.id)
-            ports = ctx.params.get("scan_ports") or [s.port for s in host.services]
+            ports = [p for p in (ctx.params.get("scan_ports") or [s.port for s in host.services])
+                     if state.reachable(host, p)]
             state.known_ports[host.id] = sorted(set(state.known_ports.get(host.id, [])) | set(ports))
 
 

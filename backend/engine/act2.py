@@ -28,7 +28,9 @@ def view(data):
 def journey(data):
     if not data.get('forum_invitation_accepted') or not data.get('act2_started'):return None
     next_row=next((r for r in view(data)['chapters'] if r['status']!='completed'),None)
-    if not next_row:return dict(title='Acte II terminé - la passation tient',detail='Tes preuves et tes choix sont conservés. Les actes III et IV ne sont pas encore prêts. En attendant, tu peux faire les contrats facultatifs et lire les discussions.',app='Telegrid',peer='quartz')
+    if not next_row:
+        from .act3 import journey as next_journey
+        return next_journey(data)
     return dict(title='Acte II · '+str(next_row['number'])+'/10 - '+next_row['title'],detail='Le dossier t’attend sur Telegrid. Le résultat dépend de tes commandes, de tes observations et des droits que tu obtiens. Les indices ne retirent rien à la prime.',app='Telegrid',peer=next_row['peer'],contract_id=next_row['id'])
 
 

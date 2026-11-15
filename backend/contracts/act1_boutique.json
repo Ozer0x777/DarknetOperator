@@ -13,12 +13,12 @@
     "title": "04 - Derrière la boutique",
     "body": "Pivoine : récupérer les commandes courantes, sans le personnel ni les archives. Mon vérificateur exige un CSV correspondant au contenu courant."
   },
-  "brief": "Pivoine : livrer les commandes courantes, sans personnel ni archives, dans un CSV complet et relu. Cible : 10.61.4.20.\n\nNouveau : SQLmap sur un paramètre du site. Le contrôle se déroule en deux temps : identifier la page et son paramètre, puis examiner les bases, tables et colonnes avant l’export. Lis le fil Pivoine, observe le site, puis consulte `help sqlmap` ou ~/mission/reperes.txt pour la syntaxe. Une réponse de recherche ne prouve pas une injection.\n\nRéutilise les vérifications de l’échantillon : bonnes données, bon périmètre, relecture. Le nom de l’export dans ~/loot est libre. Confirme la livraison PV-26 des commandes ; indice et rappel détaillé restent disponibles.",
+  "brief": "Pivoine : livrer les commandes courantes, sans personnel ni archives, dans un CSV complet et relu. Cible : 10.61.4.20.\n\nVoici ce que j’aimerais vérifier avec toi.\n\nNouveau : SQLmap sur un paramètre du site. Le contrôle se déroule en deux temps : identifier la page et son paramètre, puis examiner les bases, tables et colonnes avant l’export. Lis le fil Pivoine, observe le site, puis consulte `help sqlmap` ou ~/mission/reperes.txt pour la syntaxe. Une réponse de recherche ne prouve pas une injection.\n\nRéutilise les vérifications de l’échantillon : bonnes données, bon périmètre, relecture. Le nom de l’export dans ~/loot est libre. Confirme la livraison PV-26 des commandes ; indice et rappel détaillé restent disponibles.",
   "reward": 380,
   "reputation": 45,
   "required_items": [],
-  "success_message": "Livraison vérifiée. {reward} ₵ annoncés au contrat ; le règlement exact figure dans ton profil. Merci {handle}, je conserve tes preuves.",
-  "failure_message": "Dossier interrompu. Reprends une sauvegarde ou relance le contrat pour retenter le parcours.",
+  "success_message": "Le CSV de Pivoine est complet, et tu es resté sur les commandes. C’est ce que j’attendais. Je vais parler de ton travail à 0xvanta. La prime annoncée est de {reward} ₵ ; le règlement exact figure dans ColdVault.",
+  "failure_message": "Je ne peux pas valider cette livraison. Relisons le débriefing avant de recommencer, il doit rester une observation utile dans l’essai.",
   "guide": [],
   "investigation_steps": [
     {
@@ -46,9 +46,9 @@
           "inspected": true
         }
       ],
-      "response": "Les commandes courantes sont vérifiées. Leur structure et leurs dates correspondent au besoin. Je te présente 0xvanta, qui travaille sur un portail documentaire.",
+      "response": "Les commandes courantes sont là, avec les bonnes colonnes et les bonnes dates. Merci. Je vais te présenter 0xvanta, il cherche quelqu’un pour un portail documentaire.",
       "missing": "Il manque une observation vérifiable. Teste /produit?id=1 avec sqlmap -u URL -p id --batch --dbs, puis -D pivoine --tables, -T commandes --columns et --dump. Lis le CSV indiqué dans la sortie.",
-      "already": "Cette étape est déjà enregistrée.",
+      "already": "J’ai déjà cette observation au dossier. Merci, inutile de la transmettre deux fois.",
       "hint": "Teste /produit?id=1 avec sqlmap -u URL -p id --batch --dbs, puis -D pivoine --tables, -T commandes --columns et --dump. Lis le CSV indiqué dans la sortie.",
       "hints": [
         "Distingue la recherche de la fiche produit. Il faut les commandes courantes, sans personnel ni archives.",
@@ -113,12 +113,17 @@
     "act1-pivoine"
   ],
   "private_offer": true,
-  "intro": "On m’a recommandé ton pseudo. Pivoine : récupérer les commandes courantes, sans le personnel ni les archives. Mon vérificateur exige un CSV correspondant au contenu courant. Ouvre le dossier pour recevoir les pièces ; la suite se passe dans notre conversation Chordly.",
+  "intro": "J’ai un autre dossier si tu es disponible : Pivoine, les commandes courantes seulement. Pas le personnel, pas les archives. Il me faut un CSV complet qui corresponde aux données actuelles. Regarde la proposition, on continue sur Chordly après ouverture.",
   "relaxed_clock": true,
   "side_job": false,
   "chapter": 4,
   "required_completed": [
     "act1_echantillon"
   ],
-  "terminal_revision": 2
+  "terminal_revision": 2,
+  "dialogue": {
+    "greeting": "Bonjour. Je peux prendre quelques minutes.",
+    "ack": "Merci d’avoir pris le temps. Je sais que mes demandes peuvent être pénibles.",
+    "fallback": "Je préfère te faire préciser plutôt que supposer. Qu’est-ce que tu veux savoir ?"
+  }
 }

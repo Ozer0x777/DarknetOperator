@@ -31,6 +31,7 @@ def stamp(minute: int) -> str:
 
 def prepare(career) -> dict:
     world = career.data.setdefault('social', {'minute': 0, 'sequence': 0, 'published': [], 'pending': [], 'seen': {}, 'milestones': [], 'armed': {}, 'posted': {}})
+    world['content_version'] = content()['version']
     unlocked_at = world.setdefault('unlocked_at', {})
     for contact in contacts(career): unlocked_at.setdefault('chat:' + contact['id'], world['minute'])
     for forum in FORUM_TIERS:
@@ -39,25 +40,36 @@ def prepare(career) -> dict:
         posts = career.data.setdefault('forum_posts', {}).setdefault(thread['id'], [])
         for index, post in enumerate(thread.get('posts', [])):
             ident = f"seed:{thread['id']}:{index}"
-            if any(p.get('id') == ident for p in posts):
+            seeded = next((p for p in posts if p.get('id') == ident), None)
+            if seeded is not None:
+                # Révision éditoriale des seuls messages de fond. Les messages du
+                # joueur et les conversations déjà reçues restent des archives.
+                seeded['text'] = post['text']
                 continue
             posts.insert(index, _post(ident, post['author'], post['text'], post['minute']))
+    # Les anciennes contributions du joueur n'avaient pas d'identifiant.
+    # Migration additive : conserver texte, auteur et ordre, puis figer le marqueur.
+    for thread_id, posts in career.data.get('forum_posts', {}).items():
+        for index, post in enumerate(posts):
+            post.setdefault('id', f'legacy-post:{thread_id}:{index}')
     archive = career.data.setdefault('conversations', {})
     from .campaign import enabled
     if enabled(career.data) and career.data.get('play_mode') == 'demo':
-        archive.setdefault('journey:welcome', _message('journey:welcome', 'k0rvid', 'chordly', 'k0rvid', 'Bienvenue dans la démo. Trois exercices courts, puis miette te confie un dossier ouvert. C’est toi qui choisis tes preuves et ta conclusion. Rien à acheter. Écris aide si tu bloques. Tu pourras continuer la campagne sur cette sauvegarde.', 0))
+        archive.setdefault('journey:welcome', _message('journey:welcome', 'k0rvid', 'chordly', 'k0rvid', 'Salut. Je te propose trois essais pour prendre tes marques. Après, miette aimerait un second regard sur son dossier. Rien à acheter, on part avec ce que tu as. Écris aide si tu bloques. Si tu continues après la démo, tu garderas cette sauvegarde.', 0))
     if enabled(career.data) and career.data.get('play_mode') != 'demo':
         from .onboarding import stages
         count=len(stages(career.data))-1
-        archive.setdefault('journey:welcome', _message('journey:welcome', 'k0rvid', 'chordly', 'k0rvid', f'Bienvenue. On commence par {count} exercices courts, puis un premier vrai dossier pour le cabinet Ravelle. Ouvre la carte ci-dessous pour recevoir les pièces. Rien à acheter. Si tu bloques pendant un dossier, écris aide. Les primes arrivent dans ColdVault, pas sur les forums. Tu peux fermer le jeu quand tu veux et reprendre ta mission plus tard.', 0))
+        archive.setdefault('journey:welcome', _message('journey:welcome', 'k0rvid', 'chordly', 'k0rvid', f'Salut. Avant de te confier Ravelle, je te propose {count} exercices courts. Pas pour te faire perdre du temps : je veux voir comment tu vérifies un résultat. La carte en dessous te donnera les pièces. Rien à acheter.\n\nSi tu bloques, écris aide. Les primes arrivent dans ColdVault. Tu peux fermer le jeu et reprendre plus tard, je ne vais pas te demander de tout faire ce soir.', 0))
     from .curriculum import current
     if current(career.data) and career.data.get('forum_invitation_accepted'):
         ident='act2:introduction'
-        archive.setdefault(ident,_message(ident,'cendre','telegrid','cendre','bytewarden m’a transmis ta recommandation. Moi c’est Cendre. Je recoupe les passations et l’état des machines. On commence par une empreinte et une petite liste que je fournis, pas de GPU à acheter. Une correspondance, ça prouve pas un accès, on le vérifiera ensuite. Configure VPN + Tor avec l’accès NullVad gratuit, puis ouvre « Une vieille passation » ici. Tes primes restent dans ColdVault. Ta réputation Exployt se construit à part de celle de BreachBoard.',world['minute']))
+        archive.setdefault(ident,_message(ident,'cendre','telegrid','cendre','Salut. Bytewarden m’a transmis ta recommandation. Cendre. Je reprends les passations et je vérifie l’état des machines, parfois plus longtemps que les autres ne le voudraient.\n\nPour commencer, j’ai une empreinte et une petite liste. Je fournis les deux, pas de GPU à acheter. On vérifiera l’accès après la correspondance. Configure VPN + Tor avec l’accès NullVad gratuit, puis ouvre « Une vieille passation » ici. Tes primes restent dans ColdVault. Pour Exployt, on construit une réputation à part de BreachBoard.',world['minute']))
     for contact in contacts(career):
         if contact['kind'] != 'group': continue
         ident = 'group:' + contact['id']
         archive.setdefault(ident, _message(ident, contact['id'], contact['channel'], contact['members'][0], contact['bio'], -60))
+    from .conversation_scenes import prepare as prepare_scenes
+    prepare_scenes(career, world, contacts(career), content()['profiles'])
     return world
 
 
@@ -163,13 +175,16 @@ def _is_story(event: dict) -> bool:
     fnmatch) ou `follows` (message auquel il fait suite) : son délai `after` part du moment où
     ces conditions sont réunies, ce qui permet à un personnage de réagir quelques dossiers
     après un choix, toujours après le message qu'il commente."""
-    return any(key in event for key in ('requires_completed', 'requires_choice', 'follows'))
+    return any(key in event for key in ('requires_completed', 'requires_choice', 'requires_bond', 'follows'))
 
 
 def _conditions_met(data: dict, event: dict) -> bool:
     from fnmatch import fnmatchcase
     if any(cid not in data['completed'] for cid in event.get('requires_completed', [])): return False
     choices = data.get('choices', {})
+    for author, fields in event.get('requires_bond', {}).items():
+        bond = data.get('social', {}).get('bonds', {}).get(author, {})
+        if any(bond.get(key) not in values for key, values in fields.items()): return False
     return all(fnmatchcase(str(choices.get(key, '')), pattern) for key, pattern in event.get('requires_choice', {}).items())
 
 
@@ -199,7 +214,8 @@ def refresh(career, now: float | None = None) -> None:
 def _signature(career) -> tuple:
     world = career.data.get('social')
     if world is None: return ()
-    return (world.get('minute'), world.get('sequence'), len(world.get('published', [])), len(world.get('pending', [])),
+    return (world.get('content_version'), world.get('minute'), world.get('sequence'), len(world.get('published', [])), len(world.get('pending', [])),
+            len(world.get('scenes', {}).get('active', {})), len(world.get('scenes', {}).get('choices', {})),
             len(world.get('unlocked_at', {})), len(world.get('seen', {})), len(world.get('milestones', [])), len(world.get('armed', {})),
             len(career.data.get('conversations', {})), sum(len(posts) for posts in career.data.get('forum_posts', {}).values()))
 
@@ -241,19 +257,21 @@ def queue_chat(career, channel: str, peer: str, handle: str, text: str) -> None:
     previous = [m for m in career.data['conversations'].values() if m.get('peer') == peer and m.get('sender') == contact['response_author']]
     # Un contact qui va écrire le premier (`opening_event`) ne se présente pas deux fois.
     introduced = previous or contact.get('opening_event', '') not in world['published'] + ['']
-    response = contact.get('followup', 'Bien reçu.') if introduced else contact['response'].replace('{handle}', handle)
-    # Réponses thématiques écrites : aucune invention de secrets ou de paiement.
-    topic = text.casefold()
-    if any(word in topic for word in ('rançon', 'rancon', 'ransom', 'chiffrement', 'sauvegarde')):
-        response = "Dans le dossier, sépare bien les fichiers chiffrés, les copies transférées et les sauvegardes externes. Une demande de rançon, ça prouve pas un paiement, et ton règlement de contrat c'est encore autre chose. Lis le fil Après le chiffrement dans le salon privé quand tu y auras accès."
-    elif any(word in topic for word in ('escrow', 'litige', 'arnaque', 'vendeur')):
-        response = "Le fil Litige sépare l’annonce, la preuve datée et la décision de modération. Une bonne réputation, ça valide pas les droits annoncés. Et un litige n'est pas résolu tant qu'il n'y a pas de mise à jour."
-    elif any(word in topic for word in ('edr', 'pare-feu', 'firewall')):
-        response = "Regarde le résultat et sa date. Un port filtré, une authentification refusée et une exécution bloquée, c'est trois causes différentes. Les politiques de maintenance changent d'une machine à l'autre, et les documents du support peuvent être vieux."
-    from .relationships import view as relationship_view
-    relation = relationship_view(career.data).get(peer)
-    if relation and (any(word in topic for word in ('confiance', 'relation', 'contretemps', 'ct-26-071')) or (peer == 'bytewarden' and 'litige' in topic) or (peer == 'nullroute' and 'af-26-118' in topic)):
-        response = relation['label'] + '. ' + relation['detail']
+    from .dialogue import intent, reply
+    # Une salutation présente le contact une seule fois. Une question personnelle
+    # reçoit déjà une vraie réponse, même si c'est le premier message du joueur.
+    memory = world.setdefault('dialogue', {}).setdefault(peer, {})
+    response = (contact['response'].replace('{handle}', handle)
+                if not introduced and intent(text) in {'greeting', 'unknown'}
+                else reply(contact, text, memory, handle))
+    from .relationships import conversation_reply
+    response = conversation_reply(career.data, peer, text) or response
+    if peer == 'Madame_TLS':
+        bond = world.get('bonds', {}).get(peer, {})
+        if intent(text) == 'flirt' and bond.get('stance') == 'professionnel':
+            response = 'Tu avais préféré garder un lien professionnel. Je respecte ce cadre. Si tu veux le changer, on prendra le temps de se le dire clairement.'
+        elif intent(text) == 'people' and bond.get('disclosure') == 'refus_membres':
+            response = 'Tu m’as dit que tu ne voulais pas devenir une source sur les membres. Je garde cette limite. On peut parler des mécanismes sans identifier tes contacts.'
     _schedule(career, kind='chat', target=peer, channel=channel, author=contact['response_author'], text=response, reply_to=ident, delay=2 if contact['response_author'] == 'miette' else 4)
 
 
@@ -286,6 +304,12 @@ def view(career, contracts: dict | None = None) -> dict:
         entry.setdefault('reputation', author_profile.get('reputation', 0))
         entry.setdefault('age', author_profile.get('age', 1))
         posts = career.data['forum_posts'][topic['id']]
+        marker = world.get('forum_seen', {}).get(topic['id'])
+        seen_index = next((i for i, post in enumerate(posts) if post['id'] == marker), -1)
+        unread = len(posts) - seen_index - 1 if marker is not None else len(posts) + 1
+        participants = list(dict.fromkeys([topic['author'], *[post['author'] for post in posts]]))
+        entry.update(unread=unread, participants=participants,
+                     category=topic.get('category', 'Vie du forum' if topic['section'] == 'Discussion' else topic['section']))
         entry.update(views=topic.get('views',0)+career.data.get('thread_views',{}).get(topic['id'],0), count=len(posts), last_author=posts[-1]['author'] if posts else topic['author'],
                      last_time=posts[-1]['time'] if posts else stamp(topic['created_minute']), last_minute=posts[-1].get('minute', 0) if posts else topic['created_minute'], created_time=stamp(topic['created_minute']))
         threads.append(entry)
@@ -341,5 +365,6 @@ def view(career, contracts: dict | None = None) -> dict:
             contact['bio'] = contact.get('bio', '') + '\n' + relation['label'] + ' - ' + relation['detail']
             profiles.setdefault(contact['id'], {}).update(relationship=relation)
     from .journey import view as next_step
+    from .conversation_scenes import view as scene_choices
     return dict(journey=next_step(career.data),forum_messages=list(career.data.get('forum_messages',{}).values()),offers=offers, minute=world['minute'], time=stamp(world['minute']), threads=threads, profiles=profiles, contacts=peers,
-                messages=list(career.data['conversations'].values()), forum_counts={k: len(v) for k, v in career.data['forum_posts'].items()})
+                messages=list(career.data['conversations'].values()), scene_choices=scene_choices(world), forum_counts={k: len(v) for k, v in career.data['forum_posts'].items()})

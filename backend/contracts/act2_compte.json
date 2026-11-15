@@ -15,15 +15,15 @@
     "title": "02 - Un compte ne suffit pas",
     "body": "Teste le compte ops sur 10.71.1.10. Vérifie identité, version du système et droits, puis récupère seulement CT-26-201 dans ~/loot."
   },
-  "brief": "Teste le compte ops sur 10.71.1.10. Vérifie identité, version du système et droits, puis récupère seulement CT-26-201 dans ~/loot.\n\nLes pièces sont dans ~/mission. Écris indice pour une piste ou rappel détaillé pour les commandes de ce dossier. Aucun achat de matériel requis.",
+  "brief": "Teste le compte ops sur 10.71.1.10. Vérifie identité, version du système et droits, puis récupère seulement CT-26-201 dans ~/loot.\n\nJ’ai regroupé ce qu’on peut contrôler, pour ne rien supposer entre deux étapes.\n\nLes pièces sont dans ~/mission. Écris indice pour une piste ou rappel détaillé pour les commandes de ce dossier. Aucun achat de matériel requis.",
   "reward": 240,
   "reputation": 20,
   "required_items": [],
   "required_completed": [
     "act2_passation"
   ],
-  "success_message": "Preuves vérifiées. {reward} ₵ réglés dans ColdVault ; tes choix sont conservés.",
-  "failure_message": "Dossier interrompu, sans prime. Les accès acquis et les observations sauvegardées restent disponibles pour une reprise.",
+  "success_message": "CT-26-201 reçu. Cette fois on a vérifié le compte, son contexte et la copie. Je peux transmettre sans ajouter une supposition au milieu. La prime annoncée est de {reward} ₵ ; le règlement exact figure dans ColdVault.",
+  "failure_message": "On s’arrête ici. Je préfère garder ce qu’on a vraiment observé plutôt que compléter de mémoire. Relis le débriefing avant de retenter.",
   "guide": [],
   "investigation_steps": [
     {
@@ -52,8 +52,8 @@
           "inspected": true
         }
       ],
-      "response": "Le document est reçu dans le périmètre de lecture.",
-      "already": "Cette preuve est déjà enregistrée.",
+      "response": "Document reçu avec les droits de lecture. Je garde la vérification du compte avec la copie, ça m’évitera de les confondre plus tard.",
+      "already": "Je l’ai conservé avec les pièces. Pas besoin de refaire cette vérification pour moi.",
       "missing": "Vérifie les observations et la version des pièces ; demande indice si nécessaire.",
       "hint": "`ssh ops@10.71.1.10`, saisis le résultat de la passation. Dans la session : `id`, `uname -a`, `sudo -l`, `cat /home/ops/README.txt`. Depuis une console Kali : `scp ops@10.71.1.10:/srv/exports/CT-26-201.txt ~/loot/compte.txt`, puis lis ta copie et confirme CT-26-201.",
       "hints": [
@@ -69,7 +69,12 @@
     "/home/operator/mission/brief-act2.txt": "Teste le compte ops sur 10.71.1.10. Vérifie identité, version du système et droits, puis récupère seulement CT-26-201 dans ~/loot.\n"
   },
   "private_offer": true,
-  "intro": "Teste le compte ops sur 10.71.1.10. Vérifie identité, version du système et droits, puis récupère seulement CT-26-201 dans ~/loot. Ouvre le dossier pour recevoir les pièces ; les échanges se font ici, sur Telegrid.",
+  "intro": "On a une correspondance, pas encore un accès. J’aimerais qu’on teste ops sur 10.71.1.10, puis qu’on vérifie le système et les droits. Si tout tient, on récupère seulement CT-26-201 dans ~/loot. Le dossier est ici, sur Telegrid.",
   "relaxed_clock": true,
-  "terminal_revision": 1
+  "terminal_revision": 1,
+  "dialogue": {
+    "greeting": "Salut. J’avais gardé le fil ouvert au cas où tu repassais.",
+    "ack": "Merci à toi d’avoir attendu. Je sais que je peux être lent.",
+    "fallback": "Je relis et je ne suis pas certain de comprendre. On reprend depuis quel point ?"
+  }
 }

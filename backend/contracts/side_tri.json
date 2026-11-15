@@ -13,12 +13,12 @@
     "title": "[Petit boulot] Nettoyer un export",
     "body": "Nettoyer un export : les pièces sont fournies. Paiement unique, aucun effet sur l’ordre des chapitres."
   },
-  "brief": "Nettoyer un export : les pièces sont fournies. Paiement unique, aucun effet sur l’ordre des chapitres.\n\nLis ~/mission/bon.txt et entree.txt. Écris le résultat demandé dans ~/loot/resultat.txt, puis envoie « livraison tri ». Demande aide pour une syntaxe adaptée.",
+  "brief": "Nettoyer un export : les pièces sont fournies. Paiement unique, aucun effet sur l’ordre des chapitres.\n\nJe te laisse les pièces, tu me diras ce que tu en penses.\n\nLis ~/mission/bon.txt et entree.txt. Écris le résultat demandé dans ~/loot/resultat.txt, puis envoie « livraison tri ». Demande aide pour une syntaxe adaptée.",
   "reward": 45,
   "reputation": 0,
   "required_items": [],
-  "success_message": "Livraison vérifiée. {reward} ₵ annoncés au contrat ; le règlement exact figure dans ton profil. Merci {handle}, je conserve tes preuves.",
-  "failure_message": "Dossier interrompu. Reprends une sauvegarde ou relance le contrat pour retenter le parcours.",
+  "success_message": "L’export correspond au bon. C’est beaucoup plus lisible comme ça, j’aurais dû demander un coup de main plus tôt. La prime annoncée est de {reward} ₵ ; le règlement exact figure dans ColdVault.",
+  "failure_message": "On n’a pas fini, d’accord. Je préfère qu’on s’arrête là plutôt que d’envoyer quelque chose dont on doute. On pourra retenter le dossier.",
   "guide": [],
   "investigation_steps": [
     {
@@ -42,9 +42,9 @@
           "value": "A;Nacre\nB;Orme\nref;client"
         }
       ],
-      "response": "Résultat conforme au bon de travail. Le paiement de ce petit contrat est enregistré.",
+      "response": "L’export correspond au bon. C’est beaucoup plus lisible comme ça, j’aurais dû demander un coup de main plus tôt.",
       "missing": "Il manque une observation vérifiable. Une commande possible : `cat ~/mission/entree.txt | sort | uniq > ~/loot/resultat.txt`, puis envoie livraison tri.",
-      "already": "Cette étape est déjà enregistrée.",
+      "already": "Oui, je l’ai ! Pas besoin de me le renvoyer, je garde ton premier rapport.",
       "hint": "Une commande possible : `cat ~/mission/entree.txt | sort | uniq > ~/loot/resultat.txt`, puis envoie livraison tri.",
       "hints": [
         "Relis le bon et les pièces fournies pour identifier le résultat attendu.",
@@ -66,11 +66,16 @@
     "act1-boreal"
   ],
   "private_offer": false,
-  "intro": "On m’a recommandé ton pseudo. Nettoyer un export : les pièces sont fournies. Paiement unique, aucun effet sur l’ordre des chapitres. Ouvre le dossier pour recevoir les pièces ; la suite se passe dans notre conversation Chordly.",
+  "intro": "Cet export a été repris plusieurs fois et ça se voit. J’aimerais une version propre selon le bon. Les pièces sont au dossier, on reste sur Chordly.",
   "relaxed_clock": true,
   "side_job": true,
   "required_completed": [
     "act1_partage"
   ],
-  "terminal_revision": 1
+  "terminal_revision": 1,
+  "dialogue": {
+    "greeting": "Hey ! J’étais justement en train de faire semblant de comprendre un tableau. Tu me sauves quelques minutes.",
+    "ack": "De rien ! Enfin, si ça t’a servi. J’ai toujours peur d’expliquer de travers.",
+    "fallback": "Je crois que j’ai compris la moitié. Tu me redis autrement ?"
+  }
 }

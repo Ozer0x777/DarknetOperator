@@ -19,7 +19,7 @@
   "required_rep": 300,
   "required_items": [],
   "success_message": "Les trois conditions sont confirmées dans le périmètre du laboratoire. Le règlement et les événements observés figurent dans le rapport.",
-  "failure_message": "Le contrat s’arrête ici. Le rapport distingue la déconnexion, la fin du délai et la réaction de la défense. Aucun objectif non vérifié ne sera considéré comme rempli.",
+  "failure_message": "Contrat non rempli. Relire le débriefing avant une nouvelle tentative.",
   "guide": [
     {
       "when": {

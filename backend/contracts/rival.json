@@ -19,7 +19,7 @@
   "required_rep": 50,
   "required_items": [],
   "success_message": "Le mot de passe en clair est récupéré. Le contrat est rempli ; garde le compte rendu, pas seulement la valeur.",
-  "failure_message": "Le contrat s’arrête ici. Le rapport distingue la déconnexion, la fin du délai et la réaction de la défense. Aucun objectif non vérifié ne sera considéré comme rempli.",
+  "failure_message": "On s’arrête là pour ce dossier. Garde le débriefing, on reprendra ce qui a coincé au prochain essai.",
   "guide": [
     {
       "when": {
@@ -51,7 +51,8 @@
   "unlocks_tier": 2,
   "terminal_revision": 5,
   "dialogue": {
-    "greeting": "Salut {handle}. Je suis là. On garde un objectif à la fois. Dis-moi ce qui te bloque.",
-    "ack": "Reçu. Prends le temps de vérifier le résultat avant d’enchaîner."
+    "greeting": "Salut {handle}. Je finis un compte rendu. Qu’est-ce qu’il y a ?",
+    "ack": "Garde tes remerciements pour quand tu sauras refaire sans moi. Mais oui, j’ai lu.",
+    "fallback": "Je ne suis pas sûr de ce que tu me demandes. Tu peux préciser ?"
   }
 }

@@ -1,5 +1,47 @@
 # Journal des changements
 
+## 0.6.0 — 15 novembre 2026
+
+Version regroupant les conversations à choix, l’arc de Madame_TLS, les forums et portraits, et les douze missions de l’acte III décrits ci-dessous. Distribution Linux portable et branches de publication `main` / `dev`.
+
+### suite de l’acte III
+
+- Douze dossiers au total ; missions 7–12 : droits LDAP et refus de service, collecte bloquée, profils Defender et anti-tamper, second pivot, repli après isolement, lot industriel.
+- Infrastructure des six nouveaux dossiers : 38 machines, huit segments, inventaire de deux domaines sans approbation ; annuaire interrogeable limité à Lenoir. Les machines sont réinitialisées entre contrats.
+- Serveur Chisel sur relais, SOCKS strict à plusieurs passages et validation des dépendances lors des reprises et des actions en attente.
+- Trois scènes supplémentaires pour Madame_TLS, avec copie industrielle issue du téléchargement vérifié et choix explicite de transmission intégrale, expurgée ou refusée.
+- Protocole d’essai humain de 30 minutes et carrière de revue isolée ; aucun essai débutant revendiqué.
+
+### forums et portraits orbitaux
+
+- Trois bannières originales avec personnage féminin adulte pour BreachBoard, Exployt et XSX ; même direction visuelle que le fond de bureau.
+- Dix-neuf avatars cohérents : les dix-huit personnages et le compte client temporaire. Portraits de 200 × 200 dans les sujets larges et les fiches de profil ; miniatures adaptées aux listes, messageries et fenêtres compactes.
+- Catégories, tri, filtre des sujets non lus, extraits et dernier auteur consultable. Les marqueurs de lecture sont sauvegardés ; de nouveaux messages réactivent le repère non lu. Identifiants ajoutés aux anciennes contributions sans modifier leur contenu.
+- Six discussions supplémentaires et vingt-neuf réponses : matériel, culture, pauses, retours et passations. Les relations et les indices des contrats restent inchangés.
+- Profils publics avec portrait et biographie ; en-tête et filtres resserrés en petite fenêtre. Prompts et provenance des ressources conservés dans les manifestes.
+
+### première tranche de l’acte III
+
+- Six dossiers Lenoir/Aster après l’acte II, avec offres Telegrid, progression Exployt, documentation et indices locaux.
+- Reconnaissance : découverte distincte des routes et des ACL, scans possibles sur les adresses encore inconnues du scénario, observations par origine et absence de privilèges accordés par un scan.
+- Chisel : redirection TCP inverse et SOCKS ; ProxyChains-NG : scan TCP, curl et Evil-WinRM ; sessions Windows limitées aux droits réellement accordés. Processus, chemins et reprises vérifiés dans le monde simulé.
+- Les machines de recherche restent inaccessibles dans cette tranche. La grande infrastructure et les missions Defender/anti-tamper restent en conception : voir `docs/ACTE_III_COUVERTURE.md`.
+
+### voix des personnages et relations
+
+- Attirance et romance réservées à Madame_TLS. Les autres personnages restent dans des liens amicaux ou professionnels ; leurs réponses à une tentative de flirt clarifient cette limite. Le moteur refuse un effet romantique pour un autre personnage.
+- Premier arc de Madame_TLS : exposition, désaccord sur le mécénat, demande de veille, limite sur une note privée et conséquence selon les pièces réellement envoyées. Trois liens, sans perte d'affection imposée par un désaccord. Questions et répliques figées à la réception pour les anciennes sauvegardes.
+- Pièces du récit conservées dans les conversations et copiées dans le poste Kali partagé. Les envois gardent leur contenu exact ; les fichiers locaux modifiés ou effacés ne sont pas réinstallés au contrat suivant. Rejeux des trois parcours par API, emplacements manuels et contrôles Godot.
+
+- Conversations à choix dans les trois messageries : 28 scènes, 84 réponses, 18 personnages. Les PNJ posent leurs questions, les choix sont sauvegardés, les doubles envois sont sans effet et une erreur de sauvegarde laisse le choix ouvert.
+- Madame_TLS : expertise CTI, OSINT et ingénierie sociale ; espionnage industriel et économique sous couverture de veille stratégique. Sport, course, sorties, danse, musique, mode et musées. Cinq scènes permettent de choisir et préciser le lien, ainsi que les limites sur les informations. Les relances suivent ces choix.
+
+- Réécriture des 31 sujets du forum, de leurs échanges, des 15 contacts et des 56 événements existants : humour, désaccords, hésitations et détails du quotidien, avec conservation des indices d'enquête.
+- Propositions, salutations, conclusions et réponses aux preuves mises dans la voix des clients des deux actes et de leurs variantes historiques. Les commandes, conditions et règlements restent ceux des dossiers.
+- Conversations libres : réponses propres à chaque interlocuteur pour la fatigue, les nouvelles personnelles, la confiance et les sujets techniques. Mémoire des répliques conservée à la sauvegarde, sans compteur d'affection ni choix romantique implicite. « Comment tu vas ? » ne déclenche plus l'aide de mission.
+- Madame_TLS : cinq scènes supplémentaires, rapprochement progressif, réponses à la séduction, à la méfiance et aux limites exprimées. Son arc d'espionne visant la chute du joueur et les futurs choix relationnels sont cadrés dans `docs/RELATIONS_NARRATIVES.md`. Les premiers liens à choix sont jouables ; le développement complet de la romance et la trahison restent à construire.
+- Anciennes parties : les messages initiaux du forum sont révisés par identifiant. Les contributions du joueur et les échanges déjà reçus sont conservés.
+
 ## 0.5.4 - revue, textes et vie du forum
 
 - Tutoriel : consignes GoPhish complètes dans Chordly ; dossier Ravelle avec domaine, DNS simulé (`host`) et IP publique.

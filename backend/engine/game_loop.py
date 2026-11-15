@@ -183,7 +183,12 @@ class GameLoop:
         if action.console_id != "main" and action.console_id not in state.terminals: action.console_id = "main"
         ctx.params["console_id"] = action.console_id
         with using(state, action.console_id):
-            if ctx.params.get("gophish_campaign_id") and not state.tool_services.get("gophish", {}).get("running"):
+            saved_path = state.terminal_network_path
+            state.terminal_network_path = ctx.params.get('network_path', saved_path)
+            from .network_tools import route_alive
+            if ctx.params.get('network_path') and not route_alive(state, ctx.params['network_path']):
+                result = ActionResult(False, "Le chemin SOCKS a été interrompu avant la fin de l’action.", reason="proxy_stopped")
+            elif ctx.params.get("gophish_campaign_id") and not state.tool_services.get("gophish", {}).get("running"):
                 result = ActionResult(False, "GoPhish est arrêté : la campagne ne peut pas envoyer le message.", reason="service_stopped")
             elif ctx.params.get("gophish_campaign_id") and not ctx.params.get('smtp_available', True):
                 result = ActionResult(False, "SMTP : impossible de joindre le serveur du profil d’envoi. Vérifie le profil smtp de la campagne.", reason='smtp_unavailable')
@@ -213,6 +218,7 @@ class GameLoop:
                     result.success, result.reason = False, 'wordlist_exhausted'
             if not ctx.params.get('gophish_campaign_id'):
                 state.terminal_last_exit = state.terminal_last_native_exit = 0 if result.success else 1
+            state.terminal_network_path = saved_path
         state.history.append(HistoryEntry(state.tick, "red", result.message, result.success, result.reason, action.console_id, 0 if result.success else 1))
         _log_console(state, action, result.message)
 

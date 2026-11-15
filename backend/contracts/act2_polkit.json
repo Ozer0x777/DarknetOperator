@@ -15,15 +15,15 @@
     "title": "03 - Une machine mal entretenue",
     "body": "Compare les images 10.71.1.10 et 10.71.1.11. La même version de pkexec peut cacher un correctif rétroporté. Vérifie paquets et droits avant d’utiliser l’artefact du laboratoire sur l’image vulnérable. Il faut lire OR-ROOT-203."
   },
-  "brief": "Compare les images 10.71.1.10 et 10.71.1.11. La même version de pkexec peut cacher un correctif rétroporté. Vérifie paquets et droits avant d’utiliser l’artefact du laboratoire sur l’image vulnérable. Il faut lire OR-ROOT-203.\n\nLes pièces sont dans ~/mission. Écris indice pour une piste ou rappel détaillé pour les commandes de ce dossier. Aucun achat de matériel requis.",
+  "brief": "Compare les images 10.71.1.10 et 10.71.1.11. La même version de pkexec peut cacher un correctif rétroporté. Vérifie paquets et droits avant d’utiliser l’artefact du laboratoire sur l’image vulnérable. Il faut lire OR-ROOT-203.\n\nJ’ai regroupé ce qu’on peut contrôler, pour ne rien supposer entre deux étapes.\n\nLes pièces sont dans ~/mission. Écris indice pour une piste ou rappel détaillé pour les commandes de ce dossier. Aucun achat de matériel requis.",
   "reward": 270,
   "reputation": 20,
   "required_items": [],
   "required_completed": [
     "act2_compte"
   ],
-  "success_message": "Preuves vérifiées. {reward} ₵ réglés dans ColdVault ; tes choix sont conservés.",
-  "failure_message": "Dossier interrompu, sans prime. Les accès acquis et les observations sauvegardées restent disponibles pour une reprise.",
+  "success_message": "Les deux images sont bien distinguées. Tu vois pourquoi je voulais relire les correctifs avant de croire le numéro de version. La prime annoncée est de {reward} ₵ ; le règlement exact figure dans ColdVault.",
+  "failure_message": "On s’arrête ici. Je préfère garder ce qu’on a vraiment observé plutôt que compléter de mémoire. Relis le débriefing avant de retenter.",
   "guide": [],
   "investigation_steps": [
     {
@@ -51,8 +51,8 @@
           "host": "bridge"
         }
       ],
-      "response": "L’image vulnérable et l’image corrigée ont été distinguées.",
-      "already": "Cette preuve est déjà enregistrée.",
+      "response": "On distingue bien l’image vulnérable et l’image corrigée. C’est ce qui m’intéressait, je n’aimais pas les voir traitées comme identiques.",
+      "already": "Je l’ai conservé avec les pièces. Pas besoin de refaire cette vérification pour moi.",
       "missing": "Vérifie les observations et la version des pièces ; demande indice si nécessaire.",
       "hint": "Dans chaque session ops : `dpkg-query -W policykit-1`, `pkexec --version`, `stat /usr/bin/pkexec`. Sur l’image non corrigée uniquement : `gcc /home/ops/cve-2021-4034.c -o /home/ops/polkit-lab`, puis `/home/ops/polkit-lab`, `id` et `cat /root/passation.txt`. Rapporte OR-ROOT-203. Le fichier C et le compilateur sont des artefacts virtuels, jamais exécutés sur ton ordinateur.",
       "hints": [
@@ -68,7 +68,12 @@
     "/home/operator/mission/brief-act2.txt": "Compare les images 10.71.1.10 et 10.71.1.11. La même version de pkexec peut cacher un correctif rétroporté. Vérifie paquets et droits avant d’utiliser l’artefact du laboratoire sur l’image vulnérable. Il faut lire OR-ROOT-203.\n"
   },
   "private_offer": true,
-  "intro": "Compare les images 10.71.1.10 et 10.71.1.11. La même version de pkexec peut cacher un correctif rétroporté. Vérifie paquets et droits avant d’utiliser l’artefact du laboratoire sur l’image vulnérable. Il faut lire OR-ROOT-203. Ouvre le dossier pour recevoir les pièces ; les échanges se font ici, sur Telegrid.",
+  "intro": "Deux images presque identiques, et une passation qui les traite comme si c’était la même machine. Ça me gêne. J’ai préparé les pièces pour comparer Polkit et ses correctifs. Regarde le dossier, on reprend sur Telegrid.",
   "relaxed_clock": true,
-  "terminal_revision": 1
+  "terminal_revision": 1,
+  "dialogue": {
+    "greeting": "Salut. J’avais gardé le fil ouvert au cas où tu repassais.",
+    "ack": "Merci à toi d’avoir attendu. Je sais que je peux être lent.",
+    "fallback": "Je relis et je ne suis pas certain de comprendre. On reprend depuis quel point ?"
+  }
 }

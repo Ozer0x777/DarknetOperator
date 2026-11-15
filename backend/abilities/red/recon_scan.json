@@ -3,13 +3,9 @@
   "team": "red",
   "name": "nmap (scan réseau)",
   "command": "nmap -sV cible",
-  "help": "Scanne le sous-réseau de la cible : révèle les machines et leurs services.",
+  "help": "Sonde une cible ou un /24 depuis la console active. -Pn saute la découverte ; les routes et le filtrage restent applicables.",
   "tier": 0,
-  "requires": [
-    {
-      "type": "target_discovered"
-    }
-  ],
+  "requires": [],
   "noise": 30,
   "effects": [
     {

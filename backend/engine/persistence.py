@@ -86,7 +86,7 @@ def state_to_dict(state: GameState) -> dict:
         ],
         "guide_index": state.guide_index,
         "contract_outcome": state.contract_outcome,
-        **{key: getattr(state, key) for key in ("conversation_id", "trace", "defender", "inventory", "exfiltrated", "end_reason", "payout", "terminal_host", "terminal_user", "terminal_access", "terminal_shell", "terminal_last_exit", "terminal_last_native_exit", "terminal_return_stack", "guidance_enabled", "terminal_auth", "terminal_cwd", "terminal_files", "terminals", "terminal_env", "terminal_foreground", "tool_services", "tool_data", "pending_actions", "known_ports", "domain", "environment")},
+        **{key: getattr(state, key) for key in ("conversation_id", "trace", "defender", "inventory", "exfiltrated", "end_reason", "payout", "terminal_host", "terminal_user", "terminal_access", "terminal_shell", "terminal_last_exit", "terminal_last_native_exit", "terminal_return_stack", "guidance_enabled", "terminal_auth", "terminal_cwd", "terminal_files", "terminals", "terminal_env", "terminal_foreground", "terminal_network_path", "tool_services", "tool_data", "pending_actions", "known_ports", "domain", "environment")},
     }
 
 
@@ -140,7 +140,7 @@ def state_from_dict(data: dict) -> GameState:
 
     state.rng = _random.Random()
     state.rng.setstate(_tupleify(data["rng_state"]))
-    for key in ("conversation_id", "trace", "defender", "inventory", "exfiltrated", "end_reason", "payout", "terminal_host", "terminal_user", "terminal_access", "terminal_shell", "terminal_last_exit", "terminal_last_native_exit", "terminal_return_stack", "guidance_enabled", "terminal_auth", "terminal_cwd", "terminal_files", "terminals", "terminal_env", "terminal_foreground", "tool_services", "tool_data", "pending_actions", "known_ports", "domain", "environment"):
+    for key in ("conversation_id", "trace", "defender", "inventory", "exfiltrated", "end_reason", "payout", "terminal_host", "terminal_user", "terminal_access", "terminal_shell", "terminal_last_exit", "terminal_last_native_exit", "terminal_return_stack", "guidance_enabled", "terminal_auth", "terminal_cwd", "terminal_files", "terminals", "terminal_env", "terminal_foreground", "terminal_network_path", "tool_services", "tool_data", "pending_actions", "known_ports", "domain", "environment"):
         if key in data:
             setattr(state, key, data[key])
     legacy_users = {u['username'] for u in data['users'] if 'password' not in u}

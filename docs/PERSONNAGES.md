@@ -1,4 +1,8 @@
-# Personnages, tensions et fil rouge : proposition
+# Personnages, tensions et fil rouge
+
+**Règle de relation : seule Madame_TLS peut mener à de l’attirance ou à une
+romance. Avec tous les autres personnages, le lien reste professionnel ou
+amical, éventuellement complice ou rival, sans évolution amoureuse.**
 
 Document de conception. La section « Ce qui est déjà dans le jeu », en fin de
 document, liste ce qui est branché ; le reste est une proposition. Il complète
@@ -8,11 +12,12 @@ ce qu'ils cachent et ce qui les oppose.
 
 ## Le constat
 
-Les personnages ont une fonction et une ligne de bio. Ils disent presque tous
-les mêmes phrases, personne n'a d'enjeu personnel et personne n'est en conflit
-avec personne. L'histoire est une chaîne de recommandations : k0rvid vous passe
+Avant la passe narrative du 15 novembre, les personnages avaient une fonction
+et une ligne de bio. Ils disaient presque tous
+les mêmes phrases. Les enjeux personnels et les conflits restaient surtout
+dans ce document. L'histoire formait une chaîne de recommandations : k0rvid vous passe
 à hexcache, qui vous passe à 0xvanta, et ainsi de suite. Ça fonctionne comme
-progression, mais il ne se passe rien entre eux.
+progression, mais les échanges devaient aussi faire vivre ce qui se passe entre eux.
 
 Le jeu a pourtant une vraie identité : tout le monde y apprend à vérifier avant
 de croire. Une annonce n'est pas une preuve, une capture peut dater de trois
@@ -169,39 +174,56 @@ s'est fait prendre. Personne n'en parle au début. Le joueur occupe sa place.
 - **Évolution** : commanditaire à l'acte III, adversaire à la fracture
   (acte V de la campagne longue).
 
-### Madame_TLS : l'infiltrée
+### Madame_TLS : la sociable qui écoute trop bien
 
-Personnage original. Son pseudo suit la même idée que ceux de certaines
-vulgarisatrices du web (une formule de politesse et un protocole), sans reprendre
-une personne réelle.
+**Direction retenue : espionne industrielle et économique, et intérêt amoureux
+possible. Elle doit faire tomber le joueur.** La fiche initiale la rattache au
+FSB ; ce service et sa mission sont réservés à l'écriture, pas au profil public.
+Personnage fictif, distinct de toute personne réelle.
 
-- **Ce qu'on voit** : une habituée de BreachBoard, polie, pédagogue, spécialiste
-  des sites web et des certificats. Elle tient le fil « Le cadenas ne dit pas à
-  qui tu parles ». C'est la seule qui répond gentiment aux débutants.
-- **Ce qu'elle est** : un officier du FSB, infiltrée sur le forum. Elle n'est
-  pas là pour arrêter qui que ce soit. Elle recense qui travaille pour qui, et
-  elle recrute. Aucun texte du jeu ne nomme son service avant la révélation.
-- **Veut** : le réseau derrière spectre, et le joueur comme source. Elle le
-  choisit parce qu'il vérifie avant de croire, donc ses informations vaudront
-  quelque chose.
-- **Cache** : tout, mais mal sur trois points. Elle ne pose jamais de question
-  technique dont elle aurait besoin, seulement des questions sur des personnes
-  (« il achète ses tableaux à qui ? »). Elle ne poste qu'entre 7 h et 15 h, des
-  horaires de bureau dans un autre fuseau. Et son français trop propre laisse
-  parfois tomber un article.
-- **Voix** : vouvoiement de politesse dans ses fils, tutoiement chaleureux en
-  privé. Phrases complètes, jamais d'argot. Elle complimente avant de demander.
-- **Évolution** : alliée bienveillante à l'acte I. À l'acte II, ses questions
-  glissent des sites vers les gens. packetloss remarque ses horaires sans la
-  nommer. À la fin de l'acte II elle fait une proposition « hors forum ». À
-  l'acte III le joueur peut la nourrir, la dénoncer ou jouer double. C'est aussi
-  la candidate naturelle pour la relation piégée prévue à l'acte IV.
-- **Frotte avec** : 0xvanta, qui a reconnu sa façon de travailler et se tait,
-  et miette, qui l'admire et lui raconte beaucoup trop de choses.
+- **Expertise** : CTI, OSINT et ingénierie sociale. Analyse des menaces, acteurs,
+  motivations, dirigeants, partenaires et projets. Elle relie les informations
+  et comprend les organisations. Elle n'est pas très technique sur les systèmes
+  et demande aux spécialistes quand il faut diagnostiquer un accès ou un EDR.
+- **Couverture** : analyste en veille stratégique. Elle sait poser une question
+  qui paraît naturelle et faire circuler une conversation entre plusieurs milieux.
+- **Personnalité** : sociable, vive, très cultivée, observatrice, persuasive et capable d'humour.
+  Curieuse des gens, à l'aise dehors et dans une soirée. Peut se reprendre quand
+  elle pose une question de trop. Pas une séductrice qui complimente à chaque ligne.
+- **Vie personnelle visible** : sportive, court régulièrement, aime sortir,
+  danser, les concerts et la musique. Elle a des goûts et des habitudes même
+  quand le joueur n'est pas là. L'électro revient dans ses playlists, sans être
+  la seule musique qu'elle écoute. Elle aime aussi la mode et les musées :
+  coupes, matières, costumes, photographie, histoire des objets. Elle préfère
+  échanger des points de vue à réciter une liste de références.
+- **Objectif caché** : renseignements industriels et économiques, réseau derrière
+  les intermédiaires et éléments utilisables pour compromettre le joueur. Le
+  rapprochement peut faciliter cette collecte, sans être son seul moyen.
+- **Ambiguïté** : son attachement pourra être sincère. Il ne supprime pas sa
+  mission, et le joueur ne l'en libère pas en choisissant assez de compliments.
+- **Voix** : chaleureuse, directe en privé, polie en public. Elle écoute avant de
+  reformuler. Elle parle d'intérêts et de personnes, pas de paramètres d'outils
+  qu'elle n'est pas censée maîtriser.
+- **Indices** : connaissance d'une ancienne équipe, curiosité pour les sources,
+  questions sur les intermédiaires, avertissement prudent de 0xvanta. Les preuves
+  de sa mission resteront concrètes ; ni des horaires ni une origine supposée
+  ne suffisent à révéler une espionne.
+- **Ce qui est jouable** : cinq scènes de présentation à trois réponses, plus un premier arc en
+  cinq scènes. Le joueur choisit un
+  lien professionnel, amical ou attiré, ses centres d'intérêt partagés et une
+  limite sur les informations. Le lien peut être précisé après le binôme.
+  Les messages de rapprochement suivent l'attirance explicitement choisie.
+- **Premier arc livré** : visite d'exposition, désaccord sur le mécénat, demande
+  de veille, demande de passation privée et retour différent selon les pièces
+  envoyées. Une référence interne inexpliquée prépare le soupçon quand le joueur
+  n'a pas transmis la note. Les trois liens ont leurs formulations.
+- **Ce qui reste à construire** : origine de son autre source, suite aux soupçons,
+  rendez-vous, révélation, piège et issues de trahison.
 
-Son thème reprend celui du jeu : un cadenas dit que la conversation est
-chiffrée, pas à qui on parle. Elle l'explique à tout le monde, et personne ne
-lui applique.
+Son fil OSINT rappelle qu'une source accessible n'est pas une source honnête.
+Cette idée devra aussi s'appliquer à elle. Les scènes, les personnalités et les
+règles de persistance sont détaillées dans
+[RELATIONS_NARRATIVES.md](RELATIONS_NARRATIVES.md).
 
 ### Les habitués du forum
 
@@ -272,9 +294,10 @@ Tests : `backend/tests/test_story_events.py`.
 
 Branché avec ce mécanisme :
 
-- **Madame_TLS** : son profil, son fil sur le cadenas, deux interventions dans
-  des fils existants, un contact privé après « Le carnet d'adresses » et cinq
-  messages privés qui suivent la progression jusqu'à la fin de l'acte II.
+- **Madame_TLS** : son profil CTI/OSINT, son fil sur les sources ouvertes, des interventions dans
+  des fils existants, un contact privé après « Le carnet d'adresses », des scènes personnelles
+  jusqu'à la fin de l'acte II et des réponses écrites aux questions personnelles,
+  à la méfiance, à la séduction et aux limites posées.
   packetloss poste l'indice sur ses horaires pendant l'acte II.
 - **hexane ne répond plus** : cinq messages, de la fin de l'acte I au garant.
   sable y dit qu'il a gardé ses fichiers.
@@ -291,12 +314,22 @@ Branché avec ce mécanisme :
 1. Ceux d'en face : documents dans les scénarios et lignes du débriefing.
 2. Le fil rouge du revendeur : poser les indices dans les cinq affaires. Par
    défaut le revendeur est sable, à confirmer.
-3. Les réponses de Madame_TLS quand le joueur lui parle des gens qu'elle
-   mentionne, et le choix de l'acte III (la nourrir, la dénoncer, jouer double).
-4. Mise en voix des clients dans les contrats, à partir des fiches.
+3. Prolonger les choix de relation déjà branchés vers la collecte de pièces, la
+   révélation de Madame_TLS et les conséquences de la trahison.
+4. Approfondir les scènes de mission au-delà des propositions, salutations et
+   conclusions déjà mises en voix, puis faire relire les échanges en jeu.
 
 ## Questions ouvertes
 
 - Le revendeur : sable par défaut. Un compte de k0rvid, ou quelqu'un d'autre ?
 - Le secret de 0xvanta (un emploi côté défense) : trop gros, ou juste bien ?
 - Le cinquième membre de l'équipe de l'acte II : parti, pris, ou trahi ?
+
+
+### Prolongement livré dans l'acte III
+
+Madame_TLS dispose de trois scènes Lenoir supplémentaires. Sa pause parle de
+course, de concerts et d'horaires ; sa demande de lot vise des informations
+économiques précises. Un refus ne supprime pas l'amitié ou l'attirance. La remise
+complète conserve le contenu réellement acquis, et son retour permet de poser
+une limite, de questionner le commanditaire ou de prendre de la distance.

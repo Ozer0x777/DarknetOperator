@@ -13,12 +13,12 @@
     "title": "07 - Un service, des permissions",
     "body": "Vérifier le contexte d’un service et livrer ses tickets avec le compte de lecture fourni."
   },
-  "brief": "nullroute fournit un accès de maintenance limité : svc.ticket / Maintenance2026!, cible 10.61.7.30. Vérifie le compte, l’état du service ticketd et les notes de configuration. Le contrat porte seulement sur les tickets.\n\nTu ne dois exploiter aucun binaire. Lis ~/mission/reperes.txt, ouvre SSH avec le compte fourni et observe le service. La configuration décrit un compte SQL limité. Depuis une autre console Kali, exporte la table tickets dans ~/loot, relis le résultat puis confirme « livraison TK-26 tickets ». Aucun accès root demandé.",
+  "brief": "nullroute fournit un accès de maintenance limité : svc.ticket / Maintenance2026!, cible 10.61.7.30. Vérifie le compte, l’état du service ticketd et les notes de configuration. Le contrat porte seulement sur les tickets.\n\nJe te détaille ce que j’ai, avec ses limites.\n\nTu ne dois exploiter aucun binaire. Lis ~/mission/reperes.txt, ouvre SSH avec le compte fourni et observe le service. La configuration décrit un compte SQL limité. Depuis une autre console Kali, exporte la table tickets dans ~/loot, relis le résultat puis confirme « livraison TK-26 tickets ». Aucun accès root demandé.",
   "reward": 480,
   "reputation": 45,
   "required_items": [],
-  "success_message": "Livraison vérifiée. {reward} ₵ annoncés au contrat ; le règlement exact figure dans ton profil. Merci {handle}, je conserve tes preuves.",
-  "failure_message": "Dossier interrompu. Reprends une sauvegarde ou relance le contrat pour retenter le parcours.",
+  "success_message": "J’ai les tickets, et seulement les tickets. C’est propre. Je vais essayer d’être aussi précis dans mon prochain tableau. La prime annoncée est de {reward} ₵ ; le règlement exact figure dans ColdVault.",
+  "failure_message": "Ça n’a pas tenu. Relis le débriefing avant de retenter, et recoupe mes informations aussi.",
   "guide": [],
   "investigation_steps": [
     {
@@ -52,9 +52,9 @@
           "inspected": true
         }
       ],
-      "response": "Les tickets sont reçus. Le compte du service est limité ; l’accès SQL a conservé ce périmètre. J’ai un autre dossier, mais il faudra d’abord vérifier mon brief.",
+      "response": "Les tickets sont reçus. Le compte SQL est resté limité à ce qu’on demandait. J’ai un autre dossier ensuite, mais je préfère te prévenir : mon brief mérite aussi d’être vérifié.",
       "missing": "Il faut observer le service, lire sa configuration et conserver un export relu des seuls tickets.",
-      "already": "Cette étape est déjà enregistrée.",
+      "already": "Oui, c’est noté. Je n’ai pas remis l’ancienne ligne cette fois.",
       "hint": "Dans Kali : `ssh svc.ticket@10.61.7.30`, puis Maintenance2026!. Dans la session : `whoami`, `systemctl status ticketd`, `cat /home/svc.ticket/README.txt` puis `cat /etc/ticketd/database.ini`. Dans une autre console Kali : `mysql -h 10.61.7.10 -u ticket_ro -p -D ticketing -e \"SELECT * FROM tickets;\" > ~/loot/tickets.tsv`. Saisis le secret de la configuration, relis la copie et confirme livraison TK-26 tickets.",
       "hints": [
         "Vérifie le compte et le service avant de lire la configuration ; aucune élévation n’est demandée.",
@@ -111,7 +111,7 @@
   },
   "investigation_threads": [],
   "private_offer": true,
-  "intro": "0xvanta m’a recommandé tes vérifications de passation. Voici un compte de maintenance et un périmètre précis : vérifier le service, puis livrer ses tickets en lecture.",
+  "intro": "0xvanta m’a passé ton pseudo. J’ai un vieux service ticketd qui mène aux tickets de maintenance. Les tickets seulement, pas le reste des tables. Je fournis les pièces et les repères. Regarde le dossier avant de dire oui, je reste sur Chordly.",
   "relaxed_clock": true,
   "side_job": false,
   "chapter": 7,
@@ -119,5 +119,10 @@
     "act1_empreinte"
   ],
   "terminal_revision": 4,
-  "curriculum_version": 4
+  "curriculum_version": 4,
+  "dialogue": {
+    "greeting": "Salut. Si c’est encore mon tableau, je suis dessus.",
+    "ack": "Oui. Bon. Ça m’a évité une autre erreur, donc merci à toi aussi.",
+    "fallback": "Attends, je suis pas sûr de te suivre. Tu parles de quoi exactement ?"
+  }
 }

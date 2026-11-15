@@ -59,7 +59,8 @@ func run() -> void:
 	forum.set_replies("welcome", [{"author": "miette", "text": "Nouveau message", "time": "09/11 09:13", "age": 94}])
 	check(forum._reply.text == "Mon brouillon forum", "Nouveau message conserve le brouillon du forum")
 	forum._show_member("mod_echo")
-	check(forum._member_dialog.dialog_text.contains("Modération") and forum._member_dialog.dialog_text.contains("930"), "Profil consultable avec son historique")
+	var profile_text: String = "\n".join(forum._member_card.find_children("*", "Label", true, false).map(func(label: Node) -> String: return label.text))
+	check(profile_text.contains("Modération") and profile_text.contains("930"), "Profil consultable avec son historique")
 	forum._member_dialog.hide()
 	forum.navigate("breachboard", "maintenance", "Discussion")
 	forum.navigate("breachboard", "welcome", "Discussion")
@@ -126,7 +127,7 @@ func run() -> void:
 	# Plusieurs changements avant le frame suivant ne doivent pas conserver un ancien portrait.
 	chat._select_peer("k0rvid")
 	chat._select_peer("miette")
-	chat._select_peer("nullroute")
+	chat._select_peer("atelier")
 	check(chat._header_avatar.get_child_count() == 1 and chat._header_avatar.get_child(0).visible, "Un contact sans portrait retrouve son monogramme sans ancienne image")
 	chat._select_peer("k0rvid")
 	check(chat._header_avatar.get_child_count() == 2 and not chat._header_avatar.get_child(0).visible, "Un seul portrait est affiché au retour sur le contact")

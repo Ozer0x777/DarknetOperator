@@ -64,19 +64,26 @@ def parse(line,state,abilities=None):
         return ok(spec['routes'] or [f'{host.ip.rsplit(".",1)[0] if host else "10.10.14"}.0/24 dev eth0 proto kernel scope link'])
     if tool in {'ss','netstat'} and not windows and args in (['-lntp'],['-lnt'],['-tulpn']):
         lines=['State  Local Address:Port  Process',*[f'LISTEN 0.0.0.0:{s.port} {s.name}' for s in (host.services if host else [])]]
-        if not host:
-            for service in state.tool_services.values():
-                if not service.get('running'):continue
-                if service.get('kind')=='ssh-forward':lines.append(f'LISTEN 127.0.0.1:{service["listen_port"]} ssh pid={service["pid"]}')
-                elif 'config' in service:
-                    for name in ('admin_server','phish_server'):
-                        if name=='admin_server' and service.get('mode')=='phish':continue
-                        if name=='phish_server' and service.get('mode')=='admin':continue
-                        address=service['config'].get(name,{}).get('listen_url')
-                        if address:lines.append(f'LISTEN {address} gophish pid={service["pid"]}')
+        from .network_tools import client_alive, listener_host
+        for service in state.tool_services.values():
+            if not service.get('running') or listener_host(state, service) != (host.id if host else None):
+                continue
+            if service.get('kind')=='ssh-forward':
+                lines.append(f'LISTEN 127.0.0.1:{service["listen_port"]} ssh pid={service["pid"]}')
+            elif service.get('kind')=='chisel-server':
+                lines.append(f'LISTEN 0.0.0.0:{service["listen_port"]} chisel pid={service["pid"]}')
+            elif service.get('kind')=='chisel-client':
+                if client_alive(state,service):
+                    lines.append(f'LISTEN 0.0.0.0:{service["listen_port"]} chisel pid={service["server_pid"]}')
+            elif 'config' in service:
+                for name in ('admin_server','phish_server'):
+                    if name=='admin_server' and service.get('mode')=='phish':continue
+                    if name=='phish_server' and service.get('mode')=='admin':continue
+                    address=service['config'].get(name,{}).get('listen_url')
+                    if address:lines.append(f'LISTEN {address} gophish pid={service["pid"]}')
         return ok(lines)
     if tool=='ps' and not windows and args in (['aux'],['-ef']):
-        tools=[f'{user} {s["pid"]} '+('ssh -N -L '+str(s['listen_port'])+':'+s['destination']+':'+str(s['destination_port']) if s.get('kind')=='ssh-forward' else 'gophish') for s in state.tool_services.values() if not host and s.get('running')]
+        tools=[f'{user} {s["pid"]} '+('ssh -N -L '+str(s['listen_port'])+':'+s['destination']+':'+str(s['destination_port']) if s.get('kind')=='ssh-forward' else s.get('kind','gophish')) for s in state.tool_services.values() if s.get('process_host') == (host.id if host else None) and s.get('running')]
         return ok(['USER PID COMMAND',*spec['processes'],*tools])
     if tool=='systemctl' and not windows:
         if args in ([],['list-units'],['list-units','--type=service']):return ok([name+'.service '+value for name,value in spec['services'].items()])

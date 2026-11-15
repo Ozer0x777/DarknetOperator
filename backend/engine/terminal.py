@@ -21,6 +21,7 @@ class TerminalResult:
     action: QueuedAction | None = None
     open_url: str | None = None
     exit_code: int | None = None
+    stdout: str | None = None  # Flux exact quand un outil renvoie un corps brut (curl).
 
     def __post_init__(self):
         if self.exit_code is not None: return
@@ -83,7 +84,17 @@ def _parse(line: str, state: GameState, abilities: dict[str, Ability]) -> Termin
         installed=state.environment.get('systems',{}).get(state.terminal_host,{}).get('installed_tools')
         if installed is not None and (software in {'nmap','hashcat','ldapsearch','gcc','pkexec','curl','ssh','scp','getcap'} or software.startswith('impacket-')) and software not in installed:
             return TerminalResult(False,[software+': command not found'],exit_code=127)
+    if state.terminal_network_path:
+        from .network_tools import route_alive
+        if not route_alive(state, state.terminal_network_path):
+            if state.terminal_host:
+                from .console_sessions import disconnect
+                disconnect(state)
+            return TerminalResult(False, ['Connexion interrompue : le chemin SOCKS n’est plus disponible.'])
     if not state.terminal_auth:
+        from .network_tools import parse as parse_network
+        network = parse_network(line, state, abilities)
+        if network is not None: return network
         from .tunnels import parse as parse_tunnel
         tunnel = parse_tunnel(line, state)
         if tunnel is not None: return tunnel

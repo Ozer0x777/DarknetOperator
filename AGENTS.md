@@ -22,3 +22,14 @@ Jeu solo Red Team : faux bureau, forum BreachBoard, messagerie Chordly, contrats
 
 - Les outils se pilotent en CLI ; une GUI n’est ajoutée que pour reproduire celle du logiciel réel (GoPhish, futurs C2). Aucun bouton générique ne remplace les commandes.
 - Chaque console doit isoler cwd, connexion, variables, auth, sorties et historique. Les fichiers locaux sont partagés.
+
+- Seule Madame_TLS peut mener à une attirance ou une romance. Tous les autres
+  personnages restent au maximum dans un lien amical ou professionnel.
+
+## Skills du projet
+
+- Pour écrire ou réviser personnages, dialogues et relations, consulter
+  `.agents/skills/redteam-narrative/SKILL.md`.
+- Pour vérifier une modification ou une version, consulter
+  `.agents/skills/redteam-game-qa/SKILL.md` et adapter les contrôles au changement.
+- Réglages et utilisation : `docs/CONFIGURATION_CODEX.md`.

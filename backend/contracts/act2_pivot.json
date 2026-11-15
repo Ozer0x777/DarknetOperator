@@ -15,15 +15,15 @@
     "title": "05 - Le passage étroit",
     "body": "Récupère OR-NET-205 du portail interne 10.72.0.20 par un passage local SSH. Le port HTTP ne répond pas directement depuis Kali. Le tunnel doit rester ouvert dans sa propre console."
   },
-  "brief": "Récupère OR-NET-205 du portail interne 10.72.0.20 par un passage local SSH. Le port HTTP ne répond pas directement depuis Kali. Le tunnel doit rester ouvert dans sa propre console.\n\nLes pièces sont dans ~/mission. Écris indice pour une piste ou rappel détaillé pour les commandes de ce dossier. Aucun achat de matériel requis.",
+  "brief": "Récupère OR-NET-205 du portail interne 10.72.0.20 par un passage local SSH. Le port HTTP ne répond pas directement depuis Kali. Le tunnel doit rester ouvert dans sa propre console.\n\nVoilà le point de départ. On vérifie le trajet avant de conclure.\n\nLes pièces sont dans ~/mission. Écris indice pour une piste ou rappel détaillé pour les commandes de ce dossier. Aucun achat de matériel requis.",
   "reward": 330,
   "reputation": 20,
   "required_items": [],
   "required_completed": [
     "act2_reseau"
   ],
-  "success_message": "Preuves vérifiées. {reward} ₵ réglés dans ColdVault ; tes choix sont conservés.",
-  "failure_message": "Dossier interrompu, sans prime. Les accès acquis et les observations sauvegardées restent disponibles pour une reprise.",
+  "success_message": "OR-NET-205 reçu par le passage vérifié. Garde le lien entre le tunnel, son processus et ta console. C’est la partie qu’on oublie à la reprise. La prime annoncée est de {reward} ₵ ; le règlement exact figure dans ColdVault.",
+  "failure_message": "Le passage n’a pas tenu jusqu’au résultat. Garde le débriefing, on saura au moins depuis où reprendre les vérifications au prochain essai.",
   "guide": [],
   "investigation_steps": [
     {
@@ -45,8 +45,8 @@
           "inspected": true
         }
       ],
-      "response": "Le registre a réellement traversé le passage.",
-      "already": "Cette preuve est déjà enregistrée.",
+      "response": "OR-NET-205 est bien passé par le tunnel. Merci d’avoir vérifié le résultat au bout du trajet.",
+      "already": "Oui, reçu. On garde ce point de départ pour la suite.",
       "missing": "Vérifie les observations et la version des pièces ; demande indice si nécessaire.",
       "hint": "Dans Kali : `ssh -N -L 8080:10.72.0.20:80 ops@10.71.1.10`, puis saisis le secret. La console reste occupée. Dans une autre console Kali : `curl -o ~/loot/registre.txt http://127.0.0.1:8080/registre.txt` puis `cat ~/loot/registre.txt`. Confirme OR-NET-205. Ctrl+C arrête le tunnel.",
       "hints": [
@@ -62,7 +62,12 @@
     "/home/operator/mission/brief-act2.txt": "Récupère OR-NET-205 du portail interne 10.72.0.20 par un passage local SSH. Le port HTTP ne répond pas directement depuis Kali. Le tunnel doit rester ouvert dans sa propre console.\n"
   },
   "private_offer": true,
-  "intro": "Récupère OR-NET-205 du portail interne 10.72.0.20 par un passage local SSH. Le port HTTP ne répond pas directement depuis Kali. Le tunnel doit rester ouvert dans sa propre console. Ouvre le dossier pour recevoir les pièces ; les échanges se font ici, sur Telegrid.",
+  "intro": "On a un chemin à vérifier vers le portail interne. Cette fois, ce sera un passage SSH, lié à ta console et à son processus. Je t’ai laissé les pièces au dossier. On continue ici sur Telegrid.",
   "relaxed_clock": true,
-  "terminal_revision": 1
+  "terminal_revision": 1,
+  "dialogue": {
+    "greeting": "Salut ! Je venais de quitter le terminal. Deux minutes, je suis à toi.",
+    "ack": "Ça marche. Et merci d’avoir dit d’où venait le problème, on s’épargne un tour.",
+    "fallback": "Tu m’as perdu. Reprends juste le point qui te gêne."
+  }
 }

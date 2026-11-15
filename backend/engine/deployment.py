@@ -162,6 +162,9 @@ def executable_error(state: GameState, line: str):
     if value is None:
         return TerminalResult(False, [f"'{token}' n’est pas reconnu : le fichier doit être transféré dans C:\\Tools. Guide local : cat ~/tools/README.txt."])
     if value != TOOL_MARKERS[tool]: return TerminalResult(False, ['Le fichier n’est pas un artefact exécutable reconnu par ce laboratoire.'])
+    from .endpoint_tools import artifact_blocked
+    if artifact_blocked(state, tool):
+        return TerminalResult(False, ['Cette exécution a été bloquée par Microsoft Defender Antivirus. Consulte le journal Operational.'])
     return None
 
 

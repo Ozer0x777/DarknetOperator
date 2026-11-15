@@ -1,0 +1,228 @@
+{
+  "scenario_id": "act3_chisel",
+  "name": "Le retour est possible",
+  "description": "Tu as vu le registre depuis le relais. Il nous faut maintenant le lire depuis Kali par une redirection inverse Chisel. L’outil est déjà installé dans l’image Aster ; sa note précise le point de sortie. Garde les processus ouverts dans leurs consoles, puis relis le registre au bout du passage.",
+  "hosts": [
+    {
+      "id": "maintenance",
+      "hostname": "ASTER-MAINT",
+      "ip": "10.90.10.10",
+      "os": "Linux Debian 12",
+      "services": [
+        {
+          "name": "SSH",
+          "port": 22,
+          "version": "OpenSSH 9.2"
+        }
+      ],
+      "primary_user": "maintenance",
+      "files": {
+        "/home/maintenance/passation.txt": "LN-03-02 : passerelle actuelle ASTER-MAINT. Compte de lecture maintenance ; aucun droit administrateur Lenoir.\n",
+        "/home/maintenance/reseau.txt": "Le serveur de documents 10.90.40.20 écoute sur TCP/80. Il est joignable depuis ASTER-MAINT, pas directement depuis le poste opérateur. Le réseau Recherche reste hors de cette passation.\n",
+        "/home/maintenance/winrm.txt": "Maintenance Windows : 10.90.40.21, WinRM HTTP TCP/5985, compte audit, secret LectureLenoir2026!. Autorisation de lecture, pas administrateur. Les flux viennent de ASTER-MAINT uniquement.\n",
+        "/home/maintenance/outils.txt": "Image Aster : chisel installé pour les diagnostics ; source de référence github.com/jpillora/chisel, syntaxe 1.10. Aucun exécutable réel ne quitte le laboratoire simulé. Le poste opérateur 10.10.14.2 est joignable en sortie depuis le relais.\n"
+      }
+    },
+    {
+      "id": "old",
+      "hostname": "ASTER-ANCIEN",
+      "ip": "10.90.10.11",
+      "os": "Linux Debian 12",
+      "services": [],
+      "files": {}
+    },
+    {
+      "id": "documents",
+      "hostname": "LENOIR-DOC",
+      "ip": "10.90.40.20",
+      "os": "Linux Debian 12",
+      "services": [
+        {
+          "name": "HTTP",
+          "port": 80,
+          "version": "nginx 1.24"
+        }
+      ],
+      "files": {
+        "/srv/web/registre.txt": "LN-03-03 : registre des accès de maintenance. Recherche exclue du périmètre.\n"
+      }
+    },
+    {
+      "id": "research",
+      "hostname": "LENOIR-PLM",
+      "ip": "10.92.10.20",
+      "os": "Linux Debian 12",
+      "services": [
+        {
+          "name": "HTTPS",
+          "port": 443,
+          "version": "nginx 1.24"
+        }
+      ],
+      "files": {}
+    },
+    {
+      "id": "winrm",
+      "hostname": "LENOIR-MAINT-WIN",
+      "ip": "10.90.40.21",
+      "os": "Windows Server 2022",
+      "services": [
+        {
+          "name": "WinRM",
+          "port": 5985,
+          "version": "Microsoft HTTPAPI 2.0"
+        }
+      ],
+      "primary_user": "audit",
+      "admin_users": [],
+      "files": {
+        "/Users/audit/perimetre.txt": "LN-03-06 : audit peut lire les relevés de maintenance. Aucun droit administrateur local ou du domaine.\n"
+      }
+    }
+  ],
+  "users": [
+    {
+      "username": "maintenance",
+      "password": "AsterLecture2026!"
+    },
+    {
+      "username": "audit",
+      "password": "LectureLenoir2026!"
+    }
+  ],
+  "initially_discovered": [
+    "maintenance",
+    "old"
+  ],
+  "initially_scanned": [],
+  "objectives": [
+    {
+      "type": "investigation_step",
+      "step": "constat"
+    }
+  ],
+  "max_ticks": 5000,
+  "rng_seed": 0,
+  "available_abilities": {
+    "red": [
+      "red.recon_scan"
+    ]
+  },
+  "environment": {
+    "network_routes": {
+      "operator": [
+        "10.90.10.0/24"
+      ],
+      "maintenance": [
+        "10.90.10.0/24",
+        "10.90.40.0/24",
+        "10.10.14.0/24"
+      ]
+    },
+    "discovery_rules": [
+      {
+        "source": "operator",
+        "target": "maintenance",
+        "action": "deny"
+      }
+    ],
+    "network_rules": [
+      {
+        "source": "maintenance",
+        "target": "documents",
+        "port": 80,
+        "action": "allow"
+      },
+      {
+        "source": "*",
+        "target": "documents",
+        "port": 80,
+        "action": "deny"
+      },
+      {
+        "source": "maintenance",
+        "target": "winrm",
+        "port": 5985,
+        "action": "allow"
+      },
+      {
+        "source": "*",
+        "target": "winrm",
+        "port": 5985,
+        "action": "deny"
+      }
+    ],
+    "http_routes": {
+      "documents": {
+        "/registre.txt": "/srv/web/registre.txt"
+      }
+    },
+    "systems": {
+      "operator": {
+        "routes": [
+          "10.90.10.0/24 via 10.10.14.1 dev eth0"
+        ]
+      },
+      "maintenance": {
+        "routes": [
+          "10.90.10.0/24 dev eth0 proto kernel scope link",
+          "10.90.40.0/24 via 10.90.10.1 dev eth0"
+        ],
+        "installed_tools": [
+          "ssh",
+          "curl",
+          "nmap",
+          "ip",
+          "ss",
+          "chisel"
+        ],
+        "groups": [
+          "maintenance"
+        ],
+        "processes": [
+          "root 301 /usr/sbin/sshd"
+        ],
+        "services": {
+          "ssh": "active (running)"
+        }
+      },
+      "winrm": {
+        "groups": [
+          "LENOIR\\Lecteurs maintenance",
+          "BUILTIN\\Remote Management Users"
+        ],
+        "privileges": [
+          "SeChangeNotifyPrivilege Enabled"
+        ],
+        "hotfixes": [
+          "KB5030216"
+        ]
+      }
+    },
+    "organization": "Lenoir / Aster",
+    "briefing_host": "maintenance",
+    "known_contact": "traverse",
+    "sector": "Industrie et maintenance",
+    "timezone": "Europe/Paris",
+    "business_hours": "09:00–18:00",
+    "initial_time": "10:00",
+    "context": "Tu as vu le registre depuis le relais. Il nous faut maintenant le lire depuis Kali par une redirection inverse Chisel. L’outil est déjà installé dans l’image Aster ; sa note précise le point de sortie. Garde les processus ouverts dans leurs consoles, puis relis le registre au bout du passage.",
+    "operator_ip": "10.10.14.2",
+    "winrm": {
+      "winrm": {
+        "users": [
+          "audit"
+        ],
+        "port": 5985,
+        "tls": false
+      }
+    }
+  },
+  "domain": {
+    "name": "lenoir.lab",
+    "sid": "S-1-5-21-900-910-920"
+  },
+  "defender": {
+    "enabled": false
+  }
+}

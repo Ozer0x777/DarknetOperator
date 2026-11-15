@@ -15,15 +15,15 @@
     "title": "08 - Changer de machine",
     "body": "Vérifie si le compte de sauvegarde obtenu permet une session sur ORBE-ARCHIVE 10.71.2.30. Contrôle le contexte Windows, les correctifs et le fichier OR-26-208. Livre seulement ce fichier."
   },
-  "brief": "Vérifie si le compte de sauvegarde obtenu permet une session sur ORBE-ARCHIVE 10.71.2.30. Contrôle le contexte Windows, les correctifs et le fichier OR-26-208. Livre seulement ce fichier.\n\nLes pièces sont dans ~/mission. Écris indice pour une piste ou rappel détaillé pour les commandes de ce dossier. Aucun achat de matériel requis.",
+  "brief": "Vérifie si le compte de sauvegarde obtenu permet une session sur ORBE-ARCHIVE 10.71.2.30. Contrôle le contexte Windows, les correctifs et le fichier OR-26-208. Livre seulement ce fichier.\n\nOn garde le même périmètre tous les deux.\n\nLes pièces sont dans ~/mission. Écris indice pour une piste ou rappel détaillé pour les commandes de ce dossier. Aucun achat de matériel requis.",
   "reward": 420,
   "reputation": 20,
   "required_items": [],
   "required_completed": [
     "act2_service"
   ],
-  "success_message": "Preuves vérifiées. {reward} ₵ réglés dans ColdVault ; tes choix sont conservés.",
-  "failure_message": "Dossier interrompu, sans prime. Les accès acquis et les observations sauvegardées restent disponibles pour une reprise.",
+  "success_message": "OR-26-208 reçu depuis le contexte vérifié. Tu m’as laissé exactement le fichier attendu, je peux reprendre sans faire le tri derrière toi. La prime annoncée est de {reward} ₵ ; le règlement exact figure dans ColdVault.",
+  "failure_message": "On n’a pas livré cette fois. Je garde le débriefing, on verra ce qu’il faut revoir avant un nouvel essai.",
   "guide": [],
   "investigation_steps": [
     {
@@ -53,8 +53,8 @@
           "inspected": true
         }
       ],
-      "response": "La livraison et les droits sur ce serveur sont confirmés, sans prétendre administrer le domaine.",
-      "already": "Cette preuve est déjà enregistrée.",
+      "response": "Copie reçue, droits sur ce serveur vérifiés. On ne va pas appeler ça administrer tout le domaine, même si ça ferait une jolie ligne.",
+      "already": "J’ai déjà la passation. Je reprends celle qu’on a vérifiée.",
       "missing": "Vérifie les observations et la version des pièces ; demande indice si nécessaire.",
       "hint": "Dans Kali : `impacket-psexec orbe.lab/svc.backup@10.71.2.30`, puis le secret trouvé. Dans Windows : `whoami /all`, `systeminfo`, `type C:\\Data\\exports\\OR-26-208.txt`. Dans une autre console Kali : `smbclient //10.71.2.30/C$ -U svc.backup%Service2026! -c \"get Data/exports/OR-26-208.txt /home/operator/loot/lateral.txt\"`, puis lis la copie et confirme OR-26-208.",
       "hints": [
@@ -72,7 +72,12 @@
     "/home/operator/mission/brief-act2.txt": "Vérifie si le compte de sauvegarde obtenu permet une session sur ORBE-ARCHIVE 10.71.2.30. Contrôle le contexte Windows, les correctifs et le fichier OR-26-208. Livre seulement ce fichier.\n"
   },
   "private_offer": true,
-  "intro": "Vérifie si le compte de sauvegarde obtenu permet une session sur ORBE-ARCHIVE 10.71.2.30. Contrôle le contexte Windows, les correctifs et le fichier OR-26-208. Livre seulement ce fichier. Ouvre le dossier pour recevoir les pièces ; les échanges se font ici, sur Telegrid.",
+  "intro": "Salut, Quartz. Le compte de sauvegarde nous mène peut-être à ORBE-ARCHIVE, 10.71.2.30. Vérifie le contexte Windows et les correctifs avant de livrer OR-26-208. Ce fichier seulement. Le dossier est prêt, on échange sur Telegrid.",
   "relaxed_clock": true,
-  "terminal_revision": 1
+  "terminal_revision": 1,
+  "dialogue": {
+    "greeting": "Salut. Tu viens pour le dossier ou tu fais une pause aussi ?",
+    "ack": "Merci de m’avoir tenu au courant. Ça change beaucoup de choses de ne pas attendre dans le vide.",
+    "fallback": "Je préfère te demander : qu’est-ce que tu attends de moi là-dessus ?"
+  }
 }

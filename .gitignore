@@ -14,4 +14,9 @@ dist/
 # Musique source et album découpé : fichiers locaux, hors dépôt
 /SourcePlay.mp3
 /musique-source.mp3
-game/assets/audio/chapter-album/
+game/assets/audio/chapter-album/*
+!game/assets/audio/chapter-album/manifest.json
+
+# Référence visuelle locale et configuration personnelle de l’agent
+/pasted file.png
+/.codex/

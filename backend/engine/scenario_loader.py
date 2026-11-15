@@ -150,8 +150,33 @@ def _validate(
         for share in shares.values():
             if not share.get('path','').startswith('/') or any(u not in users and u!='*' for u in share.get('users',[])):
                 raise ScenarioValidationError('Chemin ou identité de partage invalide.')
+    for host_id, endpoint in env.get("winrm", {}).items():
+        if host_id not in hosts or not hosts[host_id].os.startswith("Windows") or not isinstance(endpoint, dict):
+            raise ScenarioValidationError("Point WinRM sans hôte Windows valide.")
+        if type(endpoint.get('port')) is not int or not 1 <= endpoint['port'] <= 65535 or type(endpoint.get('tls')) is not bool:
+            raise ScenarioValidationError("Port ou transport WinRM invalide.")
+        if not isinstance(endpoint.get('users'), list) or any(u not in users for u in endpoint['users']):
+            raise ScenarioValidationError("Identité WinRM inconnue.")
+        if not any(s.port == endpoint['port'] for s in hosts[host_id].services):
+            raise ScenarioValidationError("Point WinRM sans service correspondant.")
+    routes = env.get("network_routes")
+    if routes is not None:
+        if not isinstance(routes, dict):
+            raise ScenarioValidationError("Table de routes invalide.")
+        for source, networks in routes.items():
+            if source not in host_ids | {"operator"} or not isinstance(networks, list):
+                raise ScenarioValidationError("Origine ou liste de routes invalide.")
+            for network in networks:
+                try:
+                    if not isinstance(network, str) or ipaddress.ip_network(network).version != 4:
+                        raise ValueError()
+                except (ValueError, TypeError) as exc:
+                    raise ScenarioValidationError("Réseau IPv4 de route invalide.") from exc
+    for rule in env.get("discovery_rules", []):
+        if not isinstance(rule, dict) or rule.get("source") not in host_ids | {"operator", "*"} or rule.get("target") not in host_ids or rule.get("action") not in {"allow", "deny"}:
+            raise ScenarioValidationError("Règle de découverte invalide.")
     for rule in env.get("network_rules", []):
-        if not isinstance(rule, dict) or rule.get("source") not in host_ids | {"operator", "*"} or rule.get("target") not in host_ids or type(rule.get("port")) is not int or not 1 <= rule["port"] <= 65535 or rule.get("action") not in {"allow", "deny"}:
+        if not isinstance(rule, dict) or rule.get("source") not in host_ids | {"operator", "*"} or rule.get("target") not in host_ids | {"operator"} or type(rule.get("port")) is not int or not 1 <= rule["port"] <= 65535 or rule.get("action") not in {"allow", "deny"}:
             raise ScenarioValidationError("Règle réseau invalide : source, cible, port ou action.")
     for host_id, policy in env.get("endpoint_policies", {}).items():
         if host_id not in host_ids or not hosts[host_id].edr_agent or not isinstance(policy, dict):

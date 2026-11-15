@@ -15,7 +15,8 @@ def test_chat_reply_archive_and_no_duplicate_checkpoint():
             game=(await client.post('/api/games',json={'contract':'tuto_p0','handle':'Operator'})).json()
             gid=game['id']
             original=[m for m in (await client.get('/api/messages')).json() if m.get('peer')=='k0rvid']
-            assert len(original)==1
+            assert len(original)==2
+            assert sum(m.get('scene_id') == 'k0rvid-premiers-pas' for m in original) == 1
             result=await client.post(f'/api/games/{gid}/chat',json={'channel':'chordly','text':'Bonjour, quel est l’objectif ?'})
             assert result.status_code==200
             messages=result.json()['messages']
@@ -27,9 +28,10 @@ def test_chat_reply_archive_and_no_duplicate_checkpoint():
             career().checkpoint(state)
             career().checkpoint(state)
             archive=[m for m in (await client.get('/api/messages')).json() if m.get('peer')=='k0rvid']
-            assert len(archive)==len(messages)
+            assert len([m for m in archive if not m.get('scene_id')])==len(messages)
+            assert sum(m.get('scene_id') == 'k0rvid-premiers-pas' for m in archive) == 1
             restored=Career(career().path)
-            assert len([m for m in restored.data['conversations'].values() if m.get('peer')=='k0rvid'])==len(messages)
+            assert len([m for m in restored.data['conversations'].values() if m.get('peer')=='k0rvid'])==len(archive)
             assert (await client.post(f'/api/games/{gid}/chat',json={'channel':'telegrid','text':'Salut'})).status_code==400
             assert (await client.post(f'/api/games/{gid}/chat',json={'channel':'chordly','peer':'wrong-contact','text':'Salut'})).status_code==400
             assert (await client.post(f'/api/games/{gid}/chat',json={'channel':'chordly','text':'   '})).status_code==400

@@ -28,7 +28,8 @@ def test_world_life_is_authored_persistent_and_does_not_repeat(tmp_path):
     profile = Career(tmp_path/'career.json')
     social.advance(profile, 5)
     group = [m for m in profile.data['conversations'].values() if m['peer'] == 'atelier']
-    assert len(group) == 3
+    assert len([m for m in group if not m.get('scene_id')]) == 3
+    assert sum(m.get('scene_id') == 'atelier-miette' for m in group) == 1
     social.queue_chat(profile, 'chordly', 'miette', 'Operator', 'Salut, tu prends des notes ?')
     message_count = len(profile.data['conversations'])
     assert any(e['target'] == 'miette' for e in profile.data['social']['pending'])

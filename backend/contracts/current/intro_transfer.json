@@ -19,8 +19,8 @@
   "required_items": [],
   "guide": [],
   "onboarding": true,
-  "success_message": "Résultat vérifié. {reward} ₵ réglés ; ton prochain dossier est disponible dans cette conversation. Garde tes notes, on réutilisera cette compétence.",
-  "failure_message": "On reprend ce dossier à ton rythme ; vérifie le résultat avant de conclure.",
+  "success_message": "Copie reçue et vérifiée. Cette fois le document est bien revenu sur ton poste. La prime annoncée est de {reward} ₵ ; le règlement exact figure dans ColdVault.",
+  "failure_message": "On s’arrête là pour ce dossier. Garde le débriefing, on reprendra ce qui a coincé au prochain essai.",
   "debrief_hints": [
     "Transférer et relire une seule pièce dans les droits de son propriétaire."
   ],
@@ -29,5 +29,10 @@
     "Le transfert se lance depuis Kali et doit aboutir dans ~/loot. Une session ouverte ne suffit pas.",
     "SCP attend une source compte@hôte:chemin et une destination locale. Reprends la syntaxe du briefing puis relis ta copie."
   ],
-  "curriculum_version": 4
+  "curriculum_version": 4,
+  "dialogue": {
+    "greeting": "Salut {handle}. Je finis un compte rendu. Qu’est-ce qu’il y a ?",
+    "ack": "Garde tes remerciements pour quand tu sauras refaire sans moi. Mais oui, j’ai lu.",
+    "fallback": "Je ne suis pas sûr de ce que tu me demandes. Tu peux préciser ?"
+  }
 }

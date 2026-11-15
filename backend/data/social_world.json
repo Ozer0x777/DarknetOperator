@@ -1,11 +1,11 @@
 {
-  "version": 1,
+  "version": 6,
   "profiles": {
     "bytewarden": {
       "role": "Administrateur",
       "reputation": 214,
       "age": 1240,
-      "bio": "Je m’occupe du forum. Les règles valent aussi pour les anciens.",
+      "bio": "Je tiens cet endroit ouvert. Ça prend déjà assez de soirées.",
       "availability": [
         {
           "start": 480,
@@ -17,7 +17,7 @@
       "role": "Modération",
       "reputation": 380,
       "age": 930,
-      "bio": "Je gère les litiges et les signalements. Je ne négocie rien en message privé.",
+      "bio": "Les signalements ici, les arrangements ailleurs. Je lis tout, même quand je réponds demain.",
       "availability": [
         {
           "start": 540,
@@ -29,7 +29,7 @@
       "role": "Membre",
       "reputation": 73,
       "age": 286,
-      "bio": "Matériel d’occasion, Linux. Mon café est toujours froid.",
+      "bio": "Je répare des portables qui valent moins que leurs frais de port.",
       "availability": [
         {
           "start": 540,
@@ -45,7 +45,7 @@
       "role": "Membre confirmé",
       "reputation": 221,
       "age": 712,
-      "bio": "J’aime mieux une chronologie propre qu’une conclusion trop rapide.",
+      "bio": "Si tu écris « hier soir », je vais te demander dans quel fuseau.",
       "availability": [
         {
           "start": 480,
@@ -61,7 +61,7 @@
       "role": "Membre confirmé",
       "reputation": 412,
       "age": 1100,
-      "bio": "Je fais le support des accès relais. Je réponds en différé.",
+      "bio": "Je connais quelqu’un. Pour le reste, il faut voir les conditions.",
       "availability": [
         {
           "start": 480,
@@ -77,7 +77,7 @@
       "role": "Membre invité",
       "reputation": 680,
       "age": 1680,
-      "bio": "Peu de messages. Mes conditions sont écrites.",
+      "bio": "Conditions écrites. Pas de discussion publique.",
       "availability": [
         {
           "start": 540,
@@ -93,7 +93,7 @@
       "role": "Membre",
       "reputation": 29,
       "age": 94,
-      "bio": "J’apprends. Je note tout, mes notes valent mieux que ma mémoire.",
+      "bio": "J’avais une question. J’en ai trois maintenant.",
       "availability": [
         {
           "start": 540,
@@ -109,7 +109,7 @@
       "role": "Membre",
       "reputation": 116,
       "age": 467,
-      "bio": "Je tiens un atelier matériel. Pas souvent disponible.",
+      "bio": "À l’atelier. Si ça sent le plastique chaud, je répondrai plus tard.",
       "availability": [
         {
           "start": 480,
@@ -122,7 +122,7 @@
       "role": "Membre confirmé",
       "reputation": 193,
       "age": 630,
-      "bio": "Je traîne dans les archives et la doc. J’aime les vieux portables.",
+      "bio": "Je garde les vieux fichiers. Un jour ça sert. Souvent ça encombre.",
       "availability": [
         {
           "start": 480,
@@ -134,7 +134,7 @@
       "role": "Membre",
       "reputation": 38,
       "age": 412,
-      "bio": "Je propose des petits contrats, objectifs précis. Si tu bloques, demande de l’aide.",
+      "bio": "Je fais entrer peu de monde. J’aimerais continuer comme ça.",
       "availability": [
         {
           "start": 540,
@@ -146,7 +146,7 @@
       "role": "Membre",
       "reputation": 42,
       "age": 284,
-      "bio": "Je veux des preuves datées. Les promesses, on verra après.",
+      "bio": "Mes tableaux sont à jour. Enfin, je suis en train de les reprendre.",
       "availability": [
         {
           "start": 480,
@@ -158,7 +158,7 @@
       "role": "Membre",
       "reputation": 42,
       "age": 284,
-      "bio": "En ligne tard. Je réponds en décalé.",
+      "bio": "Présent tard. Réponses courtes.",
       "availability": [
         {
           "start": 480,
@@ -170,7 +170,7 @@
       "role": "Membre",
       "reputation": 42,
       "age": 284,
-      "bio": "Je garde mes notes et je relis mes erreurs.",
+      "bio": "J’ai payé un échantillon une fois de trop.",
       "availability": [
         {
           "start": 480,
@@ -182,7 +182,7 @@
       "role": "Opérateur Linux",
       "reputation": 80,
       "age": 650,
-      "bio": "Je tiens des relais et je vérifie les passations. Une version affichée, ça dit pas que la machine est vulnérable.",
+      "bio": "Je relis avant de transmettre. Oui, encore une fois.",
       "availability": [
         {
           "start": 0,
@@ -194,7 +194,7 @@
       "role": "Accès réseau",
       "reputation": 80,
       "age": 650,
-      "bio": "Je prépare les passages entre réseaux. Un service répond ? Je veux savoir depuis quelle machine.",
+      "bio": "Si ça passe, dis-moi par où.",
       "availability": [
         {
           "start": 0,
@@ -206,7 +206,7 @@
       "role": "Analyste annuaire",
       "reputation": 80,
       "age": 650,
-      "bio": "Je recoupe des comptes, des groupes, des délégations. Un chemin dans un graphe, ça reste une hypothèse tant que t’as pas vérifié les droits.",
+      "bio": "Les flèches sur un graphe ne me rassurent pas toutes seules.",
       "availability": [
         {
           "start": 0,
@@ -218,7 +218,7 @@
       "role": "Partenaire de livraison",
       "reputation": 80,
       "age": 650,
-      "bio": "Je reprends des dossiers en binôme. Un secret seul me suffit pas, dis-moi aussi les limites que t’as vues.",
+      "bio": "Je préfère un partenaire qui me dit quand il doute.",
       "availability": [
         {
           "start": 0,
@@ -230,11 +230,15 @@
       "role": "Membre confirmé",
       "reputation": 167,
       "age": 388,
-      "bio": "Sites web, certificats, portails mal rangés. Je réponds le matin.",
+      "bio": "CTI, OSINT et veille stratégique. Sport, musique, mode et musées : rarement une soirée sans projet.",
       "availability": [
         {
           "start": 420,
           "end": 900
+        },
+        {
+          "start": 1260,
+          "end": 1380
         }
       ]
     }
@@ -247,7 +251,7 @@
       "title": "Bienvenue - présentez-vous et lisez les règles",
       "author": "bytewarden",
       "reputation": 214,
-      "body": "Bienvenue sur BreachBoard. Commencez par la section Débutants. Si un client n'a pas d'historique, si la prime est démesurée ou si on vous presse plus que d'habitude, prenez du recul.\n\nVous venez d'arriver ? Présentez-vous ici.",
+      "body": "Bienvenue. Prenez cinq minutes pour lire les épinglés avant de vous présenter. Un pseudo nous suffit, gardez le reste pour vous. Et cherchez un peu avant d’ouvrir le troisième fil sur la même question.",
       "pinned": true,
       "age": 1240,
       "role": "Administrateur",
@@ -256,20 +260,21 @@
       "posts": [
         {
           "author": "miette",
-          "text": "Salut, je suis nouvelle ici ! Je vais déjà lire les sujets épinglés.",
+          "text": "Salut ! Ça fait deux jours que je lis sans oser poster. Bon, voilà, c’est fait.",
           "minute": -2340
         },
         {
           "author": "mod_echo",
-          "text": "Bienvenue. Avant d’ouvrir un sujet, regarde s’il existe pas déjà.",
+          "text": "Bienvenue miette. Et aux prochains : pas besoin d’envoyer vos coordonnées pour prouver que vous existez.",
           "minute": -2317
         }
       ],
       "response": {
         "author": "mod_echo",
-        "text": "Bienvenue {handle}. Les règles sont épinglées. Si t’as une question précise, dis ce que t’as déjà essayé."
+        "text": "{handle}, bienvenue. Les questions ont leur place ici. Les coordonnées personnelles, non."
       },
-      "views": 84
+      "views": 84,
+      "category": "Vie du forum"
     },
     {
       "id": "escrow",
@@ -278,7 +283,7 @@
       "title": "Avant d'accepter un contrat : vérifier le client",
       "author": "mod_echo",
       "reputation": 380,
-      "body": "Regardez la date d'inscription et la réputation. Une prime affichée, même grosse, ça ne vaut jamais un historique fiable. Pour le paiement et l'avancement de vos missions, tout est sur votre compte.",
+      "body": "Un client pressé vous promet une grosse prime puis refuse de donner une référence ? Arrêtez-vous là. Gardez l’annonce, les conditions et les échanges. La réputation aide à choisir à qui parler, elle ne dispense pas de vérifier.",
       "pinned": true,
       "age": 930,
       "role": "Modération",
@@ -287,20 +292,21 @@
       "posts": [
         {
           "author": "sable",
-          "text": "Allez lire les anciens messages aussi. Le chiffre de réputation dit pas tout.",
+          "text": "Regardez aussi ses anciens messages. J’ai déjà vu un compte très bien noté changer complètement de manière d’écrire.",
           "minute": -3773
         },
         {
           "author": "mod_echo",
-          "text": "Exact. Et un signalement, c’est une référence et une chronologie. Une accusation sans rien derrière, je n’en fais rien.",
+          "text": "Et si ça tourne mal, envoyez-moi une référence et les dates. « Tout le monde sait que » ne me permet pas de suspendre quelqu’un.",
           "minute": -3750
         }
       ],
       "response": {
         "author": "mod_echo",
-        "text": "{handle}, si tu signales un problème, garde les références et les heures. Un dossier je peux le traiter, une rumeur non."
+        "text": "{handle}, garde l’annonce d’origine avant qu’elle soit modifiée. On pourra au moins parler de la même chose."
       },
-      "views": 121
+      "views": 121,
+      "category": "Vie du forum"
     },
     {
       "id": "hardware",
@@ -309,7 +315,7 @@
       "title": "GPU et listes de mots - où investir ses premiers crédits ?",
       "author": "nullpointer",
       "reputation": 73,
-      "body": "Le matériel fait gagner du temps sur le traitement hors ligne. Gardez quand même de quoi payer la route du prochain contrat. Le catalogue Services et matériel, vous le trouvez dans la boutique.",
+      "body": "J’ai un peu de crédit de côté et évidemment je regarde déjà les GPU. Mauvaise idée ? Ceux qui ont commencé avec trois bouts de ficelle, vous avez acheté quoi en premier ?",
       "age": 286,
       "role": "Membre",
       "created_minute": -5216,
@@ -317,20 +323,21 @@
       "posts": [
         {
           "author": "hexane",
-          "text": "Garde de la marge pour le prochain contrat. Un GPU rattrape pas une liste de mots mal choisie.",
+          "text": "Une liste adaptée au dossier. Pas très spectaculaire, je sais. Garde de quoi ouvrir le prochain contrat avant de chauffer ta pièce avec une carte.",
           "minute": -5206
         },
         {
           "author": "nullpointer",
-          "text": "Merci. J’attends pour l’achat, je vais déjà mesurer mon temps de traitement.",
+          "text": "Bon. Je ferme l’onglet des annonces. Enfin, je le réduis.",
           "minute": -5183
         }
       ],
       "response": {
         "author": "hexane",
-        "text": "{handle}, compare d’abord ton temps mesuré avec ce qu’il te reste de budget. Le gain de chaque matériel est sur sa fiche du catalogue."
+        "text": "{handle}, tu mesures combien de temps sur quel travail ? On regardera une carte après, pas avant."
       },
-      "views": 158
+      "views": 158,
+      "category": "Matériel"
     },
     {
       "id": "tor",
@@ -339,7 +346,7 @@
       "title": "Accès au forum et règles de confidentialité",
       "author": "relay",
       "reputation": 412,
-      "body": "Forum réservé aux membres confirmés. Activez une route Tor avant d'aller lire les annonces. Le détail de votre route, vous le retrouvez dans le centre d'opération.",
+      "body": "Pour publier ici, vérifiez votre route. Si elle change en cours de session, refaites le contrôle avant d’envoyer. Je préfère une question en privé à une publication dont on devra réparer les dégâts.",
       "pinned": true,
       "age": 1100,
       "role": "Membre confirmé",
@@ -348,15 +355,16 @@
       "posts": [
         {
           "author": "packetloss",
-          "text": "Si votre route change, revérifiez votre accès au forum avant de publier.",
+          "text": "Ça m’est arrivé après une coupure. La page était encore ouverte, j’ai cru que rien n’avait changé. Maintenant je revérifie.",
           "minute": -6639
         }
       ],
       "response": {
         "author": "relay",
-        "text": "{handle}, regarde quelle route est active avant de retenter l’accès. Je peux pas la configurer pour toi."
+        "text": "{handle}, vérifie la route affichée avant de publier. Une page encore ouverte ne confirme pas ta connexion."
       },
-      "views": 195
+      "views": 195,
+      "category": "Passations & conditions"
     },
     {
       "id": "debrief",
@@ -365,7 +373,7 @@
       "title": "Vos débriefings : comprendre ce que la défense a vu",
       "author": "packetloss",
       "reputation": 221,
-      "body": "Après chaque contrat, relisez la chronologie. Une alerte déclenche une réaction, mais avec un délai. Et une enquête peut continuer même après l'accusé de réception de l'alerte.",
+      "body": "Le débriefing sert aussi quand le contrat est réussi. Regardez ce qui a été détecté, à quel moment, puis ce que le défenseur a fait. Si quelqu’un ne comprend pas une ligne, postez l’extrait plutôt que tout le dossier.",
       "age": 712,
       "role": "Membre confirmé",
       "created_minute": -8082,
@@ -373,20 +381,21 @@
       "posts": [
         {
           "author": "sable",
-          "text": "Une alerte acquittée, ça veut pas dire que l’incident est clos.",
+          "text": "J’avais pris « alerte acquittée » pour « problème réglé ». J’ai relu la suite, ça m’a calmé.",
           "minute": -8072
         },
         {
           "author": "packetloss",
-          "text": "Oui. Détection, qualification, réponse : mélangez pas les trois.",
+          "text": "Oui. Quelqu’un a vu, quelqu’un a qualifié, quelqu’un a agi. Parfois il manque une de ces étapes.",
           "minute": -8049
         }
       ],
       "response": {
         "author": "packetloss",
-        "text": "{handle}, commence par l’horodatage du premier événement visible. Après, on le compare avec la première alerte."
+        "text": "{handle}, quelle ligne te gêne ? Avec l’heure et l’événement d’avant, on devrait y voir plus clair."
       },
-      "views": 232
+      "views": 232,
+      "category": "Pratique & retours"
     },
     {
       "id": "private",
@@ -395,7 +404,7 @@
       "title": "Salon privé - charte des membres invités",
       "author": "spectre",
       "reputation": 680,
-      "body": "Accès accordé après le contrat de passage. Un accès relais se consomme. Préparez le suivant avant toute nouvelle mission.",
+      "body": "Les accès donnés ici n’autorisent pas à tout prendre. Périmètre, partage de la prime, limites : faites confirmer avant de commencer. Une passation mal préparée ne devient pas mon problème parce que vous l’avez envoyée à trois heures du matin.",
       "pinned": true,
       "age": 1680,
       "role": "Membre invité",
@@ -404,15 +413,16 @@
       "posts": [
         {
           "author": "relay",
-          "text": "Charte lue. Je mettrai les limites de chaque accès dans la passation.",
+          "text": "Lu. Je mets les limites directement dans la passation. Ça nous épargnera le quatrième message pour demander ce que « accès OK » voulait dire.",
           "minute": -9505
         }
       ],
       "response": {
         "author": "spectre",
-        "text": "Lu, {handle}. Ce qui concerne une mission reste dans sa conversation."
+        "text": "{handle}, confirme d’abord ce que tu reprends. Je ne veux pas découvrir une condition après la livraison."
       },
-      "views": 269
+      "views": 269,
+      "category": "Passations & conditions"
     },
     {
       "id": "introductions",
@@ -420,7 +430,7 @@
       "section": "Discussion",
       "title": "Vos premières semaines sur le forum",
       "author": "miette",
-      "body": "Bon, j’ai passé plus de temps à lire les sujets épinglés qu’à poster. Vous preniez vos notes comment, au début ?",
+      "body": "Après deux semaines ici, vous auriez aimé savoir quoi le premier jour ? Je commence : « ça marche » dans un carnet n’est pas une note. J’ai retrouvé ça ce matin et je ne sais même plus de quoi je parlais.",
       "pinned": false,
       "reputation": 29,
       "age": 94,
@@ -430,20 +440,21 @@
       "posts": [
         {
           "author": "nullpointer",
-          "text": "Un fichier texte par mission. Je sauvegarde après chaque étape.",
+          "text": "Un fichier par mission. J’ai essayé un seul gros fichier. Il s’appelait final_vraiment_final. Je préfère ne pas en parler.",
           "minute": -10938
         },
         {
           "author": "miette",
-          "text": "Je note. Et j’ajoute une colonne résultat attendu / résultat observé.",
+          "text": "Je viens de chercher « ça marche » dans mon carnet. Bon. Je reviens.",
           "minute": -10915
         }
       ],
       "response": {
         "author": "miette",
-        "text": "Bienvenue {handle}. Maintenant je note aussi mes erreurs, ça m’évite de refaire deux fois le même essai."
+        "text": "{handle}, raconte ton premier faux départ si tu veux. On a déjà assez de récits où tout marche du premier coup."
       },
-      "views": 306
+      "views": 306,
+      "category": "Vie du forum"
     },
     {
       "id": "maintenance",
@@ -451,7 +462,7 @@
       "section": "Discussion",
       "title": "Maintenance du forum jeudi à 02:00",
       "author": "bytewarden",
-      "body": "On reconstruit l’index de recherche cette nuit. Les messages restent accessibles. Évitez juste de publier en double.",
+      "body": "Maintenance jeudi à 02:00. Les pages pourront être indisponibles quelques minutes. Ne renvoyez pas un message dix fois si ça mouline, il finira peut-être par arriver dix fois.",
       "pinned": false,
       "reputation": 214,
       "age": 1240,
@@ -461,11 +472,12 @@
       "posts": [
         {
           "author": "mod_echo",
-          "text": "Je verrouille, ce sujet sert aux annonces. Pour les questions, c’est dans la discussion générale.",
+          "text": "Je ferme les réponses pour garder l’annonce visible. Les questions dans la discussion générale, je les lirai là-bas.",
           "minute": -2291
         }
       ],
-      "views": 343
+      "views": 343,
+      "category": "Vie du forum"
     },
     {
       "id": "notes",
@@ -473,7 +485,7 @@
       "section": "Discussion",
       "title": "Un carnet de mission lisible après trois jours",
       "author": "sable",
-      "body": "Je note l’heure, ce que je savais avant l’essai, et le résultat exact. Sinon je sais plus ce que j’ai vu et ce que j’ai supposé.",
+      "body": "J’ai rouvert un carnet de vendredi. Trois adresses, « important » souligné et aucune explication. Donc : comment vous laissez assez de contexte sans passer la soirée à écrire ?",
       "pinned": false,
       "reputation": 193,
       "age": 630,
@@ -483,15 +495,16 @@
       "posts": [
         {
           "author": "packetloss",
-          "text": "Et garde les erreurs. Des fois elles expliquent mieux la suite que les essais réussis.",
+          "text": "Les erreurs aussi. J’ai passé une heure à refaire un essai que j’avais déjà raté, parce que je n’avais gardé que le résultat qui m’arrangeait.",
           "minute": -3724
         }
       ],
       "response": {
         "author": "sable",
-        "text": "{handle}, mets d’un côté ce que tu observes, de l’autre ce que tu supposes. Tu te remercieras demain."
+        "text": "{handle}, écris ce que tu cherchais avant le résultat. C’est la ligne qui manque toujours quand on rouvre le fichier."
       },
-      "views": 380
+      "views": 380,
+      "category": "Pratique & retours"
     },
     {
       "id": "workbench",
@@ -499,7 +512,7 @@
       "section": "Marché",
       "title": "[Vendu] Portable de travail, batterie à remplacer",
       "author": "hexane",
-      "body": "Machine vendue à nullpointer. Je laisse l’annonce pour l’historique. Plus d’acompte à envoyer.",
+      "body": "Vendu à nullpointer. Batterie fatiguée annoncée, chargeur fourni. Je garde le fil pour l’historique. Si un autre compte vous réclame encore un acompte pour cette machine, ce n’est pas moi.",
       "pinned": false,
       "reputation": 116,
       "age": 467,
@@ -509,11 +522,13 @@
       "posts": [
         {
           "author": "nullpointer",
-          "text": "Bien reçu. Je confirme l’achat, et l’état de la batterie aussi.",
+          "text": "Reçu. Il démarre, il souffle, la batterie tient à peine le temps de dire bonjour. Conforme à l’annonce.",
           "minute": -5157
         }
       ],
-      "views": 417
+      "views": 417,
+      "category": "Matériel",
+      "status_label": "CLOS"
     },
     {
       "id": "gpu-prices",
@@ -521,7 +536,7 @@
       "section": "Marché",
       "title": "GPU d’occasion : vos températures en charge ?",
       "author": "nullpointer",
-      "body": "Ma carte perd en performances au bout de vingt minutes. Je vais refaire la ventilation avant d’acheter autre chose.",
+      "body": "Ma carte tient vingt minutes puis s’écroule. Je lui ai déjà promis une retraite paisible, mais je vais d’abord nettoyer la ventilation. Vous mesurez combien en charge longue, avec quelle température dans la pièce ?",
       "pinned": false,
       "reputation": 73,
       "age": 286,
@@ -531,15 +546,16 @@
       "posts": [
         {
           "author": "hexane",
-          "text": "Compare les températures à fréquence constante. Sur trente secondes de mesure, tu vois pas la baisse en charge.",
+          "text": "À fréquence constante, sinon on compare des choses différentes. Et laisse tourner plus de trente secondes. Ta carte aussi sait faire bonne impression au début.",
           "minute": -6590
         }
       ],
       "response": {
         "author": "hexane",
-        "text": "{handle}, donne la durée de charge et la température ambiante. Sans ça on peut pas comparer."
+        "text": "{handle}, durée de charge et température ambiante ? Sans ça je peux te raconter ce que je veux sur la mienne."
       },
-      "views": 454
+      "views": 454,
+      "category": "Matériel"
     },
     {
       "id": "timezones",
@@ -547,7 +563,7 @@
       "section": "Discussion",
       "title": "Les horodatages sans fuseau sont inutilisables",
       "author": "packetloss",
-      "body": "Gardez le fuseau dans vos comptes rendus, s’il vous plaît. Avec 14:00 sans date ni fuseau, on peut pas recouper deux événements.",
+      "body": "J’ai deux relevés qui se contredisent de trois heures. Ou deux. Leur auteur a écrit « hier à 14 h ». Merci d’ajouter la date et le fuseau, j’aimerais récupérer ma matinée.",
       "pinned": false,
       "reputation": 221,
       "age": 712,
@@ -557,15 +573,16 @@
       "posts": [
         {
           "author": "relay",
-          "text": "Je note UTC dans mes passations. Ça évite les conversions faites de tête.",
+          "text": "UTC dans mes passations. J’ai assez fait de conversions de tête pour savoir que je ne sais pas les faire fatigué.",
           "minute": -8023
         }
       ],
       "response": {
         "author": "packetloss",
-        "text": "{handle}, ajoute le fuseau à ton exemple. Là on pourra recouper les horaires."
+        "text": "{handle}, ajoute le fuseau à ton exemple. Je refuse de mener une enquête sur le sens du mot « hier »."
       },
-      "views": 491
+      "views": 491,
+      "category": "Veille & sources"
     },
     {
       "id": "relay-stock",
@@ -573,7 +590,7 @@
       "section": "Marché",
       "title": "Disponibilités et renouvellement des relais",
       "author": "relay",
-      "body": "Les accès ont une durée limitée. Un accès consommé se renouvelle pas tout seul. Confirmez les conditions avant d’acheter.",
+      "body": "Je confirme les disponibilités par créneaux. Un accès ancien n’est pas réservé pour toujours, et un accès utilisé ne se renouvelle pas tout seul. Attendez ma confirmation avant de préparer une passation.",
       "pinned": false,
       "reputation": 412,
       "age": 1100,
@@ -583,15 +600,16 @@
       "posts": [
         {
           "author": "spectre",
-          "text": "Date de vérification sur chaque passation. Merci.",
+          "text": "Date de vérification sur chaque passation. Pas celle de la rédaction.",
           "minute": -9456
         }
       ],
       "response": {
         "author": "relay",
-        "text": "{handle}, les disponibilités sont dans le catalogue. Avant une nouvelle passation, je confirme les conditions."
+        "text": "{handle}, je peux confirmer une disponibilité, pas une promesse de la semaine dernière. Regarde le catalogue puis donne-moi la référence."
       },
-      "views": 528
+      "views": 528,
+      "category": "Passations & conditions"
     },
     {
       "id": "handover",
@@ -599,7 +617,7 @@
       "section": "Discussion",
       "title": "Passation : documenter l’accès fourni",
       "author": "spectre",
-      "body": "Une passation précise les droits, la machine, la date de vérification, les limites connues. Un accès ancien ne marche peut-être plus. Ne supposez rien.",
+      "body": "Machine. Droits vérifiés. Date. Limites. Si une de ces lignes manque, la passation repart. Je ne paie pas quelqu’un pour deviner ce que son prédécesseur a voulu dire.",
       "pinned": false,
       "reputation": 680,
       "age": 1680,
@@ -609,15 +627,16 @@
       "posts": [
         {
           "author": "spectre",
-          "text": "Identifiants d’un côté, droits de l’autre. Vérifiez les deux.",
+          "text": "Et testez les identifiants avant de décrire les droits. Un compte valide et un compte administrateur ne sont pas le même produit.",
           "minute": -10889
         }
       ],
       "response": {
         "author": "spectre",
-        "text": "{handle}, une vérification datée et les limites connues, ça suffit. Ne promets pas des droits que t’as pas vérifiés."
+        "text": "{handle}, indique ta dernière vérification et ce qui reste hors de portée. Le reste attendra."
       },
-      "views": 565
+      "views": 565,
+      "category": "Passations & conditions"
     },
     {
       "id": "private-market",
@@ -625,7 +644,7 @@
       "section": "Marché",
       "title": "Demandes de services : conditions écrites obligatoires",
       "author": "spectre",
-      "body": "Périmètre et règlement confirmés avant toute prestation. Un message privé sans référence ne vaut pas annonce vérifiée.",
+      "body": "Les conditions se confirment ici avant la prestation. Aucun supplément découvert après coup. Aucun accord « comme d’habitude » sans référence écrite.",
       "pinned": false,
       "reputation": 680,
       "age": 1680,
@@ -635,15 +654,16 @@
       "posts": [
         {
           "author": "relay",
-          "text": "Une demande incomplète repart chez son auteur.",
+          "text": "J’ai renvoyé deux demandes ce matin. Si même le périmètre manque, je ne vais pas choisir à la place du client.",
           "minute": -2242
         }
       ],
       "response": {
         "author": "spectre",
-        "text": "{handle}, le périmètre et le délai attendu d’abord. Ensuite tu demandes une confirmation."
+        "text": "{handle}, donne le périmètre et le délai. Je confirme ensuite si la demande tient."
       },
-      "views": 602
+      "views": 602,
+      "category": "Passations & conditions"
     },
     {
       "id": "seller-dispute",
@@ -656,30 +676,31 @@
       "posts": [
         {
           "author": "nullpointer",
-          "text": "L'annonce parlait d'un accès administrateur. La preuve montre juste une connexion utilisateur sur une machine. Et depuis, le vendeur a changé de pseudo.",
+          "text": "J’ai payé pour administrateur, reçu utilisateur, et maintenant le vendeur change de pseudo. Au moins il est rapide sur une chose.",
           "minute": -40
         },
         {
           "author": "packetloss",
-          "text": "Connexion réussie, droits administrateur, accès à d'autres machines : c'est trois affirmations différentes. En plus le relevé est ancien, l'accès a pu expirer.",
+          "text": "Son relevé date aussi d’avant la maintenance. Même cette connexion utilisateur reste à revérifier aujourd’hui.",
           "minute": -35
         },
         {
           "author": "mod_echo",
-          "text": "J'ouvre un litige et je suspends l'annonce. Peu importe la réputation, il faut des preuves datées. Et ce qui se dit en message privé n'est pas une décision de modération.",
+          "text": "J’ai les copies des deux annonces. Ne contactez pas ses proches et ne publiez pas d’informations personnelles. Le litige porte sur la vente.",
           "minute": -30
         }
       ],
       "response": {
         "author": "mod_echo",
-        "text": "Reçu {handle}. Ajoute tes observations et leur date. Sans preuve, ça reste juste une affirmation."
+        "text": "{handle}, je peux examiner une pièce datée. Si tu as seulement entendu parler du vendeur, précise-le."
       },
       "section": "Discussion",
-      "body": "Suivi public du litige L-026. Il reste ouvert tant qu’on n’a pas les preuves. Je garde à part ce que disent les annonces et les droits qu’on a vraiment vérifiés.",
+      "body": "Litige L-026. L’annonce promettait administrateur. La pièce reçue montre une connexion utilisateur. Je suspends l’annonce en attendant un relevé récent. Merci de garder les messages et de laisser les insultes ailleurs.",
       "reputation": 380,
       "age": 930,
       "role": "Modération",
-      "views": 639
+      "views": 639,
+      "category": "Vie du forum"
     },
     {
       "id": "affiliate-terms",
@@ -692,30 +713,31 @@
       "posts": [
         {
           "author": "relay",
-          "text": "Dans le laboratoire, la part du contrat d'affiliation est écrite avant que vous acceptiez. Le montant affiché, c'est pas forcément la part de l'opérateur.",
+          "text": "J’ai encore une demande qui confond montant du contrat et part opérateur. Faites confirmer le partage avant de commencer. Après, chacun a sa mémoire.",
           "minute": -40
         },
         {
           "author": "packetloss",
-          "text": "Un vendeur qui dit que son outil est indétectable, ça garantit rien. Une politique locale peut bloquer l'exécution alors que le fichier a bien été transféré.",
+          "text": "Et « indétectable » n’est pas un résultat de test. J’ai vu un fichier arriver correctement puis être bloqué à l’exécution.",
           "minute": -35
         },
         {
           "author": "sable",
-          "text": "J'ai refusé une passation. Le compte était valide mais le périmètre collait pas à l'annonce. Le bon résultat, c'était de documenter cette limite. Sûrement pas d'écrire que le réseau était accessible.",
+          "text": "J’ai refusé une passation malgré un compte valide. Le vendeur m’en veut encore. Son annonce promettait un périmètre que le compte ne couvrait pas.",
           "minute": -30
         }
       ],
       "response": {
         "author": "relay",
-        "text": "Bien reçu, {handle}. Mets tes observations avec leur date. Sans preuve, une affirmation reste une affirmation."
+        "text": "{handle}, qu’est-ce qui est écrit sur ta part ? On part de ça, pas du chiffre mis en gros dans l’annonce."
       },
       "section": "Discussion",
-      "body": "Conditions du marché fictif. Relisez le partage de la rémunération avant de vous engager. Dans ce fil, on sépare ce qu’un vendeur promet et ce qui a été vérifié.",
+      "body": "Avant d’accepter une affiliation, lisez la part qui vous revient et qui répond de quoi en cas de désaccord. Un gros montant dans une annonce peut donner une toute petite ligne dans votre règlement.",
       "reputation": 412,
       "age": 1100,
       "role": "Membre confirmé",
-      "views": 676
+      "views": 676,
+      "category": "Passations & conditions"
     },
     {
       "id": "incident-aftermath",
@@ -728,30 +750,31 @@
       "posts": [
         {
           "author": "spectre",
-          "text": "Retour de dossier fictif. Des postes étaient indisponibles, d'autres tournaient encore. Le pourcentage de machines chiffrées ne donne pas le pourcentage d'activité arrêtée.",
+          "text": "Des postes arrêtés, d’autres encore utilisables. N’écrivez pas « toute l’entreprise » à partir d’un pourcentage de machines.",
           "minute": -40
         },
         {
           "author": "packetloss",
-          "text": "Les instantanés locaux avaient disparu. Pour les sauvegardes externes, le dossier ne disait rien de sûr. Savoir si on peut tout rétablir, c’est encore une autre question.",
+          "text": "Les instantanés locaux ont disparu. Pour les sauvegardes externes, je n’ai pas de pièce. Je laisse la case ouverte.",
           "minute": -35
         },
         {
           "author": "relay",
-          "text": "Une demande de rançon, ça veut pas dire qu'il y a eu paiement. Et un paiement garantit ni la récupération complète ni la suppression des copies. Dans le rapport, gardez ces états séparés.",
+          "text": "Une demande de rançon n’est pas un paiement. Et un paiement ne prouve ni une restauration ni la suppression des copies. Je sais, ça fait beaucoup de cases laissées ouvertes.",
           "minute": -30
         }
       ],
       "response": {
         "author": "spectre",
-        "text": "Reçu {handle}. Ajoute les observations, datées. Une affirmation sans preuve reste une affirmation."
+        "text": "{handle}, indique ce que tu as constaté sur les fichiers. Pour le paiement ou la reprise d’activité, il faudra d’autres pièces."
       },
       "section": "Discussion",
-      "body": "Dossier fictif, après incident. Quatre sujets à ne pas mélanger : accès réseau, restauration des données, activité de l’entreprise, négociation. Les messages qui suivent parlent des limites des preuves.",
+      "body": "Le contrat est fini. Le dossier de reprise ne l’est pas. Ici, on suit ce qu’on sait des fichiers, des sauvegardes et de l’activité. Les conclusions que personne ne peut étayer restent hors du rapport.",
       "reputation": 680,
       "age": 1680,
       "role": "Membre invité",
-      "views": 713
+      "views": 713,
+      "category": "Passations & conditions"
     },
     {
       "id": "old-proof",
@@ -759,7 +782,7 @@
       "section": "Marché",
       "title": "[Clos] La capture date de trois semaines",
       "author": "nullroute",
-      "body": "Le vendeur dit que l’accès est disponible. Sa seule preuve date d’avant la maintenance. Je veux un état actuel avant de conclure quoi que ce soit.",
+      "body": "Le vendeur me renvoie la même capture depuis ce matin. Elle date d’avant la maintenance, il dit que ça ne change rien. Je lui demande une vérification actuelle. Il trouve que je complique la vente.",
       "reputation": 42,
       "age": 284,
       "role": "Membre",
@@ -770,20 +793,22 @@
       "posts": [
         {
           "author": "sable",
-          "text": "Le périmètre et la date comptent autant que la capture. Un accès ouvert un jour, il peut être fermé le lendemain.",
+          "text": "Tu compliques surtout sa tentative de vendre une photo. Garde l’heure de la maintenance avec la capture.",
           "minute": -90
         },
         {
           "author": "0xvanta",
-          "text": "Annonce retirée ce matin. Le dossier reste en archive. La vente a pas été validée.",
+          "text": "Annonce retirée ce matin. Vente non validée. Je laisse l’archive.",
           "minute": -80
         },
         {
           "author": "Madame_TLS",
-          "text": "Pareil pour les captures de sites. Une page change en une nuit. Sans date dessus, votre capture ne vaut rien.",
+          "text": "J’ai déjà vu la même chose avec un site entièrement refait entre deux captures. On finit par discuter de deux pages qui n’ont jamais existé en même temps.",
           "minute": -72
         }
-      ]
+      ],
+      "category": "Passations & conditions",
+      "status_label": "CLOS"
     },
     {
       "id": "night-shift",
@@ -791,7 +816,7 @@
       "section": "Discussion",
       "title": "Votre fond sonore pour les sessions de nuit ?",
       "author": "hexcache",
-      "body": "J’ai fini par couper la musique quand je rédige mes notes. Vous faites comment ?",
+      "body": "Je coupais juste la musique pour rédiger. Maintenant je coupe aussi quand je vérifie un résultat. À ce rythme je vais bientôt demander au frigo de faire moins de bruit. Vous travaillez avec quoi en fond ?",
       "reputation": 42,
       "age": 284,
       "role": "Membre",
@@ -802,20 +827,21 @@
       "posts": [
         {
           "author": "miette",
-          "text": "Moi c’est musique pour lire, silence pour comparer deux résultats. Et pause café quand je relis trois fois la même ligne.",
+          "text": "Musique pour lire, silence pour compter. Sauf quand j’oublie de la couper et que je compte le même truc trois fois.",
           "minute": -90
         },
         {
           "author": "nullroute",
-          "text": "Ce qui me sert le plus, c’est un carnet que j’arrive à relire le lendemain.",
+          "text": "Le bruit du ventilateur. Depuis que j’ai nettoyé le portable, je m’inquiète quand je ne l’entends plus.",
           "minute": -80
         },
         {
           "author": "Madame_TLS",
-          "text": "Rien du tout. Je travaille le matin, fenêtre ouverte. La nuit je dors, comme les gens normaux.",
+          "text": "Une playlist pour courir, puis un concert si je trouve de quoi me motiver à ressortir. Le silence toute la soirée, j’ai déjà essayé : je finis quand même par remettre un morceau.",
           "minute": -70
         }
-      ]
+      ],
+      "category": "Culture & pauses"
     },
     {
       "id": "first-report",
@@ -823,7 +849,7 @@
       "section": "Discussion",
       "title": "Premier compte rendu : ce que je peux vraiment affirmer",
       "author": "0xvanta",
-      "body": "J’ai séparé ce que j’ai observé et ce que je suppose. Rapport plus court. Mais chaque ligne, je peux la justifier.",
+      "body": "J’ai retiré la moitié de mon rapport. C’étaient les phrases où je n’étais pas sûr. Il reste les observations et une question. C’est plus honnête.",
       "reputation": 42,
       "age": 284,
       "role": "Membre",
@@ -834,32 +860,34 @@
       "posts": [
         {
           "author": "k0rvid",
-          "text": "C’est ce que je regarde dans une passation. Je préfère qu’on m’annonce une erreur plutôt qu’on m’invente un résultat.",
+          "text": "Garde la question. Je préfère recevoir ça qu’une conclusion fabriquée pour remplir la page.",
           "minute": -90
         }
-      ]
+      ],
+      "category": "Pratique & retours"
     },
     {
       "id": "aquila-homonymes",
       "forum": "breachboard",
       "section": "Discussion",
-      "title": "Aquila : deux societes, deux activites",
+      "title": "Aquila : deux sociétés, deux activités",
       "author": "hexcache",
       "created_minute": -1900,
-      "body": "Je vois passer « Aquila » tout court dans plusieurs annonces. Quelqu’un sait faire la différence entre les deux sociétés ? Les échantillons AF, ça ne ressemble pas à du conseil en gestion.",
+      "body": "Je retrouve « Aquila » dans deux annonces qui ne parlent visiblement pas de la même activité. Quelqu’un a les mentions complètes ? Les lots AF ressemblent davantage à du fret qu’à du conseil.",
       "views": 243,
       "posts": [
         {
           "author": "0xvanta",
           "minute": -1880,
-          "text": "Aquila Conseil : AQC-441, conseil en gestion. Aquila Fret : AQF-882, transport. Rien à voir entre les deux. Les références AF, c’est le fret."
+          "text": "Aquila Conseil : AQC-441, conseil en gestion. Aquila Fret : AQF-882, transport. Deux sociétés. Les références AF viennent du fret."
         },
         {
           "author": "nullroute",
           "minute": -1860,
-          "text": "Noté. J’ai un tableau à nettoyer, j’ai peut-être recopié le mauvais domaine. Si quelqu’un a le fil du portail, gardez-le ici."
+          "text": "Attends. Mon tableau mélange peut-être les deux. Je vais le reprendre. Si vous avez le fil du portail, gardez le lien ici."
         }
-      ]
+      ],
+      "category": "Veille & sources"
     },
     {
       "id": "aquila-portail",
@@ -868,25 +896,26 @@
       "title": "Portail de suivi Aquila - ancienne adresse ?",
       "author": "hexcache",
       "created_minute": -1700,
-      "body": "Je retrouve une vieille note : suivi de lots Aquila Fret, portail .30. La capture date de 2024. Quelqu’un a plus récent ?",
+      "body": "J’ai une vieille note pour le suivi des lots Aquila Fret : portail .30. Capture de 2024. Je n’ai rien de plus récent sous la main, et je n’ai pas envie de transmettre encore une adresse morte.",
       "views": 178,
       "posts": [
         {
           "author": "0xvanta",
           "minute": -1640,
-          "text": "Migration terminée le 02/11/2026. Le portail actuel : AQF-PORTAIL, 10.48.8.31. Le site publie ses mentions. .30 c’est l’ancienne adresse, elle répond plus."
+          "text": "Migration terminée le 02/11/2026. AQF-PORTAIL : 10.48.8.31. Les mentions sont sur le site. .30 était l’ancienne adresse, elle ne répond plus."
         },
         {
           "author": "hexcache",
           "minute": -1620,
-          "text": "Merci. Le vieux robots.txt mentionnait /exports/. Et un index de maintenance citait support.env.old dans ce dossier. Je ne sais pas si la copie a été retirée depuis la migration. À vérifier, je ne suppose rien."
+          "text": "Le vieux robots.txt indiquait /exports/. Un index de maintenance citait support.env.old dedans. Je ne sais pas ce qui a survécu à la migration. Vérifiez avant de reprendre ma note."
         },
         {
           "author": "miette",
           "minute": -1600,
-          "text": "Attention, les lots AF-24 et AF-26 sont pas interchangeables. Le même numéro court peut exister sur deux années. Demandez toujours la référence complète et les dates."
+          "text": "J’ai failli confondre AF-24 et AF-26. Même numéro court, deux années. Demandez la référence entière, ça évite de comparer le mauvais lot pendant une heure."
         }
-      ]
+      ],
+      "category": "Veille & sources"
     },
     {
       "id": "act1-partages",
@@ -894,16 +923,17 @@
       "section": "Discussion",
       "title": "Un partage ne donne pas tous les droits",
       "author": "miette",
-      "body": "J’ai une annonce qui mélange partage public et compte administrateur. Ça se vérifie comment ?",
+      "body": "Je lis une annonce qui passe de « partage ouvert » à « administrateur » en deux lignes. Il manque une étape ou je comprends mal ? Je préfère demander avant de me ridiculiser en privé.",
       "created_minute": -250,
       "views": 112,
       "posts": [
         {
           "author": "hexcache",
-          "text": "Commence par lister les partages, ensuite le répertoire qui t’intéresse. C$ n’est pas un partage public. Et les anciennes versions restent souvent archivées.",
+          "text": "Il manque des preuves. Liste les partages, puis le répertoire utile. C$ n’est pas public. Et regarde les dates, il peut rester une ancienne version à côté de la bonne.",
           "minute": -230
         }
-      ]
+      ],
+      "category": "Pratique & retours"
     },
     {
       "id": "act1-echantillon-annonce",
@@ -911,16 +941,17 @@
       "section": "Discussion",
       "title": "[Échantillon] NX-26 - 40 lignes annoncées récentes",
       "author": "hexcache",
-      "body": "Un vendeur annonce un lot de novembre. L’échantillon est joint au dossier privé. Je cherche quelqu’un pour vérifier qu’il est bien récent avant de payer.",
+      "body": "NX-26 : 40 clients, annoncés tous récents. J’ai demandé l’échantillon avant de payer. Il est dans le dossier privé. Quelqu’un pour compter les dates avec moi ? Je veux un second regard.",
       "created_minute": -250,
       "views": 112,
       "posts": [
         {
           "author": "miette",
-          "text": "La date dans le nom du fichier prouve rien. Compte plutôt les dates dans les lignes. Celles de l’annonce, laisse tomber.",
+          "text": "« Novembre » dans le nom du fichier, c’est optimiste. Je compterais les dates des lignes avant de sortir le portefeuille.",
           "minute": -230
         }
-      ]
+      ],
+      "category": "Veille & sources"
     },
     {
       "id": "act1-pivoine",
@@ -928,16 +959,17 @@
       "section": "Discussion",
       "title": "Pivoine : recherche ou fiche produit ?",
       "author": "hexcache",
-      "body": "Le moteur de recherche et les fiches produit n’utilisent pas forcément les mêmes requêtes. Une réponse HTTP 200, ça ne dit pas qu’il y a une injection.",
+      "body": "Sur Pivoine, j’ai vu quelqu’un prendre une réponse du moteur de recherche pour une preuve d’injection. Les fiches produit passent ailleurs. Je garde les deux observations ici pour éviter qu’on recommence.",
       "created_minute": -250,
       "views": 112,
       "posts": [
         {
           "author": "0xvanta",
-          "text": "Le vieux portail expose /produit?id=1. /recherche?q=rose passe par un autre mécanisme. Vérifiez le paramètre. Ensuite le périmètre de la base.",
+          "text": "Le vieux portail expose /produit?id=1. /recherche?q=rose suit un autre mécanisme. Vérifiez le paramètre, puis le périmètre de la base.",
           "minute": -230
         }
-      ]
+      ],
+      "category": "Veille & sources"
     },
     {
       "id": "act1-verre",
@@ -945,16 +977,17 @@
       "section": "Discussion",
       "title": "Verre : trois références et un compte client",
       "author": "0xvanta",
-      "body": "Le compte Ambre voit le document 101. Un ticket parle de VA-26-204 chez Orme Distribution. Numéro de document et référence métier, c’est deux choses.",
+      "body": "Session Ambre : document 101. Le ticket demande VA-26-204 chez Orme Distribution. Le numéro affiché et la référence métier ne correspondent pas. J’aimerais qu’on vérifie avant d’accuser quelqu’un.",
       "created_minute": -250,
       "views": 112,
       "posts": [
         {
           "author": "hexcache",
-          "text": "L’ancien index associe Orme au document 102. Vérifiez le contenu et la date. Le 103 appartient à une autre organisation.",
+          "text": "L’ancien index associe Orme au 102. Regardez le contenu et la date. Le 103 est une autre organisation, ne le prenez pas « au cas où ».",
           "minute": -230
         }
-      ]
+      ],
+      "category": "Veille & sources"
     },
     {
       "id": "act1-ticketd",
@@ -962,16 +995,17 @@
       "section": "Discussion",
       "title": "ticketd 0.9 : notes de compilation du labo",
       "author": "nullroute",
-      "body": "Le service de maintenance de cette image est ancien. Les infos de compilation et le binaire de laboratoire sont joints au dossier. Allez pas les télécharger ailleurs.",
+      "body": "Je garde les notes du vieux build ticketd 0.9 ici. Binaire et informations de compilation sont fournis dans le dossier du labo. Ne récupérez pas un autre build pour comparer des adresses, vous allez surtout perdre votre temps.",
       "created_minute": -250,
       "views": 112,
       "posts": [
         {
           "author": "0xvanta",
-          "text": "Sur ce build précis, l’écrasement du retour commence à 72 octets. NX est activé, ce n’est pas une invitation à exécuter du code sur la pile. Cherchez les symboles de maintenance.",
+          "text": "Sur ce build : retour à 72 octets. NX activé. Cherchez les symboles de maintenance, pas du code à mettre sur la pile.",
           "minute": -230
         }
-      ]
+      ],
+      "category": "Pratique & retours"
     },
     {
       "id": "act1-litige",
@@ -979,16 +1013,17 @@
       "section": "Discussion",
       "title": "[Litige] Deux fichiers numérotés 118",
       "author": "bytewarden",
-      "body": "Un vendeur conteste la dernière livraison. Les preuves sont gardées dans le dossier de modération. On y regarde séparément la référence entière, la date et le contenu.",
+      "body": "Le vendeur maintient que les deux fichiers 118 sont la même livraison. Le client dit l’inverse. J’ai gardé les pièces pour comparer référence complète, date et contenu. Je ne trancherai pas sur celui qui écrit le plus fort.",
       "created_minute": -250,
       "views": 112,
       "posts": [
         {
           "author": "miette",
-          "text": "Deux numéros courts identiques, ça veut pas dire que c’est le même lot. Et la modération veut des pièces datées, les attaques personnelles ça sert à rien.",
+          "text": "J’ai les deux sous les yeux et le numéro court m’a piégée aussi. Comparez les dates avant de vous disputer. Et laissez les attaques personnelles de côté, mod_echo a assez à lire.",
           "minute": -230
         }
-      ]
+      ],
+      "category": "Vie du forum"
     },
     {
       "id": "act1-boreal",
@@ -996,24 +1031,25 @@
       "section": "Discussion",
       "title": "Boreal : index de passation",
       "author": "bytewarden",
-      "body": "On a deux observations : le paramètre id de /bordereau, et une ancienne copie /support/database.env.old. C’est à vérifier dans le dossier. Aucune de ces deux notes ne prouve qu’un accès existe aujourd’hui.",
+      "body": "Pour Boreal, il reste deux anciennes notes : le paramètre id de /bordereau et /support/database.env.old, une configuration de connecteur publiée par erreur. Rien de tout ça n’a été revérifié. Je laisse les deux pistes au dossier.",
       "created_minute": -250,
       "views": 112,
       "posts": [
         {
           "author": "nullroute",
-          "text": "Même source documentaire, deux chemins possibles. Dans la livraison je veux les bordereaux de novembre. Pas le personnel, pas l’archive 2024.",
+          "text": "Je veux les bordereaux valides de novembre. Pas le personnel, pas l’archive 2024. Si votre piste ne mène pas à ça, dites-le au lieu de remplir avec autre chose.",
           "minute": -230
         }
-      ]
+      ],
+      "category": "Pratique & retours"
     },
     {
       "id": "cadenas",
       "forum": "breachboard",
       "section": "Discussion",
-      "title": "Le cadenas ne dit pas à qui tu parles",
+      "title": "OSINT : ce qu’un site raconte vraiment d’une entreprise",
       "author": "Madame_TLS",
-      "body": "Petit rappel pour les nouveaux, parce que je revois la question chaque mois. Le cadenas dans la barre d’adresse dit une seule chose : personne ne lit la conversation en route. Il ne dit pas que le site est honnête, ni que la personne en face est celle qu’elle prétend. Avant de croire une page, regardez qui a signé le certificat et depuis quand.",
+      "body": "Je travaille surtout sur la CTI et l’OSINT : menaces, acteurs, intérêts et sources ouvertes. Un site d’entreprise peut donner des noms, des partenaires et des projets, mais il faut dater et recouper. Et un certificat valide ne garantit pas que l’interlocuteur est honnête. Les outils aident à collecter, ils ne font pas l’analyse à notre place.",
       "pinned": false,
       "reputation": 167,
       "age": 388,
@@ -1023,30 +1059,308 @@
       "posts": [
         {
           "author": "nullpointer",
-          "text": "Donc mon grille-pain connecté est chiffré ET malhonnête. Je me sens mieux.",
+          "text": "Donc « leader de son marché depuis toujours » demande une deuxième source. Vous venez de ruiner mes biographies professionnelles préférées.",
           "minute": -4301
         },
         {
           "author": "miette",
-          "text": "Attends, donc un site avec le cadenas peut quand même être un faux ? Je croyais que c’était justement ça, la vérification.",
+          "text": "Je prenais la page partenaires comme une liste à jour. Il faut vérifier chaque nom ailleurs aussi ?",
           "minute": -4288
         },
         {
           "author": "Madame_TLS",
-          "text": "Oui miette. Le cadenas protège le trajet, pas la destination. C’est une erreur très répandue, tu es en bonne compagnie.",
+          "text": "Selon ce que tu veux en conclure, oui. Un partenaire peut être ancien, annoncé trop tôt ou simplement mal décrit. Commence par la date et une autre source, pas par accumuler cinquante captures.",
           "minute": -4279
         },
         {
           "author": "packetloss",
-          "text": "Et regardez la date du certificat. Un site « historique » avec un certificat de la semaine dernière, ça mérite une question.",
+          "text": "Et un certificat renouvelé hier ne veut pas dire que l’entreprise est née hier. On date chaque indice, pas une histoire entière à partir d’un seul.",
           "minute": -4240
         }
       ],
       "response": {
         "author": "Madame_TLS",
-        "text": "Bonne question {handle}. Regarde d’abord qui a émis le certificat et à quelle date. Le reste vient après."
+        "text": "{handle}, pars de la question que tu veux résoudre : qui décide, quel projet, quel intérêt ? Ensuite on cherche les sources utiles. Une grosse collecte n’est pas encore une analyse."
       },
-      "views": 412
+      "views": 412,
+      "category": "Veille & sources"
+    },
+    {
+      "id": "ventilo-dimanche",
+      "forum": "breachboard",
+      "section": "Marché",
+      "category": "Matériel",
+      "title": "Le ventilateur qui ne voulait pas prendre sa retraite",
+      "author": "nullpointer",
+      "body": "J’ai ouvert le portable dont je parlais la semaine dernière. Le bruit venait d’une étiquette décollée, pas du roulement. Deux heures de démontage pour un autocollant. Je vous laisse juger ma carrière.",
+      "reputation": 73,
+      "age": 286,
+      "role": "Membre",
+      "pinned": false,
+      "locked": false,
+      "created_minute": -680,
+      "posts": [
+        {
+          "author": "hexane",
+          "text": "Deux heures avec ou sans les vingt minutes à chercher la vis tombée ?",
+          "minute": -673
+        },
+        {
+          "author": "nullpointer",
+          "text": "Je refuse de répondre sans mon avocat.",
+          "minute": -660
+        },
+        {
+          "author": "sable",
+          "text": "J’ai déjà remplacé une carte avant de voir que le câble était mal enfoncé. Tu as encore de la marge.",
+          "minute": -647
+        },
+        {
+          "author": "miette",
+          "text": "Je garde ce fil pour la prochaine fois où je me sentirai bête.",
+          "minute": -634
+        },
+        {
+          "author": "nullpointer",
+          "text": "Gardez surtout les petites vis dans une boîte. Celle-ci est devenue locataire du tapis.",
+          "minute": -621
+        }
+      ],
+      "response": {
+        "author": "nullpointer",
+        "text": "{handle}, tu peux raconter ton pire démontage ici. Les photos de vis en trop sont acceptées."
+      },
+      "views": 120
+    },
+    {
+      "id": "musee-dimanche",
+      "forum": "breachboard",
+      "section": "Discussion",
+      "category": "Culture & pauses",
+      "title": "Les expos que vous avez failli rater",
+      "author": "Madame_TLS",
+      "body": "Je suis entrée dans une petite expo sur les costumes de scène pour attendre la fin d’une averse. J’y suis restée deux heures. Les doublures raccommodées m’ont plus intéressée que les pièces sous vitrine. Vous avez eu une bonne surprise comme ça récemment ?",
+      "reputation": 167,
+      "age": 388,
+      "role": "Membre confirmé",
+      "pinned": false,
+      "locked": false,
+      "created_minute": -810,
+      "posts": [
+        {
+          "author": "sable",
+          "text": "Une salle sur les radios portatives. J’y ai retrouvé le modèle que mon père refusait de jeter.",
+          "minute": -803
+        },
+        {
+          "author": "miette",
+          "text": "Une expo photo. J’étais venue pour la boutique, honnêtement.",
+          "minute": -790
+        },
+        {
+          "author": "Madame_TLS",
+          "text": "La boutique est une raison tout à fait défendable. Tu as retenu un photographe ?",
+          "minute": -777
+        },
+        {
+          "author": "miette",
+          "text": "Surtout une série de cuisines à cinq heures du matin. Rien de spectaculaire et j’y pense encore.",
+          "minute": -764
+        },
+        {
+          "author": "nullpointer",
+          "text": "Je note que personne ne recommande la sortie que j’ai faite au magasin de composants.",
+          "minute": -751
+        },
+        {
+          "author": "Madame_TLS",
+          "text": "Ça dépend de la scénographie des résistances.",
+          "minute": -738
+        }
+      ],
+      "response": {
+        "author": "Madame_TLS",
+        "text": "{handle}, donne-nous au moins ce qui t’a arrêté devant une pièce. Le nom de l’expo, on peut le retrouver après."
+      },
+      "views": 167
+    },
+    {
+      "id": "pause-cuisine",
+      "forum": "breachboard",
+      "section": "Discussion",
+      "category": "Culture & pauses",
+      "title": "Votre vraie victoire de la semaine ?",
+      "author": "miette",
+      "body": "J’ai fermé mon terminal à l’heure que j’avais annoncée. Et réussi une soupe sans consulter trois recettes contradictoires. Ça compte, même si vous avez des trucs plus impressionnants.",
+      "reputation": 29,
+      "age": 94,
+      "role": "Membre",
+      "pinned": false,
+      "locked": false,
+      "created_minute": -940,
+      "posts": [
+        {
+          "author": "quartz",
+          "text": "Une balade sans téléphone. J’ai raté une sortie, survécu quand même.",
+          "minute": -933
+        },
+        {
+          "author": "nullroute",
+          "text": "J’ai remplacé un tableau faux au lieu d’en défendre la mise en forme.",
+          "minute": -920
+        },
+        {
+          "author": "miette",
+          "text": "Je vais encadrer ce message.",
+          "minute": -907
+        },
+        {
+          "author": "nullroute",
+          "text": "Ne t’emballe pas.",
+          "minute": -894
+        },
+        {
+          "author": "0xvanta",
+          "text": "Dormi. Huit heures.",
+          "minute": -881
+        }
+      ],
+      "response": {
+        "author": "miette",
+        "text": "{handle}, petite victoire acceptée aussi. On a assez de concours de performances ailleurs."
+      },
+      "views": 214
+    },
+    {
+      "id": "routes-compte-rendu",
+      "forum": "exployt",
+      "section": "Discussion",
+      "category": "Pratique & retours",
+      "title": "« Ça répond » : depuis quelle machine ?",
+      "author": "traverse",
+      "body": "J’ai reçu trois comptes rendus cette semaine où il manquait l’origine du test. J’ai fini par ajouter une colonne. Ce n’est pas une nouvelle méthode, juste un moyen d’éviter de refaire les mêmes essais depuis le mauvais poste.",
+      "reputation": 80,
+      "age": 650,
+      "role": "Accès réseau",
+      "pinned": false,
+      "locked": false,
+      "created_minute": -1070,
+      "posts": [
+        {
+          "author": "iris",
+          "text": "Ajoute le compte utilisé. Sinon on finit par discuter d’un droit qui appartenait à une autre session.",
+          "minute": -1063
+        },
+        {
+          "author": "cendre",
+          "text": "Et l’heure si le service a changé entre les essais. Après j’arrête, promis.",
+          "minute": -1050
+        },
+        {
+          "author": "quartz",
+          "text": "Tu disais déjà ça avant d’ajouter une page à ma passation.",
+          "minute": -1037
+        },
+        {
+          "author": "cendre",
+          "text": "Une demi-page.",
+          "minute": -1024
+        },
+        {
+          "author": "traverse",
+          "text": "Je joins un exemple au prochain dossier. Les flèches toutes seules me fatiguent.",
+          "minute": -1011
+        }
+      ],
+      "response": {
+        "author": "traverse",
+        "text": "{handle}, garde un exemple concret avec l’origine et le résultat. On comprendra mieux qu’avec une carte pleine de flèches."
+      },
+      "views": 261
+    },
+    {
+      "id": "relecture-a-froid",
+      "forum": "xsx",
+      "section": "Discussion",
+      "category": "Passations & conditions",
+      "title": "Relire une passation le lendemain",
+      "author": "quartz",
+      "body": "J’ai repris une note écrite trop tard et je ne comprenais plus ma propre abréviation. Je voudrais une relecture à froid avant la prochaine transmission. Pas une validation de confiance : quelqu’un qui essaie vraiment de suivre le chemin.",
+      "reputation": 80,
+      "age": 650,
+      "role": "Partenaire de livraison",
+      "pinned": false,
+      "locked": false,
+      "created_minute": -1200,
+      "posts": [
+        {
+          "author": "relay",
+          "text": "Prévois ce temps dans les conditions. Sinon tout le monde pense que l’autre l’a déjà fait.",
+          "minute": -1193
+        },
+        {
+          "author": "iris",
+          "text": "Je peux relire les comptes. Pas promettre le réseau que je n’ai pas testé.",
+          "minute": -1180
+        },
+        {
+          "author": "quartz",
+          "text": "Ça me va. Je sépare les deux parties.",
+          "minute": -1167
+        },
+        {
+          "author": "spectre",
+          "text": "Périmètre et date dans le document.",
+          "minute": -1154
+        }
+      ],
+      "response": {
+        "author": "quartz",
+        "text": "{handle}, si tu proposes une relecture, précise ce que tu peux vérifier toi-même. Le reste restera marqué en attente."
+      },
+      "views": 308
+    },
+    {
+      "id": "edition-message",
+      "forum": "breachboard",
+      "section": "Discussion",
+      "category": "Vie du forum",
+      "title": "Corriger un message sans effacer la discussion",
+      "author": "mod_echo",
+      "body": "Si vous corrigez une information après une réponse, ajoutez une ligne « modification » à la fin. Vous pouvez vous tromper. En revanche, les réponses deviennent incompréhensibles si la phrase contestée disparaît sans explication.",
+      "reputation": 380,
+      "age": 930,
+      "role": "Modération",
+      "pinned": false,
+      "locked": false,
+      "created_minute": -1330,
+      "posts": [
+        {
+          "author": "hexcache",
+          "text": "Une date de correction aide aussi. J’ai deux copies du même message et je ne sais pas laquelle précède l’autre.",
+          "minute": -1323
+        },
+        {
+          "author": "bytewarden",
+          "text": "D’accord. Je l’ajoute aux règles de publication.",
+          "minute": -1310
+        },
+        {
+          "author": "nullpointer",
+          "text": "Modification : ma plaisanterie initiale était moins drôle.",
+          "minute": -1297
+        },
+        {
+          "author": "mod_echo",
+          "text": "Celle-ci peut rester sans historique détaillé.",
+          "minute": -1284
+        }
+      ],
+      "response": {
+        "author": "mod_echo",
+        "text": "{handle}, une correction visible suffit. Le but est qu’on puisse encore suivre l’échange."
+      },
+      "views": 355
     }
   ],
   "contacts": [
@@ -1059,9 +1373,49 @@
       "members": [
         "k0rvid"
       ],
-      "bio": "Ton contact pour les premiers dossiers.",
+      "bio": "Je place les premiers dossiers. Je lis aussi les comptes rendus, même ceux qu’on aimerait oublier.",
       "response_author": "k0rvid",
-      "response": "Salut {handle}. Le dossier que je te propose est dans cette conversation. Une fois que tu l’as accepté, écris aide pour relire les étapes, ou objectif pour revoir ce qu’on te demande."
+      "response": "Salut {handle}. Le dossier est juste en dessous. Regarde-le tranquillement avant de dire oui. Une fois dedans, écris aide si tu bloques, ou objectif si tu as perdu le fil.",
+      "followup": "Je te lis. Si c’est une question sur le dossier, dis-moi où tu en es. Je préfère ça à une heure passée à tourner en rond.",
+      "dialogue": {
+        "greeting": [
+          "Salut {handle}. Je finis un compte rendu. Qu’est-ce qu’il y a ?"
+        ],
+        "thanks": [
+          "Garde tes remerciements pour quand tu sauras refaire sans moi. Mais oui, j’ai lu."
+        ],
+        "fatigue": [
+          "Fais une pause si tu relis la même ligne. Je récupère trop de dossiers abîmés par la fatigue."
+        ],
+        "personal": [
+          "Je suis pas très doué pour parler de moi. J’ai eu une mauvaise affaire, depuis je place les dossiers. Ça suffit pour aujourd’hui."
+        ],
+        "trust": [
+          "La confiance, je la donne dossier après dossier. Tu n’as pas à me raconter ta vie pour l’obtenir."
+        ],
+        "unknown": [
+          "Je te lis. Si c’est une question sur le dossier, dis-moi où tu en es. Je préfère ça à une heure passée à tourner en rond.",
+          "Je ne suis pas sûr de ce que tu me demandes. Tu peux préciser ?"
+        ],
+        "ransom": [
+          "Une demande de rançon n’est pas un paiement. Tu connais ma manie : dans le rapport, n’écris que ce que tu peux montrer."
+        ],
+        "dispute": [
+          "Garde l’annonce et les dates. Ensuite vois la modération. Je peux répondre de ton travail, pas arranger la vente dans son dos."
+        ],
+        "defense": [
+          "Ça peut venir du réseau, des droits ou d’un blocage local. Dis-moi ce qui a répondu et quand, sinon on va deviner."
+        ],
+        "boundary": [
+          "Très bien. On garde ça pour toi, ça ne change rien au travail."
+        ],
+        "wellbeing": [
+          "Ça va. J’ai encore deux comptes rendus à relire avant de couper. Et toi ?"
+        ],
+        "flirt": [
+          "Je préfère qu’on garde un lien de travail. Tu peux compter sur moi comme contact, pas pour une histoire amoureuse."
+        ]
+      }
     },
     {
       "id": "atelier",
@@ -1075,10 +1429,49 @@
         "hexane",
         "sable"
       ],
-      "bio": "On parle matériel et notes, on s’entraide. Les missions, ça reste en privé.",
+      "bio": "Matériel, petits ratés et coups de main. Pour les détails d’une mission, gardez le privé.",
       "response_author": "miette",
-      "response": "Salut {handle}. Pour une mission, demande plutôt de l’aide à ton contact en privé. Ici on se partage surtout nos méthodes de travail.",
-      "followup": "Je t’ai lu. Je finis mes notes, et j’ai rien de plus sur ta mission."
+      "response": "Salut {handle} ! Pose tes affaires. Ici on parle surtout matériel et carnets illisibles. Pour ta mission, ton contact sera mieux placé que nous.",
+      "followup": "Je suis là, mais j’ai peut-être pas la réponse. Tu peux aussi laisser la question au groupe, quelqu’un passera.",
+      "dialogue": {
+        "greeting": [
+          "Hey {handle} ! J’étais justement en train de faire semblant de comprendre un tableau. Tu me sauves quelques minutes."
+        ],
+        "thanks": [
+          "De rien ! Enfin, si ça t’a servi. J’ai toujours peur d’expliquer de travers."
+        ],
+        "fatigue": [
+          "Moi aussi je bloque quand je fatigue. Une fois j’ai accusé le serveur, c’était une faute dans ma commande. Deux fois, en fait."
+        ],
+        "personal": [
+          "En dehors d’ici ? Je cuisine des trucs beaucoup trop longs à préparer. Ça me fait du bien de rater quelque chose qu’on peut manger quand même."
+        ],
+        "trust": [
+          "Je préfère que tu me dises quand je me plante. Gentiment si possible, je fais déjà le travail de m’en vouloir."
+        ],
+        "unknown": [
+          "Je suis là, mais j’ai peut-être pas la réponse. Tu peux aussi laisser la question au groupe, quelqu’un passera.",
+          "Je crois que j’ai compris la moitié. Tu me redis autrement ?"
+        ],
+        "ransom": [
+          "Une demande de rançon, ça prouve pas un paiement. Ça au moins je le sais. Pour la restauration ou les sauvegardes, il faudrait les pièces du dossier, je préfère pas inventer."
+        ],
+        "dispute": [
+          "J’ai tendance à croire les gens qui répondent gentiment. Donc garde les pièces, pas juste mon avis. Le fil Litige est plus utile que moi là-dessus."
+        ],
+        "defense": [
+          "J’ai déjà pris un port filtré pour une panne de ma commande. Regarde le message exact, et demande au contact du dossier si ça dépasse ce qu’on a vu."
+        ],
+        "boundary": [
+          "D’accord, pardon. On peut parler d’autre chose."
+        ],
+        "wellbeing": [
+          "Ça va mieux depuis que j’ai retrouvé la bonne page de mon carnet. Tu fais une pause aussi ?"
+        ],
+        "flirt": [
+          "Je suis contente qu’on s’entende bien. Pour moi, ça reste de l’amitié."
+        ]
+      }
     },
     {
       "id": "miette",
@@ -1089,10 +1482,49 @@
       "members": [
         "miette"
       ],
-      "bio": "J’apprends. Je note tout, mes notes valent mieux que ma mémoire.",
+      "bio": "Toujours un carnet ouvert. Pas toujours à la bonne page.",
       "response_author": "miette",
-      "response": "Salut {handle} ! Moi aussi j’apprends encore. Je garde mes résultats dans un carnet. Pour ta mission par contre, ton client connaît le contexte mieux que moi.",
-      "followup": "Je t’ai lu. Je finis mes notes, et j’ai rien de plus sur ta mission."
+      "response": "Salut {handle} ! Ça me fait plaisir d’avoir quelqu’un à qui parler ici. Je débute aussi, donc si je sais pas, je te le dirai.",
+      "followup": "Je viens de lire. Tu me racontes ce qui se passe ? Je ne promets pas de savoir résoudre le truc, mais je peux écouter.",
+      "dialogue": {
+        "greeting": [
+          "Hey {handle} ! J’étais justement en train de faire semblant de comprendre un tableau. Tu me sauves quelques minutes."
+        ],
+        "thanks": [
+          "De rien ! Enfin, si ça t’a servi. J’ai toujours peur d’expliquer de travers."
+        ],
+        "fatigue": [
+          "Moi aussi je bloque quand je fatigue. Une fois j’ai accusé le serveur, c’était une faute dans ma commande. Deux fois, en fait."
+        ],
+        "personal": [
+          "En dehors d’ici ? Je cuisine des trucs beaucoup trop longs à préparer. Ça me fait du bien de rater quelque chose qu’on peut manger quand même."
+        ],
+        "trust": [
+          "Je préfère que tu me dises quand je me plante. Gentiment si possible, je fais déjà le travail de m’en vouloir."
+        ],
+        "unknown": [
+          "Je viens de lire. Tu me racontes ce qui se passe ? Je ne promets pas de savoir résoudre le truc, mais je peux écouter.",
+          "Je crois que j’ai compris la moitié. Tu me redis autrement ?"
+        ],
+        "ransom": [
+          "Une demande de rançon, ça prouve pas un paiement. Ça au moins je le sais. Pour la restauration ou les sauvegardes, il faudrait les pièces du dossier, je préfère pas inventer."
+        ],
+        "dispute": [
+          "J’ai tendance à croire les gens qui répondent gentiment. Donc garde les pièces, pas juste mon avis. Le fil Litige est plus utile que moi là-dessus."
+        ],
+        "defense": [
+          "J’ai déjà pris un port filtré pour une panne de ma commande. Regarde le message exact, et demande au contact du dossier si ça dépasse ce qu’on a vu."
+        ],
+        "boundary": [
+          "D’accord, pardon. On peut parler d’autre chose."
+        ],
+        "wellbeing": [
+          "Ça va mieux depuis que j’ai retrouvé la bonne page de mon carnet. Tu fais une pause aussi ?"
+        ],
+        "flirt": [
+          "Je suis contente qu’on s’entende bien. Pour moi, ça reste de l’amitié."
+        ]
+      }
     },
     {
       "id": "veille",
@@ -1105,10 +1537,49 @@
         "packetloss",
         "sable"
       ],
-      "bio": "Notes datées. Je fais des retours sur les comptes rendus.",
+      "bio": "Des archives, des heures à remettre dans l’ordre, et parfois la réponse le lendemain.",
       "response_author": "packetloss",
-      "response": "Lu, {handle}. Si tu veux mon avis sur un compte rendu, joins une chronologie et les observations qu’on peut vérifier.",
-      "followup": "Je garde ton message dans le fil. Pour avancer, il me faut des observations datées."
+      "response": "Salut {handle}. Ici on recoupe les archives. Si tu veux un avis, laisse l’extrait avec sa date. Pas besoin de nous envoyer le dossier entier.",
+      "followup": "Je relis le fil à mon prochain passage. Si tu retrouves la date entre-temps, ajoute-la au même endroit.",
+      "dialogue": {
+        "greeting": [
+          "Salut. Je remets deux relevés dans le bon ordre. Ils résistent."
+        ],
+        "thanks": [
+          "Avec plaisir. Si tu retrouves la date qui manque, pense à la laisser dans le fil."
+        ],
+        "fatigue": [
+          "Quand je suis fatigué je cesse de convertir les heures de tête. Je devrais le faire reposé aussi."
+        ],
+        "personal": [
+          "J’aime les horaires de train. Les trains réels un peu moins, ils respectent rarement ma chronologie."
+        ],
+        "trust": [
+          "Tu peux me dire que tu ne sais pas. Je m’en méfie moins qu’une heure précise donnée au hasard."
+        ],
+        "unknown": [
+          "Je relis le fil à mon prochain passage. Si tu retrouves la date entre-temps, ajoute-la au même endroit.",
+          "Je risque de répondre à côté. Quel point veux-tu reprendre ?"
+        ],
+        "ransom": [
+          "D’abord les dates : chiffrement, demande, éventuel paiement. Si une étape manque, ne la déduis pas de la précédente."
+        ],
+        "dispute": [
+          "Sauve l’annonce avant modification. Je peux remettre les faits dans l’ordre, la modération décide du litige."
+        ],
+        "defense": [
+          "Quelle heure sur le relevé ? Une maintenance entre deux essais peut expliquer la différence."
+        ],
+        "boundary": [
+          "Compris. Je ne relance pas ce sujet."
+        ],
+        "wellbeing": [
+          "Je viens de perdre vingt minutes sur un fuseau qui était écrit en haut de la page. À part ça, bien."
+        ],
+        "flirt": [
+          "J’apprécie nos échanges, mais je préfère qu’on reste amis ou collègues."
+        ]
+      }
     },
     {
       "id": "relay",
@@ -1119,10 +1590,49 @@
       "members": [
         "relay"
       ],
-      "bio": "Je fais le support des accès relais. Je réponds en différé.",
+      "bio": "Fait les présentations, puis regarde qui tient ses engagements.",
       "response_author": "relay",
-      "response": "Je viens de lire, {handle}. J’ai peu de créneaux. Regarde les conditions et la disponibilité dans le catalogue avant de préparer une passation.",
-      "followup": "Reçu. Je reviens vers toi quand j’ai un créneau confirmé."
+      "response": "Salut {handle}. Je passe entre deux appels. Pour un accès, regarde le catalogue et donne-moi la référence. Pour le reste, je lis quand même.",
+      "followup": "J’ai vu ton message. J’évite de te promettre un créneau que je ne tiendrai pas.",
+      "dialogue": {
+        "greeting": [
+          "Salut. J’ai un petit moment avant le prochain appel."
+        ],
+        "thanks": [
+          "Ça marche. Pour une fois qu’un échange se termine sans une condition oubliée."
+        ],
+        "fatigue": [
+          "Alors ne confirme rien ce soir. Une passation peut attendre un peu, une promesse bancale coûte plus longtemps."
+        ],
+        "personal": [
+          "Hors boulot, je laisse le téléphone loin de moi. Pas aussi souvent que je le raconte."
+        ],
+        "trust": [
+          "Je tiens ce que je confirme. Ce que je ne confirme pas, n’en fais pas une garantie."
+        ],
+        "unknown": [
+          "J’ai vu ton message. J’évite de te promettre un créneau que je ne tiendrai pas.",
+          "Il me manque le contexte. Une phrase de plus avant mon prochain passage ?"
+        ],
+        "ransom": [
+          "La part opérateur est une condition du contrat. Ce qu’une victime paierait éventuellement est une autre affaire. Je ne vais pas te promettre ce que je ne sais pas."
+        ],
+        "dispute": [
+          "Avant qu’on m’attribue encore une garantie : je transmets la passation, je ne valide pas toutes les promesses du vendeur. Fais dater les pièces."
+        ],
+        "defense": [
+          "Un fichier transféré peut être bloqué à l’exécution. Reprends la passation depuis le dernier résultat vérifié."
+        ],
+        "boundary": [
+          "Ça marche. Pas besoin de te justifier."
+        ],
+        "wellbeing": [
+          "Journée longue, mais rien d’inhabituel. Tu tombes entre deux appels."
+        ],
+        "flirt": [
+          "Je préfère garder les choses claires : on peut être amis, mais ça n’ira pas vers une romance."
+        ]
+      }
     },
     {
       "id": "passations",
@@ -1134,10 +1644,49 @@
         "spectre",
         "relay"
       ],
-      "bio": "Je demande le périmètre, les droits vérifiés, les limites connues.",
+      "bio": "Ce qui est transmis engage celui qui l’envoie.",
       "response_author": "spectre",
-      "response": "Reçu, {handle}. Pour une passation : périmètre, dernière vérification, limites connues.",
-      "followup": "Lu. Je te recontacte si les conditions de la passation évoluent."
+      "response": "{handle}. Ici, on transmet un état vérifié. Machine, droits, date et limites. Garde les discussions sur les conditions dans ce fil.",
+      "followup": "Message lu. S’il manque une condition à confirmer, indique laquelle.",
+      "dialogue": {
+        "greeting": [
+          "Présent. Sois bref."
+        ],
+        "thanks": [
+          "Lu."
+        ],
+        "fatigue": [
+          "Ne livre pas fatigué. Préviens si le délai ne tient plus."
+        ],
+        "personal": [
+          "Je ne parle pas de ma vie ici."
+        ],
+        "trust": [
+          "La confiance ne remplace pas les conditions écrites."
+        ],
+        "unknown": [
+          "Message lu. S’il manque une condition à confirmer, indique laquelle.",
+          "Précise ta demande."
+        ],
+        "ransom": [
+          "Chiffrement constaté, copies transférées, sauvegardes connues. Trois lignes. Aucun paiement supposé."
+        ],
+        "dispute": [
+          "Pièces datées. Modération. Je ne négocie pas un litige ici."
+        ],
+        "defense": [
+          "Donne le refus exact et son origine. « Bloqué » ne décrit pas une cause."
+        ],
+        "boundary": [
+          "Compris."
+        ],
+        "wellbeing": [
+          "Disponible pour le dossier."
+        ],
+        "flirt": [
+          "Nous collaborons. Restons-en là."
+        ]
+      }
     },
     {
       "id": "nullroute",
@@ -1148,13 +1697,53 @@
       "members": [
         "nullroute"
       ],
-      "bio": "Recommandé par k0rvid pour un dossier à vérifier.",
+      "bio": "Son tableau d’adresses est une bonne piste. Il commence à admettre que ce n’est pas une preuve.",
       "response_author": "nullroute",
-      "response": "Salut {handle}. k0rvid m’a recommandé ton pseudo. Le dossier Mauvaise adresse est proposé dans cette conversation. Ouvre-le, t’auras mon brief. Et on vérifie les infos avant de conclure.",
+      "response": "Salut {handle}. k0rvid m’a passé ton pseudo. Regarde Mauvaise adresse ci-dessous. Je fournis le tableau, mais recoupe-le : je suis justement en train de reprendre mes vieilles notes.",
       "requires_any_completed": [
         "morel",
         "act1_empreinte"
-      ]
+      ],
+      "followup": "Je lis. Sois précis si tu vois une erreur dans ce que j’ai envoyé. Ça m’agacera deux minutes, ensuite je corrigerai.",
+      "dialogue": {
+        "greeting": [
+          "Salut. Si c’est encore mon tableau, je suis dessus."
+        ],
+        "thanks": [
+          "Oui. Bon. Ça m’a évité une autre erreur, donc merci à toi aussi."
+        ],
+        "fatigue": [
+          "Lâche le clavier cinq minutes. Quand je suis crevé je défends mes erreurs au lieu de les voir."
+        ],
+        "personal": [
+          "Je retape une vieille radio. Elle aussi répond une fois sur deux, mais au moins je peux remplacer ses composants."
+        ],
+        "trust": [
+          "Je peux supporter qu’on me contredise. J’aimerais juste qu’on me montre où."
+        ],
+        "unknown": [
+          "Je lis. Sois précis si tu vois une erreur dans ce que j’ai envoyé. Ça m’agacera deux minutes, ensuite je corrigerai.",
+          "Attends, je suis pas sûr de te suivre. Tu parles de quoi exactement ?"
+        ],
+        "ransom": [
+          "Là je préfère pas te raconter n’importe quoi. Le fil Après le chiffrement sépare les choses qu’on sait de celles qu’on suppose."
+        ],
+        "dispute": [
+          "Mon tableau m’a déjà fait promettre le mauvais accès. Depuis je demande la pièce actuelle avant de défendre une annonce."
+        ],
+        "defense": [
+          "Commence par le message exact. Filtré, refusé et bloqué, ça ne se corrige pas au même endroit."
+        ],
+        "boundary": [
+          "D’accord. J’insiste pas."
+        ],
+        "wellbeing": [
+          "Un peu agacé par ma radio. Elle capte tout sauf la station que je veux. Et toi ?"
+        ],
+        "flirt": [
+          "Je préfère qu’on reste amis. Je suis pas très élégant pour le dire, mais je veux pas te laisser croire autre chose."
+        ]
+      }
     },
     {
       "id": "hexcache",
@@ -1168,9 +1757,49 @@
       "requires_completed": [
         "act1_partage"
       ],
-      "bio": "Contact recommandé au fil des dossiers.",
+      "bio": "Relit tout depuis un mauvais achat. Aime les gens qui lui donnent tort avec des pièces.",
       "response_author": "hexcache",
-      "response": "Salut {handle}. Les pièces du prochain dossier sont dans sa proposition privée. Une fois que tu l’as accepté, écris aide et je te précise les observations attendues."
+      "response": "Bonjour {handle}. k0rvid m’a parlé de tes vérifications. Les pièces sont dans la proposition. Je préfère une question avant acceptation à un malentendu après. En mission, aide te donnera mes repères.",
+      "followup": "J’ai ton message. Dis-moi ce que tu as sous les yeux, on reprendra à partir de là.",
+      "dialogue": {
+        "greeting": [
+          "Bonjour. Je peux prendre quelques minutes."
+        ],
+        "thanks": [
+          "Merci d’avoir pris le temps. Je sais que mes demandes peuvent être pénibles."
+        ],
+        "fatigue": [
+          "Nous pouvons reprendre plus tard. Une comparaison faite à moitié endormi finit rarement mieux parce qu’on insiste."
+        ],
+        "personal": [
+          "Je relie des livres. Du papier, de la colle, quelque chose qui reste à sa place quand je ferme la porte."
+        ],
+        "trust": [
+          "Je vérifie aussi les gens que j’apprécie. C’est ce qui me permet de continuer à travailler avec eux."
+        ],
+        "unknown": [
+          "J’ai ton message. Dis-moi ce que tu as sous les yeux, on reprendra à partir de là.",
+          "Je préfère te faire préciser plutôt que supposer. Qu’est-ce que tu veux savoir ?"
+        ],
+        "ransom": [
+          "Une restauration demande sa propre preuve. Je ne déduirais ni le paiement ni l’état des sauvegardes d’un résultat de chiffrement."
+        ],
+        "dispute": [
+          "J’ai déjà payé un échantillon sur parole. Gardons l’annonce, les dates et les droits réellement observés. La réputation viendra après."
+        ],
+        "defense": [
+          "Comparons le même essai depuis la même origine. Si l’une des deux a changé, le résultat peut changer aussi."
+        ],
+        "boundary": [
+          "Bien sûr. On laisse ce point de côté."
+        ],
+        "wellbeing": [
+          "Bien, merci de demander. J’ai fermé mes tableaux quelques minutes, ça me fait du bien."
+        ],
+        "flirt": [
+          "J’apprécie notre relation, amicale ou professionnelle. Je ne souhaite pas qu’elle devienne amoureuse."
+        ]
+      }
     },
     {
       "id": "0xvanta",
@@ -1184,9 +1813,49 @@
       "requires_completed": [
         "act1_boutique"
       ],
-      "bio": "Contact recommandé au fil des dossiers.",
+      "bio": "Répond surtout la nuit. Ne raconte pas beaucoup ses journées.",
       "response_author": "0xvanta",
-      "response": "Salut {handle}. Les pièces du prochain dossier : dans sa proposition privée. Tu acceptes, puis tu demandes aide. Je te dirai quelles observations j’attends."
+      "response": "Salut {handle}. hexcache m’a parlé de toi. Dossier ci-dessous. Lis avant d’accepter. Si ça coince ensuite, demande aide.",
+      "followup": "Je lis. Pas beaucoup de temps, mais je lis.",
+      "dialogue": {
+        "greeting": [
+          "Salut. Encore debout ?"
+        ],
+        "thanks": [
+          "De rien. Garde la copie."
+        ],
+        "fatigue": [
+          "Coupe un peu. Ça sera encore là demain."
+        ],
+        "personal": [
+          "Je marche quand les rues sont vides. Pas grand-chose de plus à raconter ce soir."
+        ],
+        "trust": [
+          "Pas besoin de tout me dire. Surtout ici."
+        ],
+        "unknown": [
+          "Je lis. Pas beaucoup de temps, mais je lis.",
+          "Pas sûr d’avoir suivi. Précise."
+        ],
+        "ransom": [
+          "Demande de rançon : pas paiement. Copie transférée : pas supprimée. Garde les cases vides si tu ne sais pas."
+        ],
+        "dispute": [
+          "Garde les deux versions de l’annonce. Et les dates."
+        ],
+        "defense": [
+          "Quel refus, depuis où ? Un port filtré ne dit rien sur le mot de passe."
+        ],
+        "boundary": [
+          "Compris. On en reste là."
+        ],
+        "wellbeing": [
+          "Ça tient. Et toi, encore au clavier ?"
+        ],
+        "flirt": [
+          "Amis ou collègues. Pour moi, ça s’arrête là."
+        ]
+      }
     },
     {
       "id": "bytewarden",
@@ -1200,9 +1869,49 @@
       "requires_completed": [
         "mauvaise_adresse"
       ],
-      "bio": "Contact recommandé au fil des dossiers.",
+      "bio": "Administre le forum et connaît une partie des histoires qu’il refuse de raconter.",
       "response_author": "bytewarden",
-      "response": "Salut {handle}. Tu trouveras les pièces du prochain dossier dans sa proposition privée. Quand tu l’as accepté, demande aide si tu veux savoir quelles observations sont attendues."
+      "response": "Salut {handle}. J’ai vu passer ton travail. Pour le dossier, prends le temps de lire la proposition. Si un point manque après acceptation, demande aide. Pour le reste, tu peux me parler ici.",
+      "followup": "Je t’ai lu. Je ne règle pas tout immédiatement, mais je laisse pas un dossier disparaître parce qu’il est inconfortable.",
+      "dialogue": {
+        "greeting": [
+          "Salut. Je sors de la modération, je vais essayer de ne pas te répondre comme à un signalement."
+        ],
+        "thanks": [
+          "Merci à toi d’avoir pris le temps de répondre calmement. C’est pas si fréquent."
+        ],
+        "fatigue": [
+          "Ferme un peu le forum. J’aurais dû le faire il y a une heure, donc prends pas mon exemple."
+        ],
+        "personal": [
+          "J’entretiens des plantes sur mon balcon. Elles n’ont jamais ouvert de litige, j’apprécie."
+        ],
+        "trust": [
+          "Je réponds de certaines personnes ici. Ça ne m’empêche pas de leur demander des comptes. Enfin, j’essaie."
+        ],
+        "unknown": [
+          "Je t’ai lu. Je ne règle pas tout immédiatement, mais je laisse pas un dossier disparaître parce qu’il est inconfortable.",
+          "Tu parles du dossier ou de ce qui se passe sur le forum ?"
+        ],
+        "ransom": [
+          "Le contrat peut être clos alors que la reprise reste ouverte. Je veux pas voir un rapport annoncer une restauration que personne n’a vérifiée."
+        ],
+        "dispute": [
+          "Envoie la référence et les deux pièces au dossier de modération. Je garderai la trace de la décision. Pas de règlement par pression en privé."
+        ],
+        "defense": [
+          "Prends le relevé actuel. On a assez transmis de notes de maintenance périmées sur ce forum."
+        ],
+        "boundary": [
+          "D’accord. Tu n’as pas à me l’expliquer."
+        ],
+        "wellbeing": [
+          "J’ai connu des soirées plus calmes sur le forum. Mais ça va. Tu voulais parler ?"
+        ],
+        "flirt": [
+          "Je tiens à garder un lien amical ou professionnel. Je préfère te le dire clairement."
+        ]
+      }
     },
     {
       "id": "cendre",
@@ -1213,12 +1922,52 @@
       "members": [
         "cendre"
       ],
-      "bio": "Je tiens des relais et je vérifie les passations. Une version affichée, ça dit pas que la machine est vulnérable.",
+      "bio": "Vérifie les passations. S’excuse parfois d’avoir relu une fois de plus.",
       "requires_completed": [
         "act1_recommandation"
       ],
       "response_author": "cendre",
-      "response": "Je t’ai lu, {handle}. Tout est dans notre dossier, les conditions comme les preuves utiles. Si tu bloques en cours de mission, demande un indice."
+      "response": "Salut {handle}. Cendre. Je reprends les passations avec toi. Le dossier est en dessous, les pièces dans ~/mission une fois accepté. Si je vais trop vite, demande un indice. Ça m’arrive moins souvent que l’inverse.",
+      "followup": "Je suis encore là. Je relis une pièce avant de te répondre sur le fond, je préfère perdre cinq minutes maintenant.",
+      "dialogue": {
+        "greeting": [
+          "Salut. J’avais gardé le fil ouvert au cas où tu repassais."
+        ],
+        "thanks": [
+          "Merci à toi d’avoir attendu. Je sais que je peux être lent."
+        ],
+        "fatigue": [
+          "On peut reprendre demain. Je vérifie tout trois fois quand je fatigue et je rate quand même les choses simples."
+        ],
+        "personal": [
+          "Je fais du pain. Ça prend du temps et on ne gagne rien à le presser. Oui, Traverse a déjà fait la remarque."
+        ],
+        "trust": [
+          "J’ai perdu un relais en allant trop vite. Je ne demande pas une promesse, juste que tu me préviennes quand tu doutes."
+        ],
+        "unknown": [
+          "Je suis encore là. Je relis une pièce avant de te répondre sur le fond, je préfère perdre cinq minutes maintenant.",
+          "Je relis et je ne suis pas certain de comprendre. On reprend depuis quel point ?"
+        ],
+        "ransom": [
+          "Je peux relire les faits. Sur une négociation ou un paiement, sans pièce je ne te serai pas utile."
+        ],
+        "dispute": [
+          "Avant de parler du vendeur, relisons ce qui a été promis et ce qui fonctionne. J’ai déjà eu tort en prenant une ancienne passation pour une actuelle."
+        ],
+        "defense": [
+          "Je vérifierais aussi la version installée et les correctifs. Le nom d’une version ne suffit pas à expliquer un blocage."
+        ],
+        "boundary": [
+          "Bien sûr. On ne va pas plus loin là-dessus."
+        ],
+        "wellbeing": [
+          "Ça va. Je me suis forcé à envoyer une note au lieu de la relire une quatrième fois. Petit progrès."
+        ],
+        "flirt": [
+          "Je suis content de pouvoir parler avec toi, mais pour moi ça reste amical. Je ne veux pas te laisser attendre autre chose."
+        ]
+      }
     },
     {
       "id": "traverse",
@@ -1229,12 +1978,52 @@
       "members": [
         "traverse"
       ],
-      "bio": "Je prépare les passages entre réseaux. Un service répond ? Je veux savoir depuis quelle machine.",
+      "bio": "Prépare les passages. S’impatiente des réponses qui oublient leur point de départ.",
       "requires_completed": [
         "act2_polkit"
       ],
       "response_author": "traverse",
-      "response": "Lu, {handle}. Les conditions et les preuves utiles, tu les as dans notre dossier. Tu bloques pendant la mission ? Demande un indice."
+      "response": "Salut {handle}. Traverse. Je prépare le passage, tu vérifies depuis où ça répond. Le dossier est ci-dessous. Si tu coinces, demande un indice plutôt que de changer trois réglages à la fois.",
+      "followup": "Je t’ai lu. Dis-moi d’où tu pars, je comprendrai plus vite où ça bloque.",
+      "dialogue": {
+        "greeting": [
+          "Salut ! Je venais de quitter le terminal. Deux minutes, je suis à toi."
+        ],
+        "thanks": [
+          "Ça marche. Et merci d’avoir dit d’où venait le problème, on s’épargne un tour."
+        ],
+        "fatigue": [
+          "Va prendre l’air. Je vais faire pareil, ça m’évitera de répondre sèchement à Cendre pour rien."
+        ],
+        "personal": [
+          "Je roule à vélo pour ne pas rester assis toute la journée. J’ai un sens de l’orientation ridicule pour quelqu’un qui prépare des routes."
+        ],
+        "trust": [
+          "Je peux être impatient. Ça veut pas dire que tu dois me cacher quand ça coince."
+        ],
+        "unknown": [
+          "Je t’ai lu. Dis-moi d’où tu pars, je comprendrai plus vite où ça bloque.",
+          "Tu m’as perdu. Reprends juste le point qui te gêne."
+        ],
+        "ransom": [
+          "Je peux parler du passage réseau. Pour la restauration ou le paiement, il faut quelqu’un avec les pièces du dossier."
+        ],
+        "dispute": [
+          "Un accès qui répond depuis chez le vendeur ne répond pas forcément depuis chez toi. Faites préciser l’origine avant de vous disputer."
+        ],
+        "defense": [
+          "Depuis quelle machine ? Avec quel relais ? Donne-moi ça avant qu’on accuse le pare-feu."
+        ],
+        "boundary": [
+          "Ça marche, on change de sujet."
+        ],
+        "wellbeing": [
+          "Ça va ! Pas encore pris l’air, je commence à le sentir. Tu coupes bientôt ?"
+        ],
+        "flirt": [
+          "On s’entend bien, oui. De mon côté, c’est de l’amitié."
+        ]
+      }
     },
     {
       "id": "iris",
@@ -1245,12 +2034,52 @@
       "members": [
         "iris"
       ],
-      "bio": "Je recoupe des comptes, des groupes, des délégations. Un chemin dans un graphe, ça reste une hypothèse tant que t’as pas vérifié les droits.",
+      "bio": "Relit les comptes et les groupes. Se méfie aussi de ses propres conclusions.",
       "requires_completed": [
         "act2_pivot"
       ],
       "response_author": "iris",
-      "response": "Je t’ai lu, {handle}. Les conditions sont dans notre dossier, avec les preuves qui servent. Et si tu bloques pendant la mission, tu peux demander un indice."
+      "response": "Bonjour {handle}. Iris. Je m’occupe des comptes et des droits. Le dossier est ci-dessous. Si une relation te paraît étrange, garde la pièce et demande un indice. J’aime autant vérifier deux fois.",
+      "followup": "Je lis. Je ne conclus rien pour l’instant, il me manque encore un morceau.",
+      "dialogue": {
+        "greeting": [
+          "Bonjour. Je termine une note, je te lis."
+        ],
+        "thanks": [
+          "De rien. Dis-moi aussi si j’ai mal compris ta question."
+        ],
+        "fatigue": [
+          "Arrête-toi avant de remplir les trous de mémoire avec ce qui t’arrange. Je le fais aussi quand je dors mal."
+        ],
+        "personal": [
+          "J’aime les puzzles auxquels il manque zéro pièce. Dans le travail, c’est plutôt l’inverse."
+        ],
+        "trust": [
+          "Je mets du temps à faire confiance. Tu n’as pas à me convaincre en disant oui à tout."
+        ],
+        "unknown": [
+          "Je lis. Je ne conclus rien pour l’instant, il me manque encore un morceau.",
+          "Je ne veux pas te répondre à côté. Tu peux préciser ce que tu cherches ?"
+        ],
+        "ransom": [
+          "Je ne connais pas l’état des sauvegardes de ta cible. Rien dans un graphe de droits ne permet de conclure à leur restauration."
+        ],
+        "dispute": [
+          "Montre les droits obtenus. Une appartenance de groupe ou une flèche sur un graphe ne justifie pas à elle seule une annonce administrateur."
+        ],
+        "defense": [
+          "Il faut distinguer droit de lecture, authentification et exécution. Quel contrôle a refusé précisément ?"
+        ],
+        "boundary": [
+          "Entendu. Tu choisis ce que tu gardes pour toi."
+        ],
+        "wellbeing": [
+          "Un peu fatiguée. J’ai repoussé une comparaison à demain, je ne lui faisais plus confiance ce soir."
+        ],
+        "flirt": [
+          "Je préfère garder un lien amical ou professionnel. Je ne souhaite pas de relation amoureuse."
+        ]
+      }
     },
     {
       "id": "quartz",
@@ -1261,12 +2090,52 @@
       "members": [
         "quartz"
       ],
-      "bio": "Je reprends des dossiers en binôme. Un secret seul me suffit pas, dis-moi aussi les limites que t’as vues.",
+      "bio": "Cherche un binôme qui prévienne quand le plan cesse de tenir.",
       "requires_completed": [
         "act2_service"
       ],
       "response_author": "quartz",
-      "response": "Bien lu, {handle}. Conditions et preuves utiles sont dans notre dossier. Si tu coinces pendant la mission, demande un indice."
+      "response": "Salut {handle}. Quartz. J’aimerais qu’on puisse se dire quand quelque chose ne tient pas, sans attendre la livraison. Le dossier est en dessous. Pour avancer, tu peux me demander un indice.",
+      "followup": "Je suis là. Si le plan tient plus, dis-le. On gagne rien à faire semblant chacun de notre côté.",
+      "dialogue": {
+        "greeting": [
+          "Salut. Tu viens pour le dossier ou tu fais une pause aussi ?"
+        ],
+        "thanks": [
+          "Merci de m’avoir tenu au courant. Ça change beaucoup de choses de ne pas attendre dans le vide."
+        ],
+        "fatigue": [
+          "Pose ça un moment. Préviens-moi juste si on doit revoir le délai, je préfère m’adapter que te regarder t’épuiser."
+        ],
+        "personal": [
+          "Je garde des plantes que Bytewarden me donne quand il n’a plus de place. On ne parle pas des mêmes choses ici et sur son balcon."
+        ],
+        "trust": [
+          "Mon dernier binôme m’a caché un écart de périmètre. J’aimerais ne pas revivre la découverte au moment de livrer."
+        ],
+        "unknown": [
+          "Je suis là. Si le plan tient plus, dis-le. On gagne rien à faire semblant chacun de notre côté.",
+          "Je préfère te demander : qu’est-ce que tu attends de moi là-dessus ?"
+        ],
+        "ransom": [
+          "Une livraison terminée ne dit pas si les gens d’en face ont repris leur travail. Je garde cette limite dans le rapport."
+        ],
+        "dispute": [
+          "Mon ancien partenaire a livré plus que prévu. Depuis, je fais confirmer le périmètre avant et je garde l’échange."
+        ],
+        "defense": [
+          "Avant de changer de route, préviens ton binôme. Qu’on ne travaille pas sur deux états différents sans le savoir."
+        ],
+        "boundary": [
+          "D’accord. Je ne te le redemande pas."
+        ],
+        "wellbeing": [
+          "Ça va. Content d’avoir un message qui ne commence pas par « urgent ». Et toi ?"
+        ],
+        "flirt": [
+          "Je tiens à ce qu’on puisse compter l’un sur l’autre. Pour moi, ce lien reste amical ou professionnel."
+        ]
+      }
     },
     {
       "id": "Madame_TLS",
@@ -1280,11 +2149,74 @@
       "requires_completed": [
         "act1_portail"
       ],
-      "bio": "Rencontrée sur BreachBoard. Elle lit un site comme d’autres lisent un contrat.",
+      "bio": "Analyste CTI et OSINT, sociable et très cultivée. Sport, musique, sorties, mode et musées. Elle aime comprendre les personnes autant que les organisations.",
       "response_author": "Madame_TLS",
-      "response": "Bonjour {handle}. Je réponds surtout le matin. Dis-moi ce que tu regardes, et qui te l’a demandé.",
-      "followup": "Je te lis. Dis-moi ce que tu regardes, et qui te l’a demandé. Je réponds le matin.",
-      "opening_event": "tls-contact"
+      "response": "Bonjour {handle}. Je revenais de courir. Pour les systèmes, d’autres seront meilleurs que moi. Pour comprendre une entreprise, ses intérêts ou qui te raconte quoi, là je peux aider.",
+      "followup": "Je te lis. On peut parler de veille, de musique ou de ce qui t’a fait sortir de chez toi aujourd’hui.",
+      "opening_event": "tls-contact",
+      "dialogue": {
+        "greeting": [
+          "Te voilà. Je rentre de courir, j’ai encore ma playlist dans la tête. Tu fais une pause ?"
+        ],
+        "thanks": [
+          "De rien. Tu peux revenir sans avoir besoin d’un service, ça me ferait plaisir aussi."
+        ],
+        "fatigue": [
+          "Coupe un peu si tu peux. Moi je vais marcher ou courir quand je commence à voir des liens partout. Tu peux rester parler ici aussi, sans devoir produire quelque chose."
+        ],
+        "personal": [
+          "Je cours, je fais du sport et je sors dès que je peux : concert, danse, un verre avec des amis. Je passe assez de temps à observer les gens derrière un écran, j’aime les retrouver en vrai.",
+          "La musique me suit partout. Électro pour courir, des concerts quand je trouve une salle qui me plaît. Je peux refaire une playlist pendant une heure et prétendre que je me préparais juste à sortir.",
+          "Je peux passer des heures dans un musée. Les costumes, la photographie, les objets du quotidien m’intéressent autant qu’un grand tableau. J’aime aussi la mode pour les coupes et les matières, pas pour collectionner les logos.",
+          "J’aime apprendre des choses, puis en discuter avec quelqu’un qui ne regarde pas pareil. Une expo, un livre, une tenue, une musique : je n’ai pas besoin d’être d’accord pour passer une bonne soirée."
+        ],
+        "trust": [
+          "J’observe beaucoup, ça fait partie de mon travail. Ça ne me donne pas un droit sur ce que tu veux garder pour toi. Dis-moi quand une question dépasse ta limite."
+        ],
+        "unknown": [
+          "Je te lis. On peut parler de veille, de musique ou de ce qui t’a fait sortir de chez toi aujourd’hui.",
+          "Je ne suis pas certaine d’avoir compris. Tu me précises ce que tu voudrais savoir ?"
+        ],
+        "ransom": [
+          "Je ne connais pas les sauvegardes de ce dossier. Je serais mal placée pour promettre une restauration. Tu peux dire que tu ne sais pas, même à ton client."
+        ],
+        "dispute": [
+          "Je lirais l’annonce avant de prendre parti. Qui te l’a transmise ? Si tu préfères garder son pseudo, décris juste comment elle t’est arrivée."
+        ],
+        "defense": [
+          "Je suis plus à l’aise pour comprendre qui cible une entreprise et pourquoi que pour diagnostiquer son EDR. Garde le refus exact, quelqu’un du dossier pourra vérifier le blocage."
+        ],
+        "boundary": [
+          "D’accord. On laisse ce sujet de côté. Tu n’as pas à me donner un nom pour qu’on continue à parler."
+        ],
+        "flirt": [
+          "Tu viens de me faire sourire. J’aime bien nos moments ici aussi. On peut prendre notre temps, sans se promettre une histoire qu’on ne connaît pas encore.",
+          "Je suis contente quand ton pseudo apparaît. Je ne sais pas encore ce qu’on en fera, et je préfère te le dire comme ça."
+        ],
+        "suspicion": [
+          "Je comprends que mes questions te fassent tiquer. Tu peux les laisser sans réponse. Pour ce que je raconte de moi, tu as aussi le droit de rester prudent."
+        ],
+        "people": [
+          "Je regarde surtout les liens : qui présente qui, qui décide, qui gagne à faire circuler une information. Ça raconte souvent plus qu’un outil. Qu’est-ce qui t’interroge dans cette relation ?"
+        ],
+        "return": [
+          "Te revoilà. Ça me fait plaisir. Tu peux juste passer dire bonjour, ce n’est pas un examen."
+        ],
+        "wellbeing": [
+          "Plutôt bien. J’ai bougé un peu et j’ai une sortie prévue ce soir. Et toi, tu arrives à décrocher du travail ?"
+        ],
+        "expertise": [
+          "Mon terrain, c’est la CTI, l’OSINT et l’ingénierie sociale : recouper les sources, comprendre les motivations, lire les organisations et les habitudes. Je ne vais pas te vendre une expertise système que je n’ai pas."
+        ],
+        "fashion": [
+          "J’aime la mode, oui. Les coupes, les matières, une silhouette qui change selon la façon de porter une pièce. Le logo m’intéresse beaucoup moins. Et toi, tu regardes quoi dans une tenue ?",
+          "Une tenue peut raconter une époque et laisser beaucoup de place à la personne qui la porte. J’aime ce mélange. Ça ne veut pas dire que j’analyse la veste de chaque ami à table. Enfin, pas à voix haute."
+        ],
+        "museums": [
+          "J’aime prendre mon temps dans les musées. Les costumes, la photographie, les objets qu’on utilisait tous les jours. J’aime imaginer une vie derrière une vitrine, puis discuter de ce qu’on y a vu.",
+          "Je préfère parfois revoir une collection permanente plutôt que courir d’expo en expo. On remarque autre chose avec une autre humeur, ou quelqu’un qui regarde différemment."
+        ]
+      }
     }
   ],
   "events": [
@@ -1294,7 +2226,7 @@
       "kind": "chat",
       "target": "atelier",
       "author": "miette",
-      "text": "Vous notez comment vos essais ratés, vous ? Moi je m’y perds."
+      "text": "Vous arrivez à relire vos essais ratés ? J’ai écrit « non » sur quatre lignes. Très informatif."
     },
     {
       "id": "life-1",
@@ -1302,7 +2234,7 @@
       "kind": "chat",
       "target": "atelier",
       "author": "sable",
-      "text": "Une ligne par essai. L’heure, ce que tu pensais, la commande, le résultat exact. Les erreurs aussi."
+      "text": "L’heure, ce que tu voulais faire, la commande et ce qu’elle a répondu. Le « non », tu le comprendras encore ce soir. Dans trois jours, moins."
     },
     {
       "id": "life-2",
@@ -1310,7 +2242,7 @@
       "kind": "forum",
       "target": "notes",
       "author": "miette",
-      "text": "J’ai pris le tableau proposé plus haut, merci. J’y ajoute aussi ce que je pensais obtenir."
+      "text": "J’ai repris ton tableau, sable. Maintenant mon échec a six colonnes. Il a l’air beaucoup plus sérieux."
     },
     {
       "id": "life-3",
@@ -1318,7 +2250,7 @@
       "kind": "chat",
       "target": "atelier",
       "author": "hexane",
-      "text": "Je file à l’atelier. Si vous m’écrivez, je réponds plus tard dans la matinée."
+      "text": "Je file à l’atelier. Le portable sur l’établi a décidé de ne plus démarrer devant son propriétaire. Je connais ce sentiment."
     },
     {
       "id": "life-4",
@@ -1326,7 +2258,7 @@
       "kind": "forum",
       "target": "gpu-prices",
       "author": "nullpointer",
-      "text": "Une fois nettoyée, la carte tient mieux sa fréquence. Je la garde pour l’instant."
+      "text": "Ventilation nettoyée. La carte garde sa fréquence, moi je garde mes crédits. Merci hexane."
     },
     {
       "id": "life-5",
@@ -1334,7 +2266,7 @@
       "kind": "chat",
       "target": "atelier",
       "author": "nullpointer",
-      "text": "Le portable de l’annonce est arrivé. Batterie fatiguée, comme prévu. Rien de caché."
+      "text": "Portable arrivé. Batterie aussi fatiguée que promis. Je vais lui trouver une place près d’une prise, comme moi."
     },
     {
       "id": "life-6",
@@ -1342,7 +2274,7 @@
       "kind": "forum",
       "target": "introductions",
       "author": "sable",
-      "text": "Bienvenue aux nouveaux. Les vieux sujets servent encore, regardez juste leur date avant de reprendre une réponse."
+      "text": "Bienvenue aux nouveaux. Fouillez les vieux sujets, il y a encore des choses utiles. Regardez juste les dates, j’ai conservé des réponses qui ne marchent plus."
     },
     {
       "id": "life-7",
@@ -1350,7 +2282,7 @@
       "kind": "chat",
       "target": "veille",
       "author": "packetloss",
-      "text": "J’ai classé les notes par fuseau horaire. La version d’avant mélangeait l’heure locale et l’UTC."
+      "text": "J’ai remis les fuseaux dans les notes. Trois événements impossibles viennent de redevenir tout à fait banals."
     },
     {
       "id": "life-8",
@@ -1358,7 +2290,7 @@
       "kind": "forum",
       "target": "debrief",
       "author": "packetloss",
-      "text": "Un ajout : acquitter une alerte ne change pas la chronologie après coup."
+      "text": "Je remonte un point : « acquittée » veut dire que quelqu’un a pris connaissance de l’alerte. Le reste de la chronologie ne s’efface pas."
     },
     {
       "id": "life-9",
@@ -1366,7 +2298,7 @@
       "kind": "chat",
       "target": "passations",
       "author": "relay",
-      "text": "Nouvelle passation relue. Il manquait la date du dernier contrôle, c’est corrigé."
+      "text": "Date du dernier contrôle ajoutée à ma passation. Oui, spectre, j’ai vu ton message."
     },
     {
       "id": "life-10",
@@ -1374,7 +2306,7 @@
       "kind": "forum",
       "target": "hardware",
       "author": "hexane",
-      "text": "De retour à l’atelier. J’ai ajouté les mesures longues au sujet sur les températures."
+      "text": "De retour. Les mesures longues sont dans le fil températures. Et la machine du client démarre, évidemment depuis qu’il est parti."
     },
     {
       "id": "life-11",
@@ -1382,7 +2314,7 @@
       "kind": "chat",
       "target": "atelier",
       "author": "miette",
-      "text": "Le carnet m’a déjà évité deux essais en double ! Maintenant je le garde ouvert à côté du terminal."
+      "text": "Mon carnet m’a évité de refaire deux fois le même essai ! Il m’a aussi rappelé que je l’avais déjà fait trois fois hier."
     },
     {
       "id": "life-extension-0",
@@ -1390,7 +2322,7 @@
       "kind": "chat",
       "target": "atelier",
       "author": "hexane",
-      "text": "Les mesures longues sont enfin stables. J’ai mis la durée et la température de la pièce dans le compte rendu."
+      "text": "Mesures stables enfin. Durée et température de la pièce ajoutées. J’ai déplacé la lampe qui chauffait le boîtier, ça aide aussi."
     },
     {
       "id": "life-extension-1",
@@ -1398,7 +2330,7 @@
       "kind": "forum",
       "target": "notes",
       "author": "sable",
-      "text": "Petite mise à jour. Les captures sans heure, j’ai du mal à les relire. Maintenant je garde le contexte avec chaque extrait."
+      "text": "J’ai retrouvé une capture sans heure dans mes propres archives. Donc oui, je suis aussi pénible avec moi-même."
     },
     {
       "id": "life-extension-2",
@@ -1406,7 +2338,7 @@
       "kind": "chat",
       "target": "atelier",
       "author": "miette",
-      "text": "Je coupe pour déjeuner. Je relis vos notes en revenant."
+      "text": "Je coupe pour déjeuner. Si je réponds « oui » à tout, c’est que j’ai faim, pas que j’ai vérifié."
     },
     {
       "id": "life-extension-3",
@@ -1414,7 +2346,7 @@
       "kind": "chat",
       "target": "atelier",
       "author": "miette",
-      "text": "Me revoilà. J’ai rouvert mon ancien carnet et j’y avais écrit deux hypothèses comme si c’étaient des faits. C’est corrigé."
+      "text": "De retour. J’avais noté deux hypothèses comme des faits. Corrigé avant que quelqu’un les cite, pour une fois."
     },
     {
       "id": "life-extension-4",
@@ -1422,7 +2354,7 @@
       "kind": "forum",
       "target": "introductions",
       "author": "mod_echo",
-      "text": "Les présentations, c’est ici. Pour une question précise, prenez un sujet existant ou ouvrez-en un avec un titre clair."
+      "text": "Les présentations ici. Pour une question précise, ouvrez un sujet avec autre chose que « urgent svp » en titre. Je vous retrouverai plus vite."
     },
     {
       "id": "life-extension-5",
@@ -1430,7 +2362,7 @@
       "kind": "chat",
       "target": "veille",
       "author": "relay",
-      "text": "Je reprends les messages de l’après-midi. Pour une passation, donnez la dernière vérification et les limites."
+      "text": "Je reprends les messages. Pour une passation : référence, dernière vérification et limites. Je commence par celles qui ont ces trois lignes."
     },
     {
       "id": "life-extension-6",
@@ -1438,7 +2370,7 @@
       "kind": "forum",
       "target": "timezones",
       "author": "packetloss",
-      "text": "Un cas récent mélangeait deux fuseaux. La chronologie avait l’air impossible, jusqu’à ce qu’on convertisse tout en UTC."
+      "text": "Deux heures d’écart, juste deux fuseaux. On avait déjà inventé une panne et un changement de serveur. J’aimerais dire que j’exagère."
     },
     {
       "id": "life-extension-7",
@@ -1446,7 +2378,7 @@
       "kind": "chat",
       "target": "passations",
       "author": "spectre",
-      "text": "Je relis les passations de la journée. Une vérification ancienne se date. Je ne la compte pas comme actuelle."
+      "text": "Passations relues. Une ancienne vérification reste une ancienne vérification, même transmise aujourd’hui."
     },
     {
       "id": "life-extension-8",
@@ -1454,7 +2386,7 @@
       "kind": "forum",
       "target": "relay-stock",
       "author": "relay",
-      "text": "Créneau de support terminé. Je lirai les nouvelles demandes à mon prochain passage."
+      "text": "Je coupe pour ce soir. Les demandes restent dans la file, pas besoin de les renvoyer sur les trois messageries."
     },
     {
       "id": "life-extension-9",
@@ -1462,7 +2394,7 @@
       "kind": "chat",
       "target": "atelier",
       "author": "sable",
-      "text": "Nouvelle journée. Je repars de mes observations sauvegardées. Ce que je crois me rappeler, je m’en méfie."
+      "text": "J’ai rouvert mes notes plutôt que de répondre de mémoire. Bien m’en a pris, j’allais vous renvoyer une adresse de l’an dernier."
     },
     {
       "id": "life-extension-10",
@@ -1470,14 +2402,14 @@
       "kind": "forum",
       "target": "hardware",
       "author": "hexane",
-      "text": "J’ai ajouté les températures d’hier au fil. Comparez les mesures longues avant de changer de matériel."
+      "text": "Températures d’hier ajoutées. Avant de jeter votre carte, comparez une charge longue. Et éloignez la lampe, c’est du vécu."
     },
     {
       "id": "realism-followup-0",
       "kind": "forum",
       "target": "seller-dispute",
       "author": "mod_echo",
-      "text": "Mise à jour. Le vendeur n’a pas fourni de relevé récent. L’annonce reste suspendue et le litige n’est pas réglé.",
+      "text": "Toujours pas de relevé récent du vendeur. L’annonce reste suspendue. Je laisse le litige ouvert, même s’il me demande chaque matin de le fermer.",
       "after": 30
     },
     {
@@ -1485,7 +2417,7 @@
       "kind": "forum",
       "target": "affiliate-terms",
       "author": "relay",
-      "text": "Une précision. Ce que touche l’opérateur dépend du contrat et de sa part. Et ici, aucune promesse de paiement de la victime n’a été vérifiée.",
+      "text": "Je le remets ici : le montant annoncé et la part opérateur ne sont pas la même ligne. Et je n’ai aucune preuve d’un paiement de la victime.",
       "after": 65
     },
     {
@@ -1493,7 +2425,7 @@
       "kind": "forum",
       "target": "incident-aftermath",
       "author": "spectre",
-      "text": "Le dossier de reprise reste ouvert. Fin du contrat, retour du réseau, restauration des données : trois choses distinctes.",
+      "text": "Contrat clos. Reprise ouverte. Aucun élément nouveau sur les sauvegardes externes.",
       "after": 100
     },
     {
@@ -1502,7 +2434,7 @@
       "kind": "forum",
       "target": "introductions",
       "author": "Madame_TLS",
-      "text": "Bienvenue aux nouveaux. Pour une question sur un site ou un certificat, mon fil est ouvert. Je réponds le matin."
+      "text": "Bienvenue à ceux qui lisent sans poster. J’ai fait ça longtemps aussi. Pour une question sur un site, mon fil reste ouvert, même si elle vous paraît bête."
     },
     {
       "id": "tls-contact",
@@ -1510,7 +2442,7 @@
       "kind": "chat",
       "target": "Madame_TLS",
       "author": "Madame_TLS",
-      "text": "Bonjour {handle}. J’ai vu passer ton nom dans le dossier de 0xvanta. Tu lis les pages avant de cliquer, c’est rare ici. Si un portail te résiste, écris-moi.",
+      "text": "Bonjour {handle}. On s’est croisés sur BreachBoard. Je travaille surtout en CTI, OSINT et veille stratégique, pas dans les consoles toute la journée. Ton nom revient chez des gens qui vérifient leurs sources, j’avais envie de te parler. Tu as deux minutes ?",
       "requires_completed": [
         "act1_portail"
       ]
@@ -1521,7 +2453,7 @@
       "kind": "chat",
       "target": "Madame_TLS",
       "author": "Madame_TLS",
-      "text": "Il paraît que nullroute s’est encore trompé d’adresse. Il achète ses tableaux à qui, tu le sais ?",
+      "text": "J’ai relu l’histoire des deux Aquila. Ce qui m’intéresse, c’est comment une attribution fausse a circulé jusqu’au client. Nullroute t’a expliqué d’où venait son tableau ? Si tu gardes cette source pour toi, on peut aussi parler du mécanisme sans le nom.",
       "requires_completed": [
         "mauvaise_adresse"
       ],
@@ -1533,7 +2465,7 @@
       "kind": "chat",
       "target": "Madame_TLS",
       "author": "Madame_TLS",
-      "text": "Félicitations pour Exployt. Tu vas rencontrer du monde là-bas. Tu me diras qui t’a accueilli ? Simple curiosité.",
+      "text": "Ton pseudo commence à circuler, {handle}. Je suis contente pour toi. J’espère juste que les nouveaux contacts ne te parlent pas uniquement quand ils ont besoin de quelque chose.",
       "requires_completed": [
         "act1_recommandation"
       ],
@@ -1545,7 +2477,7 @@
       "kind": "chat",
       "target": "Madame_TLS",
       "author": "Madame_TLS",
-      "text": "Traverse travaille toujours seul sur les passages ? Avant ils étaient cinq dans cette équipe. Je me demande ce qu’est devenu cinquième.",
+      "text": "J’ai revu les anciens fils de l’équipe de Traverse. Ils étaient cinq. On en parle comme d’une équipe intacte, mais les échanges publics ne racontent pas ce qui est arrivé au cinquième. Je préfère garder ce trou visible plutôt que lui inventer une histoire.",
       "requires_completed": [
         "act2_pivot"
       ],
@@ -1557,7 +2489,7 @@
       "kind": "forum",
       "target": "timezones",
       "author": "packetloss",
-      "text": "Curiosité du jour. Un membre de BreachBoard poste tous les jours entre 7 h et 15 h, jamais après. On dirait des horaires de bureau, mais pas dans notre fuseau.",
+      "text": "Je recoupe des fils sur les entreprises. Un compte connaît très bien les directions et leurs intermédiaires, beaucoup moins les outils. Ça ressemble à de la veille économique. Ça ne dit pas encore pour qui la personne travaille.",
       "requires_completed": [
         "act2_annuaire"
       ]
@@ -1568,11 +2500,18 @@
       "kind": "chat",
       "target": "Madame_TLS",
       "author": "Madame_TLS",
-      "text": "Tu as bien travaillé avec quartz. J’aurais une proposition pour toi, hors forum. Rien d’urgent. On en reparle quand tu as le temps ?",
+      "text": "J’aimerais qu’un jour on se parle sans un dossier entre nous. Une sortie, de la musique, un endroit où on n’a pas besoin de regarder les notifications toutes les deux minutes. On en reparlera, sans rien réserver aujourd’hui.",
       "requires_completed": [
         "act2_binome"
       ],
-      "follows": "tls-cinquieme"
+      "follows": "tls-cinquieme",
+      "requires_bond": {
+        "Madame_TLS": {
+          "stance": [
+            "attirance"
+          ]
+        }
+      }
     },
     {
       "id": "hexane-depart",
@@ -1580,7 +2519,7 @@
       "kind": "chat",
       "target": "atelier",
       "author": "hexane",
-      "text": "Je ferme l’atelier quelques jours. On m’a proposé un gros dossier, je vous raconte en rentrant.",
+      "text": "Je ferme l’atelier quelques jours. Gros dossier proposé, je vais enfin pouvoir remplacer ce fichu oscilloscope. Je vous raconte en rentrant.",
       "requires_completed": [
         "act1_recommandation"
       ]
@@ -1591,7 +2530,7 @@
       "kind": "chat",
       "target": "atelier",
       "author": "nullpointer",
-      "text": "Quelqu’un a des nouvelles de hexane ? Il devait me renvoyer une alimentation. Je commence à faire le deuil de l’alimentation.",
+      "text": "Quelqu’un a eu hexane ? Il devait me renvoyer une alimentation. Au début je m’inquiétais pour l’alimentation. Là, moins.",
       "requires_completed": [
         "act2_compte"
       ],
@@ -1603,7 +2542,7 @@
       "kind": "chat",
       "target": "atelier",
       "author": "miette",
-      "text": "Toujours rien de hexane. Son annonce de portable est encore en ligne, ça me fait bizarre de la voir.",
+      "text": "Toujours rien de hexane ? Son annonce de portable remonte dans mes recherches. Je sais que ça veut rien dire, ça me fait juste bizarre.",
       "requires_completed": [
         "act2_reseau"
       ],
@@ -1615,7 +2554,7 @@
       "kind": "forum",
       "target": "hardware",
       "author": "sable",
-      "text": "Je remonte le sujet. Si quelqu’un veut reprendre les mesures de hexane, j’ai ses fichiers dans mes archives. Il me les avait confiés avant de partir.",
+      "text": "J’ai ses mesures si quelqu’un en a besoin. Il m’en avait laissé une copie avant de partir. Si vous avez des nouvelles, même juste un mot, je prends.",
       "requires_completed": [
         "act2_annuaire"
       ],
@@ -1627,7 +2566,7 @@
       "kind": "chat",
       "target": "atelier",
       "author": "nullpointer",
-      "text": "On arrête de demander pour hexane ? À chaque fois que quelqu’un pose la question sur le forum, bytewarden déplace le sujet.",
+      "text": "J’ai demandé pour hexane, mon message a encore été déplacé. Je veux bien arrêter de poser la question au mauvais endroit. J’aimerais savoir où est le bon.",
       "requires_completed": [
         "act2_garant"
       ],
@@ -1639,7 +2578,7 @@
       "kind": "forum",
       "target": "seller-dispute",
       "author": "mod_echo",
-      "text": "Troisième annonce suspendue ce mois-ci pour la même raison. Je demande que la règle s’applique aussi aux comptes anciens.",
+      "text": "Troisième annonce suspendue pour les mêmes preuves recyclées. Je demande une règle qui s’applique aussi à ceux qu’on connaît depuis longtemps.",
       "requires_completed": [
         "act1_service"
       ]
@@ -1650,7 +2589,7 @@
       "kind": "forum",
       "target": "seller-dispute",
       "author": "bytewarden",
-      "text": "Les suspensions se décident au cas par cas. On ne règle pas ça dans un fil public.",
+      "text": "Je comprends la demande. Mais je ne vais pas décider d’une suspension définitive au milieu de ce fil.",
       "requires_completed": [
         "act1_service"
       ],
@@ -1662,7 +2601,7 @@
       "kind": "forum",
       "target": "act1-litige",
       "author": "mod_echo",
-      "text": "Merci à {handle} d’avoir posé les deux pièces ici. Avec ça, la suspension se justifie toute seule et personne ne peut dire que c’est arbitraire.",
+      "text": "Merci {handle} d’avoir mis les deux pièces à disposition. On peut discuter de la décision, au moins personne n’a à me croire sur parole.",
       "requires_completed": [
         "act1_litige"
       ],
@@ -1676,7 +2615,7 @@
       "kind": "forum",
       "target": "seller-dispute",
       "author": "mod_echo",
-      "text": "Encore un litige réglé en privé. Je ne sais pas ce qui a été décidé, et c’est bien ça le problème.",
+      "text": "Je viens d’apprendre que le dossier a été réglé en privé. Je suis censé expliquer la règle aux nouveaux, mais je ne peux même pas leur dire comment elle a été appliquée.",
       "requires_completed": [
         "act1_litige"
       ],
@@ -1690,7 +2629,7 @@
       "kind": "forum",
       "target": "escrow",
       "author": "mod_echo",
-      "text": "Je propose une règle simple. Une annonce suspendue deux fois pour la même raison ferme le compte, quelle que soit son ancienneté. Qu’en pense l’administration ?",
+      "text": "Je reviens avec une proposition : deux suspensions pour les mêmes preuves recyclées, fermeture du compte. Même pour un ancien. J’aimerais une réponse ici cette fois.",
       "requires_completed": [
         "act2_polkit"
       ]
@@ -1701,7 +2640,7 @@
       "kind": "forum",
       "target": "escrow",
       "author": "bytewarden",
-      "text": "L’administration en pense que ce forum existe encore parce qu’on n’a pas fermé tout le monde à la première erreur. On en reparle en privé.",
+      "text": "Je t’ai lu. J’ai aussi vu le précédent forum fermer après que tout le monde s’est réglé ses comptes en public. On en parle, mais pas en transformant chaque fil en procès.",
       "requires_completed": [
         "act2_polkit"
       ],
@@ -1713,7 +2652,7 @@
       "kind": "chat",
       "target": "atelier",
       "author": "miette",
-      "text": "Question bête. Quand un client vous dit que c’est livré, vous le croyez sur parole ? Je demande pour une amie.",
+      "text": "Quand un client vous dit « c’est livré », vous vérifiez quand même ? Je demande parce que j’ai failli transmettre l’annonce de Cobalt sans regarder. Voilà, c’est dit.",
       "requires_completed": [
         "tuto_p0"
       ]
@@ -1724,7 +2663,7 @@
       "kind": "forum",
       "target": "introductions",
       "author": "miette",
-      "text": "Trois mois que je suis là. J’ai arrêté de poser les questions qui sont déjà dans les sujets épinglés. Enfin presque.",
+      "text": "Je viens de répondre à une question que je posais moi-même à mon arrivée. J’ai même réussi à pas écrire « lis les épinglés » tout seul. Belle progression.",
       "requires_completed": [
         "act1_boutique"
       ]
@@ -1735,7 +2674,7 @@
       "kind": "forum",
       "target": "introductions",
       "author": "miette",
-      "text": "Bienvenue aux nouveaux. Lisez les épinglés, prenez des notes, et demandez quand même. Tout le monde a commencé perdu, moi la première.",
+      "text": "Bienvenue ! Les épinglés aident, et si vous comprenez pas un mot, demandez. J’ai passé ma première semaine à croire que tout le monde savait sauf moi.",
       "requires_completed": [
         "act1_recommandation"
       ],
@@ -1747,7 +2686,7 @@
       "kind": "chat",
       "target": "miette",
       "author": "miette",
-      "text": "J’ai eu mon premier contrat sur Telegrid ! Bon, c’est celui que tu regardais la semaine dernière. On reste amis ?",
+      "text": "J’ai eu un contrat sur Telegrid ! J’étais à deux doigts de t’envoyer une capture, puis j’ai pensé au périmètre. Je suis contente, j’avais envie de le dire à quelqu’un.",
       "requires_completed": [
         "act2_reseau"
       ]
@@ -1758,7 +2697,7 @@
       "kind": "chat",
       "target": "miette",
       "author": "miette",
-      "text": "Cobalt a refait son annonce, avec la date du registre cette fois. Ton signalement a servi. Je te dois un café, enfin tu vois l’idée.",
+      "text": "Cobalt a corrigé son annonce avec la date du registre. Ton signalement a servi. Moi je suis soulagée de pas avoir relayé la première version. Je te dois un café virtuel.",
       "requires_completed": [
         "act1_boutique"
       ],
@@ -1772,7 +2711,7 @@
       "kind": "chat",
       "target": "miette",
       "author": "miette",
-      "text": "Cobalt vient d’annoncer une autre livraison en avance. Même formule que la dernière fois. On aurait peut-être dû le dire, non ?",
+      "text": "Cobalt vient de refaire une annonce en avance. J’ai pensé à notre remise en privé. Je sais pourquoi on a fait ce choix, mais ça me travaille quand même un peu.",
       "requires_completed": [
         "act1_boutique"
       ],
@@ -1786,7 +2725,7 @@
       "kind": "chat",
       "target": "bytewarden",
       "author": "bytewarden",
-      "text": "Ta publication m’a obligé à suspendre un compte que j’aurais préféré garder. Tu avais raison sur les pièces. Ça ne veut pas dire que ça m’arrange.",
+      "text": "Ta publication m’a obligé à suspendre un compte que j’aurais préféré garder. Tu avais raison sur les pièces. Je suis content que tu les aies gardées, même si la soirée qui a suivi m’a pas enchanté.",
       "requires_completed": [
         "act2_compte"
       ],
@@ -1800,7 +2739,7 @@
       "kind": "chat",
       "target": "bytewarden",
       "author": "bytewarden",
-      "text": "J’ai réglé le 118 sans bruit, grâce à toi. Le vendeur a rouvert une annonce la semaine suivante. Je te le dis pour que tu le saches.",
+      "text": "Le 118 a été réglé sans ton pseudo dans le fil. Le vendeur a rouvert une annonce la semaine suivante. Je te le dis parce que j’aurais dû te le dire plus tôt.",
       "requires_completed": [
         "act2_compte"
       ],
@@ -1814,7 +2753,7 @@
       "kind": "chat",
       "target": "relay",
       "author": "relay",
-      "text": "Le vendeur que tu as refusé a trouvé preneur ailleurs. L’acheteur est revenu me voir, furieux. Je garde ton nom pour les dossiers sérieux.",
+      "text": "Ton vendeur a trouvé un autre acheteur. Il est revenu furieux. Je ne vais pas faire semblant d’être surpris, mais j’aurais préféré que tu te trompes.",
       "requires_completed": [
         "act2_binome"
       ],
@@ -1828,7 +2767,7 @@
       "kind": "chat",
       "target": "relay",
       "author": "relay",
-      "text": "La délégation que tu as renégociée a tenu. Le vendeur raconte partout qu’il s’est fait avoir. Bonne publicité pour toi.",
+      "text": "La délégation renégociée a tenu. Le vendeur dit partout qu’il s’est fait avoir. Il appelle visiblement ça se faire avoir quand quelqu’un lit les conditions.",
       "requires_completed": [
         "act2_binome"
       ],
@@ -1842,7 +2781,7 @@
       "kind": "chat",
       "target": "0xvanta",
       "author": "0xvanta",
-      "text": "J’ai relu ta livraison pour bytewarden. Elle a laissé des traces partout dans les journaux. Sur un labo, ça passe. Ailleurs, quelqu’un les lit.",
+      "text": "Relu ta livraison pour bytewarden. Beaucoup de traces dans les journaux. Le dossier est bon. Garde juste en tête qu’ailleurs quelqu’un les lira.",
       "requires_completed": [
         "act2_passation"
       ],
@@ -1856,12 +2795,124 @@
       "kind": "chat",
       "target": "0xvanta",
       "author": "0xvanta",
-      "text": "J’ai relu ta livraison pour bytewarden. Presque rien dans les journaux. C’est comme ça qu’on dure.",
+      "text": "Relu ta livraison pour bytewarden. Peu de traces sur ce parcours. Ça ne veut pas dire personne en face. Je préfère te le dire avant le prochain.",
       "requires_completed": [
         "act2_passation"
       ],
       "requires_choice": {
         "finale": "finale_connecteur"
+      }
+    },
+    {
+      "id": "tls-pause",
+      "kind": "chat",
+      "target": "Madame_TLS",
+      "author": "Madame_TLS",
+      "text": "Je t’ai écrit pour une pause et j’ai quand même trouvé le moyen de te parler de travail. Tu as le droit de me rappeler à l’ordre. Pour aujourd’hui, je propose qu’on laisse les tableaux de côté.",
+      "after": 12,
+      "requires_completed": [
+        "act1_litige"
+      ],
+      "follows": "tls-tableau"
+    },
+    {
+      "id": "tls-rituel",
+      "kind": "chat",
+      "target": "Madame_TLS",
+      "author": "Madame_TLS",
+      "text": "J’ai changé trois fois de playlist avant de partir courir. Puis j’ai ouvert notre conversation au lieu de choisir. Je commence à reconnaître les petites choses qui me donnent envie de revenir ici.",
+      "after": 12,
+      "requires_completed": [
+        "act2_compte"
+      ],
+      "follows": "tls-exployt",
+      "requires_bond": {
+        "Madame_TLS": {
+          "stance": [
+            "attirance"
+          ]
+        }
+      }
+    },
+    {
+      "id": "tls-fenetre",
+      "kind": "chat",
+      "target": "Madame_TLS",
+      "author": "Madame_TLS",
+      "text": "Je suis rentrée d’une sortie avec les jambes fatiguées et un morceau impossible à oublier. J’ai eu envie de te raconter la soirée avant de regarder mes messages de travail. Ça m’a fait sourire de m’en apercevoir.",
+      "after": 12,
+      "requires_completed": [
+        "act2_service"
+      ],
+      "follows": "tls-rituel",
+      "requires_bond": {
+        "Madame_TLS": {
+          "stance": [
+            "attirance"
+          ]
+        }
+      }
+    },
+    {
+      "id": "vanta-tls-distance",
+      "kind": "chat",
+      "target": "0xvanta",
+      "author": "0xvanta",
+      "text": "Je connais pas bien Madame_TLS. Une question sur toi peut être une question sur ton entourage. Garde le droit de ne pas répondre. Avec moi aussi.",
+      "after": 12,
+      "requires_completed": [
+        "act2_pivot"
+      ],
+      "follows": "tls-cinquieme"
+    },
+    {
+      "id": "tls-limites",
+      "kind": "chat",
+      "target": "Madame_TLS",
+      "author": "Madame_TLS",
+      "text": "Je sais que les personnes et les réseaux reviennent souvent dans mes questions. C’est mon métier de les observer. Ça ne veut pas dire que tu me dois tes sources ou les confidences des autres.",
+      "after": 12,
+      "requires_completed": [
+        "act2_garant"
+      ],
+      "follows": "tls-fenetre"
+    },
+    {
+      "id": "tls-proposition-pro",
+      "after": 14,
+      "kind": "chat",
+      "target": "Madame_TLS",
+      "author": "Madame_TLS",
+      "text": "J’ai une piste de veille sur des entreprises et leurs intermédiaires. Je te préparerai une question précise et des sources publiques, pas une demande de noms sortis de tes MP.",
+      "requires_completed": [
+        "act2_binome"
+      ],
+      "follows": "tls-cinquieme",
+      "requires_bond": {
+        "Madame_TLS": {
+          "stance": [
+            "professionnel"
+          ]
+        }
+      }
+    },
+    {
+      "id": "tls-proposition-amie",
+      "after": 14,
+      "kind": "chat",
+      "target": "Madame_TLS",
+      "author": "Madame_TLS",
+      "text": "Je vais sortir écouter de la musique ce soir. Ça m’a fait plaisir de garder aussi une conversation amicale ici. Je te raconterai si le concert valait le déplacement.",
+      "requires_completed": [
+        "act2_binome"
+      ],
+      "follows": "tls-cinquieme",
+      "requires_bond": {
+        "Madame_TLS": {
+          "stance": [
+            "amitie"
+          ]
+        }
       }
     }
   ]

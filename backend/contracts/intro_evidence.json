@@ -19,8 +19,8 @@
   "required_items": [],
   "guide": [],
   "onboarding": true,
-  "success_message": "Résultat vérifié. {reward} ₵ réglés ; ton prochain dossier est disponible dans cette conversation. Garde tes notes, on réutilisera cette compétence.",
-  "failure_message": "On reprend ce dossier à ton rythme ; vérifie le résultat avant de conclure.",
+  "success_message": "Tu as comparé les deux notes avant de conclure. C’est l’habitude que je voulais te voir prendre. La prime annoncée est de {reward} ₵ ; le règlement exact figure dans ColdVault.",
+  "failure_message": "On s’arrête là pour ce dossier. Garde le débriefing, on reprendra ce qui a coincé au prochain essai.",
   "debrief_hints": [
     "Lire les preuves et rédiger une conclusion.",
     "Une nouvelle compétence à la fois ; la réussite est vérifiée dans le monde simulé."
@@ -29,5 +29,10 @@
   "hints": [
     "Il faut lire les deux documents avant de conclure. L’un est une archive, l’autre une modification plus récente.",
     "Après les deux lectures, consigne la conclusion : `echo \"serveur migre\" > ~/mission/conclusion.txt`. Le contenu de la conclusion est vérifié."
-  ]
+  ],
+  "dialogue": {
+    "greeting": "Salut {handle}. Je finis un compte rendu. Qu’est-ce qu’il y a ?",
+    "ack": "Garde tes remerciements pour quand tu sauras refaire sans moi. Mais oui, j’ai lu.",
+    "fallback": "Je ne suis pas sûr de ce que tu me demandes. Tu peux préciser ?"
+  }
 }

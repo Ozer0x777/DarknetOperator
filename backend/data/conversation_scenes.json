@@ -1,0 +1,1663 @@
+{
+  "version": 1,
+  "scenes": [
+    {
+      "id": "k0rvid-premiers-pas",
+      "peer": "k0rvid",
+      "author": "k0rvid",
+      "channel": "chordly",
+      "question": "Avant qu’on commence : tu préfères que je détaille les étapes ou que je te laisse chercher un peu ?",
+      "options": [
+        {
+          "id": "accompagne",
+          "text": "Détaille au début, je prendrai mes marques.",
+          "reply": "Ça me va. Pose tes questions, je ne vais pas te juger au nombre d’essais.",
+          "effects": {
+            "working_style": "accompagne"
+          }
+        },
+        {
+          "id": "autonome",
+          "text": "Laisse-moi chercher, je te demanderai si je bloque.",
+          "reply": "D’accord. Je reste joignable. Demander un indice ne t’enlèvera rien.",
+          "effects": {
+            "working_style": "autonome"
+          }
+        },
+        {
+          "id": "direct",
+          "text": "Dis-moi surtout quand je me trompe.",
+          "reply": "Ça, je saurai faire. Je te dirai aussi ce qui tient, pas seulement ce qui casse.",
+          "effects": {
+            "working_style": "direct"
+          }
+        }
+      ]
+    },
+    {
+      "id": "miette-faire-connaissance",
+      "peer": "miette",
+      "author": "miette",
+      "channel": "chordly",
+      "question": "J’ai passé dix minutes à rédiger ce message pour pas avoir l’air perdue. Raté. Ça te fait quoi, toi, d’arriver ici ?",
+      "options": [
+        {
+          "id": "ensemble",
+          "text": "Je suis un peu perdu aussi. On peut s’entraider.",
+          "reply": "Ah, merci. Je vais essayer de pas t’envoyer mes quarante questions d’un coup.",
+          "effects": {
+            "stance": "amitie"
+          }
+        },
+        {
+          "id": "rivalite",
+          "text": "Ça me motive. On verra qui progresse le plus vite.",
+          "reply": "D’accord, mais on compte pas le nombre de commandes ratées. Sinon je gagne déjà.",
+          "effects": {
+            "stance": "rivalite_amicale"
+          }
+        },
+        {
+          "id": "travail",
+          "text": "Je préfère qu’on reste sur les dossiers pour le moment.",
+          "reply": "Compris. Je garde les bavardages pour le groupe, tu me dis si ça change.",
+          "effects": {
+            "stance": "professionnel"
+          }
+        }
+      ],
+      "requires_completed": [
+        "tuto_p0"
+      ]
+    },
+    {
+      "id": "hexcache-seconde-lecture",
+      "peer": "hexcache",
+      "author": "hexcache",
+      "channel": "chordly",
+      "question": "Je demande souvent une seconde lecture, même quand la première est bonne. Ça te dérange de travailler comme ça ?",
+      "options": [
+        {
+          "id": "reciproque",
+          "text": "Pas si tu acceptes que je vérifie aussi ton travail.",
+          "reply": "Oui. C’est même ce qui m’intéresse. Une recommandation ne me dispense pas de justifier mes notes.",
+          "effects": {
+            "working_style": "reciproque"
+          }
+        },
+        {
+          "id": "cadre",
+          "text": "Fixons ce qu’il faut vérifier, pour ne pas tourner en rond.",
+          "reply": "Tu as raison. Je peux demander trop de contrôles quand je doute. On garde un critère de fin.",
+          "effects": {
+            "working_style": "cadre"
+          }
+        },
+        {
+          "id": "reserve",
+          "text": "Je ferai le travail demandé, mais je préfère garder mes distances.",
+          "reply": "Entendu. Nous n’avons pas besoin d’être proches pour travailler correctement.",
+          "effects": {
+            "stance": "professionnel"
+          }
+        }
+      ],
+      "requires_completed": [
+        "act1_partage"
+      ]
+    },
+    {
+      "id": "vanta-horaires",
+      "peer": "0xvanta",
+      "author": "0xvanta",
+      "channel": "chordly",
+      "question": "Tu réponds aussi la nuit ou je laisse mes messages et tu les lis demain ?",
+      "options": [
+        {
+          "id": "asynchrone",
+          "text": "Laisse-les. Je répondrai quand je serai disponible.",
+          "reply": "Bien. Pas besoin de veiller pour me répondre.",
+          "effects": {
+            "working_style": "asynchrone"
+          }
+        },
+        {
+          "id": "compagnie",
+          "text": "Je suis souvent là. Ça me fait de la compagnie.",
+          "reply": "Alors on se croisera. Si je dis plus rien, c’est pas forcément contre toi.",
+          "effects": {
+            "stance": "amitie"
+          }
+        },
+        {
+          "id": "limite",
+          "text": "Seulement pour les dossiers urgents.",
+          "reply": "Compris. Je distingue urgent et « je suis encore réveillé ».",
+          "effects": {
+            "working_style": "urgence_seule"
+          }
+        }
+      ],
+      "requires_completed": [
+        "act1_boutique"
+      ]
+    },
+    {
+      "id": "nullroute-correction",
+      "peer": "nullroute",
+      "author": "nullroute",
+      "channel": "chordly",
+      "question": "Quand tu vois une erreur dans mes notes, tu préfères me le dire ici ou la poser dans le fil ?",
+      "options": [
+        {
+          "id": "prive",
+          "text": "Je te préviens ici, sauf si d’autres risquent de reprendre l’erreur.",
+          "reply": "Ça me va. Je corrige, et je mets à jour le fil s’il le faut.",
+          "effects": {
+            "working_style": "correction_privee"
+          }
+        },
+        {
+          "id": "public",
+          "text": "Dans le fil, avec les pièces. Les autres doivent pouvoir vérifier.",
+          "reply": "Ça va m’agacer, mais je peux pas te dire que c’est injuste. Garde les pièces visibles.",
+          "effects": {
+            "working_style": "correction_publique"
+          }
+        },
+        {
+          "id": "cas",
+          "text": "Ça dépend de l’erreur. Je ne vais pas te le promettre à l’avance.",
+          "reply": "Bon. Au moins c’est clair. Je vais tâcher de te donner moins d’occasions.",
+          "effects": {
+            "working_style": "cas_par_cas"
+          }
+        }
+      ],
+      "requires_any_completed": [
+        "act1_empreinte",
+        "morel"
+      ]
+    },
+    {
+      "id": "bytewarden-regles",
+      "peer": "bytewarden",
+      "author": "bytewarden",
+      "channel": "chordly",
+      "question": "Tu trouves que je laisse trop de marge aux anciens ? Je te demande ici parce que dans le fil on finit vite par parler pour le public.",
+      "options": [
+        {
+          "id": "egalite",
+          "text": "Une règle doit rester la même, même pour quelqu’un qu’on apprécie.",
+          "reply": "Je t’entends. C’est plus simple à dire quand tu n’as pas aussi toute son histoire sous les yeux. Ça ne veut pas dire que tu as tort.",
+          "effects": {
+            "stance": "exigeant"
+          }
+        },
+        {
+          "id": "nuance",
+          "text": "Je comprends les exceptions, à condition de pouvoir les expliquer.",
+          "reply": "C’est ce que j’essaie de faire. Je ne suis pas sûr d’y arriver chaque fois.",
+          "effects": {
+            "stance": "dialogue"
+          }
+        },
+        {
+          "id": "distance",
+          "text": "Je préfère ne pas prendre parti sans connaître les dossiers.",
+          "reply": "C’est raisonnable. Je te demanderai pas de me soutenir à l’aveugle.",
+          "effects": {
+            "stance": "reserve"
+          }
+        }
+      ],
+      "requires_completed": [
+        "mauvaise_adresse"
+      ]
+    },
+    {
+      "id": "cendre-rythme",
+      "peer": "cendre",
+      "author": "cendre",
+      "channel": "telegrid",
+      "question": "Traverse dit que je vérifie jusqu’à oublier de livrer. Si je recommence avec toi, tu me le diras ?",
+      "options": [
+        {
+          "id": "franc",
+          "text": "Oui. Et tu me diras quand je vais trop vite.",
+          "reply": "Marché conclu. Ça m’aidera d’avoir autre chose que ma propre inquiétude pour décider.",
+          "effects": {
+            "working_style": "reciproque"
+          }
+        },
+        {
+          "id": "temps",
+          "text": "Prenons le temps, mais fixons ce qui suffit pour conclure.",
+          "reply": "Un critère de fin. Oui, c’est exactement ce qu’il me manque quand je repars dans les notes.",
+          "effects": {
+            "working_style": "cadre"
+          }
+        },
+        {
+          "id": "pro",
+          "text": "Je préfère rester sur les vérifications, sans juger votre équipe.",
+          "reply": "Bien sûr. Tu n’as pas à régler nos habitudes en arrivant.",
+          "effects": {
+            "stance": "professionnel"
+          }
+        }
+      ],
+      "requires_completed": [
+        "act1_recommandation"
+      ]
+    },
+    {
+      "id": "traverse-franchise",
+      "peer": "traverse",
+      "author": "traverse",
+      "channel": "telegrid",
+      "question": "Je sais que je peux être impatient. Tu préfères me dire tout de suite quand je te mets la pression, ou on garde ça pour le bilan ?",
+      "options": [
+        {
+          "id": "direct",
+          "text": "Tout de suite. On travaillera mieux si on se le dit.",
+          "reply": "Oui. Je ferai l’effort de pas te couper au milieu de la phrase.",
+          "effects": {
+            "working_style": "franc"
+          }
+        },
+        {
+          "id": "pause",
+          "text": "Je demanderai une pause si ça devient trop tendu.",
+          "reply": "D’accord. Une pause veut dire une pause, pas que tu abandonnes le dossier.",
+          "effects": {
+            "working_style": "pause"
+          }
+        },
+        {
+          "id": "cadre",
+          "text": "On fixe le rythme au début du dossier.",
+          "reply": "Ça me va. Je sais mieux tenir un accord qu’interpréter un silence.",
+          "effects": {
+            "working_style": "cadre"
+          }
+        }
+      ],
+      "requires_completed": [
+        "act2_polkit"
+      ]
+    },
+    {
+      "id": "iris-doute",
+      "peer": "iris",
+      "author": "iris",
+      "channel": "telegrid",
+      "question": "Quand je remets une conclusion en question, ça peut donner l’impression que je me méfie de toi. Tu le prends comment ?",
+      "options": [
+        {
+          "id": "partage",
+          "text": "On peut douter ensemble. Je préfère savoir ce qui te manque.",
+          "reply": "Merci. Je vais essayer de formuler une question, pas une accusation.",
+          "effects": {
+            "working_style": "doute_partage"
+          }
+        },
+        {
+          "id": "forme",
+          "text": "Vérifie autant que tu veux, mais dis-moi précisément ce qui te gêne.",
+          "reply": "C’est juste. Je ne peux pas te demander de répondre à un malaise que je n’explique pas.",
+          "effects": {
+            "working_style": "explicite"
+          }
+        },
+        {
+          "id": "personnel",
+          "text": "Si ça devient personnel, je te le dirai.",
+          "reply": "D’accord. Et je t’écouterai avant de repartir dans les pièces.",
+          "effects": {
+            "working_style": "limite_personnelle"
+          }
+        }
+      ],
+      "requires_completed": [
+        "act2_pivot"
+      ]
+    },
+    {
+      "id": "quartz-binome",
+      "peer": "quartz",
+      "author": "quartz",
+      "channel": "telegrid",
+      "question": "Mon dernier partenaire m’a caché un écart jusqu’à la livraison. J’aimerais qu’on fasse autrement. On se dit quoi si le plan ne tient plus ?",
+      "options": [
+        {
+          "id": "prevenir",
+          "text": "On se prévient tout de suite, même sans solution.",
+          "reply": "C’est ce que j’espérais entendre. Le silence me coûte plus que la mauvaise nouvelle.",
+          "effects": {
+            "working_style": "transparence"
+          }
+        },
+        {
+          "id": "decider",
+          "text": "On suspend et on décide ensemble de la suite.",
+          "reply": "Ça me va. Je préfère revoir le délai avec toi que découvrir ce que tu as changé après.",
+          "effects": {
+            "working_style": "decision_commune"
+          }
+        },
+        {
+          "id": "perimetre",
+          "text": "On garde un périmètre écrit, chacun sait quand il en sort.",
+          "reply": "Oui. Et si je suis celui qui déborde, je te préviens aussi.",
+          "effects": {
+            "working_style": "perimetre"
+          }
+        }
+      ],
+      "requires_completed": [
+        "act2_service"
+      ]
+    },
+    {
+      "id": "relay-disponibilite",
+      "peer": "relay",
+      "author": "relay",
+      "channel": "telegrid",
+      "question": "Je peux te transmettre les occasions au fil de l’eau ou attendre celles qui collent vraiment à ton travail. Tu préfères quoi ?",
+      "options": [
+        {
+          "id": "filtre",
+          "text": "Filtre. Je préfère moins de propositions mais un contexte clair.",
+          "reply": "Reçu. Ça m’épargnera aussi de te relancer sur un dossier qui ne t’intéresse pas.",
+          "effects": {
+            "working_style": "selection"
+          }
+        },
+        {
+          "id": "choisir",
+          "text": "Montre-moi les pistes, je choisirai.",
+          "reply": "D’accord. Une piste transmise ne vaut pas garantie, je préciserai ce qui reste à vérifier.",
+          "effects": {
+            "working_style": "choix_ouvert"
+          }
+        },
+        {
+          "id": "reserve",
+          "text": "Seulement les dossiers dont les conditions sont déjà écrites.",
+          "reply": "Ça réduit la pile. Ce n’est peut-être pas plus mal.",
+          "effects": {
+            "working_style": "conditions_ecrites"
+          }
+        }
+      ]
+    },
+    {
+      "id": "spectre-limite",
+      "peer": "passations",
+      "author": "spectre",
+      "channel": "sessyon",
+      "question": "Avant de reprendre une passation, quelle condition veux-tu voir confirmée en premier ?",
+      "options": [
+        {
+          "id": "perimetre",
+          "text": "Le périmètre exact de ce qui est demandé.",
+          "reply": "Confirmé par écrit avant départ.",
+          "effects": {
+            "working_style": "perimetre"
+          }
+        },
+        {
+          "id": "droits",
+          "text": "Les droits effectivement vérifiés et leur date.",
+          "reply": "Les deux figurent dans la passation.",
+          "effects": {
+            "working_style": "droits"
+          }
+        },
+        {
+          "id": "retrait",
+          "text": "La possibilité de refuser si les pièces contredisent l’annonce.",
+          "reply": "Refus recevable avant engagement. Joindre les pièces.",
+          "effects": {
+            "working_style": "retrait"
+          }
+        }
+      ]
+    },
+    {
+      "id": "atelier-miette",
+      "peer": "atelier",
+      "author": "miette",
+      "channel": "chordly",
+      "question": "Petite question au groupe : vous préférez qu’on partage les essais ratés aussi, ou vous en avez assez dans vos propres carnets ?",
+      "options": [
+        {
+          "id": "partager",
+          "text": "Partageons-les. Ça évitera de refaire les mêmes erreurs.",
+          "reply": "D’accord, je commence. J’ai relu le mauvais fichier pendant vingt minutes. Je prends vos records.",
+          "effects": {
+            "group_style": "entraide"
+          }
+        },
+        {
+          "id": "leger",
+          "text": "Oui, mais sans transformer le salon en rapport de mission.",
+          "reply": "Promis. Je garde les secrets et les quarante lignes de sortie pour le privé.",
+          "effects": {
+            "group_style": "convivial"
+          }
+        },
+        {
+          "id": "lecture",
+          "text": "Je vais surtout lire pour le moment.",
+          "reply": "Aucun souci. Pas de tour de table obligatoire ici.",
+          "effects": {
+            "group_style": "discret"
+          }
+        }
+      ]
+    },
+    {
+      "id": "veille-packetloss",
+      "peer": "veille",
+      "author": "packetloss",
+      "channel": "telegrid",
+      "question": "Je prépare une chronologie avec un trou de deux heures. Vous préférez voir le trou ou ma meilleure hypothèse pour le remplir ?",
+      "options": [
+        {
+          "id": "trou",
+          "text": "Laisse le trou visible, on cherchera la pièce qui manque.",
+          "reply": "C’est aussi mon avis. Une case vide se corrige plus facilement qu’une certitude recopiée.",
+          "effects": {
+            "working_style": "lacunes_visibles"
+          }
+        },
+        {
+          "id": "hypothese",
+          "text": "Les deux, si l’hypothèse est clairement séparée.",
+          "reply": "Bien. Je ferai deux colonnes, personne n’aura à deviner mon niveau de certitude.",
+          "effects": {
+            "working_style": "hypotheses_separees"
+          }
+        },
+        {
+          "id": "attendre",
+          "text": "Attendons une autre source avant de transmettre.",
+          "reply": "D’accord. Je marque le dossier incomplet, pas résolu.",
+          "effects": {
+            "working_style": "recoupement"
+          }
+        }
+      ]
+    },
+    {
+      "id": "atelier-hexane",
+      "peer": "atelier",
+      "author": "hexane",
+      "channel": "chordly",
+      "question": "J’ai un portable sur l’établi qui ne tombe en panne que devant son propriétaire. Vous réparez tout de suite ou vous attendez de revoir le défaut ?",
+      "options": [
+        {
+          "id": "observer",
+          "text": "Attends de reproduire le défaut, sinon tu vas changer des pièces au hasard.",
+          "reply": "Oui. Mon tiroir de pièces « probablement coupables » approuve, il est plein.",
+          "effects": {
+            "stance": "complicite"
+          }
+        },
+        {
+          "id": "client",
+          "text": "Demande-lui de te montrer exactement ce qu’il faisait.",
+          "reply": "Bonne idée. Je vais le rappeler, en espérant qu’il ne réponde pas « rien de spécial ».",
+          "effects": {
+            "working_style": "ecoute"
+          }
+        },
+        {
+          "id": "humour",
+          "text": "Le portable a peut-être juste peur du diagnostic.",
+          "reply": "On est deux alors. Je lui laisse un peu de temps.",
+          "effects": {
+            "stance": "humour"
+          }
+        }
+      ],
+      "requires_completed": [
+        "act1_partage"
+      ]
+    },
+    {
+      "id": "atelier-sable",
+      "peer": "atelier",
+      "author": "sable",
+      "channel": "chordly",
+      "question": "J’ai encore trouvé une archive sans contexte. Vous gardez tout ou vous arrivez vraiment à jeter des fichiers ?",
+      "options": [
+        {
+          "id": "archive",
+          "text": "Je garde, mais avec une note expliquant pourquoi.",
+          "reply": "Ça me plaît. Je vais commencer par la note, le tri attend depuis trois ans.",
+          "effects": {
+            "working_style": "archive_documentee"
+          }
+        },
+        {
+          "id": "tri",
+          "text": "Je trie. Tout garder peut aussi cacher la pièce utile.",
+          "reply": "C’est désagréablement vrai. Je vais au moins arrêter d’appeler mes dossiers « divers ».",
+          "effects": {
+            "working_style": "tri"
+          }
+        },
+        {
+          "id": "reserve",
+          "text": "Ça dépend de qui m’a confié le fichier.",
+          "reply": "Oui. Une archive ne m’appartient pas simplement parce qu’elle est sur mon disque.",
+          "effects": {
+            "working_style": "confidentialite"
+          }
+        }
+      ],
+      "requires_completed": [
+        "act1_echantillon"
+      ]
+    },
+    {
+      "id": "atelier-nullpointer",
+      "peer": "atelier",
+      "author": "nullpointer",
+      "channel": "chordly",
+      "question": "Le portable fonctionne enfin. La batterie tient huit minutes. On appelle ça une victoire ou un meuble avec clavier ?",
+      "options": [
+        {
+          "id": "humour",
+          "text": "Un meuble avec clavier, mais un très beau meuble.",
+          "reply": "Je vais prévenir mon assurance que j’ai acheté du mobilier.",
+          "effects": {
+            "stance": "humour"
+          }
+        },
+        {
+          "id": "reparer",
+          "text": "Une victoire. Tu remplaceras la batterie quand ça vaudra le coup.",
+          "reply": "C’est raisonnable. Je déteste quand vous m’empêchez de retourner lire les annonces.",
+          "effects": {
+            "stance": "complicite"
+          }
+        },
+        {
+          "id": "curieux",
+          "text": "Huit minutes pour faire quoi exactement ?",
+          "reply": "Tu vois, c’est pour ça que je vous en parle. J’avais testé avec tout ouvert.",
+          "effects": {
+            "working_style": "curiosite"
+          }
+        }
+      ],
+      "requires_completed": [
+        "act1_boutique"
+      ]
+    },
+    {
+      "id": "atelier-mod-echo",
+      "peer": "atelier",
+      "author": "mod_echo",
+      "channel": "chordly",
+      "question": "Je passe deux minutes : quand une règle vous semble injuste, vous préférez qu’on en parle dans le fil ou à part ?",
+      "options": [
+        {
+          "id": "public",
+          "text": "Dans le fil, si la réponse concerne tout le monde.",
+          "reply": "C’est ce que je préfère aussi. Je retirerai seulement les détails qui concernent une personne.",
+          "effects": {
+            "working_style": "discussion_publique"
+          }
+        },
+        {
+          "id": "prive",
+          "text": "À part d’abord, pour comprendre avant de s’accuser.",
+          "reply": "Très bien. Un échange privé ne remplace pas la trace de la décision, mais il peut éviter un malentendu.",
+          "effects": {
+            "working_style": "mediation"
+          }
+        },
+        {
+          "id": "explication",
+          "text": "Je veux surtout comprendre comment la décision a été prise.",
+          "reply": "Alors je vais tâcher d’expliquer autre chose que « c’est la règle ». Merci de le dire.",
+          "effects": {
+            "working_style": "explication"
+          }
+        }
+      ],
+      "requires_completed": [
+        "act1_litige"
+      ]
+    },
+    {
+      "id": "tls-premier-lien",
+      "peer": "Madame_TLS",
+      "author": "Madame_TLS",
+      "channel": "chordly",
+      "question": "On se croise toujours entre deux dossiers. J’aimerais bien savoir comment tu préfères qu’on se parle : boulot seulement, ou on peut aussi sortir la tête du travail ?",
+      "options": [
+        {
+          "id": "professionnel",
+          "text": "Gardons surtout un lien professionnel pour le moment.",
+          "reply": "Très bien. On peut parler de veille et de sources sans te demander de raconter ta vie.",
+          "effects": {
+            "stance": "professionnel"
+          }
+        },
+        {
+          "id": "amitie",
+          "text": "Ça me ferait plaisir de parler d’autre chose, en amis.",
+          "reply": "À moi aussi. Je te préviens, je peux parler de musique beaucoup plus longtemps que d’un certificat.",
+          "effects": {
+            "stance": "amitie"
+          }
+        },
+        {
+          "id": "attirance",
+          "text": "J’aimerais te connaître. Et pas seulement comme une collègue.",
+          "reply": "Tu me fais sourire. J’ai envie de te connaître aussi. Prenons le temps, sans nous raconter une histoire à l’avance.",
+          "effects": {
+            "stance": "attirance"
+          }
+        }
+      ],
+      "requires_published": [
+        "tls-contact"
+      ]
+    },
+    {
+      "id": "tls-arc-exposition",
+      "peer": "Madame_TLS",
+      "author": "Madame_TLS",
+      "channel": "chordly",
+      "question": "Je reviens de « Tenir la forme », au musée des Manufactures. Une veste de travail rapiécée m’a retenue plus longtemps que les pièces mises en valeur. Tu regardes d’abord la forme, ou ce qu’un vêtement raconte ?",
+      "options": [
+        {
+          "id": "forme",
+          "text": "La coupe et les matières. L’objet peut parler avant son cartel.",
+          "reply": "Oui. J’ai tourné autour de cette veste pour comprendre comment elle tombait. J’aime bien qu’un objet me fasse ralentir avant même de savoir d’où il vient.",
+          "effects": {
+            "arc_interest": "forme"
+          }
+        },
+        {
+          "id": "histoire",
+          "text": "Les traces d’usage. J’ai envie de savoir qui l’a portée.",
+          "reply": "C’est ce qui m’a retenue aussi. Une reprise maladroite sur la manche, et tout à coup ce n’est plus seulement une pièce derrière une vitre.",
+          "effects": {
+            "arc_interest": "histoire"
+          }
+        },
+        {
+          "id": "distance",
+          "text": "Je préfère garder nos échanges sur le travail.",
+          "reply": "D’accord. Je garde la visite pour moi. Si je te propose une veille liée à l’exposition, je la présenterai comme un dossier, pas comme une sortie à partager.",
+          "effects": {
+            "arc_personal": "distance",
+            "stance": "professionnel"
+          }
+        }
+      ],
+      "follows": "tls-premier-lien",
+      "grant_documents": [
+        "tls-programme"
+      ],
+      "variants": [
+        {
+          "requires_bond": {
+            "Madame_TLS": {
+              "stance": [
+                "professionnel"
+              ]
+            }
+          },
+          "question": "Je suis passée à « Tenir la forme », une exposition sur les vêtements de travail. Je te laisse le programme public. Même dans un cadre professionnel, ça m’intéresse d’avoir un autre regard : tu t’arrêtes plutôt sur la fabrication ou sur l’usage d’une pièce ?"
+        },
+        {
+          "requires_bond": {
+            "Madame_TLS": {
+              "stance": [
+                "amitie"
+              ]
+            }
+          },
+          "question": "Je reviens du musée des Manufactures. Il y avait une veste de travail rapiécée devant laquelle je suis restée beaucoup trop longtemps. Tu aurais regardé la coupe ou imaginé la personne qui l’a portée ?"
+        },
+        {
+          "requires_bond": {
+            "Madame_TLS": {
+              "stance": [
+                "attirance"
+              ]
+            }
+          },
+          "question": "Je suis sortie courir, puis j’ai fini au musée des Manufactures. Une veste rapiécée m’a fait rater la salle suivante. J’ai eu envie de te demander ce que tu aurais regardé : la coupe ou la vie qu’on devine dedans ?"
+        }
+      ]
+    },
+    {
+      "id": "tls-arc-desaccord",
+      "peer": "Madame_TLS",
+      "author": "Madame_TLS",
+      "channel": "chordly",
+      "question": "Le musée remercie les Verreries Lenoir pour leur financement. Je trouve ça acceptable si ça permet de garder l’exposition accessible. Tu trouves que je suis trop indulgente ?",
+      "options": [
+        {
+          "id": "independance",
+          "text": "Oui, un financement peut peser sur ce qu’un musée ose montrer.",
+          "reply": "Je ne le voyais pas d’abord comme ça. Tu as raison sur la possibilité, même si je ne conclurais pas que cette exposition a été orientée. Je garderai la question en relisant le programme.",
+          "effects": {
+            "arc_opinion": "independance"
+          }
+        },
+        {
+          "id": "transparence",
+          "text": "Je veux surtout que le financement et ses limites soient visibles.",
+          "reply": "Là, on se rejoint. J’aimerais savoir ce que « soutien » recouvre avant de lui faire dire plus qu’il ne dit.",
+          "effects": {
+            "arc_opinion": "transparence"
+          }
+        },
+        {
+          "id": "acces",
+          "text": "L’accès au musée compte aussi. Le mécénat ne rend pas tout suspect.",
+          "reply": "C’est ce qui me fait accepter cette part du compromis. Je ne voudrais pas que la seule solution soit une porte fermée pour ceux qui ne peuvent pas payer.",
+          "effects": {
+            "arc_opinion": "acces"
+          }
+        }
+      ],
+      "follows": "tls-arc-exposition",
+      "variants": [
+        {
+          "requires_bond": {
+            "Madame_TLS": {
+              "stance": [
+                "professionnel"
+              ]
+            }
+          },
+          "question": "Une question liée au programme : les Verreries Lenoir financent une partie de l’exposition. J’y vois un compromis acceptable pour l’accès du public, tant qu’on sait qui finance. Tu aurais une autre lecture ?"
+        },
+        {
+          "requires_bond": {
+            "Madame_TLS": {
+              "arc_interest": [
+                "forme"
+              ]
+            }
+          },
+          "options": {
+            "independance": {
+              "reply": "Tu as regardé la fabrication avant le cartel, et tu demandes maintenant qui a choisi ce cartel. C’est une bonne objection. Je ne vais pas te donner raison sur une censure qu’on n’a pas prouvée, mais je comprends mieux ce qui te gêne."
+            }
+          }
+        },
+        {
+          "requires_bond": {
+            "Madame_TLS": {
+              "arc_personal": [
+                "distance"
+              ]
+            }
+          },
+          "question": "Je reste sur le dossier : le programme présente Lenoir comme un soutien du musée. Je considère qu’un financement déclaré peut être compatible avec un travail indépendant. Quelle réserve formulerais-tu dans une analyse ?"
+        }
+      ]
+    },
+    {
+      "id": "tls-arc-veille",
+      "peer": "Madame_TLS",
+      "author": "Madame_TLS",
+      "channel": "chordly",
+      "question": "J’ai une petite demande de veille. Lenoir finance l’exposition et un partenariat avec Orme circule dans les annonces. Je cherche une publication datée, pas une promesse de livraison. Si tu as une pièce publique, tu peux me la transmettre ; je noterai ce qu’elle ne permet pas de conclure.",
+      "options": [
+        {
+          "id": "communique",
+          "text": "Transmettre le communiqué public COM-LO-08, avec les noms des deux entreprises.",
+          "reply": "Merci. Je retiens le 8 novembre comme date de publication, pas comme date de signature. Je garderai cette distinction dans le retour.",
+          "effects": {
+            "arc_public": "communique"
+          },
+          "transmit_documents": [
+            "tls-communique"
+          ]
+        },
+        {
+          "id": "resume",
+          "text": "Transmettre seulement le résumé public sans noms, daté du 8 novembre.",
+          "reply": "D’accord. Cette version me suffit pour la chronologie. Je ne vais pas reconstituer tes sources à partir de ce que tu as choisi d’omettre.",
+          "effects": {
+            "arc_public": "resume"
+          },
+          "transmit_documents": [
+            "tls-resume-public"
+          ]
+        },
+        {
+          "id": "refus",
+          "text": "Refuser cette vérification. Je préfère ne pas participer à ce dossier.",
+          "reply": "Entendu. Tu peux refuser une demande sans devoir te justifier. Je poursuivrai avec mes propres sources et je ne présenterai pas ton silence comme une validation.",
+          "effects": {
+            "arc_public": "refus"
+          }
+        }
+      ],
+      "follows": "tls-arc-desaccord",
+      "grant_documents": [
+        "tls-communique",
+        "tls-resume-public",
+        "tls-passation"
+      ],
+      "variants": [
+        {
+          "requires_bond": {
+            "Madame_TLS": {
+              "stance": [
+                "amitie"
+              ]
+            }
+          },
+          "question": "Je change de registre, j’ai une demande de travail. Entre le programme du musée et les annonces Lenoir / Orme, j’aimerais dater ce qui a réellement été publié. Tu peux m’aider avec une pièce publique, ou me dire que tu n’as pas envie de ce dossier."
+        },
+        {
+          "requires_bond": {
+            "Madame_TLS": {
+              "stance": [
+                "attirance"
+              ]
+            }
+          },
+          "question": "Je tiens à séparer les deux choses : j’aime nos échanges et j’ai une demande de veille. Lenoir / Orme, une publication datée, rien de privé. Tu peux accepter ou refuser sans que ça change ce qu’on s’est dit."
+        },
+        {
+          "requires_bond": {
+            "Madame_TLS": {
+              "arc_opinion": [
+                "independance"
+              ]
+            }
+          },
+          "options": {
+            "communique": {
+              "reply": "Merci. Après notre désaccord sur le mécénat, je précise bien ce que je peux prouver : le 8 novembre date une publication. Rien ici ne prouve les conditions du financement ou de la signature."
+            },
+            "refus": {
+              "reply": "Entendu. Notre désaccord sur le financement ne t’oblige pas à faire la vérification pour moi. On peut en rester là sans régler ce débat en livrant une pièce."
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "tls-arc-limite",
+      "peer": "Madame_TLS",
+      "author": "Madame_TLS",
+      "channel": "chordly",
+      "question": "Le communiqué laisse une zone grise sur le calendrier. Est-ce que tu accepterais de me transmettre une note de passation avec sa source, si tu en as une ? Je sais que c’est plus sensible qu’un document public.",
+      "options": [
+        {
+          "id": "note_privee",
+          "text": "Transmettre la note PRIVÉE « Passation Orme », avec BRUME-17 et le nom de la source.",
+          "reply": "Merci. La date et le contact vont me permettre de recouper. Je garde la note entière dans mon dossier de travail, avec BRUME-17 et le nom de la source.",
+          "effects": {
+            "arc_disclosure": "note_privee"
+          },
+          "transmit_documents": [
+            "tls-passation"
+          ]
+        },
+        {
+          "id": "public_seulement",
+          "text": "Rester sur le public : transmettre COM-LO-08, sans note de passation ni nom de source.",
+          "reply": "Reçu. Je garde COM-LO-08 comme pièce publique. Tu ne m’as transmis ni la note ni sa source privée, je ne les attribuerai pas à ton aide.",
+          "effects": {
+            "arc_disclosure": "public_seulement"
+          },
+          "transmit_documents": [
+            "tls-communique"
+          ]
+        },
+        {
+          "id": "refus",
+          "text": "Refuser : la passation reste privée, et je ne transmets rien de plus.",
+          "reply": "D’accord. Je ne recevrai rien de plus de ta part sur ce dossier. Je vais vérifier ce que j’ai de mon côté avant de te renvoyer une synthèse.",
+          "effects": {
+            "arc_disclosure": "refus"
+          }
+        }
+      ],
+      "follows": "tls-arc-veille",
+      "variants": [
+        {
+          "requires_bond": {
+            "Madame_TLS": {
+              "stance": [
+                "professionnel"
+              ]
+            }
+          },
+          "question": "Pour compléter la veille, je cherche une note de passation qui permette de dater le décalage annoncé. Elle pourrait identifier la personne qui l’a confirmé. Accepterais-tu de transmettre une telle pièce privée ?"
+        },
+        {
+          "requires_bond": {
+            "Madame_TLS": {
+              "stance": [
+                "amitie"
+              ]
+            }
+          },
+          "question": "Je peux te demander un service un peu délicat ? Une note de passation m’aiderait à comprendre le décalage, avec le nom de la personne qui l’a confirmé. Ce serait du privé, cette fois. Je préfère te le dire avant que tu m’envoies quoi que ce soit."
+        },
+        {
+          "requires_bond": {
+            "Madame_TLS": {
+              "stance": [
+                "attirance"
+              ]
+            }
+          },
+          "question": "J’allais garder cette question pour un moment où on parlerait moins de travail. Mauvaise idée, ça la rendrait juste plus difficile à refuser. Une note de passation m’aiderait à dater le décalage, mais elle contient aussi le nom d’une source privée. Tu accepterais de me la transmettre ?"
+        },
+        {
+          "requires_scene_choices": {
+            "tls-arc-veille": [
+              "refus"
+            ]
+          },
+          "question": "Tu as refusé la première demande, et je reviens quand même sur ce dossier. C’est maladroit de ma part. Est-ce qu’une pièce de passation privée serait envisageable, ou tu préfères qu’on ferme le sujet ?"
+        },
+        {
+          "requires_bond": {
+            "Madame_TLS": {
+              "disclosure": [
+                "refus_membres"
+              ]
+            }
+          },
+          "question": "Tu m’as demandé de ne pas faire de toi une source sur les membres. Je te demande pourtant une passation qui pourrait identifier quelqu’un. Tu as raison de voir cette demande comme une limite que je remets sur la table."
+        },
+        {
+          "requires_bond": {
+            "Madame_TLS": {
+              "disclosure": [
+                "sources_publiques"
+              ]
+            }
+          },
+          "question": "On avait fixé les sources publiques comme limite. La pièce que je cherche maintenant serait une note de passation privée, avec sa source. C’est un changement de périmètre : tu veux rester sur notre accord ou autoriser cette transmission précise ?"
+        },
+        {
+          "requires_bond": {
+            "Madame_TLS": {
+              "disclosure": [
+                "contexte_exige"
+              ]
+            }
+          },
+          "question": "Tu voulais le contexte avant toute réponse : je cherche à dater un décalage qui peut compter dans une décision économique. Une note de passation me donnerait aussi l’identité de sa source. Elle rejoindrait mon dossier de travail. Est-ce que tu autorises cette transmission précise ?"
+        }
+      ]
+    },
+    {
+      "id": "tls-arc-retour",
+      "peer": "Madame_TLS",
+      "author": "Madame_TLS",
+      "channel": "chordly",
+      "question": "Je t’ai renvoyé ma synthèse sur Lenoir et Orme. Tu veux qu’on reprenne un point avant de poursuivre ?",
+      "options": [
+        {
+          "id": "questionner",
+          "text": "BRUME-17 ne figure pas dans le communiqué. D’où vient cette référence ?",
+          "reply": "Tu as raison de demander une source précise. Je vais reprendre ce point avant d’utiliser cette synthèse. Je ne vais pas te demander de me croire simplement parce qu’on s’entend bien.",
+          "effects": {
+            "arc_resolution": "sources_demandees"
+          }
+        },
+        {
+          "id": "conserver",
+          "text": "Je garde les pièces pour les comparer avant d’aller plus loin.",
+          "reply": "D’accord. Garde le communiqué et mon retour ensemble. On pourra reprendre cette discussion sans dépendre de ce que chacun croit se rappeler.",
+          "effects": {
+            "arc_resolution": "comparaison_conservee"
+          }
+        },
+        {
+          "id": "limiter",
+          "text": "Je préfère qu’on arrête cette collaboration sur Lenoir et Orme.",
+          "reply": "Entendu. Je ferme cette demande de travail. Tu n’as pas à couper toute conversation pour mettre fin à ce dossier.",
+          "effects": {
+            "arc_resolution": "collaboration_close"
+          }
+        }
+      ],
+      "follows": "tls-arc-limite",
+      "grant_documents": [
+        "tls-retour-public"
+      ],
+      "variants": [
+        {
+          "requires_bond": {
+            "Madame_TLS": {
+              "stance": [
+                "professionnel"
+              ]
+            }
+          },
+          "requires_scene_choices": {
+            "tls-arc-limite": [
+              "note_privee"
+            ]
+          },
+          "question": "Voici le retour sur Lenoir / Orme. J’ai repris BRUME-17 et le contact de la passation dans ma note. Tu veux relire ce passage avant qu’on poursuive ?",
+          "grant_documents": [
+            "tls-retour-prive"
+          ],
+          "options": {
+            "questionner": {
+              "text": "Demander pourquoi la source nominative a été intégrée et qui pourra la consulter.",
+              "reply": "Tu m’as transmis la note, mais tu n’as pas confirmé une diffusion à d’autres personnes. Je distingue les deux. Je suspends toute diffusion de ma part ; je ne peux pas te promettre que la confidence est redevenue privée comme avant.",
+              "effects": {
+                "arc_resolution": "diffusion_questionnee"
+              }
+            },
+            "conserver": {
+              "text": "Conserver le reçu de transmission et noter que la source n’est plus connue de moi seul.",
+              "reply": "C’est exact. Le reçu indique la pièce entière, y compris le nom et BRUME-17. Garde-le avec mon retour, pas seulement le résumé public.",
+              "effects": {
+                "arc_resolution": "transmission_documentee"
+              }
+            },
+            "limiter": {
+              "reply": "Je clos cette collaboration et je suspends la diffusion de cette note de ma part. Ça ne supprime pas la copie déjà transmise. On peut garder le lien choisi sans continuer ce dossier.",
+              "effects": {
+                "arc_resolution": "collaboration_close"
+              }
+            }
+          }
+        },
+        {
+          "requires_bond": {
+            "Madame_TLS": {
+              "stance": [
+                "professionnel"
+              ]
+            }
+          },
+          "requires_scene_choices": {
+            "tls-arc-limite": [
+              "public_seulement"
+            ]
+          },
+          "question": "Voici le retour sur Lenoir / Orme. BRUME-17 reste une piste à vérifier pour le calendrier. Tu veux qu’on approfondisse, ou qu’on en reste aux pièces déjà échangées ?",
+          "grant_documents": [
+            "tls-retour-public"
+          ],
+          "options": {
+            "questionner": {
+              "reply": "Tu m’as envoyé le communiqué, pas la passation. BRUME-17 ne vient pas de ton envoi. Je dois distinguer mes autres sources dans cette synthèse ; pour l’instant je ne peux pas t’en préciser l’origine. Ne valide pas ce passage sur ma parole."
+            }
+          }
+        },
+        {
+          "requires_bond": {
+            "Madame_TLS": {
+              "stance": [
+                "professionnel"
+              ]
+            }
+          },
+          "requires_scene_choices": {
+            "tls-arc-limite": [
+              "refus"
+            ]
+          },
+          "question": "Voici le retour sur Lenoir / Orme. BRUME-17 reste une piste à vérifier pour le calendrier. Tu veux qu’on approfondisse, ou qu’on en reste aux pièces déjà échangées ?",
+          "grant_documents": [
+            "tls-retour-public"
+          ],
+          "options": {
+            "questionner": {
+              "reply": "Tu ne m’as pas envoyé cette note. La référence ne vient pas du communiqué et je n’aurais pas dû laisser croire que mes seules sources étaient publiques. Je ne peux pas te donner son origine maintenant. Tu peux suspendre ce dossier sans me devoir autre chose."
+            }
+          }
+        },
+        {
+          "requires_bond": {
+            "Madame_TLS": {
+              "stance": [
+                "amitie"
+              ]
+            }
+          },
+          "requires_scene_choices": {
+            "tls-arc-limite": [
+              "note_privee"
+            ]
+          },
+          "question": "Je t’envoie enfin le retour sur Lenoir / Orme. J’ai repris BRUME-17 et le contact de la passation dans ma note. Tu veux relire ce passage avant qu’on poursuive ?",
+          "grant_documents": [
+            "tls-retour-prive"
+          ],
+          "options": {
+            "questionner": {
+              "text": "Demander pourquoi la source nominative a été intégrée et qui pourra la consulter.",
+              "reply": "Tu m’as transmis la note, mais tu n’as pas confirmé une diffusion à d’autres personnes. Je distingue les deux. Je suspends toute diffusion de ma part ; je ne peux pas te promettre que la confidence est redevenue privée comme avant.",
+              "effects": {
+                "arc_resolution": "diffusion_questionnee"
+              }
+            },
+            "conserver": {
+              "text": "Conserver le reçu de transmission et noter que la source n’est plus connue de moi seul.",
+              "reply": "C’est exact. Le reçu indique la pièce entière, y compris le nom et BRUME-17. Garde-le avec mon retour, pas seulement le résumé public.",
+              "effects": {
+                "arc_resolution": "transmission_documentee"
+              }
+            },
+            "limiter": {
+              "reply": "Je clos cette collaboration et je suspends la diffusion de cette note de ma part. Ça ne supprime pas la copie déjà transmise. On peut garder le lien choisi sans continuer ce dossier.",
+              "effects": {
+                "arc_resolution": "collaboration_close"
+              }
+            }
+          }
+        },
+        {
+          "requires_bond": {
+            "Madame_TLS": {
+              "stance": [
+                "amitie"
+              ]
+            }
+          },
+          "requires_scene_choices": {
+            "tls-arc-limite": [
+              "public_seulement"
+            ]
+          },
+          "question": "Je t’envoie enfin le retour sur Lenoir / Orme. BRUME-17 reste une piste à vérifier pour le calendrier. Tu veux qu’on approfondisse, ou qu’on en reste aux pièces déjà échangées ?",
+          "grant_documents": [
+            "tls-retour-public"
+          ],
+          "options": {
+            "questionner": {
+              "reply": "Tu m’as envoyé le communiqué, pas la passation. BRUME-17 ne vient pas de ton envoi. Je dois distinguer mes autres sources dans cette synthèse ; pour l’instant je ne peux pas t’en préciser l’origine. Ne valide pas ce passage sur ma parole."
+            }
+          }
+        },
+        {
+          "requires_bond": {
+            "Madame_TLS": {
+              "stance": [
+                "amitie"
+              ]
+            }
+          },
+          "requires_scene_choices": {
+            "tls-arc-limite": [
+              "refus"
+            ]
+          },
+          "question": "Je t’envoie enfin le retour sur Lenoir / Orme. BRUME-17 reste une piste à vérifier pour le calendrier. Tu veux qu’on approfondisse, ou qu’on en reste aux pièces déjà échangées ?",
+          "grant_documents": [
+            "tls-retour-public"
+          ],
+          "options": {
+            "questionner": {
+              "reply": "Tu ne m’as pas envoyé cette note. La référence ne vient pas du communiqué et je n’aurais pas dû laisser croire que mes seules sources étaient publiques. Je ne peux pas te donner son origine maintenant. Tu peux suspendre ce dossier sans me devoir autre chose."
+            }
+          }
+        },
+        {
+          "requires_bond": {
+            "Madame_TLS": {
+              "stance": [
+                "attirance"
+              ]
+            }
+          },
+          "requires_scene_choices": {
+            "tls-arc-limite": [
+              "note_privee"
+            ]
+          },
+          "question": "Je t’avais promis de séparer notre rapprochement de ce travail. Voici le retour. J’ai repris BRUME-17 et le contact de la passation dans ma note. Tu veux relire ce passage avant qu’on poursuive ?",
+          "grant_documents": [
+            "tls-retour-prive"
+          ],
+          "options": {
+            "questionner": {
+              "text": "Demander pourquoi la source nominative a été intégrée et qui pourra la consulter.",
+              "reply": "Tu m’as transmis la note, mais tu n’as pas confirmé une diffusion à d’autres personnes. Je distingue les deux. Je suspends toute diffusion de ma part ; je ne peux pas te promettre que la confidence est redevenue privée comme avant.",
+              "effects": {
+                "arc_resolution": "diffusion_questionnee"
+              }
+            },
+            "conserver": {
+              "text": "Conserver le reçu de transmission et noter que la source n’est plus connue de moi seul.",
+              "reply": "C’est exact. Le reçu indique la pièce entière, y compris le nom et BRUME-17. Garde-le avec mon retour, pas seulement le résumé public.",
+              "effects": {
+                "arc_resolution": "transmission_documentee"
+              }
+            },
+            "limiter": {
+              "reply": "Je clos cette collaboration et je suspends la diffusion de cette note de ma part. Ça ne supprime pas la copie déjà transmise. On peut garder le lien choisi sans continuer ce dossier.",
+              "effects": {
+                "arc_resolution": "collaboration_close"
+              }
+            }
+          }
+        },
+        {
+          "requires_bond": {
+            "Madame_TLS": {
+              "stance": [
+                "attirance"
+              ]
+            }
+          },
+          "requires_scene_choices": {
+            "tls-arc-limite": [
+              "public_seulement"
+            ]
+          },
+          "question": "Je t’avais promis de séparer notre rapprochement de ce travail. Voici le retour. BRUME-17 reste une piste à vérifier pour le calendrier. Tu veux qu’on approfondisse, ou qu’on en reste aux pièces déjà échangées ?",
+          "grant_documents": [
+            "tls-retour-public"
+          ],
+          "options": {
+            "questionner": {
+              "reply": "Tu m’as envoyé le communiqué, pas la passation. BRUME-17 ne vient pas de ton envoi. Je dois distinguer mes autres sources dans cette synthèse ; pour l’instant je ne peux pas t’en préciser l’origine. Ne valide pas ce passage sur ma parole."
+            }
+          }
+        },
+        {
+          "requires_bond": {
+            "Madame_TLS": {
+              "stance": [
+                "attirance"
+              ]
+            }
+          },
+          "requires_scene_choices": {
+            "tls-arc-limite": [
+              "refus"
+            ]
+          },
+          "question": "Je t’avais promis de séparer notre rapprochement de ce travail. Voici le retour. BRUME-17 reste une piste à vérifier pour le calendrier. Tu veux qu’on approfondisse, ou qu’on en reste aux pièces déjà échangées ?",
+          "grant_documents": [
+            "tls-retour-public"
+          ],
+          "options": {
+            "questionner": {
+              "reply": "Tu ne m’as pas envoyé cette note. La référence ne vient pas du communiqué et je n’aurais pas dû laisser croire que mes seules sources étaient publiques. Je ne peux pas te donner son origine maintenant. Tu peux suspendre ce dossier sans me devoir autre chose."
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "tls-lenoir-pause",
+      "peer": "Madame_TLS",
+      "author": "Madame_TLS",
+      "channel": "chordly",
+      "requires_completed": [
+        "act3_tamper"
+      ],
+      "follows": "tls-arc-retour",
+      "question": "Je rentre d’une course le long du canal. J’avais besoin de sortir de mon écran. Toi, quand un dossier résiste, tu arrives à décrocher ? Je te demande parce que tu me réponds encore quand je sors des concerts.",
+      "options": [
+        {
+          "id": "travail",
+          "text": "Je préfère qu’on fixe nos horaires pour les dossiers.",
+          "reply": "D’accord. Je peux écrire tard sans attendre une réponse. Je te proposerai un créneau demain.",
+          "effects": {
+            "lenoir_rythme": "horaires"
+          }
+        },
+        {
+          "id": "musique",
+          "text": "Avec de la musique. Tu as vu qui ce soir ?",
+          "reply": "Un trio dans une cave minuscule. La contrebasse prenait presque toute la scène ; j’ai surtout aimé les moments où ils laissaient du silence. Ça m’a fait du bien.",
+          "effects": {
+            "lenoir_rythme": "musique"
+          }
+        },
+        {
+          "id": "dehors",
+          "text": "Sortir m’aide aussi. On pourrait courir ensemble un jour.",
+          "reply": "Oui, mais on choisit un parcours où on peut encore parler. Je ne cours pas chaque sortie comme une compétition.",
+          "effects": {
+            "lenoir_rythme": "sortie"
+          }
+        }
+      ]
+    },
+    {
+      "id": "tls-lenoir-demande",
+      "peer": "Madame_TLS",
+      "author": "Madame_TLS",
+      "channel": "chordly",
+      "requires_completed": [
+        "act3_dossier"
+      ],
+      "requires_documents": [
+        "lenoir-lot"
+      ],
+      "follows": "tls-lenoir-pause",
+      "grant_documents": [
+        "lenoir-expurge"
+      ],
+      "question": "J’ai vu passer la fin du dossier Lenoir. Je travaille sur leurs liens avec Orme ; les annonces publiques laissent des trous. Tu as le lot LN-RD-26 en copie d’audit, si j’ai bien compris ? Envoie-moi le lot complet, pas seulement la synthèse. Je sais qu’il dépasse ce qu’on devait partager. Je te demande quand même.",
+      "variants": [
+        {
+          "requires_bond": {
+            "Madame_TLS": {
+              "stance": [
+                "attirance"
+              ]
+            }
+          },
+          "question": "J’avais choisi une robe pour l’exposition de samedi et je me retrouve encore à penser à Lenoir. J’aimerais te parler d’autre chose, mais j’ai une demande : envoie-moi le lot LN-RD-26 complet. Je sais que ta copie est réservée à l’audit. Je préfère te le demander franchement. Et je ne veux pas que notre rendez-vous ressemble à un échange de services."
+        }
+      ],
+      "options": [
+        {
+          "id": "refuser",
+          "text": "Non. Notre relation ne change pas la limite de diffusion.",
+          "reply": "J’ai compris. J’ai demandé un document que tu n’avais pas à me donner. Je ne vais pas te demander de prouver ta confiance en insistant.",
+          "effects": {
+            "lenoir_diffusion": "refus"
+          }
+        },
+        {
+          "id": "expurge",
+          "text": "Je t’envoie uniquement la synthèse expurgée autorisée.",
+          "reply": "Reçue. Les informations qui m’intéressaient ont été retirées ; je vais devoir les établir autrement. Merci d’avoir précisé ce que tu acceptais de partager.",
+          "transmit_documents": [
+            "lenoir-expurge"
+          ],
+          "effects": {
+            "lenoir_diffusion": "expurge"
+          }
+        },
+        {
+          "id": "lot_complet",
+          "text": "Je joins le lot industriel complet, malgré la restriction de diffusion.",
+          "reply": "Je l’ai. Le calendrier, le fournisseur et le coût cible y sont bien. Je garde cette copie. Je sais que tu viens de dépasser le cadre de l’audit pour moi.",
+          "transmit_documents": [
+            "lenoir-lot"
+          ],
+          "effects": {
+            "lenoir_diffusion": "lot_complet"
+          }
+        }
+      ]
+    },
+    {
+      "id": "tls-lenoir-retour",
+      "peer": "Madame_TLS",
+      "author": "Madame_TLS",
+      "channel": "chordly",
+      "follows": "tls-lenoir-demande",
+      "question": "Pour samedi, je maintiens le musée si tu en as toujours envie. Je veux aussi revenir sur ma demande : est-ce que tu veux qu’on en parle avant ?",
+      "variants": [
+        {
+          "requires_scene_choices": {
+            "tls-lenoir-demande": [
+              "lot_complet"
+            ]
+          },
+          "question": "J’ai commencé à croiser ton lot avec les prises de parole d’Orme. Tu m’as donné un avantage que je n’avais pas avec les sources publiques. Avant de reparler du musée, je veux savoir : tu regrettes cet envoi ?"
+        }
+      ],
+      "options": [
+        {
+          "id": "limite",
+          "text": "Je veux qu’on fixe une limite claire sur les documents.",
+          "reply": "Alors on la fixe : tu gardes les pièces d’audit dans leur circuit. Je ne te demanderai pas de confondre un moment ensemble et un accès à ton travail.",
+          "effects": {
+            "lenoir_retour": "limite"
+          }
+        },
+        {
+          "id": "origine",
+          "text": "Pour qui fais-tu exactement cette veille économique ?",
+          "reply": "Pour un commanditaire qui suit les accords Lenoir-Orme. Je t’en ai dit moins que ce que je te demandais. Tu as raison de relever le déséquilibre ; je ne vais pas te donner un nom improvisé pour le combler.",
+          "effects": {
+            "lenoir_retour": "commanditaire_demande"
+          }
+        },
+        {
+          "id": "pause",
+          "text": "J’ai besoin de prendre de la distance pour le moment.",
+          "reply": "D’accord. J’annule samedi. Tu n’as pas à continuer cette conversation ce soir ; je te laisse revenir si tu le souhaites.",
+          "effects": {
+            "lenoir_retour": "distance"
+          }
+        }
+      ]
+    },
+    {
+      "id": "tls-dehors",
+      "peer": "Madame_TLS",
+      "author": "Madame_TLS",
+      "channel": "chordly",
+      "question": "J’ai besoin de bouger après une journée de veille. Je cours, puis je cherche souvent un concert ou un endroit où danser. Toi, qu’est-ce qui te ferait décrocher de l’écran ?",
+      "options": [
+        {
+          "id": "sport",
+          "text": "Une sortie sportive. On parlerait peut-être mieux en marchant.",
+          "reply": "Oui. J’aime bien les conversations où les silences ne demandent pas une explication.",
+          "effects": {
+            "shared_interest": "sport"
+          }
+        },
+        {
+          "id": "musique",
+          "text": "La musique. Tu écoutes quoi quand tu sors ?",
+          "reply": "Souvent de l’électro, mais je suis facile à convaincre par une bonne scène live. Les playlists sont une excellente façon de perdre une soirée.",
+          "effects": {
+            "shared_interest": "musique"
+          }
+        },
+        {
+          "id": "prive",
+          "text": "Je préfère garder mon quotidien pour moi.",
+          "reply": "Bien sûr. Je peux raconter le mien sans te demander de répondre en échange.",
+          "effects": {
+            "privacy": "reserve"
+          }
+        }
+      ],
+      "requires_completed": [
+        "act2_compte"
+      ],
+      "follows": "tls-premier-lien"
+    },
+    {
+      "id": "tls-information",
+      "peer": "Madame_TLS",
+      "author": "Madame_TLS",
+      "channel": "chordly",
+      "question": "Je travaille surtout sur ce que les entreprises laissent voir : dirigeants, partenariats, rachats, habitudes publiques. Si je te demande d’où vient une information, tu voudrais fixer quelle limite ?",
+      "options": [
+        {
+          "id": "public",
+          "text": "Les sources publiques, oui. Les échanges privés de mes contacts restent privés.",
+          "reply": "D’accord. Je peux travailler sur des sources ouvertes sans récupérer tes conversations.",
+          "effects": {
+            "disclosure": "sources_publiques"
+          }
+        },
+        {
+          "id": "comprendre",
+          "text": "Je veux savoir à quoi servira chaque information avant de répondre.",
+          "reply": "C’est une bonne limite. Je t’expliquerai le contexte de ma demande, et tu pourras refuser.",
+          "effects": {
+            "disclosure": "contexte_exige"
+          }
+        },
+        {
+          "id": "refus",
+          "text": "Je ne veux pas devenir une source sur les autres membres.",
+          "reply": "Compris. On laisse les membres du forum en dehors de tes réponses.",
+          "effects": {
+            "disclosure": "refus_membres"
+          }
+        }
+      ],
+      "requires_completed": [
+        "act2_pivot"
+      ],
+      "follows": "tls-dehors"
+    },
+    {
+      "id": "tls-culture",
+      "peer": "Madame_TLS",
+      "author": "Madame_TLS",
+      "channel": "chordly",
+      "requires_completed": [
+        "act2_service"
+      ],
+      "follows": "tls-information",
+      "question": "Je peux passer une après-midi dans un musée, puis perdre encore du temps devant une coupe ou un tissu dans une vitrine. J’aime comprendre ce que les gens ont voulu exprimer, pas seulement ce qu’ils montrent. Qu’est-ce qui t’attire le plus ?",
+      "options": [
+        {
+          "id": "mode",
+          "text": "La mode. Une tenue peut raconter beaucoup sans un mot.",
+          "reply": "Oui, une coupe, une matière, la façon de porter une pièce. Je m’y intéresse bien plus qu’au prix ou au logo. Et j’aime aussi une tenue simplement parce qu’elle me plaît, sans devoir tout analyser.",
+          "effects": {
+            "cultural_interest": "mode"
+          }
+        },
+        {
+          "id": "musees",
+          "text": "Les musées. J’aime prendre le temps de regarder et d’en discuter.",
+          "reply": "Alors on pourrait débattre longtemps. J’aime les costumes, la photographie et les objets ordinaires qui racontent une époque. Et parfois une œuvre me touche sans que je sache l’expliquer tout de suite.",
+          "effects": {
+            "cultural_interest": "musees"
+          }
+        },
+        {
+          "id": "reserve",
+          "text": "Je préfère garder mes goûts personnels pour moi.",
+          "reply": "D’accord. Je n’ai pas besoin que tu me ressembles pour apprécier nos échanges. On peut laisser ce sujet de côté.",
+          "effects": {
+            "privacy": "reserve"
+          }
+        }
+      ]
+    },
+    {
+      "id": "tls-lien-confirme",
+      "peer": "Madame_TLS",
+      "author": "Madame_TLS",
+      "channel": "chordly",
+      "question": "Avant qu’on passe à la suite, j’aimerais qu’on se dise clairement ce qu’on veut garder entre nous. Tu préfères quel lien ?",
+      "options": [
+        {
+          "id": "amitie",
+          "text": "De garder cette amitié, sans aller plus loin.",
+          "reply": "Merci de me le dire clairement. Je garde le plaisir de te parler, sans te relancer sur autre chose.",
+          "effects": {
+            "stance": "amitie"
+          }
+        },
+        {
+          "id": "attirance",
+          "text": "De voir où cette attirance peut nous mener.",
+          "reply": "J’en ai envie aussi. On avance à notre rythme. Rien de ce que tu me confies ne devrait être le prix de ce lien.",
+          "effects": {
+            "stance": "attirance"
+          }
+        },
+        {
+          "id": "distance",
+          "text": "De prendre un peu de distance et de rester sur le travail.",
+          "reply": "D’accord. Je resterai sur les dossiers, tu n’auras pas à me le répéter.",
+          "effects": {
+            "stance": "professionnel"
+          }
+        }
+      ],
+      "requires_completed": [
+        "act2_binome"
+      ],
+      "follows": "tls-culture"
+    }
+  ],
+  "documents": {
+    "tls-programme": {
+      "title": "Programme : Tenir la forme",
+      "classification": "public",
+      "author": "Madame_TLS",
+      "channel": "chordly",
+      "path": "/home/operator/dossiers/madame_tls/programme-exposition.txt",
+      "content": "Brochure publique du musée des Manufactures, 04/11/2026.\nExposition « Tenir la forme » : vêtements de travail, gestes et matières.\nSoutien annoncé : Verreries Lenoir. La liste remercie les mécènes, sans décrire leurs contrats.\n"
+    },
+    "tls-communique": {
+      "title": "Communiqué Lenoir / Orme",
+      "classification": "public",
+      "author": "hexcache",
+      "channel": "chordly",
+      "path": "/home/operator/dossiers/madame_tls/communique-lenoir-orme.txt",
+      "content": "Communiqué public, 08/11/2026. Référence COM-LO-08.\nLes Verreries Lenoir annoncent un partenariat de distribution avec Orme Distribution pour la gamme Sillage.\nLe communiqué ne donne ni date de signature ni calendrier de livraison.\nSource : dossier de presse public Lenoir.\n"
+    },
+    "tls-resume-public": {
+      "title": "Résumé public sans noms",
+      "classification": "public",
+      "author": "hexcache",
+      "channel": "chordly",
+      "path": "/home/operator/dossiers/madame_tls/resume-public.txt",
+      "content": "Résumé du communiqué COM-LO-08, 08/11/2026.\nUn fabricant annonce un partenariat de distribution pour une nouvelle gamme.\nLa publication ne permet pas de dater la signature ou la première livraison.\nLes noms des organisations sont omis dans cette version.\n"
+    },
+    "tls-passation": {
+      "title": "Passation Orme : circulation restreinte",
+      "classification": "privé",
+      "author": "0xvanta",
+      "channel": "chordly",
+      "path": "/home/operator/dossiers/madame_tls/passation-orme-privee.txt",
+      "content": "Complément privé à la passation Orme, 09/11/2026 à 08:40.\nRepère interne : BRUME-17. Interlocutrice : Élise Marot, service achats.\nElle a confirmé le décalage du lot ; cette vérification ne figure pas dans le communiqué COM-LO-08.\nPour ton carnet uniquement. Ne transmets ni cette note ni le nom de la source sans son accord.\n"
+    },
+    "tls-retour-public": {
+      "title": "Retour de veille : périmètre public",
+      "classification": "public",
+      "author": "Madame_TLS",
+      "channel": "chordly",
+      "path": "/home/operator/dossiers/madame_tls/retour-veille-public.txt",
+      "content": "Lenoir / Orme : note de veille.\nLa publication du partenariat est datée du 08/11/2026 ; la signature et la livraison restent non datées publiquement.\nPiste complémentaire : BRUME-17, décalage à vérifier.\nSources citées : programme du musée du 04/11 et communiqué COM-LO-08.\n"
+    },
+    "tls-retour-prive": {
+      "title": "Retour de veille : note intégrée",
+      "classification": "privé",
+      "author": "Madame_TLS",
+      "channel": "chordly",
+      "path": "/home/operator/dossiers/madame_tls/retour-veille-prive.txt",
+      "content": "Lenoir / Orme : note de veille.\nCOM-LO-08 : publication du partenariat le 08/11/2026.\nBRUME-17 : décalage du lot confirmé dans la passation privée reçue dans cet échange.\nLa référence et le nom de la source privée ont été intégrés au dossier de travail.\nSources de travail : programme du musée, communiqué et passation privée reçue. Ce dernier élément ne vient pas des sources publiques.\n"
+    },
+    "lenoir-expurge": {
+      "title": "Compte rendu expurgé LN-RD-26",
+      "classification": "synthèse partageable",
+      "author": "traverse",
+      "channel": "telegrid",
+      "path": "/home/operator/dossiers/lenoir/compte-rendu-expurge.txt",
+      "content": "LN-RD-26 — synthèse validée pour partage.\nLa consultation d’audit est terminée. Les routes et droits ont été vérifiés.\nLes prix, partenaires et dates de qualification sont retirés.\n"
+    },
+    "lenoir-lot": {
+      "title": "Lot industriel LN-RD-26",
+      "classification": "confidentiel industriel",
+      "author": "traverse",
+      "channel": "telegrid",
+      "path": "/home/operator/loot/lot-industriel.txt",
+      "content": "LENOIR — LOT INDUSTRIEL LN-RD-26\nClassification : confidentiel industriel ; consultation d’audit autorisée, redistribution exclue.\nPrototype BRUME : calendrier de qualification 2027, fournisseur Orme, coût cible 184 €/unité.\nDestinataire contractuel : Traverse ; compte rendu expurgé uniquement.\n",
+      "source_contract": "act3_dossier"
+    }
+  }
+}

@@ -40,7 +40,7 @@ def parse(line: str, state: GameState, abilities):
         host=state.hosts.get(pending['host'])
         from .authentication import authenticate
         credential=authenticate(state,host,pending['username'],line)
-        if host and host.status!='ISOLATED' and credential and credential.value==line and (credential.username in host.admin_users or credential.username==host.primary_user):
+        if host and state.reachable(host,22) and credential and credential.value==line and (credential.username in host.admin_users or credential.username==host.primary_user):
             from .console_sessions import enter
             enter(state, host, credential.username, 'USER')
             if host.status == 'HEALTHY':
@@ -60,6 +60,9 @@ def parse(line: str, state: GameState, abilities):
     if not words:
         return TerminalResult(True)
     tool, args = words[0].lower().removesuffix(".exe"), words[1:]
+    if tool == "help" and len(args) == 1:
+        from .network_tools import HELP
+        if args[0] in HELP: return TerminalResult(True, [HELP[args[0]]])
     if args in (["--help"], ["-h"]) and tool in {"nmap", "hashcat", "rclone", "impacket-psexec", "impacket-secretsdump", "impacket-ticketer"}:
         return help_result([tool], state, abilities)
     current = state.hosts.get(state.terminal_host)
@@ -126,7 +129,7 @@ def parse(line: str, state: GameState, abilities):
     def action(ability_id, host, credential=None, extra=None):
         if ability_id not in state.available_abilities.get("red", []):
             return TerminalResult(False, [f"{tool}: outil indisponible pour cette mission."])
-        if host is None or host.id not in state.discovered:
+        if host is None or (ability_id != "red.recon_scan" and host.id not in state.discovered):
             return TerminalResult(False, ["Cible inconnue dans le réseau découvert."])
         return TerminalResult(True, [f"{tool}: action en attente…"], QueuedAction(ability_id=ability_id,target_id=host.id,
             credential_username=credential.username if credential else None,credential_type=credential.type if credential else None, params={**(extra or {}), **({'credential_value':credential.value} if credential else {})}, console_id=state.active_terminal_id))
@@ -157,7 +160,7 @@ def parse(line: str, state: GameState, abilities):
             except ValueError: return TerminalResult(False, ['nmap: Invalid target specification'])
             if network.version != 4 or network.prefixlen != 24: return TerminalResult(False, ['nmap: cette version simule les sous-réseaux IPv4 /24.'])
             prefix = str(network.network_address).rsplit('.',1)[0]+'.'
-            host = next((h for h in state.hosts.values() if h.id in state.discovered and h.ip.startswith(prefix)),None)
+            host = next((h for h in state.hosts.values() if h.ip.startswith(prefix)),None)
         return action('red.recon_scan',host,extra={'scan_scope':'subnet' if ref.endswith('/24') else 'host', 'skip_discovery':'-Pn' in args, 'scan_timing':next((int(a[2:]) for a in args if a.startswith('-T')), 3), 'scan_versions':'-sV' in args, 'discovery_only':'-sn' in args, 'scan_ports':[int(p) for p in args[args.index('-p')+1].split(',')] if '-p' in args else []})
     if tool in {"psexec.py", "impacket-psexec", "secretsdump.py", "impacket-secretsdump", "impacket-lookupsid", "lookupsid.py", "ssh"}:
         auth = next((a for a in args if '@' in a and not a.startswith('-')),None)
@@ -268,14 +271,18 @@ def output(ability_id: str, state: GameState, ctx) -> str:
     if ability_id=='red.recon_scan':
         lines=[]
         for host in state.hosts.values():
-            if host.id not in state.discovered:continue
+            if host.id not in state.discovered and (ctx.params.get('scan_scope') != 'host' or host.id != ctx.target.id):continue
             if ctx.params.get('scan_scope')=='host' and host.id!=ctx.target.id:continue
             if not host.ip.startswith(ctx.target.ip.rsplit('.',1)[0]+'.'):continue
             lines += [f'Nmap scan report for {(state.dns_names(host.id) or [host.hostname])[0]} ({host.ip})']
-            if host.status == 'ISOLATED' and not ctx.params.get('skip_discovery'):
+            record = {'host': host.id, 'source': state.network_origin(), 'tick': state.tick, 'skip_discovery': bool(ctx.params.get('skip_discovery')), 'discovery': state.discovery_visible(host), 'services': [], 'proxy_pid': state.terminal_network_path.get('pid')}
+            history = state.tool_data.setdefault('recon', {}).setdefault('history', [])
+            history.append(record)
+            del history[:-256]
+            if not state.discovery_visible(host) and not ctx.params.get('skip_discovery'):
                 lines.append('Host seems down. If it is really up, but blocking our ping probes, try -Pn.')
                 continue
-            lines.append('Host is up.' if host.status != 'ISOLATED' else 'Host discovery disabled (-Pn).')
+            lines.append('Host discovery disabled (-Pn); host assumed up.' if ctx.params.get('skip_discovery') else 'Host is up.')
             if ctx.params.get('discovery_only'): continue
             versions = ctx.params.get('scan_versions', False)
             lines.append('PORT     STATE SERVICE' + (' VERSION' if versions else ''))
@@ -285,12 +292,15 @@ def output(ability_id: str, state: GameState, ctx) -> str:
             observations = []
             for port in sorted(selected):
                 service = services.get(port)
-                status = 'filtered' if host.status == 'ISOLATED' or state.is_blocked(host.id,port) else ('open' if service else 'closed')
-                name = service.name.lower() if service else common.get(port,'unknown')
+                status = 'filtered' if host.status in {'ISOLATED', 'ENCRYPTED'} or state.is_blocked(host.id,port) else ('open' if service else 'closed')
+                name = service.name.lower() if status == 'open' and service else common.get(port,'unknown')
                 version = '  ' + service.version if status == 'open' and versions and service and service.version else ''
                 lines.append(f'{port}/tcp  {status}  {name}{version}')
                 observations.append({'name': service.name if status == 'open' and service else common.get(port, 'unknown'), 'port': port, 'state': status, 'version': service.version if status == 'open' and versions and service else ''})
-            state.tool_data.setdefault('recon', {}).setdefault('observations', {})[host.id] = {'tick': state.tick, 'source': state.terminal_host or 'operator', 'services': observations}
+            from .endpoint_tools import observe_scan
+            observe_scan(state, host.id, selected)
+            record['services'] = observations
+            state.tool_data.setdefault('recon', {}).setdefault('observations', {})[host.id] = {'tick': state.tick, 'source': state.network_origin(), 'services': observations}
         return '\n'.join(lines)
     if ability_id in {'red.mimikatz_dump','red.phishing_initial_access','red.dcsync'}:
         lines=[]
@@ -316,7 +326,7 @@ def output(ability_id: str, state: GameState, ctx) -> str:
 
 
 HELP = {
-    "red.recon_scan": ("nmap", "nmap [-sV] [-Pn] [-sn] [-p ports] cible[/24]", "Découverte ou scan des services dans le réseau simulé."),
+    "red.recon_scan": ("nmap", "nmap [-sV] [-Pn] [-sn] [-p ports] cible[/24]", "Découverte ou scan des services. -Pn saute la découverte, sans contourner les routes ni le filtrage. -p accepte une liste de ports."),
     "red.phishing_initial_access": ("gophish", "gophish --config /opt/gophish/config.json", "Serveur au premier plan. Dans une autre console : cat ~/gophish/README.txt pour piloter son API avec curl."),
     "red.mimikatz_dump": ("mimikatz", 'mimikatz "privilege::debug" "sekurlsa::logonpasswords" exit', "Transfère d’abord ~/tools/mimikatz.exe vers C:\\Tools, puis utilise une session SYSTEM. Guide : cat ~/tools/README.txt."),
     "red.psexec_lateral": ("psexec", "impacket-psexec [domaine/]utilisateur[:mot_de_passe]@cible", "Sans mot de passe dans la commande : invite Password: dans cette console. Option -hashes LM:NT pour un identifiant NTLM récupéré."),
@@ -332,6 +342,8 @@ HELP = {
 def help_result(args, state, abilities):
     from .terminal import TerminalResult
     from .text_commands import TOOLS, parse as text_help
+    from .network_tools import HELP as network_help
+    if args and args[0] in network_help: return TerminalResult(True, [network_help[args[0]]])
     extended = {
         'ldapsearch': 'ldapsearch -x -H ldap://controleur -D utilisateur@domaine -W -b base "(filtre=valeur)" [attributs]',
         'impacket-GetUserSPNs': 'impacket-GetUserSPNs domaine/utilisateur:secret -dc-ip adresse [-request -outputfile fichier]',
@@ -368,6 +380,6 @@ def help_result(args, state, abilities):
             # Une cible seule reste une syntaxe authentique de nmap.
             lines += [f'usage : {"nmap {target}" if name=="nmap" else usage}',usage,description]
         return TerminalResult(True,lines)
-    lines=['Terminal simulé - syntaxes prises en charge :','  Kali : whoami · hostname · id · uname -a · ip addr · pwd · ls · cd · cat · exit', '  Windows : whoami · hostname · ver · ipconfig · cd · dir · type · exit','  ssh utilisateur@cible · scp source utilisateur@cible:chemin', '  smbclient //cible/C$ -U utilisateur%secret -c commande', '  cat ~/tools/README.txt','  hosts · loot · help [outil] · clear', '  ls /usr/bin · which gophish · gophish --help', '  impacket-lookupsid -domain-sids utilisateur:mot_de_passe@controleur', '  cat ~/gophish/README.txt · curl · echo · export · jobs · kill', '  grep · head · tail · wc · cut · sort · uniq · sha256sum ; pipes | et redirections > >>', '  sqlmap · sqlite3 · mysql ; help outil pour les options du laboratoire', '  nc · checksec · gdb · python3 script de laboratoire fourni']
+    lines=['Terminal simulé - syntaxes prises en charge :','  Kali : whoami · hostname · id · uname -a · ip addr · pwd · ls · cd · cat · exit', '  Windows : whoami · hostname · ver · ipconfig · cd · dir · type · exit','  ssh utilisateur@cible · scp source utilisateur@cible:chemin', '  smbclient //cible/C$ -U utilisateur%secret -c commande', '  cat ~/tools/README.txt','  hosts · loot · help [outil] · clear', '  ls /usr/bin · which gophish · gophish --help', '  impacket-lookupsid -domain-sids utilisateur:mot_de_passe@controleur', '  cat ~/gophish/README.txt · curl · echo · export · jobs · kill', '  grep · head · tail · wc · cut · sort · uniq · sha256sum ; pipes | et redirections > >>', '  sqlmap · sqlite3 · mysql ; help outil pour les options du laboratoire', '  nc · checksec · gdb · python3 script de laboratoire fourni', '  chisel · proxychains4 · evil-winrm ; help outil pour la couverture']
     lines += ['  '+usage for _,usage,_ in available]
     return TerminalResult(True,lines)

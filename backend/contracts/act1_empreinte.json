@@ -13,12 +13,12 @@
     "title": "06 - Le mot de passe de trop",
     "body": "Un hash du compte planning apparaît dans une ancienne passation. Retrouve le mot de passe si le dictionnaire le permet, puis vérifie si l’accès fonctionne encore."
   },
-  "brief": "Une ancienne passation contient le hash du compte planning. Retrouve un mot de passe seulement si le dictionnaire fourni correspond, puis vérifie si cet accès fonctionne encore.\n\nTu as déjà utilisé Hashcat pendant le prélude. Les pièces sont ~/mission/planning.ntlm, mots.txt et passation.txt ; le mode 1000 correspond à NTLM. Un résultat dans Hashcat ne prouve pas encore que le service accepte le compte.\n\nVérifie l’accès, récupère par SCP le planning OR-26-311 dans ~/loot et relis ta copie avant de confirmer la livraison. Choisis le nom de fichier. Le dictionnaire fourni suffit à cette mission : aucun GPU ni achat requis. Écris indice pour une piste ou rappel détaillé pour la syntaxe.",
+  "brief": "Une ancienne passation contient le hash du compte planning. Retrouve un mot de passe seulement si le dictionnaire fourni correspond, puis vérifie si cet accès fonctionne encore.\n\nLes repères utiles sont ci-dessous.\n\nTu as déjà utilisé Hashcat pendant le prélude. Les pièces sont ~/mission/planning.ntlm, mots.txt et passation.txt ; le mode 1000 correspond à NTLM. Un résultat dans Hashcat ne prouve pas encore que le service accepte le compte.\n\nVérifie l’accès, récupère par SCP le planning OR-26-311 dans ~/loot et relis ta copie avant de confirmer la livraison. Choisis le nom de fichier. Le dictionnaire fourni suffit à cette mission : aucun GPU ni achat requis. Écris indice pour une piste ou rappel détaillé pour la syntaxe.",
   "reward": 320,
   "reputation": 45,
   "required_items": [],
-  "success_message": "Livraison vérifiée. {reward} ₵ annoncés au contrat ; le règlement exact figure dans ton profil. Merci {handle}, je conserve tes preuves.",
-  "failure_message": "Dossier interrompu. Reprends une sauvegarde ou relance le contrat pour retenter le parcours.",
+  "success_message": "Planning reçu. Accès vérifié, copie relue. Bien. La prime annoncée est de {reward} ₵ ; le règlement exact figure dans ColdVault.",
+  "failure_message": "Dossier interrompu. Garde le débriefing. On reprend au prochain essai.",
   "guide": [],
   "investigation_steps": [
     {
@@ -43,9 +43,9 @@
           "inspected": true
         }
       ],
-      "response": "Le hash correspond, l’accès fonctionne et le planning courant est reçu. Un ancien hash n’aurait pas suffi sans cette vérification.",
+      "response": "Correspondance trouvée, accès testé et planning reçu. C’est la dernière vérification qui manquait à la passation. Bien.",
       "missing": "Il manque une observation vérifiable. Lance hashcat -m 1000 ~/mission/planning.ntlm ~/mission/mots.txt, puis --show. SSH ouvre une session ; scp planning@10.61.6.21:/srv/planning/OR-26-311.csv ~/loot/planning.csv se lance depuis une autre console Kali.",
-      "already": "Cette étape est déjà enregistrée.",
+      "already": "Déjà reçu. Garde la copie.",
       "hint": "Lance hashcat -m 1000 ~/mission/planning.ntlm ~/mission/mots.txt, puis --show. SSH ouvre une session ; scp planning@10.61.6.21:/srv/planning/OR-26-311.csv ~/loot/planning.csv se lance depuis une autre console Kali.",
       "hints": [
         "Un hash trouvé dans une passation ne prouve ni le mot de passe ni un accès encore valable.",
@@ -66,12 +66,17 @@
     "act1-verre"
   ],
   "private_offer": true,
-  "intro": "On m’a recommandé ton pseudo. Un hash du compte planning apparaît dans une ancienne passation. Retrouve le mot de passe si le dictionnaire le permet, puis vérifie si l’accès fonctionne encore. Ouvre le dossier pour recevoir les pièces ; la suite se passe dans notre conversation Chordly.",
+  "intro": "Une ancienne passation pour le compte planning. Empreinte fournie, liste aussi. Si un candidat correspond, il faudra encore vérifier l’accès. Pièces au dossier. On reste sur Chordly.",
   "relaxed_clock": true,
   "side_job": false,
   "chapter": 6,
   "required_completed": [
     "act1_portail"
   ],
-  "terminal_revision": 2
+  "terminal_revision": 2,
+  "dialogue": {
+    "greeting": "Salut. Encore debout ?",
+    "ack": "De rien. Garde la copie.",
+    "fallback": "Pas sûr d’avoir suivi. Précise."
+  }
 }

@@ -15,15 +15,15 @@
     "title": "09 - La passation douteuse",
     "body": "Un vendeur promet un administrateur de domaine. Vérifie la portée réelle du reçu AC-26-209. Tu peux refuser cette annonce ou renégocier une délégation limitée ; les deux choix règlent le dossier."
   },
-  "brief": "Un vendeur promet un administrateur de domaine. Vérifie la portée réelle du reçu AC-26-209. Tu peux refuser cette annonce ou renégocier une délégation limitée ; les deux choix règlent le dossier.\n\nLes pièces sont dans ~/mission. Écris indice pour une piste ou rappel détaillé pour les commandes de ce dossier. Aucun achat de matériel requis.\n\nLa promesse écrite est dans ~/mission/garant.txt. Compare-la au reçu du relais ou au registre du portail interne /garant.txt, récupéré par le passage SSH. Ces deux sources peuvent prouver la limite ; confirme ensuite une seule décision.",
+  "brief": "Un vendeur promet un administrateur de domaine. Vérifie la portée réelle du reçu AC-26-209. Tu peux refuser cette annonce ou renégocier une délégation limitée ; les deux choix règlent le dossier.\n\nJe te laisse les conditions ici, qu’on n’ait pas à les reconstituer après.\n\nLes pièces sont dans ~/mission. Écris indice pour une piste ou rappel détaillé pour les commandes de ce dossier. Aucun achat de matériel requis.\n\nLa promesse écrite est dans ~/mission/garant.txt. Compare-la au reçu du relais ou au registre du portail interne /garant.txt, récupéré par le passage SSH. Ces deux sources peuvent prouver la limite ; confirme ensuite une seule décision.",
   "reward": 450,
   "reputation": 20,
   "required_items": [],
   "required_completed": [
     "act2_lateral"
   ],
-  "success_message": "Preuves vérifiées. {reward} ₵ réglés dans ColdVault ; tes choix sont conservés.",
-  "failure_message": "Dossier interrompu, sans prime. Les accès acquis et les observations sauvegardées restent disponibles pour une reprise.",
+  "success_message": "Ta décision repose sur le reçu, pas sur la réputation du vendeur. Je garde la trace des conditions. Il les racontera peut-être autrement demain. La prime annoncée est de {reward} ₵ ; le règlement exact figure dans ColdVault.",
+  "failure_message": "Le contrat n’est pas rempli. Je garde les conditions et le résultat observé au dossier. Regarde le débriefing avant de retenter.",
   "guide": [],
   "investigation_steps": [
     {
@@ -43,8 +43,8 @@
           "host": "bridge"
         }
       ],
-      "response": "Refus documenté ; ton partenaire reçoit la limite observée.",
-      "already": "Cette preuve est déjà enregistrée.",
+      "response": "Je transmets ton refus avec la limite observée. Le vendeur ne pourra pas dire qu’on a refusé sans regarder.",
+      "already": "J’ai gardé la décision et les conditions. Ne les renégocions pas à chaque message.",
       "missing": "Vérifie les observations et la version des pièces ; demande indice si nécessaire.",
       "hint": "Lis `cat ~/mission/garant.txt`, puis le reçu en SSH (`cat /home/ops/recu.txt`) ou une copie du registre HTTP interne /garant.txt via ton tunnel. Confirme refuser AC-26-209 ou renegocier AC-26-209.",
       "hints": [
@@ -71,8 +71,8 @@
           "host": "bridge"
         }
       ],
-      "response": "La délégation de lecture est retenue ; aucune promesse de domaine administrateur.",
-      "already": "Cette preuve est déjà enregistrée.",
+      "response": "Je retiens la délégation de lecture. Pas de promesse administrateur de domaine dans notre passation, même si le vendeur préfère ce mot-là.",
+      "already": "J’ai gardé la décision et les conditions. Ne les renégocions pas à chaque message.",
       "missing": "Vérifie les observations et la version des pièces ; demande indice si nécessaire.",
       "hint": "Lis `cat ~/mission/garant.txt`, puis le reçu en SSH (`cat /home/ops/recu.txt`) ou une copie du registre HTTP interne /garant.txt via ton tunnel. Confirme refuser AC-26-209 ou renegocier AC-26-209.",
       "hints": [
@@ -105,8 +105,8 @@
           "inspected": true
         }
       ],
-      "response": "Refus documenté ; ton partenaire reçoit la limite observée.",
-      "already": "Cette preuve est déjà enregistrée.",
+      "response": "Le registre confirme la limite. Je transmets ton refus avec cette pièce, pas juste notre avis sur le vendeur.",
+      "already": "J’ai gardé la décision et les conditions. Ne les renégocions pas à chaque message.",
       "missing": "Vérifie les observations et la version des pièces ; demande indice si nécessaire.",
       "hint": "Lis `cat ~/mission/garant.txt`, puis le reçu en SSH (`cat /home/ops/recu.txt`) ou une copie du registre HTTP interne /garant.txt via ton tunnel. Confirme refuser AC-26-209 ou renegocier AC-26-209.",
       "hints": [
@@ -139,8 +139,8 @@
           "inspected": true
         }
       ],
-      "response": "La délégation de lecture est retenue ; aucune promesse de domaine administrateur.",
-      "already": "Cette preuve est déjà enregistrée.",
+      "response": "Le registre appuie la délégation de lecture. Je reprends ces conditions, pas la promesse administrateur de domaine de l’annonce.",
+      "already": "J’ai gardé la décision et les conditions. Ne les renégocions pas à chaque message.",
       "missing": "Vérifie les observations et la version des pièces ; demande indice si nécessaire.",
       "hint": "Lis `cat ~/mission/garant.txt`, puis le reçu en SSH (`cat /home/ops/recu.txt`) ou une copie du registre HTTP interne /garant.txt via ton tunnel. Confirme refuser AC-26-209 ou renegocier AC-26-209.",
       "hints": [
@@ -161,7 +161,12 @@
     "/home/operator/mission/garant.txt": "AC-26-209 - annonce du vendeur, 10 novembre 2026 : administrateur de domaine, accès illimité annoncé. Aucun contrôle récent joint.\n"
   },
   "private_offer": true,
-  "intro": "Un vendeur promet un administrateur de domaine. Vérifie la portée réelle du reçu AC-26-209. Tu peux refuser cette annonce ou renégocier une délégation limitée ; les deux choix règlent le dossier. Ouvre le dossier pour recevoir les pièces ; les échanges se font ici, sur Telegrid.",
+  "intro": "J’ai une annonce qui promet administrateur de domaine. Le reçu AC-26-209 mérite qu’on s’y arrête. Tu peux refuser l’annonce ou renégocier une délégation limitée, mais j’aimerais d’abord savoir ce que les pièces prouvent. Regarde le dossier ici sur Telegrid.",
   "relaxed_clock": true,
-  "terminal_revision": 1
+  "terminal_revision": 1,
+  "dialogue": {
+    "greeting": "Salut. J’ai un petit moment avant le prochain appel.",
+    "ack": "Ça marche. Pour une fois qu’un échange se termine sans une condition oubliée.",
+    "fallback": "Il me manque le contexte. Une phrase de plus avant mon prochain passage ?"
+  }
 }

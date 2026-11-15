@@ -17,8 +17,8 @@
   "reward": 140,
   "reputation": 0,
   "required_items": [],
-  "success_message": "Conclusion vérifiée. {reward} ₵ réglés dans ColdVault. Ton choix de transmission est conservé ; retrouve le bilan dans Chordly.",
-  "failure_message": "Dossier interrompu. Reprends une sauvegarde ou relance le contrat pour retenter le parcours.",
+  "success_message": "J’ai relu ta conclusion. Ça tient. Merci de m’avoir aidée à vérifier Cobalt, je m’en voulais déjà d’avoir presque relayé l’annonce. La prime annoncée est de {reward} ₵ ; le règlement exact figure dans ColdVault.",
+  "failure_message": "On n’a pas fini, d’accord. Je préfère qu’on s’arrête là plutôt que d’envoyer quelque chose dont on doute. On pourra retenter le dossier.",
   "guide": [],
   "investigation_steps": [
     {
@@ -39,8 +39,8 @@
           "inspected": true
         }
       ],
-      "response": "Le registre courant confirme le report au 12 novembre. Je demande à Cobalt de corriger l’annonce, avec le registre vérifié en pièce jointe.",
-      "already": "Ton rapport est déjà conservé.",
+      "response": "Le registre confirme le report au 12 novembre. J’envoie la pièce vérifiée à Cobalt avec la demande de correction. Merci, je me sens moins seule à lui répondre.",
+      "already": "Oui, je l’ai ! Pas besoin de me le renvoyer, je garde ton premier rapport.",
       "missing": "Il faut une copie intacte et relue du registre courant.",
       "hint": "Voie web : curl http://10.62.1.10/ puis curl -o ~/loot/suivi.txt http://10.62.1.10/suivi.txt et cat ~/loot/suivi.txt. Voie partage : smbclient //10.62.1.10/public -N -c \"ls\" puis get courant/CT-26-071.txt /home/operator/loot/suivi.txt et cat ~/loot/suivi.txt. Confirme CT-26-071 reporté, source web ou partage, puis signaler ou discret.",
       "hints": [
@@ -67,8 +67,8 @@
           "inspected": true
         }
       ],
-      "response": "Le registre courant confirme le report au 12 novembre. Je conserve ton rapport en privé ; je ne contacte pas Cobalt en ton nom.",
-      "already": "Ton rapport est déjà conservé.",
+      "response": "Le registre confirme le report au 12 novembre. Je garde ton rapport en privé, comme tu l’as choisi. Je ne contacterai pas Cobalt en ton nom.",
+      "already": "Oui, je l’ai ! Pas besoin de me le renvoyer, je garde ton premier rapport.",
       "missing": "Il faut une copie intacte et relue du registre courant.",
       "hint": "Voie web : curl http://10.62.1.10/ puis curl -o ~/loot/suivi.txt http://10.62.1.10/suivi.txt et cat ~/loot/suivi.txt. Voie partage : smbclient //10.62.1.10/public -N -c \"ls\" puis get courant/CT-26-071.txt /home/operator/loot/suivi.txt et cat ~/loot/suivi.txt. Confirme CT-26-071 reporté, source web ou partage, puis signaler ou discret.",
       "hints": [
@@ -94,8 +94,8 @@
           "inspected": true
         }
       ],
-      "response": "Le registre courant confirme le report au 12 novembre. Je demande à Cobalt de corriger l’annonce, avec le registre vérifié en pièce jointe.",
-      "already": "Ton rapport est déjà conservé.",
+      "response": "Le registre confirme le report au 12 novembre. J’envoie la pièce vérifiée à Cobalt avec la demande de correction. Merci, je me sens moins seule à lui répondre.",
+      "already": "Oui, je l’ai ! Pas besoin de me le renvoyer, je garde ton premier rapport.",
       "missing": "Il faut une copie intacte et relue du registre courant.",
       "hint": "Voie web : curl http://10.62.1.10/ puis curl -o ~/loot/suivi.txt http://10.62.1.10/suivi.txt et cat ~/loot/suivi.txt. Voie partage : smbclient //10.62.1.10/public -N -c \"ls\" puis get courant/CT-26-071.txt /home/operator/loot/suivi.txt et cat ~/loot/suivi.txt. Confirme CT-26-071 reporté, source web ou partage, puis signaler ou discret.",
       "hints": [
@@ -121,8 +121,8 @@
           "inspected": true
         }
       ],
-      "response": "Le registre courant confirme le report au 12 novembre. Je conserve ton rapport en privé ; je ne contacte pas Cobalt en ton nom.",
-      "already": "Ton rapport est déjà conservé.",
+      "response": "Le registre confirme le report au 12 novembre. Je garde ton rapport en privé, comme tu l’as choisi. Je ne contacterai pas Cobalt en ton nom.",
+      "already": "Oui, je l’ai ! Pas besoin de me le renvoyer, je garde ton premier rapport.",
       "missing": "Il faut une copie intacte et relue du registre courant.",
       "hint": "Voie web : curl http://10.62.1.10/ puis curl -o ~/loot/suivi.txt http://10.62.1.10/suivi.txt et cat ~/loot/suivi.txt. Voie partage : smbclient //10.62.1.10/public -N -c \"ls\" puis get courant/CT-26-071.txt /home/operator/loot/suivi.txt et cat ~/loot/suivi.txt. Confirme CT-26-071 reporté, source web ou partage, puis signaler ou discret.",
       "hints": [
@@ -137,11 +137,16 @@
   },
   "investigation_threads": [],
   "private_offer": true,
-  "intro": "J’ai besoin d’un regard extérieur : CT-26-071 est annoncé livré, pourtant rien n’est arrivé. À toi de choisir les vérifications. Je paie la preuve, pas la version qui m’arrange. Une capture annonce CT-26-071 livré le 09 novembre. Le destinataire conteste. Vérifie ce qui est actuel sur 10.62.1.10 : le suivi web et le partage public sont deux pistes possibles, aucune n’est imposée. Les archives et le journal peuvent expliquer la contradiction. Conserve et lis une copie du registre courant dans ~/loot. Puis indique ici la référence, le statut reporté, ta source (web ou partage), et ta décision : signaler pour demander une correction à Cobalt, ou discret pour remettre seulement les preuves au client. Les deux décisions règlent le dossier. Aucune publication sur un forum. Exemple de compte rendu : « CT-26-071 reporté, source web, je choisis signaler ». Aucun achat requis.",
+  "intro": "Salut ! J’ai une annonce de l’Atelier Cobalt qui me laisse un doute. J’étais prête à la croire, puis j’ai regardé les dates. Tu veux bien reprendre les pièces avec moi ? Je te laisse ouvrir le dossier, j’aimerais vraiment ton avis avant de répondre.",
   "relaxed_clock": true,
   "side_job": false,
   "chapter": null,
   "required_completed": [],
   "terminal_revision": 1,
-  "optional_case": true
+  "optional_case": true,
+  "dialogue": {
+    "greeting": "Hey ! J’étais justement en train de faire semblant de comprendre un tableau. Tu me sauves quelques minutes.",
+    "ack": "De rien ! Enfin, si ça t’a servi. J’ai toujours peur d’expliquer de travers.",
+    "fallback": "Je crois que j’ai compris la moitié. Tu me redis autrement ?"
+  }
 }

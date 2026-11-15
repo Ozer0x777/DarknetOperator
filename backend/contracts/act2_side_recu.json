@@ -22,8 +22,8 @@
   "required_completed": [
     "act2_lateral"
   ],
-  "success_message": "Preuves vérifiées. {reward} ₵ réglés dans ColdVault ; tes choix sont conservés.",
-  "failure_message": "Dossier interrompu, sans prime. Les accès acquis et les observations sauvegardées restent disponibles pour une reprise.",
+  "success_message": "Reçu contrôlé. Je garde la comparaison avec l’annonce, personne n’aura besoin de se souvenir de ce qui avait été promis. La prime annoncée est de {reward} ₵ ; le règlement exact figure dans ColdVault.",
+  "failure_message": "On n’a pas livré cette fois. Je garde le débriefing, on verra ce qu’il faut revoir avant un nouvel essai.",
   "guide": [],
   "investigation_steps": [
     {
@@ -40,8 +40,8 @@
           "inspected": true
         }
       ],
-      "response": "Contre-vérification reçue.",
-      "already": "Cette preuve est déjà enregistrée.",
+      "response": "Reçu contrôlé. Je garde la comparaison avec l’annonce, personne n’aura besoin de se souvenir de ce qui avait été promis.",
+      "already": "J’ai déjà la passation. Je reprends celle qu’on a vérifiée.",
       "missing": "Vérifie les observations et la version des pièces ; demande indice si nécessaire.",
       "hint": "Depuis Kali, récupère Data/exports/OR-26-216.txt par smbclient dans ~/loot, relis cette copie puis confirme rapport act2_side_recu.",
       "hints": [
@@ -59,8 +59,13 @@
     "/home/operator/mission/brief-act2.txt": "Vérifie si le compte de sauvegarde obtenu permet une session sur ORBE-ARCHIVE 10.71.2.30. Contrôle le contexte Windows, les correctifs et le fichier OR-26-208. Livre seulement ce fichier.\n"
   },
   "private_offer": true,
-  "intro": "Récupérer le reçu OR-26-216 du serveur de sauvegarde, sans réutiliser la copie OR-26-208.",
+  "intro": "Un reçu à comparer avec ce qui a été annoncé. Je préfère régler le doute maintenant. Regarde le dossier ici, sur Telegrid.",
   "relaxed_clock": true,
   "terminal_revision": 1,
-  "side_job": true
+  "side_job": true,
+  "dialogue": {
+    "greeting": "Salut. Tu viens pour le dossier ou tu fais une pause aussi ?",
+    "ack": "Merci de m’avoir tenu au courant. Ça change beaucoup de choses de ne pas attendre dans le vide.",
+    "fallback": "Je préfère te demander : qu’est-ce que tu attends de moi là-dessus ?"
+  }
 }

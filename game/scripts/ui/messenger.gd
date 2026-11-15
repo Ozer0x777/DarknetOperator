@@ -8,6 +8,7 @@ const SocialStyle = preload("res://scripts/ui/social_style.gd")
 const UI = preload("res://scripts/ui/style.gd")
 signal mission_requested(contract_id: String)
 signal send_message(channel: String, text: String)
+signal dialogue_choice(channel: String, peer: String, scene_id: String, option_id: String)
 signal open_app(app_name: String)
 signal continue_campaign
 signal hint_requested(channel: String, peer: String)
@@ -78,6 +79,13 @@ var _details_requested: bool = false
 var _show_contacts: bool = false
 var _counter: Label
 var _emoji: PopupMenu
+var _scene_choices: Array = []
+var _choice_panel: PanelContainer
+var _choice_list: VBoxContainer
+var _choice_sending: String = ""
+var _choice_peer: String = ""
+var _composer_panel: PanelContainer
+var _free_input_requested: bool = false
 
 func setup(kind: String, handle: String) -> void:
 	_draft_timer = Timer.new()
@@ -296,7 +304,15 @@ func _build_conversation() -> void:
 	_new_messages_button.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	_new_messages_button.tooltip_text = "Rejoindre les derniers messages"
 	column.add_child(_new_messages_button)
+	_choice_panel = UI.panel(Color(_colors.side), 8)
+	_choice_panel.name = "DialogueChoices"
+	_choice_panel.visible = false
+	column.add_child(_choice_panel)
+	_choice_list = VBoxContainer.new()
+	_choice_list.add_theme_constant_override("separation", 5)
+	_choice_panel.add_child(_choice_list)
 	var composer_panel: PanelContainer = UI.panel(Color(_colors.main), 14)
+	_composer_panel = composer_panel
 	column.add_child(composer_panel)
 	var composer_column: VBoxContainer = VBoxContainer.new()
 	composer_panel.add_child(composer_column)
@@ -528,6 +544,7 @@ func _select_peer(peer: String) -> void:
 	_status.text = "Envoi…" if peer == _sending_peer else ""
 	_adapt_layout.call_deferred()
 	composer.text = str(_drafts.get(peer, ""))
+	_free_input_requested = not composer.text.is_empty()
 	composer.editable = peer != _sending_peer
 	_find.clear()
 	_result_index = -1
@@ -546,7 +563,70 @@ func _select_peer(peer: String) -> void:
 	mark_read()
 	_render_contacts()
 	_render_messages()
+	_render_choices()
 	_scroll_bottom()
+
+func set_scene_choices(entries: Array) -> void:
+	var filtered: Array = []
+	for entry: Dictionary in entries:
+		if str(entry.get("channel", "")) == channel: filtered.append(entry.duplicate(true))
+	if filtered == _scene_choices: return
+	_scene_choices = filtered
+	if not composer.text.is_empty(): _free_input_requested = true
+	_render_choices()
+
+func _render_choices() -> void:
+	if _choice_list == null: return
+	for child: Node in _choice_list.get_children():
+		_choice_list.remove_child(child)
+		child.queue_free()
+	var current: Dictionary = {}
+	for scene: Dictionary in _scene_choices:
+		if str(scene.get("peer", "")) == selected_peer:
+			current = scene
+			break
+	_choice_panel.visible = not current.is_empty()
+	_composer_panel.visible = current.is_empty() or _free_input_requested
+	if current.is_empty(): return
+	var heading: HBoxContainer = HBoxContainer.new()
+	_choice_list.add_child(heading)
+	var label: Label = UI.label("Ta réponse à " + str(current.get("author", selected_peer)), 12, Color(_colors.muted))
+	label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	heading.add_child(label)
+	var free_input: Button = UI.button("Masquer la saisie" if _free_input_requested else "Écrire librement", func() -> void:
+		_free_input_requested = not _free_input_requested
+		_render_choices(), Color(_colors.side), 3)
+	free_input.name = "ToggleFreeInput"
+	free_input.add_theme_font_size_override("font_size", 11)
+	heading.add_child(free_input)
+	var scene_id: String = str(current.get("id", ""))
+	var peer: String = selected_peer
+	for option: Dictionary in current.get("options", []):
+		var option_id: String = str(option.get("id", ""))
+		var button: Button = UI.button(str(option.get("text", "")), func() -> void: _choose_dialogue(peer, scene_id, option_id), Color(_colors.input))
+		button.name = "Choice_" + option_id
+		button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		button.alignment = HORIZONTAL_ALIGNMENT_LEFT
+		button.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		button.custom_minimum_size.y = 34
+		button.disabled = not _choice_sending.is_empty()
+		_choice_list.add_child(button)
+
+func _choose_dialogue(peer: String, scene_id: String, option_id: String) -> void:
+	if not _choice_sending.is_empty(): return
+	_choice_sending = scene_id
+	_choice_peer = peer
+	_status.text = "Envoi de ta réponse…"
+	_render_choices()
+	dialogue_choice.emit(channel, peer, scene_id, option_id)
+
+func acknowledge_choice(sent: bool, error: String = "") -> void:
+	if sent:
+		_scene_choices = _scene_choices.filter(func(scene: Dictionary) -> bool: return str(scene.get("id", "")) != _choice_sending)
+	if selected_peer == _choice_peer: _status.text = "Réponse envoyée." if sent else error
+	_choice_sending = ""
+	_choice_peer = ""
+	_render_choices()
 
 func _render_messages() -> void:
 	_stream_rebuilding = true
@@ -778,6 +858,7 @@ func set_contacts(entries: Array) -> void:
 func _update_contact_header() -> void:
 	var info: Dictionary = contact_profiles.get(selected_peer, {})
 	_header_name.text = str(info.get("name", selected_peer))
+	if _details_bio != null and info.has("bio"): _details_bio.text = str(info.bio)
 	if info.get("kind") == "group":
 		_header_status.text = "%s membres · %s" % [info.get("members", []).size(), "écrit…" if info.get("typing", false) else "discussion de groupe"]
 	else:

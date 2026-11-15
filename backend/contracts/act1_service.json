@@ -13,12 +13,12 @@
     "title": "07 - Un service fragile",
     "body": "0xvanta m’a parlé de tes vérifications. Le service ticketd de cette image donne accès aux tickets de maintenance. Il faut récupérer les tickets, sans lire les autres tables."
   },
-  "brief": "0xvanta m’a parlé de tes vérifications. Le service ticketd permet d’atteindre des tickets de maintenance. Je demande seulement les tickets, sans les autres tables. Cible connue : 10.61.7.30.\n\nNouveau : lire les protections et symboles d’un binaire, puis utiliser le script du laboratoire. Ce passage est accompagné : on ne te demande pas d’écrire un exploit. Lis ~/lab/README.txt, ~/mission/reperes.txt et le fil ticketd. checksec décrit les protections ; gdb affiche les symboles. Une observation sert à choisir les paramètres du script, pas à deviner une adresse.\n\nAprès l’accès, vérifie ton identité et lis les notes du service pour préparer une requête SQL limitée aux tickets. Conserve et relis l’export dans ~/loot, puis confirme « livraison TK-26 tickets ». Le nom est libre. Demande indice à chaque phase ; rappel détaillé donne les commandes de la phase en cours. Aucun achat requis.",
+  "brief": "0xvanta m’a parlé de tes vérifications. Le service ticketd permet d’atteindre des tickets de maintenance. Je demande seulement les tickets, sans les autres tables. Cible connue : 10.61.7.30.\n\nJe te détaille ce que j’ai, avec ses limites.\n\nNouveau : lire les protections et symboles d’un binaire, puis utiliser le script du laboratoire. Ce passage est accompagné : on ne te demande pas d’écrire un exploit. Lis ~/lab/README.txt, ~/mission/reperes.txt et le fil ticketd. checksec décrit les protections ; gdb affiche les symboles. Une observation sert à choisir les paramètres du script, pas à deviner une adresse.\n\nAprès l’accès, vérifie ton identité et lis les notes du service pour préparer une requête SQL limitée aux tickets. Conserve et relis l’export dans ~/loot, puis confirme « livraison TK-26 tickets ». Le nom est libre. Demande indice à chaque phase ; rappel détaillé donne les commandes de la phase en cours. Aucun achat requis.",
   "reward": 480,
   "reputation": 45,
   "required_items": [],
-  "success_message": "Livraison vérifiée. {reward} ₵ annoncés au contrat ; le règlement exact figure dans ton profil. Merci {handle}, je conserve tes preuves.",
-  "failure_message": "Dossier interrompu. Reprends une sauvegarde ou relance le contrat pour retenter le parcours.",
+  "success_message": "J’ai les tickets, et seulement les tickets. C’est propre. Je vais essayer d’être aussi précis dans mon prochain tableau. La prime annoncée est de {reward} ₵ ; le règlement exact figure dans ColdVault.",
+  "failure_message": "Ça n’a pas tenu. Relis le débriefing avant de retenter, et recoupe mes informations aussi.",
   "guide": [],
   "investigation_steps": [
     {
@@ -64,9 +64,9 @@
           "inspected": true
         }
       ],
-      "response": "Les tickets sont reçus. Le compte du service est limité ; l’accès SQL a conservé ce périmètre. J’ai un autre dossier, mais il faudra d’abord vérifier mon brief.",
+      "response": "Les tickets sont reçus. Le compte SQL est resté limité à ce qu’on demandait. J’ai un autre dossier ensuite, mais je préfère te prévenir : mon brief mérite aussi d’être vérifié.",
       "missing": "Il manque une observation vérifiable. Lis le fil : offset 72. Les symboles donnent l’adresse de maintenance. Le script se lance depuis Kali. Dans la session, cat /etc/ticketd/database.ini fournit le compte SQL ; une autre console Kali permet mysql avec SELECT * FROM tickets; et redirection vers ~/loot/tickets.tsv.",
-      "already": "Cette étape est déjà enregistrée.",
+      "already": "Oui, c’est noté. Je n’ai pas remis l’ancienne ligne cette fois.",
       "hint": "Lis le fil : offset 72. Les symboles donnent l’adresse de maintenance. Le script se lance depuis Kali. Dans la session, cat /etc/ticketd/database.ini fournit le compte SQL ; une autre console Kali permet mysql avec SELECT * FROM tickets; et redirection vers ~/loot/tickets.tsv.",
       "hints": [
         "Commence par les pièces et le fil du laboratoire : comprendre le service précède l’exécution du script.",
@@ -164,12 +164,17 @@
     "act1-ticketd"
   ],
   "private_offer": true,
-  "intro": "On m’a recommandé ton pseudo. 0xvanta m’a parlé de tes vérifications. Le service ticketd de cette image donne accès aux tickets de maintenance. Il faut récupérer les tickets, sans lire les autres tables. Ouvre le dossier pour recevoir les pièces ; la suite se passe dans notre conversation Chordly.",
+  "intro": "0xvanta m’a passé ton pseudo. J’ai un vieux service ticketd qui mène aux tickets de maintenance. Les tickets seulement, pas le reste des tables. Je fournis les pièces et les repères. Regarde le dossier avant de dire oui, je reste sur Chordly.",
   "relaxed_clock": true,
   "side_job": false,
   "chapter": 7,
   "required_completed": [
     "act1_empreinte"
   ],
-  "terminal_revision": 2
+  "terminal_revision": 2,
+  "dialogue": {
+    "greeting": "Salut. Si c’est encore mon tableau, je suis dessus.",
+    "ack": "Oui. Bon. Ça m’a évité une autre erreur, donc merci à toi aussi.",
+    "fallback": "Attends, je suis pas sûr de te suivre. Tu parles de quoi exactement ?"
+  }
 }

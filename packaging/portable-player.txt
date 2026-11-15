@@ -1,5 +1,5 @@
-Darknet Operator - version de développement 0.5.4
-Paquet portable Linux x86_64, construit depuis les sources du 12 novembre 2026.
+Darknet Operator - version de développement 0.6.0
+Paquet portable Linux x86_64, construit depuis les sources du 15 novembre 2026.
 
 JOUER
 Extraire TOUTE l’archive, ouvrir son dossier puis lancer :
@@ -23,7 +23,8 @@ Les documents Markdown d’origine sont dans Solution/docs/.
 Toutes les commandes du guide concernent les terminaux du jeu.
 L’acte II comprend dix dossiers principaux et six contrats facultatifs.
 Quatre nouveaux contacts apparaissent au fil de la progression sur Telegrid.
-Les actes III et IV restent à préparer.
+L’acte III comprend douze dossiers : segmentation, transports, droits, protections
+et copie d’audit industrielle. L’acte IV reste à préparer.
 
 SAUVEGARDES
 Les parties restent dans le dossier habituel RedTeamSimulator des données locales

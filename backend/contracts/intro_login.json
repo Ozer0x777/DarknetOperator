@@ -19,8 +19,8 @@
   "required_items": [],
   "guide": [],
   "onboarding": true,
-  "success_message": "Résultat vérifié. {reward} ₵ réglés ; ton prochain dossier est disponible dans cette conversation. Garde tes notes, on réutilisera cette compétence.",
-  "failure_message": "On reprend ce dossier à ton rythme ; vérifie le résultat avant de conclure.",
+  "success_message": "La session est vérifiée. Tu sais où tu es et avec quel compte. On peut avancer. La prime annoncée est de {reward} ₵ ; le règlement exact figure dans ColdVault.",
+  "failure_message": "On s’arrête là pour ce dossier. Garde le débriefing, on reprendra ce qui a coincé au prochain essai.",
   "debrief_hints": [
     "Ouvrir une session avec le compte fourni.",
     "Une nouvelle compétence à la fois ; la réussite est vérifiée dans le monde simulé."
@@ -29,5 +29,10 @@
   "hints": [
     "Le compte fourni est m.leroux sur 10.20.0.21. Le mot de passe se saisit après la connexion, pas dans une deuxième commande Kali.",
     "Lance `ssh m.leroux@10.20.0.21`, puis saisis le mot de passe fourni dans le brief. Après connexion, hostname et whoami permettent de vérifier le contexte."
-  ]
+  ],
+  "dialogue": {
+    "greeting": "Salut {handle}. Je finis un compte rendu. Qu’est-ce qu’il y a ?",
+    "ack": "Garde tes remerciements pour quand tu sauras refaire sans moi. Mais oui, j’ai lu.",
+    "fallback": "Je ne suis pas sûr de ce que tu me demandes. Tu peux préciser ?"
+  }
 }

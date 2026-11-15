@@ -13,12 +13,12 @@
     "title": "[Petit boulot] Retrouver un contact",
     "body": "Retrouver un contact : les pièces sont fournies. Paiement unique, aucun effet sur l’ordre des chapitres."
   },
-  "brief": "Retrouver un contact : les pièces sont fournies. Paiement unique, aucun effet sur l’ordre des chapitres.\n\nLis ~/mission/bon.txt et entree.txt. Écris le résultat demandé dans ~/loot/resultat.txt, puis envoie « livraison contacts ». Demande aide pour une syntaxe adaptée.",
+  "brief": "Retrouver un contact : les pièces sont fournies. Paiement unique, aucun effet sur l’ordre des chapitres.\n\nJe te laisse les pièces, tu me diras ce que tu en penses.\n\nLis ~/mission/bon.txt et entree.txt. Écris le résultat demandé dans ~/loot/resultat.txt, puis envoie « livraison contacts ». Demande aide pour une syntaxe adaptée.",
   "reward": 40,
   "reputation": 0,
   "required_items": [],
-  "success_message": "Livraison vérifiée. {reward} ₵ annoncés au contrat ; le règlement exact figure dans ton profil. Merci {handle}, je conserve tes preuves.",
-  "failure_message": "Dossier interrompu. Reprends une sauvegarde ou relance le contrat pour retenter le parcours.",
+  "success_message": "C’est le contact demandé. Merci ! Je l’avais sous les yeux, mais je cherchais au mauvais endroit. La prime annoncée est de {reward} ₵ ; le règlement exact figure dans ColdVault.",
+  "failure_message": "On n’a pas fini, d’accord. Je préfère qu’on s’arrête là plutôt que d’envoyer quelque chose dont on doute. On pourra retenter le dossier.",
   "guide": [],
   "investigation_steps": [
     {
@@ -42,9 +42,9 @@
           "value": "support@nacre.test\nancien@nacre.test"
         }
       ],
-      "response": "Résultat conforme au bon de travail. Le paiement de ce petit contrat est enregistré.",
+      "response": "C’est le contact demandé. Merci ! Je l’avais sous les yeux, mais je cherchais au mauvais endroit.",
       "missing": "Il manque une observation vérifiable. Une commande possible : `grep nacre.test ~/mission/entree.txt > ~/loot/resultat.txt`, puis envoie livraison contacts.",
-      "already": "Cette étape est déjà enregistrée.",
+      "already": "Oui, je l’ai ! Pas besoin de me le renvoyer, je garde ton premier rapport.",
       "hint": "Une commande possible : `grep nacre.test ~/mission/entree.txt > ~/loot/resultat.txt`, puis envoie livraison contacts.",
       "hints": [
         "Relis le bon et les pièces fournies pour identifier le résultat attendu.",
@@ -66,11 +66,16 @@
     "act1-boreal"
   ],
   "private_offer": false,
-  "intro": "On m’a recommandé ton pseudo. Retrouver un contact : les pièces sont fournies. Paiement unique, aucun effet sur l’ordre des chapitres. Ouvre le dossier pour recevoir les pièces ; la suite se passe dans notre conversation Chordly.",
+  "intro": "Je cherche un contact dans un export. Le nom utile est sur le bon, les pièces sont prêtes. Un petit dossier sur Chordly, si tu as le temps.",
   "relaxed_clock": true,
   "side_job": true,
   "required_completed": [
     "act1_partage"
   ],
-  "terminal_revision": 1
+  "terminal_revision": 1,
+  "dialogue": {
+    "greeting": "Hey ! J’étais justement en train de faire semblant de comprendre un tableau. Tu me sauves quelques minutes.",
+    "ack": "De rien ! Enfin, si ça t’a servi. J’ai toujours peur d’expliquer de travers.",
+    "fallback": "Je crois que j’ai compris la moitié. Tu me redis autrement ?"
+  }
 }

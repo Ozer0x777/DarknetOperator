@@ -5,6 +5,7 @@ const DraftStore = preload("res://scripts/ui/draft_store.gd")
 const Composer = preload("res://scripts/ui/message_composer.gd")
 const SocialStyle = preload("res://scripts/ui/social_style.gd")
 const UI = preload("res://scripts/ui/style.gd")
+const BANNERS = {"breachboard":"res://assets/forums/breachboard-orbital-v1.png", "exployt":"res://assets/forums/exployt-orbital-v1.png", "xsx":"res://assets/forums/xsx-orbital-v1.png"}
 signal accept_contract(contract_id: String)
 signal resume_requested
 signal reply_requested(thread_id: String, text: String)
@@ -59,6 +60,10 @@ var _reply_counter: Label
 var _publish: Button
 var _reset_scroll: bool = false
 var _bookmarks: Dictionary = {}
+var _category: String = ""
+var _unread_only: bool = false
+var _topic_sort: int = 0
+var _member_card: VBoxContainer
 var _surface: Color
 
 func setup() -> void:
@@ -108,6 +113,10 @@ func setup() -> void:
 		elif id == 1: DisplayServer.clipboard_set(_url.text)
 		elif id == 2: render()
 		else:
+			if is_instance_valid(_member_card): _member_card.hide()
+			_member_dialog.min_size = Vector2i.ZERO
+			_member_dialog.wrap_controls = true
+			_member_dialog.get_label().show()
 			_member_dialog.title = "Navigateur du jeu"
 			_member_dialog.dialog_text = "Interface inspirée de Firefox. Navigation limitée aux sites et services du monde simulé."
 			_member_dialog.popup_centered(Vector2i(480, 180)))
@@ -155,6 +164,7 @@ func navigate(forum: String, thread: String = "", section: String = "Contrats", 
 	_save_drafts()
 	if selected_forum != forum or selected_section != section:
 		_topic_query = ""
+		_category = ""
 	_reset_scroll = selected_forum != forum or selected_thread != thread or selected_section != section
 	selected_forum = forum
 	selected_thread = thread
@@ -241,12 +251,13 @@ func render() -> void:
 		configure.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		box.add_child(configure)
 		return
-	var inner: PanelContainer = UI.panel(_background, 16)
+	var inner: PanelContainer = UI.panel(_background, 10 if _compact else 16)
 	_body.add_child(inner)
 	var content: VBoxContainer = VBoxContainer.new()
 	content.add_theme_constant_override("separation", 12)
 	inner.add_child(content)
 	var crumbs: HBoxContainer = HBoxContainer.new()
+	crumbs.visible = not _compact and not selected_thread.is_empty()
 	content.add_child(crumbs)
 	crumbs.add_child(UI.button("Forums", func() -> void: navigate(selected_forum), _background, 2))
 	crumbs.add_child(UI.label(" › " + selected_section + (" › Sujet" if not selected_thread.is_empty() else ""), 12, Color("92989f")))
@@ -297,28 +308,64 @@ func lock_reason() -> String:
 	return ""
 
 func _build_masthead() -> void:
-	var panel: PanelContainer = UI.panel(_background, 16)
+	var panel: PanelContainer = UI.panel(_background, 8 if _compact else 16)
 	_body.add_child(panel)
 	var box: VBoxContainer = VBoxContainer.new()
-	box.add_theme_constant_override("separation", 10)
+	box.add_theme_constant_override("separation", 6 if _compact else 10)
 	panel.add_child(box)
+	var hero: PanelContainer = UI.panel(Color("101519"), 0, 3)
+	hero.name = "ForumBanner"
+	hero.clip_contents = true
+	hero.custom_minimum_size.y = 76 if _compact else 132
+	box.add_child(hero)
+	var artwork: TextureRect = TextureRect.new()
+	artwork.name = "ForumBannerArtwork"
+	artwork.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	artwork.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+	artwork.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	if ResourceLoader.exists(BANNERS[selected_forum]):
+		var source: Texture2D = load(BANNERS[selected_forum])
+		var crop: AtlasTexture = AtlasTexture.new()
+		crop.atlas = source
+		crop.region = Rect2(0, 0, source.get_width(), source.get_height() * 0.8)
+		artwork.texture = crop
+	hero.add_child(artwork)
+	var shade: ColorRect = ColorRect.new()
+	shade.color = Color(0.02, 0.03, 0.04, 0.18)
+	shade.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	hero.add_child(shade)
+	var inset: MarginContainer = MarginContainer.new()
+	for side: String in ["left", "right", "top", "bottom"]: inset.add_theme_constant_override("margin_" + side, 10)
+	hero.add_child(inset)
 	var heading: HBoxContainer = HBoxContainer.new()
-	box.add_child(heading)
+	heading.alignment = BoxContainer.ALIGNMENT_CENTER
+	inset.add_child(heading)
+	var identity: VBoxContainer = VBoxContainer.new()
+	identity.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	identity.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	heading.add_child(identity)
 	var descriptor: Dictionary = {"breachboard": "Communauté · entraide · petites annonces", "exployt": "Discussions techniques · membres confirmés", "xsx": "Espace privé · accès sur invitation"}
-	box.add_child(UI.wrapped(descriptor[selected_forum], 12, Color("aab2be")))
 	var brand: String = {"breachboard": "BREACHBOARD", "exployt": "exployt", "xsx": "[ x s x ]"}[selected_forum]
-	var title: Label = UI.label(brand, 22 if _compact else (28 if selected_forum != "xsx" else 30), _accent)
+	var title: Label = UI.label(brand, 22 if _compact else 28, _accent.lightened(0.3))
 	if selected_forum in ["exployt", "xsx"]: title.add_theme_font_override("font", UI.MONO)
-	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	title.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
-	heading.add_child(title)
-	var account: VBoxContainer = VBoxContainer.new()
-	heading.add_child(account)
-	account.custom_minimum_size.x = 160
-	var identity: Label = UI.label("● " + handle + "  ▾", 13)
-	identity.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
-	account.add_child(identity)
-	account.add_child(UI.label("Réputation locale : %s" % _local_reputation(), 11, Color("9a9fa7")))
+	identity.add_child(title)
+	if not _compact: identity.add_child(UI.wrapped(descriptor[selected_forum], 12, Color("c4cbd0")))
+	var account_panel: PanelContainer = UI.panel(Color(0.04, 0.06, 0.08, 0.88), 6, 3)
+	account_panel.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	account_panel.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+	identity.add_child(account_panel)
+	var account: HBoxContainer = HBoxContainer.new()
+	account.add_theme_constant_override("separation", 12)
+	account_panel.add_child(account)
+	account.custom_minimum_size.x = 0
+	var member: Button = UI.button(handle, func() -> void: _show_member(handle), Color.TRANSPARENT, 0)
+	member.custom_minimum_size.x = 72
+	member.add_theme_font_size_override("font_size", 12)
+	member.tooltip_text = "Ouvrir le profil de " + handle
+	member.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	account.add_child(member)
+	account.add_child(UI.label("Réputation locale : %s" % _local_reputation(), 11, Color("b7c0c7")))
 	var nav: HFlowContainer = HFlowContainer.new()
 	nav.name = "SectionNavigation"
 	nav.add_theme_constant_override("h_separation", 6)
@@ -360,16 +407,21 @@ func _topics(filtered: bool = true) -> Array[Dictionary]:
 	var result: Array[Dictionary] = []
 	if selected_section in ["Contrats", "Activité"]:
 		for contract: Dictionary in contracts:
+			if filtered and selected_section == "Activité" and (_unread_only or not _category.is_empty()): continue
 			if contract.get("forum") != selected_forum or (filtered and _only_side_jobs and selected_section == "Contrats" and not contract.get("side_job", false)):
 				continue
 			result.append({"id": contract.contract_id, "title": contract.title, "author": contract.client.handle, "reputation": contract.client.forum_rep, "age": contract.client.account_age_days, "body": contract.body, "contract": contract, "pinned": false})
 	if selected_section != "Contrats":
 		for entry: Dictionary in _community:
 			if entry.forum == selected_forum and (entry.section == selected_section or selected_section == "Activité"):
+				if filtered and not _category.is_empty() and entry.get("category", "Vie du forum") != _category: continue
+				if filtered and _unread_only and int(entry.get("unread", 0)) == 0: continue
 				result.append(entry)
 	result.sort_custom(func(a: Dictionary, b: Dictionary) -> bool:
 		if a.get("pinned", false) != b.get("pinned", false): return a.get("pinned", false)
-		return int(_activity.get(a.id, {}).get("last_minute", 0)) > int(_activity.get(b.id, {}).get("last_minute", 0)))
+		if _topic_sort == 1: return int(a.get("created_minute", 0)) > int(b.get("created_minute", 0))
+		if _topic_sort == 2 and int(a.get("count", 0)) != int(b.get("count", 0)): return int(a.get("count", 0)) < int(b.get("count", 0))
+		return int(_activity.get(a.id, a).get("last_minute", 0)) > int(_activity.get(b.id, b).get("last_minute", 0)))
 	return result
 
 func _build_index(content: VBoxContainer) -> void:
@@ -393,13 +445,49 @@ func _build_index(content: VBoxContainer) -> void:
 	introduction.add_theme_constant_override("h_separation", 18)
 	introduction.add_theme_constant_override("v_separation", 8)
 	content.add_child(introduction)
-	introduction.add_child(UI.label({"Contrats": "Offres & contrats", "Discussion": "Communauté & discussions", "Marché": "Services & matériel", "Activité": "Derniers messages"}[selected_section], 23))
+	introduction.add_child(UI.label({"Contrats": "Offres & contrats", "Discussion": "Communauté & discussions", "Marché": "Services & matériel", "Activité": "Derniers messages"}[selected_section], 17 if _compact else 23))
 	if selected_section == "Contrats":
 		var filter: Button = UI.button("Toutes les annonces" if _only_side_jobs else "Petits contrats", func() -> void: _only_side_jobs = not _only_side_jobs; render(), _surface)
 		filter.tooltip_text = "Afficher toutes les annonces" if _only_side_jobs else "Voir les petits contrats facultatifs"
 		filter.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 		introduction.add_child(filter)
-	content.add_child(UI.wrapped("Sujets de la communauté" if selected_section != "Contrats" else "Consultez le profil du client et les conditions avant de répondre.", 12, Color("a7acb2")))
+	if selected_section == "Contrats" and not _compact: content.add_child(UI.wrapped("Consultez le profil du client et les conditions avant de répondre.", 12, Color("a7acb2")))
+	if selected_section in ["Discussion", "Marché", "Activité"]:
+		var filters: HFlowContainer = HFlowContainer.new()
+		filters.name = "ForumFilters"
+		filters.add_theme_constant_override("h_separation", 8)
+		filters.add_theme_constant_override("v_separation", 6)
+		content.add_child(filters)
+		var categories: Array[String] = [""]
+		for entry: Dictionary in _community:
+			if entry.forum != selected_forum or (entry.section != selected_section and selected_section != "Activité"): continue
+			var category: String = str(entry.get("category", "Vie du forum"))
+			if not category in categories: categories.append(category)
+		if _compact:
+			var selector: OptionButton = OptionButton.new()
+			selector.name = "ForumCategories"
+			for category: String in categories: selector.add_item("Catégories" if category.is_empty() else category)
+			selector.select(maxi(0, categories.find(_category)))
+			selector.item_selected.connect(func(index: int) -> void: _category = categories[index]; render())
+			filters.add_child(selector)
+		else:
+			for category: String in categories:
+				var chip: Button = UI.button("Tout" if category.is_empty() else category, func() -> void: _category = category; render(), _accent.darkened(0.55) if _category == category else _surface)
+				chip.set_meta("forum_category", category)
+				filters.add_child(chip)
+		var controls: HFlowContainer = filters
+		controls.add_theme_constant_override("h_separation", 12)
+		var unread: CheckButton = CheckButton.new()
+		unread.text = "Non lus" if _compact else "Non lus uniquement"
+		unread.button_pressed = _unread_only
+		unread.toggled.connect(func(value: bool) -> void: _unread_only = value; render())
+		controls.add_child(unread)
+		var order: OptionButton = OptionButton.new()
+		order.name = "ForumSort"
+		for caption: String in ["Dernière activité", "Nouveaux sujets", "Moins de réponses"]: order.add_item(caption)
+		order.select(_topic_sort)
+		order.item_selected.connect(func(index: int) -> void: _topic_sort = index; render())
+		controls.add_child(order)
 	var table: VBoxContainer = VBoxContainer.new()
 	table.name = "Topics"
 	table.add_theme_constant_override("separation", 4)
@@ -429,7 +517,7 @@ func _build_index(content: VBoxContainer) -> void:
 		content.add_child(UI.button("Ouvrir le catalogue des services et du matériel", func() -> void: open_app.emit("Boutique"), _surface))
 
 func _topic_row(parent: Node, topic: Dictionary) -> void:
-	var panel: PanelContainer = UI.panel(_surface.lightened(0.025) if topic.get("pinned", false) else _surface, 12, 5)
+	var panel: PanelContainer = UI.panel(_surface.lightened(0.025) if topic.get("pinned", false) else _surface, 12, 3)
 	panel.set_meta("topic", (str(topic.title) + " " + str(topic.author)).to_lower())
 	parent.add_child(panel)
 	var row: HBoxContainer = HBoxContainer.new()
@@ -457,12 +545,17 @@ func _topic_row(parent: Node, topic: Dictionary) -> void:
 	flags.add_theme_constant_override("h_separation", 6)
 	if topic.get("pinned", false): flags.add_child(UI.badge("ÉPINGLÉ", _accent))
 	if topic.get("locked", false): flags.add_child(UI.badge("VERROUILLÉ", Color("a6b1bd")))
+	if not topic.get("status_label", "").is_empty(): flags.add_child(UI.badge(str(topic.status_label), Color("99b99f")))
+	if int(topic.get("unread", 0)) > 0: flags.add_child(UI.badge("NON LU", _accent))
 	if topic.has("contract"):
 		flags.add_child(UI.badge("DÉJÀ RÉGLÉ" if topic.contract.get("completed", false) else "CONTRAT", _accent))
 	if flags.get_child_count() > 0: body.add_child(flags)
 	else: flags.free()
 	body.add_child(link)
-	body.add_child(UI.wrapped(str(topic.author) + " · " + str(topic.get("created_time", "Annonce")), 11, Color("b2bac5")))
+	body.add_child(UI.wrapped(str(topic.get("category", "Annonce")) + " · " + str(topic.author) + " · " + str(topic.get("created_time", "Annonce")), 11, Color("b2bac5")))
+	if not topic.has("contract") and not _compact:
+		var excerpt: String = str(topic.get("body", "")).replace("\n", " ")
+		body.add_child(UI.wrapped(excerpt.left(100) + ("…" if excerpt.length() > 100 else ""), 12, Color("aab3bc")))
 	var activity: Dictionary = _activity.get(id, {})
 	var reply_count: int = int(profile.get("forum_counts", {}).get(id, replies.get(id, []).size()))
 	var view_count: int = int(activity.get("views", topic.get("views", 0)))
@@ -471,13 +564,28 @@ func _topic_row(parent: Node, topic: Dictionary) -> void:
 	if _compact:
 		body.add_child(UI.wrapped("%s réponses · %s vues · Dernier : %s · %s" % [reply_count, view_count, last_author, last_time], 11, Color("a5adb8")))
 	else:
-		for value: String in [str(reply_count), str(view_count), last_author + "\n" + last_time]:
-			var stat: Label = UI.label(value, 12, Color("b2bac5"))
-			stat.custom_minimum_size.x = 150 if value.contains("\n") else 75
+		for value: int in [reply_count, view_count]:
+			var stat: Label = UI.label(str(value), 12, Color("b2bac5"))
+			stat.custom_minimum_size.x = 75
 			stat.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-			if not value.contains("\n"): stat.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-			stat.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+			stat.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 			row.add_child(stat)
+		var last: HBoxContainer = HBoxContainer.new()
+		last.custom_minimum_size.x = 150
+		last.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+		last.add_theme_constant_override("separation", 6)
+		row.add_child(last)
+		var face: PanelContainer = _profile_avatar(last_author, 28)
+		last.add_child(face)
+		var lines: VBoxContainer = VBoxContainer.new()
+		lines.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		last.add_child(lines)
+		var member: Button = UI.button(last_author, func() -> void: _show_member(last_author), _surface, 0)
+		member.alignment = HORIZONTAL_ALIGNMENT_LEFT
+		member.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+		member.custom_minimum_size.x = 100
+		lines.add_child(member)
+		lines.add_child(UI.label(last_time, 11, Color("9ba7b2")))
 
 func _filter_topics(text: String) -> void:
 	_topic_query = text
@@ -522,6 +630,10 @@ func _build_thread(content: VBoxContainer) -> void:
 	title.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	content.add_child(title)
 	content.add_child(UI.wrapped("Discussion ouverte par " + str(topic.author) + " · " + str(topic.get("created_time", "Annonce")), 11, Color("9ea6b0")))
+	var participants: Array = topic.get("participants", [])
+	var summary: String = str(topic.get("category", "Discussion")) + " · %s réponses" % int(profile.get("forum_counts", {}).get(topic.id, topic.get("count", 0)))
+	if not participants.is_empty(): summary += " · %s participants" % participants.size()
+	content.add_child(UI.wrapped(summary, 12, _accent))
 	_post(content, str(topic.author), int(topic.get("reputation", 0)), str(topic.body), int(topic.get("age", 412)), "#1", str(topic.get("created_time", "Annonce")))
 	var posts: Array = replies.get(selected_thread, [])
 	for i: int in range(posts.size()):
@@ -590,14 +702,14 @@ func _post(parent: Node, author: String, reputation: int, text: String, age: int
 	row.add_theme_constant_override("separation", 0)
 	panel.add_child(row)
 	var identity: PanelContainer = UI.panel(_surface.darkened(0.18), 12)
-	identity.custom_minimum_size.x = 0 if _compact else 148
+	identity.custom_minimum_size.x = 0 if _compact else 224
 	row.add_child(identity)
 	var profile_box: BoxContainer = HBoxContainer.new() if _compact else VBoxContainer.new()
 	profile_box.add_theme_constant_override("separation", 10)
 	identity.add_child(profile_box)
 	var avatar: PanelContainer = UI.panel(_accent.darkened(0.55), 0, 5)
 	avatar.name = "ForumAvatar"
-	avatar.custom_minimum_size = Vector2(40, 40) if _compact else Vector2(72, 72)
+	avatar.custom_minimum_size = Vector2(56, 56) if _compact else Vector2(200, 200)
 	avatar.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	avatar.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
 	var initial: Label = UI.label(author.left(1).to_upper(), 20 if _compact else 40, _accent.lightened(0.3))
@@ -716,6 +828,9 @@ func set_replies(thread_id: String, posts: Array) -> void:
 	# Le sondage recharge le sujet ouvert : pas de reconstruction (sélection, annulation du brouillon) sans nouveau message.
 	var unchanged: bool = replies.has(thread_id) and replies[thread_id] == posts
 	replies[thread_id] = posts
+	if _activity.has(thread_id): _activity[thread_id]["unread"] = 0
+	for topic: Dictionary in _community:
+		if topic.id == thread_id: topic["unread"] = 0
 	if not profile.has("forum_counts"): profile["forum_counts"] = {}
 	profile.forum_counts[thread_id] = posts.size()
 	if thread_id == selected_thread and not unchanged:
@@ -760,9 +875,46 @@ func message_unread(id: String) -> bool:
 
 func _show_member(author: String) -> void:
 	var member: Dictionary = {"role": "Membre", "age": 1, "reputation": _local_reputation(), "bio": "Ton profil de membre."} if author == handle else members.get(author, {})
+	_member_dialog.wrap_controls = false
+	_member_dialog.min_size = Vector2i(420, 350)
+	_member_dialog.dialog_autowrap = true
 	_member_dialog.title = "Profil de " + author
-	_member_dialog.dialog_text = "%s\n%s\nInscrit depuis %s jours · Réputation %s\n\n%s" % [author, member.get("role", "Membre"), int(member.get("age", 1)), int(member.get("reputation", 0)), member.get("bio", "Aucune présentation publique.")]
-	_member_dialog.popup_centered(Vector2i(450, 230))
+	_member_dialog.dialog_text = ""
+	_member_dialog.get_label().hide()
+	if is_instance_valid(_member_card):
+		_member_dialog.remove_child(_member_card)
+		_member_card.queue_free()
+	_member_card = VBoxContainer.new()
+	_member_card.name = "MemberCard"
+	_member_card.custom_minimum_size.x = 360
+	_member_card.size.x = 360
+	_member_card.add_theme_constant_override("separation", 14)
+	_member_dialog.add_child(_member_card)
+	var heading: HBoxContainer = HBoxContainer.new()
+	heading.add_theme_constant_override("separation", 16)
+	_member_card.add_child(heading)
+	heading.add_child(_profile_avatar(author, 200))
+	var labels: VBoxContainer = VBoxContainer.new()
+	heading.add_child(labels)
+	labels.add_child(UI.label(author, 22, _accent))
+	labels.add_child(UI.wrapped(str(member.get("role", "Membre")), 13))
+	labels.add_child(UI.label("Réputation %s · %s j" % [int(member.get("reputation", 0)), int(member.get("age", 1))], 12, Color("aab3bc")))
+	var biography: Label = UI.wrapped(str(member.get("bio", "Aucune présentation publique.")), 14)
+	biography.size.x = 360
+	biography.custom_minimum_size.x = 360
+	_member_card.add_child(biography)
+	_member_dialog.popup_centered(Vector2i(420, 350))
+
+func _profile_avatar(author: String, diameter: int) -> PanelContainer:
+	var panel: PanelContainer = UI.panel(_surface.darkened(0.2), 0, 3)
+	panel.custom_minimum_size = Vector2(diameter, diameter)
+	panel.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+	panel.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
+	var letter: Label = UI.label(author.left(1).to_upper(), 24, _accent)
+	letter.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	panel.add_child(letter)
+	Avatars.apply(panel, author)
+	return panel
 
 
 func _store_tab() -> void:
@@ -903,5 +1055,16 @@ func _render_campaign(content: VBoxContainer) -> void:
 			elif int(chapter.number) in [3,9,10]: box.add_child(UI.button("Consulter les MP du forum",func() -> void: navigate("breachboard","","Messages"),_surface.lightened(0.05)))
 			elif int(chapter.number)==2: box.add_child(UI.button("Consulter l’annonce",func() -> void: navigate("breachboard",ident,"Contrats"),_surface.lightened(0.05)))
 			else: box.add_child(UI.button("Contacter "+peer+" sur Chordly",func() -> void: contact_requested.emit(peer,"chordly"),_surface.lightened(0.05)))
+	if is_second and profile.get("act3", {}).get("unlocked", false):
+		var third: Dictionary = profile.get("act3", {})
+		content.add_child(UI.wrapped("Acte III - Les frontières invisibles", 23))
+		content.add_child(UI.wrapped("%s / %s dossiers validés%s" % [int(third.get("completed", 0)), int(third.get("total", 12)), " · première tranche" if third.get("partial", false) else ""], 14, _accent))
+		for chapter: Dictionary in third.get("chapters", []):
+			var row: VBoxContainer = VBoxContainer.new()
+			var card: PanelContainer = UI.panel(_surface, 12, 3)
+			card.add_child(row)
+			content.add_child(card)
+			row.add_child(UI.wrapped("%02d  %s" % [int(chapter.number), str(chapter.title)], 16))
+			row.add_child(UI.wrapped({"completed":"Validé", "available":"Disponible", "locked":"Poursuivre les dossiers précédents"}.get(str(chapter.status), ""), 12, _accent))
 	if not is_second and profile.get("act2",{}).get("unlocked",false):
 		content.add_child(UI.button("Ouvrir l’acte II sur Exployt",func() -> void: navigate("exployt","","Campagne"),_surface.lightened(0.05)))

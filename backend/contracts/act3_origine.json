@@ -1,0 +1,91 @@
+{
+  "contract_id": "act3_origine",
+  "scenario": "act3_origine",
+  "tier": 2,
+  "act": 3,
+  "act_chapter": 3,
+  "channel": "telegrid",
+  "client": {
+    "handle": "traverse",
+    "forum_rep": 80,
+    "account_age_days": 650
+  },
+  "bounty": {
+    "forum": "exployt",
+    "title": "Acte III · 03 — Le réseau vu d’ici",
+    "body": "Le compte est vérifié. Maintenant regarde le réseau depuis cette machine. Compare le serveur de documents depuis Kali et depuis ASTER-MAINT ; relève les routes sur le relais. Une adresse trouvée dans un fichier ne veut pas dire qu’on peut la joindre de partout."
+  },
+  "brief": "Le compte est vérifié. Maintenant regarde le réseau depuis cette machine. Compare le serveur de documents depuis Kali et depuis ASTER-MAINT ; relève les routes sur le relais. Une adresse trouvée dans un fichier ne veut pas dire qu’on peut la joindre de partout.\n\nDocumentation dans ~/docs, pièces dans ~/mission. Demande indice ou rappel détaillé ici. Confirme ton constat dans cette conversation après les vérifications.",
+  "reward": 440,
+  "reputation": 20,
+  "required_items": [],
+  "required_completed": [
+    "act3_prestataire"
+  ],
+  "success_message": "Le serveur répond depuis le relais, pas depuis Kali. Garde cette différence : le prochain passage devra transporter des connexions, sans rendre tous les réseaux accessibles. Règlement de {reward} ₵ dans ColdVault.",
+  "failure_message": "On reprend depuis les constats enregistrés au débriefing. Pas besoin d’inventer un accès pour conclure.",
+  "guide": [],
+  "investigation_steps": [
+    {
+      "id": "constat",
+      "tokens": [
+        "preuve"
+      ],
+      "requires": [
+        {
+          "type": "scan_observed",
+          "host": "documents",
+          "source": "operator",
+          "discovery": false,
+          "port": 80,
+          "port_state": "filtered",
+          "skip_discovery": true
+        },
+        {
+          "type": "tool_fact",
+          "key": "system:maintenance:ip"
+        },
+        {
+          "type": "scan_observed",
+          "host": "documents",
+          "source": "maintenance",
+          "discovery": true,
+          "port": 80,
+          "port_state": "open"
+        },
+        {
+          "type": "file_read",
+          "host": "maintenance",
+          "path": "/home/maintenance/reseau.txt"
+        },
+        {
+          "type": "tool_fact",
+          "key": "http:documents:/registre.txt"
+        }
+      ],
+      "response": "Le serveur répond depuis le relais, pas depuis Kali. Garde cette différence : le prochain passage devra transporter des connexions, sans rendre tous les réseaux accessibles.",
+      "already": "Oui, constat reçu.",
+      "missing": "Il manque une observation vérifiable. Demande indice pour reprendre le point bloquant.",
+      "hint": "Depuis Kali : nmap -Pn -p 80 10.90.40.20. Dans une autre console : ssh maintenance@10.90.10.10 ; secret AsterLecture2026! ; cat /home/maintenance/reseau.txt ; ip route ; nmap -sV -p 80 10.90.40.20 ; curl http://10.90.40.20/registre.txt. Confirme « constat ».",
+      "hints": [
+        "Garde une console Kali pour le premier scan et une console SSH pour l’autre. La note distante donne la cible et la limite de Recherche.",
+        "Les réponses dépendent de la console, de la découverte et du port. Vérifie ces trois points."
+      ]
+    }
+  ],
+  "local_files": {
+    "/home/operator/docs/reconnaissance.txt": "Reconnaissance — documentation locale du simulateur\nnmap --help : options couvertes. -Pn saute la découverte préalable ; il ne traverse pas un pare-feu et ne crée aucune route.\nUn port open répond, closed refuse la connexion, filtered ne fournit pas de réponse exploitable. La découverte peut échouer alors que TCP/22 répond.\nExercice de syntaxe, adresses différentes du dossier : nmap -sV -p 22,80 192.0.2.10 ; puis nmap -Pn -sV -p 22,80 192.0.2.10.\nSur un relais : ip addr ; ip route ; ss -lnt ; nmap -sV -p 80 192.0.2.20.\nSSH : ssh utilisateur@adresse ; saisir le secret au prompt ; whoami ; hostname ; exit.\nUne nouvelle console reste locale. Les droits de lecture SSH ne sont pas des droits administrateur du domaine.\n",
+    "/home/operator/mission/ticket.txt": "LN-FW-301 : sondes de découverte usuelles filtrées depuis opérateur vers 10.90.10.10 ; TCP/22 maintenu pour maintenance. Cette règle ne décrit aucun accès aux réseaux internes.\n",
+    "/home/operator/mission/passations.txt": "Ancienne passation : ASTER-ANCIEN 10.90.10.11, retirée du service.\nActuelle : ASTER-MAINT 10.90.10.10 ; compte maintenance ; secret AsterLecture2026! ; lecture uniquement.\n"
+  },
+  "private_offer": true,
+  "intro": "Le compte est vérifié. Maintenant regarde le réseau depuis cette machine. Compare le serveur de documents depuis Kali et depuis ASTER-MAINT ; relève les routes sur le relais. Une adresse trouvée dans un fichier ne veut pas dire qu’on peut la joindre de partout.",
+  "relaxed_clock": true,
+  "terminal_revision": 1,
+  "dialogue": {
+    "greeting": "Salut. J’ai les pièces Aster ouvertes, on peut comparer.",
+    "ack": "D’accord, je garde ça avec les observations.",
+    "fallback": "Tu parles de quelle machine, et depuis quelle console ?"
+  },
+  "unlocks_tier": 3
+}

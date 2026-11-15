@@ -13,6 +13,7 @@ laboratoire. Ils ne pilotent aucun programme ni réseau extérieur au jeu.
 from __future__ import annotations
 
 import json
+import re
 from .social import stamp
 from pathlib import Path
 
@@ -238,10 +239,17 @@ PAYMENT_WORDS = ("paiement", "prime", "argent", "paye")
 OBJECTIVE_WORDS = ("objectif", "mission", "contrat")
 
 
+def _asks_help(text: str) -> bool:
+    # « Comment tu vas ? » est une question au personnage. « Comment utiliser
+    # SQLmap ? » reste une demande d'aide, y compris après une salutation.
+    lower = re.sub(r'comment\s+(?:tu vas|vas-tu|ça va|ca va|allez-vous|vous allez)', '', text.casefold())
+    return any(word in lower for word in HELP_WORDS)
+
+
 def wants_immediate_answer(text: str) -> bool:
     """Vrai si le message demande de l'aide, l'objectif ou le paiement : le client répond sans délai."""
     lower = text.casefold()
-    return any(word in lower for word in HELP_WORDS + PAYMENT_WORDS + OBJECTIVE_WORDS)
+    return _asks_help(text) or any(word in lower for word in PAYMENT_WORDS + OBJECTIVE_WORDS)
 
 
 def send(state: GameState, text: str) -> None:
@@ -269,7 +277,7 @@ def player_message(state: GameState, channel: str, text: str, *, defer: bool = F
     lower = text.casefold()
     from .investigation import answer as investigation_answer, help_text
     from .guidance import hint
-    asking_help = any(word in lower for word in HELP_WORDS)
+    asking_help = _asks_help(text)
     detailed_help = any(word in lower for word in ("compl", "détaill", "detaill", "rappel"))
     progressive = hint(state, detailed=detailed_help) if asking_help and not contract.get("investigation_steps") else None
     narrative = investigation_answer(state, text)
@@ -287,12 +295,19 @@ def player_message(state: GameState, channel: str, text: str, *, defer: bool = F
         answer = guide[previous]["message"] if 0 <= previous < len(guide) else contract["brief"]
     elif any(word in lower for word in OBJECTIVE_WORDS):
         answer = contract.get("bounty", {}).get("body", contract["brief"])
-    elif any(word in lower for word in ("salut", "bonjour", "hello")):
-        answer = contract.get("dialogue", {}).get("greeting", "Salut {handle}. Je suis là. Tu veux qu'on reparle de l’objectif, du paiement, ou t'es bloqué ?")
-    elif any(word in lower for word in ("merci", "reçu", "occupe", "compris", "ok")):
-        answer = contract.get("dialogue", {}).get("ack", "Bien reçu. Je te fais signe dès qu’une étape est validée.")
     else:
-        answer = "Bien noté. Si tu veux un point précis, demande-moi l'objectif, de l'aide ou le paiement."
+        from .dialogue import intent, reply
+        from .social import content
+        topic = intent(text)
+        authored = contract.get('dialogue', {})
+        contact = next((c for c in content()['contacts'] if c['id'] == contract['client']['handle']), None)
+        if topic in {'greeting', 'thanks'} and authored.get('greeting' if topic == 'greeting' else 'ack'):
+            answer = authored['greeting' if topic == 'greeting' else 'ack']
+        elif contact:
+            memory = state.tool_data.setdefault('dialogue', {}).setdefault(contact['id'], {})
+            answer = reply(contact, text, memory, state.player_handle or 'operator')
+        else:
+            answer = authored.get('fallback', authored.get('ack', 'Je ne suis pas sûr de comprendre. Tu peux préciser ?'))
     if defer and narrative is None: return render(answer, contract, state.player_handle, state)
     _send(state, answer)
     return None

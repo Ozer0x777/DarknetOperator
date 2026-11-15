@@ -13,12 +13,12 @@
     "title": "09 - La réputation se paie",
     "body": "Un vendeur conteste ton travail sur le lot 118. Nous devons établir si les deux pièces concernent réellement la même livraison. Le dossier arrive dans tes MP du forum."
   },
-  "brief": "Un vendeur conteste ton travail sur le lot 118. Les deux pièces concernent-elles réellement la même livraison ? Le dossier arrive dans tes MP du forum.\n\nTu as déjà comparé des dates avec SQLite. Les pièces sont ~/mission/litige.txt et litige.sql ; lis aussi le fil Litige. Choisis une requête qui permet de relier source, référence et date, puis vérifie tes observations. Le nom de la base locale et l’ordre des colonnes sont libres.\n\nDécide ensuite sur Chordly : « publier dossier 118 » ou « mediation dossier 118 ». Les deux voies exigent les mêmes preuves et règlent le dossier ; la visibilité de ton intervention change. Aucune option ne sera choisie automatiquement. Indice ou rappel détaillé si nécessaire.",
+  "brief": "Un vendeur conteste ton travail sur le lot 118. Les deux pièces concernent-elles réellement la même livraison ? Le dossier arrive dans tes MP du forum.\n\nVoici les pièces sur lesquelles je peux décider.\n\nTu as déjà comparé des dates avec SQLite. Les pièces sont ~/mission/litige.txt et litige.sql ; lis aussi le fil Litige. Choisis une requête qui permet de relier source, référence et date, puis vérifie tes observations. Le nom de la base locale et l’ordre des colonnes sont libres.\n\nDécide ensuite sur Chordly : « publier dossier 118 » ou « mediation dossier 118 ». Les deux voies exigent les mêmes preuves et règlent le dossier ; la visibilité de ton intervention change. Aucune option ne sera choisie automatiquement. Indice ou rappel détaillé si nécessaire.",
   "reward": 260,
   "reputation": 45,
   "required_items": [],
-  "success_message": "Livraison vérifiée. {reward} ₵ annoncés au contrat ; le règlement exact figure dans ton profil. Merci {handle}, je conserve tes preuves.",
-  "failure_message": "Dossier interrompu. Reprends une sauvegarde ou relance le contrat pour retenter le parcours.",
+  "success_message": "Les deux pièces ne racontent pas la même livraison. Ta comparaison tient, je peux enfin prendre une décision sans demander à tout le monde de me croire. La prime annoncée est de {reward} ₵ ; le règlement exact figure dans ColdVault.",
+  "failure_message": "Je ne peux pas clore ce dossier sur ce résultat. Garde les pièces et le débriefing pour une nouvelle tentative.",
   "guide": [],
   "investigation_steps": [
     {
@@ -62,9 +62,9 @@
           "unordered": true
         }
       ],
-      "response": "Les preuves datées sont publiées dans le fil. Le vendeur doit corriger son annonce ; ton identité figure comme auteur de la comparaison.",
+      "response": "Les deux pièces datées sont dans le fil, sous ton pseudo. Je peux demander au vendeur de corriger l’annonce. Si quelqu’un conteste, on a de quoi répondre.",
       "missing": "Il manque une observation vérifiable. Importe litige.sql puis compare source, reference et date dans livraisons. Choisis ensuite « publier dossier 118 » ou « mediation dossier 118 ».",
-      "already": "Cette étape est déjà enregistrée.",
+      "already": "C’est enregistré. Je garde la première décision, je ne te la redemande pas.",
       "hint": "Importe litige.sql puis compare source, reference et date dans livraisons. Choisis ensuite « publier dossier 118 » ou « mediation dossier 118 ».",
       "exclusive_group": "litige118",
       "hints": [
@@ -113,9 +113,9 @@
           "unordered": true
         }
       ],
-      "response": "Les preuves sont remises à la modération en privé. Une correction est exigée sans publier ton nom dans le fil.",
+      "response": "J’ai les deux pièces en privé. Je demande une correction au vendeur sans publier ton nom dans le fil. Tu n’auras pas à changer ce choix pour la suite.",
       "missing": "Il manque une observation vérifiable. Compare les deux pièces avant de choisir une médiation privée ou une publication.",
-      "already": "Cette étape est déjà enregistrée.",
+      "already": "C’est enregistré. Je garde la première décision, je ne te la redemande pas.",
       "hint": "Compare les deux pièces avant de choisir une médiation privée ou une publication.",
       "exclusive_group": "litige118",
       "hints": [
@@ -138,7 +138,7 @@
     "act1-litige"
   ],
   "private_offer": true,
-  "intro": "On m’a recommandé ton pseudo. Un vendeur conteste ton travail sur le lot 118. Nous devons établir si les deux pièces concernent réellement la même livraison. Le dossier arrive dans tes MP du forum. Ouvre le dossier pour recevoir les pièces ; la suite se passe dans notre conversation Chordly.",
+  "intro": "J’ai besoin d’un avis qui ne soit pas celui du vendeur ou du client. Ils se disputent deux fichiers numérotés 118. Même livraison, ou pas ? Les pièces t’attendent dans les MP du forum, puis on travaille sur Chordly. Prends le temps, je préfère une comparaison solide à un arrangement rapide.",
   "relaxed_clock": true,
   "side_job": false,
   "chapter": 9,
@@ -146,5 +146,10 @@
   "required_completed": [
     "mauvaise_adresse"
   ],
-  "terminal_revision": 2
+  "terminal_revision": 2,
+  "dialogue": {
+    "greeting": "Salut. Je sors de la modération, je vais essayer de ne pas te répondre comme à un signalement.",
+    "ack": "Merci à toi d’avoir pris le temps de répondre calmement. C’est pas si fréquent.",
+    "fallback": "Tu parles du dossier ou de ce qui se passe sur le forum ?"
+  }
 }

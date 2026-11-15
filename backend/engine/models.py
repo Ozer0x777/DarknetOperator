@@ -177,6 +177,7 @@ class GameState:
     terminal_files: dict[str, str] = field(default_factory=dict)
     terminals: dict[str, dict] = field(default_factory=dict)
     terminal_env: dict[str, str] = field(default_factory=dict)
+    terminal_network_path: dict = field(default_factory=dict)
     terminal_foreground: int | None = None
     active_terminal_id: str = "main"
     tool_services: dict = field(default_factory=dict)
@@ -214,9 +215,39 @@ class GameState:
                     and any(service.port == port for service in host.services)
                     and not self.is_blocked(host.id, port, source))
 
+    def network_origin(self) -> str:
+        return self.terminal_host or self.terminal_network_path.get("jump") or "operator"
+
+    def has_route(self, host, source: str | None = None) -> bool:
+        """Les scénarios anciens restent ouverts ; une table explicite ferme les routes absentes."""
+        import ipaddress
+        if host is None:
+            return False
+        source = source or self.network_origin()
+        if source in self.hosts and self.hosts[source].status in {"ISOLATED", "ENCRYPTED"}:
+            return False
+        routes = self.environment.get("network_routes")
+        if routes is None:
+            return True
+        return any(ipaddress.ip_address(host.ip) in ipaddress.ip_network(cidr)
+                   for cidr in routes.get(source, []))
+
+    def discovery_visible(self, host, source: str | None = None) -> bool:
+        source = source or self.network_origin()
+        if not self.has_route(host, source) or host.status == "ISOLATED":
+            return False
+        for rule in self.environment.get("discovery_rules", []):
+            if rule["target"] == host.id and rule["source"] in {source, "*"}:
+                return rule["action"] == "allow"
+        return True
+
     def is_blocked(self, host_id: str, port: int, source: str | None = None) -> bool:
         """Filtrage déclaré par le scénario (`network_rules`) : la première règle qui correspond décide."""
-        source = source or self.terminal_host or "operator"
+        source = source or self.network_origin()
+        from types import SimpleNamespace
+        target = self.hosts.get(host_id) if host_id != "operator" else SimpleNamespace(ip=self.environment.get("operator_ip", "10.10.14.2"))
+        if not self.has_route(target, source):
+            return True
         for rule in self.environment.get("network_rules", []):
             if rule["target"] == host_id and rule["port"] == port and rule["source"] in {source, "*"}:
                 return rule["action"] == "deny"

@@ -5,7 +5,16 @@ from .data_tools import fact
 
 def resolve(state,address,port):
     if address not in {'127.0.0.1','localhost'}:return None
-    return next((s for s in state.tool_services.values() if s.get('kind')=='ssh-forward' and s.get('running') and s['listen_port']==port and state.hosts.get(s['jump']) and state.hosts[s['jump']].status not in {'ISOLATED','ENCRYPTED'}),None)
+    from .network_tools import client_alive
+    for item in state.tool_services.values():
+        if item.get('listen_port') != port:
+            continue
+        if item.get('kind') == 'ssh-forward' and item.get('running') and state.reachable(state.hosts.get(item['jump']), 22, source='operator'):
+            return item
+        if item.get('kind') == 'chisel-client' and not item.get('socks') and client_alive(state, item) and not next((s.get('process_host') for s in state.tool_services.values() if s.get('pid') == item.get('server_pid')), None):
+            return item
+    return None
+
 
 
 def parse(line,state):
@@ -29,7 +38,8 @@ def parse(line,state):
     if len(parts)!=3 or not parts[0].isdigit() or not parts[2].isdigit() or not all(1<=int(parts[n])<=65535 for n in [0,2]):return TerminalResult(False,['Bad local forwarding specification'])
     user,ref=identity.rsplit('@',1);jump=state.find_host(ref)
     if not jump or jump.id not in state.discovered or not state.reachable(jump,22):return TerminalResult(False,['ssh: connect to host: Connection refused'])
-    if resolve(state,'127.0.0.1',int(parts[0])):return TerminalResult(False,['bind [127.0.0.1]: Address already in use'])
+    from .network_tools import listener_busy
+    if listener_busy(state,int(parts[0])):return TerminalResult(False,['bind [127.0.0.1]: Address already in use'])
     state.terminal_auth=dict(kind='ssh-forward',username=user,host=jump.id,attempts=0,listen_port=int(parts[0]),destination=parts[1],destination_port=int(parts[2]))
     return TerminalResult(True,[f"{user}@{jump.ip}'s password:"])
 
@@ -39,7 +49,7 @@ def finish(state,password):
     from .authentication import authenticate
     pending=state.terminal_auth;host=state.hosts.get(pending['host'])
     credential=authenticate(state,host,pending['username'],password)
-    if not credential or (credential.username!=host.primary_user and credential.username not in host.admin_users) or state.is_blocked(host.id,22):
+    if not credential or (credential.username!=host.primary_user and credential.username not in host.admin_users) or not state.reachable(host,22):
         pending['attempts']+=1
         if pending['attempts']>=3:state.terminal_auth={}
         return TerminalResult(False,['Permission denied (publickey,password).'])

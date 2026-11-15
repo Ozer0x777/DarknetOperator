@@ -39,3 +39,16 @@ Bande-son et effets : compositions originales synthétisées pour Darknet Operat
 Illustrations orbitales v0.4.2 : deux scènes originales générées avec l’outil imagegen intégré, dans une direction anime spatial rétro inspirée de la référence visuelle fournie par le joueur. Le fichier de référence n’est pas incorporé au paquet. Fond de bureau : `backgrounds/orbital-drift-desktop-v1.png` ; accueil : `branding/darknet-operator-orbital-keyart-v2.png`. Direction et prompts : `branding/ORBITAL_PROMPTS.md`. L’ancien fond vectoriel et les anciennes illustrations sont conservés comme ressources historiques.
 
 Icône `music.svg` : dessin vectoriel original du projet pour le lecteur audio. Le manifeste `audio/chapter-album/` contient les titres et repères fournis par le joueur, sans audio de la vidéo.
+
+Portraits orbitaux : dix-neuf avatars originaux générés avec l’outil imagegen
+intégré à partir du fond de bureau original du jeu et, pour les trois profils
+existants, de leur ancien avatar. Ils représentent des adultes fictifs. Les PNG
+sources restent intacts ; Godot importe des textures de 200 pixels. Ressources
+et prompts exacts : `avatars/README.md` et `avatars/orbital-manifest.json`.
+
+Bannières des forums : trois scènes originales générées puis éditées avec
+l’outil imagegen intégré, une pour BreachBoard, Exployt et XSX. Chacune comporte
+un personnage féminin adulte. Le fond orbital sert de référence de style ; les
+titres sont rendus par Godot. Fichiers, dimensions, empreintes et prompts de
+production : `forums/manifest.json`. Aucun fichier situé dans le répertoire
+privé du générateur n’est nécessaire à l’exécution du jeu.

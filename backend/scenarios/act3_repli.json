@@ -1,0 +1,1106 @@
+{
+  "scenario_id": "act3_repli",
+  "name": "Le gardien se réveille",
+  "description": "Le SOC a prévenu : une sonde SMB vers LENOIR-ADMIN .60.10 depuis le premier relais déclenchera son isolement dans cet exercice. Observe cette coupure, puis reprends le bordereau Recherche par ASTER-SECOURS .12. Ne tente pas de désisoler le relais : la reprise doit venir d’un autre chemin.",
+  "hosts": [
+    {
+      "id": "maintenance",
+      "hostname": "ASTER-MAINT",
+      "ip": "10.90.10.10",
+      "os": "Linux Debian 12",
+      "services": [
+        {
+          "name": "SSH",
+          "port": 22,
+          "version": "OpenSSH 9.2"
+        }
+      ],
+      "primary_user": "maintenance",
+      "files": {
+        "/home/maintenance/passation.txt": "LN-03-02 : passerelle actuelle ASTER-MAINT. Compte de lecture maintenance ; aucun droit administrateur Lenoir.\n",
+        "/home/maintenance/reseau.txt": "Le serveur de documents 10.90.40.20 écoute sur TCP/80. Il est joignable depuis ASTER-MAINT, pas directement depuis le poste opérateur. Le réseau Recherche reste hors de cette passation.\n",
+        "/home/maintenance/winrm.txt": "Maintenance Windows : 10.90.40.21, WinRM HTTP TCP/5985, compte audit, secret LectureLenoir2026!. Autorisation de lecture, pas administrateur. Les flux viennent de ASTER-MAINT uniquement.\n",
+        "/home/maintenance/outils.txt": "Image Aster : chisel installé pour les diagnostics ; source de référence github.com/jpillora/chisel, syntaxe 1.10. Aucun exécutable réel ne quitte le laboratoire simulé. Le poste opérateur 10.10.14.2 est joignable en sortie depuis le relais.\n",
+        "/home/maintenance/suite.txt": "Passation LN-307 : annuaire 10.90.30.10 LDAP/389 ; base DC=lenoir,DC=lab ; audit@lenoir.lab / LectureLenoir2026!. Contrôle WinRM 10.90.40.23 : audit non autorisé. Diagnostic Windows 10.90.40.21 : ops.local / ControleLocal2026!, administrateur local uniquement ; même compte sur contrôle .23. Passerelle Recherche SSH 10.90.40.22 : relais / PassageLecture2026!. Avenant LN-310 consultable sur cette passerelle. Secours Aster .12 disponible.\n"
+      }
+    },
+    {
+      "id": "old",
+      "hostname": "ASTER-ANCIEN",
+      "ip": "10.90.10.11",
+      "os": "Linux Debian 12",
+      "services": [],
+      "files": {}
+    },
+    {
+      "id": "documents",
+      "hostname": "LENOIR-DOC",
+      "ip": "10.90.40.20",
+      "os": "Linux Debian 12",
+      "services": [
+        {
+          "name": "HTTP",
+          "port": 80,
+          "version": "nginx 1.24"
+        }
+      ],
+      "files": {
+        "/srv/web/registre.txt": "LN-03-03 : registre des accès de maintenance. Recherche exclue du périmètre.\n"
+      }
+    },
+    {
+      "id": "research",
+      "hostname": "LENOIR-PLM",
+      "ip": "10.92.10.20",
+      "os": "Linux Debian 12",
+      "services": [
+        {
+          "name": "HTTPS",
+          "port": 443,
+          "version": "nginx 1.24"
+        },
+        {
+          "name": "HTTP",
+          "port": 80,
+          "version": "nginx 1.24"
+        }
+      ],
+      "files": {
+        "/srv/web/index.txt": "LN-310 : consultation autorisée. /bordereau.txt et /lot-industriel.txt ; redistribution du lot interdite.\n",
+        "/srv/web/bordereau.txt": "LN-311 : dossier Recherche consultable en audit. La reprise sur secours est journalisée.\n",
+        "/srv/web/lot-industriel.txt": "LENOIR — LOT INDUSTRIEL LN-RD-26\nClassification : confidentiel industriel ; consultation d’audit autorisée, redistribution exclue.\nPrototype BRUME : calendrier de qualification 2027, fournisseur Orme, coût cible 184 €/unité.\nDestinataire contractuel : Traverse ; compte rendu expurgé uniquement.\n"
+      }
+    },
+    {
+      "id": "winrm",
+      "hostname": "LENOIR-MAINT-WIN",
+      "ip": "10.90.40.21",
+      "os": "Windows Server 2022",
+      "services": [
+        {
+          "name": "WinRM",
+          "port": 5985,
+          "version": "Microsoft HTTPAPI 2.0"
+        }
+      ],
+      "primary_user": "audit",
+      "admin_users": [
+        "ops.local"
+      ],
+      "files": {
+        "/Users/audit/perimetre.txt": "LN-03-06 : audit peut lire les relevés de maintenance. Aucun droit administrateur local ou du domaine.\n",
+        "/Tools/sharphound.exe": "REDTEAM-VIRTUAL-TOOL:sharphound:1\n"
+      }
+    },
+    {
+      "id": "dc",
+      "hostname": "LENOIR-DC",
+      "ip": "10.90.30.10",
+      "os": "Windows Server 2022",
+      "services": [
+        {
+          "name": "LDAP",
+          "port": 389,
+          "version": "Microsoft AD LDAP"
+        },
+        {
+          "name": "Kerberos",
+          "port": 88,
+          "version": "Microsoft Kerberos"
+        },
+        {
+          "name": "SMB",
+          "port": 445,
+          "version": "Microsoft SMB"
+        }
+      ],
+      "primary_user": null,
+      "admin_users": [],
+      "files": {}
+    },
+    {
+      "id": "control",
+      "hostname": "LENOIR-CONTROLE",
+      "ip": "10.90.40.23",
+      "os": "Windows Server 2022",
+      "services": [
+        {
+          "name": "WinRM",
+          "port": 5985,
+          "version": "Microsoft HTTPAPI 2.0"
+        }
+      ],
+      "primary_user": "ops.local",
+      "admin_users": [
+        "ops.local"
+      ],
+      "files": {
+        "/Users/ops.local/controle.txt": "Image de contrôle : protection contre les falsifications désactivée par le propriétaire, aucune équivalence avec la production.\n"
+      }
+    },
+    {
+      "id": "apprelay",
+      "hostname": "LENOIR-PASSERELLE",
+      "ip": "10.90.40.22",
+      "os": "Linux Debian 12",
+      "services": [
+        {
+          "name": "SSH",
+          "port": 22,
+          "version": "OpenSSH 9.2"
+        }
+      ],
+      "primary_user": "relais",
+      "admin_users": [],
+      "files": {
+        "/home/relais/recherche.txt": "Avenant LN-310 : consultation audit Recherche autorisée ; aucune redistribution commerciale. PLM 10.92.10.20 HTTP/80. Retour vers Aster 10.90.10.10:8001 ou secours 10.90.10.12:8001 ; pas de route directe vers Kali.\n"
+      }
+    },
+    {
+      "id": "backuprelay",
+      "hostname": "ASTER-SECOURS",
+      "ip": "10.90.10.12",
+      "os": "Linux Debian 12",
+      "services": [
+        {
+          "name": "SSH",
+          "port": 22,
+          "version": "OpenSSH 9.2"
+        }
+      ],
+      "primary_user": "maintenance",
+      "admin_users": [],
+      "files": {
+        "/home/maintenance/repli.txt": "Secours approuvé ; mêmes routes applicatives que ASTER-MAINT. Ne désisole pas toi-même le premier relais.\n",
+        "/home/maintenance/suite.txt": "Passation LN-307 : annuaire 10.90.30.10 LDAP/389 ; base DC=lenoir,DC=lab ; audit@lenoir.lab / LectureLenoir2026!. Contrôle WinRM 10.90.40.23 : audit non autorisé. Diagnostic Windows 10.90.40.21 : ops.local / ControleLocal2026!, administrateur local uniquement ; même compte sur contrôle .23. Passerelle Recherche SSH 10.90.40.22 : relais / PassageLecture2026!. Avenant LN-310 consultable sur cette passerelle. Secours Aster .12 disponible.\n"
+      }
+    },
+    {
+      "id": "admin",
+      "hostname": "LENOIR-ADMIN",
+      "ip": "10.90.60.10",
+      "os": "Windows Server 2022",
+      "services": [
+        {
+          "name": "SMB",
+          "port": 445,
+          "version": "Microsoft SMB"
+        }
+      ],
+      "primary_user": null,
+      "admin_users": [],
+      "files": {}
+    },
+    {
+      "id": "dmz_1",
+      "hostname": "LENOIR-DMZ-1",
+      "ip": "10.90.10.50",
+      "os": "Linux Debian 12",
+      "services": [
+        {
+          "name": "HTTP",
+          "port": 80,
+          "version": "nginx 1.24"
+        }
+      ],
+      "primary_user": null,
+      "admin_users": [],
+      "files": {
+        "/srv/web/index.txt": "Inventaire dmz_1 ; consultation seulement, aucune délégation interactive.\n"
+      }
+    },
+    {
+      "id": "postes_1",
+      "hostname": "LENOIR-ACHATS",
+      "ip": "10.90.20.50",
+      "os": "Windows 11 Pro",
+      "services": [
+        {
+          "name": "SMB",
+          "port": 445,
+          "version": "Microsoft SMB"
+        }
+      ],
+      "primary_user": null,
+      "admin_users": [],
+      "files": {},
+      "role": "postes"
+    },
+    {
+      "id": "postes_2",
+      "hostname": "LENOIR-FINANCE",
+      "ip": "10.90.20.51",
+      "os": "Windows 11 Pro",
+      "services": [
+        {
+          "name": "SMB",
+          "port": 445,
+          "version": "Microsoft SMB"
+        }
+      ],
+      "primary_user": null,
+      "admin_users": [],
+      "files": {},
+      "role": "postes"
+    },
+    {
+      "id": "postes_3",
+      "hostname": "LENOIR-ASSISTANCE",
+      "ip": "10.90.20.52",
+      "os": "Windows 11 Pro",
+      "services": [
+        {
+          "name": "SMB",
+          "port": 445,
+          "version": "Microsoft SMB"
+        }
+      ],
+      "primary_user": null,
+      "admin_users": [],
+      "files": {},
+      "role": "postes"
+    },
+    {
+      "id": "postes_4",
+      "hostname": "LENOIR-IT",
+      "ip": "10.90.20.53",
+      "os": "Windows 11 Pro",
+      "services": [
+        {
+          "name": "SMB",
+          "port": 445,
+          "version": "Microsoft SMB"
+        }
+      ],
+      "primary_user": null,
+      "admin_users": [],
+      "files": {},
+      "role": "postes"
+    },
+    {
+      "id": "postes_5",
+      "hostname": "LENOIR-SOC",
+      "ip": "10.90.20.54",
+      "os": "Windows 11 Pro",
+      "services": [
+        {
+          "name": "SMB",
+          "port": 445,
+          "version": "Microsoft SMB"
+        }
+      ],
+      "primary_user": null,
+      "admin_users": [],
+      "files": {},
+      "role": "postes"
+    },
+    {
+      "id": "postes_6",
+      "hostname": "LENOIR-EXTERNE",
+      "ip": "10.90.20.55",
+      "os": "Windows 11 Pro",
+      "services": [],
+      "primary_user": null,
+      "admin_users": [],
+      "files": {},
+      "role": "postes"
+    },
+    {
+      "id": "identite_1",
+      "hostname": "LENOIR-DC02",
+      "ip": "10.90.30.50",
+      "os": "Windows Server 2022",
+      "services": [
+        {
+          "name": "LDAP",
+          "port": 389,
+          "version": "Microsoft AD LDAP"
+        },
+        {
+          "name": "Kerberos",
+          "port": 88,
+          "version": "Microsoft Kerberos"
+        }
+      ],
+      "primary_user": null,
+      "admin_users": [],
+      "files": {},
+      "role": "identite",
+      "is_domain_controller": true
+    },
+    {
+      "id": "identite_2",
+      "hostname": "LENOIR-PKI",
+      "ip": "10.90.30.51",
+      "os": "Windows Server 2022",
+      "services": [
+        {
+          "name": "HTTPS",
+          "port": 443,
+          "version": "Microsoft IIS"
+        }
+      ],
+      "primary_user": null,
+      "admin_users": [],
+      "files": {},
+      "role": "identite"
+    },
+    {
+      "id": "identite_3",
+      "hostname": "LENOIR-IDENTITE",
+      "ip": "10.90.30.52",
+      "os": "Linux Debian 12",
+      "services": [
+        {
+          "name": "HTTPS",
+          "port": 443,
+          "version": "nginx 1.24"
+        }
+      ],
+      "primary_user": null,
+      "admin_users": [],
+      "files": {},
+      "role": "identite"
+    },
+    {
+      "id": "applications_1",
+      "hostname": "LENOIR-ERP",
+      "ip": "10.90.40.50",
+      "os": "Linux Debian 12",
+      "services": [
+        {
+          "name": "HTTPS",
+          "port": 443,
+          "version": "nginx 1.24"
+        }
+      ],
+      "primary_user": null,
+      "admin_users": [],
+      "files": {},
+      "role": "applications"
+    },
+    {
+      "id": "applications_2",
+      "hostname": "LENOIR-ERP-SQL",
+      "ip": "10.90.40.51",
+      "os": "Windows Server 2022",
+      "services": [
+        {
+          "name": "MSSQL",
+          "port": 1433,
+          "version": "Microsoft SQL Server 2022"
+        }
+      ],
+      "primary_user": null,
+      "admin_users": [],
+      "files": {},
+      "role": "applications"
+    },
+    {
+      "id": "aster_1",
+      "hostname": "ASTER-DC",
+      "ip": "10.91.10.50",
+      "os": "Windows Server 2022",
+      "services": [
+        {
+          "name": "LDAP",
+          "port": 389,
+          "version": "Microsoft AD LDAP"
+        },
+        {
+          "name": "Kerberos",
+          "port": 88,
+          "version": "Microsoft Kerberos"
+        }
+      ],
+      "primary_user": null,
+      "admin_users": [],
+      "files": {},
+      "role": "aster",
+      "is_domain_controller": true
+    },
+    {
+      "id": "aster_2",
+      "hostname": "ASTER-SFTP",
+      "ip": "10.91.10.51",
+      "os": "Linux Debian 12",
+      "services": [
+        {
+          "name": "SSH",
+          "port": 22,
+          "version": "OpenSSH 9.2"
+        }
+      ],
+      "primary_user": null,
+      "admin_users": [],
+      "files": {},
+      "role": "aster"
+    },
+    {
+      "id": "aster_3",
+      "hostname": "ASTER-SUPPORT",
+      "ip": "10.91.10.52",
+      "os": "Windows Server 2022",
+      "services": [
+        {
+          "name": "SMB",
+          "port": 445,
+          "version": "Microsoft SMB"
+        }
+      ],
+      "primary_user": null,
+      "admin_users": [],
+      "files": {},
+      "role": "aster"
+    },
+    {
+      "id": "aster_4",
+      "hostname": "ASTER-PORTAIL",
+      "ip": "10.91.10.53",
+      "os": "Linux Debian 12",
+      "services": [
+        {
+          "name": "HTTPS",
+          "port": 443,
+          "version": "nginx 1.24"
+        }
+      ],
+      "primary_user": null,
+      "admin_users": [],
+      "files": {},
+      "role": "aster"
+    },
+    {
+      "id": "recherche_1",
+      "hostname": "LENOIR-CAO",
+      "ip": "10.92.10.50",
+      "os": "Windows Server 2022",
+      "services": [
+        {
+          "name": "SMB",
+          "port": 445,
+          "version": "Microsoft SMB"
+        }
+      ],
+      "primary_user": null,
+      "admin_users": [],
+      "files": {},
+      "role": "recherche"
+    },
+    {
+      "id": "recherche_2",
+      "hostname": "LENOIR-BUILD",
+      "ip": "10.92.10.51",
+      "os": "Linux Debian 12",
+      "services": [
+        {
+          "name": "SSH",
+          "port": 22,
+          "version": "OpenSSH 9.2"
+        }
+      ],
+      "primary_user": null,
+      "admin_users": [],
+      "files": {},
+      "role": "recherche"
+    },
+    {
+      "id": "recherche_3",
+      "hostname": "LENOIR-INGENIERIE",
+      "ip": "10.92.10.52",
+      "os": "Windows 11 Pro",
+      "services": [
+        {
+          "name": "SMB",
+          "port": 445,
+          "version": "Microsoft SMB"
+        }
+      ],
+      "primary_user": null,
+      "admin_users": [],
+      "files": {},
+      "role": "recherche"
+    },
+    {
+      "id": "recherche_4",
+      "hostname": "LENOIR-PROJETS",
+      "ip": "10.92.10.53",
+      "os": "Linux Debian 12",
+      "services": [
+        {
+          "name": "HTTPS",
+          "port": 443,
+          "version": "nginx 1.24"
+        }
+      ],
+      "primary_user": null,
+      "admin_users": [],
+      "files": {},
+      "role": "recherche"
+    },
+    {
+      "id": "administration_1",
+      "hostname": "LENOIR-BASTION",
+      "ip": "10.90.60.50",
+      "os": "Linux Debian 12",
+      "services": [
+        {
+          "name": "SSH",
+          "port": 22,
+          "version": "OpenSSH 9.2"
+        }
+      ],
+      "primary_user": null,
+      "admin_users": [],
+      "files": {},
+      "role": "administration"
+    },
+    {
+      "id": "administration_2",
+      "hostname": "LENOIR-ORCHESTRATION",
+      "ip": "10.90.60.51",
+      "os": "Linux Debian 12",
+      "services": [
+        {
+          "name": "HTTPS",
+          "port": 443,
+          "version": "nginx 1.24"
+        }
+      ],
+      "primary_user": null,
+      "admin_users": [],
+      "files": {},
+      "role": "administration"
+    },
+    {
+      "id": "administration_3",
+      "hostname": "LENOIR-SECURITE",
+      "ip": "10.90.60.52",
+      "os": "Windows Server 2022",
+      "services": [
+        {
+          "name": "HTTPS",
+          "port": 443,
+          "version": "Microsoft IIS"
+        }
+      ],
+      "primary_user": null,
+      "admin_users": [],
+      "files": {},
+      "role": "administration"
+    },
+    {
+      "id": "administration_4",
+      "hostname": "LENOIR-CORRECTIFS",
+      "ip": "10.90.60.53",
+      "os": "Windows Server 2022",
+      "services": [
+        {
+          "name": "HTTP",
+          "port": 8530,
+          "version": "Microsoft WSUS"
+        }
+      ],
+      "primary_user": null,
+      "admin_users": [],
+      "files": {},
+      "role": "administration"
+    },
+    {
+      "id": "sauvegarde_1",
+      "hostname": "LENOIR-CONSOLE",
+      "ip": "10.90.70.50",
+      "os": "Windows Server 2022",
+      "services": [
+        {
+          "name": "HTTPS",
+          "port": 443,
+          "version": "Microsoft IIS"
+        }
+      ],
+      "primary_user": null,
+      "admin_users": [],
+      "files": {},
+      "role": "sauvegarde"
+    },
+    {
+      "id": "sauvegarde_2",
+      "hostname": "LENOIR-PROXY",
+      "ip": "10.90.70.51",
+      "os": "Windows Server 2022",
+      "services": [
+        {
+          "name": "SMB",
+          "port": 445,
+          "version": "Microsoft SMB"
+        }
+      ],
+      "primary_user": null,
+      "admin_users": [],
+      "files": {},
+      "role": "sauvegarde"
+    },
+    {
+      "id": "sauvegarde_3",
+      "hostname": "LENOIR-DEPOT",
+      "ip": "10.90.70.52",
+      "os": "Linux Debian 12",
+      "services": [
+        {
+          "name": "SSH",
+          "port": 22,
+          "version": "OpenSSH 9.2"
+        }
+      ],
+      "primary_user": null,
+      "admin_users": [],
+      "files": {},
+      "role": "sauvegarde"
+    },
+    {
+      "id": "sauvegarde_4",
+      "hostname": "LENOIR-RESTAURATION",
+      "ip": "10.90.70.53",
+      "os": "Windows Server 2022",
+      "services": [
+        {
+          "name": "SMB",
+          "port": 445,
+          "version": "Microsoft SMB"
+        }
+      ],
+      "primary_user": null,
+      "admin_users": [],
+      "files": {},
+      "role": "sauvegarde"
+    }
+  ],
+  "users": [
+    {
+      "username": "maintenance",
+      "password": "AsterLecture2026!"
+    },
+    {
+      "username": "audit",
+      "password": "LectureLenoir2026!"
+    },
+    {
+      "username": "ops.local",
+      "password": "ControleLocal2026!"
+    },
+    {
+      "username": "relais",
+      "password": "PassageLecture2026!"
+    }
+  ],
+  "initially_discovered": [
+    "maintenance",
+    "old",
+    "backuprelay"
+  ],
+  "initially_scanned": [],
+  "objectives": [
+    {
+      "type": "investigation_step",
+      "step": "constat"
+    }
+  ],
+  "max_ticks": 5000,
+  "rng_seed": 0,
+  "available_abilities": {
+    "red": [
+      "red.recon_scan"
+    ]
+  },
+  "environment": {
+    "network_routes": {
+      "operator": [
+        "10.90.10.0/24"
+      ],
+      "maintenance": [
+        "10.90.10.0/24",
+        "10.90.40.0/24",
+        "10.10.14.0/24",
+        "10.90.30.0/24",
+        "10.90.60.0/24"
+      ],
+      "backuprelay": [
+        "10.90.10.0/24",
+        "10.90.40.0/24",
+        "10.10.14.0/24",
+        "10.90.30.0/24",
+        "10.90.60.0/24"
+      ],
+      "apprelay": [
+        "10.90.10.0/24",
+        "10.90.40.0/24",
+        "10.92.10.0/24"
+      ]
+    },
+    "discovery_rules": [
+      {
+        "source": "operator",
+        "target": "maintenance",
+        "action": "deny"
+      }
+    ],
+    "network_rules": [
+      {
+        "source": "backuprelay",
+        "target": "backuprelay",
+        "port": 1081,
+        "action": "allow"
+      },
+      {
+        "source": "*",
+        "target": "backuprelay",
+        "port": 1081,
+        "action": "deny"
+      },
+      {
+        "source": "apprelay",
+        "target": "backuprelay",
+        "port": 8001,
+        "action": "allow"
+      },
+      {
+        "source": "*",
+        "target": "backuprelay",
+        "port": 8001,
+        "action": "deny"
+      },
+      {
+        "source": "maintenance",
+        "target": "maintenance",
+        "port": 1081,
+        "action": "allow"
+      },
+      {
+        "source": "*",
+        "target": "maintenance",
+        "port": 1081,
+        "action": "deny"
+      },
+      {
+        "source": "apprelay",
+        "target": "maintenance",
+        "port": 8001,
+        "action": "allow"
+      },
+      {
+        "source": "*",
+        "target": "maintenance",
+        "port": 8001,
+        "action": "deny"
+      },
+      {
+        "source": "backuprelay",
+        "target": "documents",
+        "port": 80,
+        "action": "allow"
+      },
+      {
+        "source": "maintenance",
+        "target": "documents",
+        "port": 80,
+        "action": "allow"
+      },
+      {
+        "source": "*",
+        "target": "documents",
+        "port": 80,
+        "action": "deny"
+      },
+      {
+        "source": "maintenance",
+        "target": "winrm",
+        "port": 5985,
+        "action": "allow"
+      },
+      {
+        "source": "backuprelay",
+        "target": "winrm",
+        "port": 5985,
+        "action": "allow"
+      },
+      {
+        "source": "*",
+        "target": "winrm",
+        "port": 5985,
+        "action": "deny"
+      },
+      {
+        "source": "maintenance",
+        "target": "dc",
+        "port": 389,
+        "action": "allow"
+      },
+      {
+        "source": "backuprelay",
+        "target": "dc",
+        "port": 389,
+        "action": "allow"
+      },
+      {
+        "source": "*",
+        "target": "dc",
+        "port": 389,
+        "action": "deny"
+      },
+      {
+        "source": "maintenance",
+        "target": "apprelay",
+        "port": 22,
+        "action": "allow"
+      },
+      {
+        "source": "backuprelay",
+        "target": "apprelay",
+        "port": 22,
+        "action": "allow"
+      },
+      {
+        "source": "*",
+        "target": "apprelay",
+        "port": 22,
+        "action": "deny"
+      },
+      {
+        "source": "maintenance",
+        "target": "control",
+        "port": 5985,
+        "action": "allow"
+      },
+      {
+        "source": "backuprelay",
+        "target": "control",
+        "port": 5985,
+        "action": "allow"
+      },
+      {
+        "source": "*",
+        "target": "control",
+        "port": 5985,
+        "action": "deny"
+      },
+      {
+        "source": "maintenance",
+        "target": "admin",
+        "port": 445,
+        "action": "allow"
+      },
+      {
+        "source": "backuprelay",
+        "target": "admin",
+        "port": 445,
+        "action": "allow"
+      },
+      {
+        "source": "*",
+        "target": "admin",
+        "port": 445,
+        "action": "deny"
+      }
+    ],
+    "http_routes": {
+      "documents": {
+        "/registre.txt": "/srv/web/registre.txt"
+      },
+      "research": {
+        "/": "/srv/web/index.txt",
+        "/bordereau.txt": "/srv/web/bordereau.txt",
+        "/lot-industriel.txt": "/srv/web/lot-industriel.txt"
+      }
+    },
+    "systems": {
+      "operator": {
+        "routes": [
+          "10.90.10.0/24 via 10.10.14.1 dev eth0"
+        ]
+      },
+      "maintenance": {
+        "routes": [
+          "10.90.10.0/24 dev eth0 proto kernel scope link",
+          "10.90.40.0/24 via 10.90.10.1 dev eth0"
+        ],
+        "installed_tools": [
+          "ssh",
+          "curl",
+          "nmap",
+          "ip",
+          "ss",
+          "chisel",
+          "ldapsearch"
+        ],
+        "groups": [
+          "maintenance"
+        ],
+        "processes": [
+          "root 301 /usr/sbin/sshd"
+        ],
+        "services": {
+          "ssh": "active (running)"
+        }
+      },
+      "winrm": {
+        "groups": [
+          "LENOIR\\Lecteurs maintenance",
+          "BUILTIN\\Remote Management Users"
+        ],
+        "privileges": [
+          "SeChangeNotifyPrivilege Enabled"
+        ],
+        "hotfixes": [
+          "KB5030216",
+          "KB5044281"
+        ]
+      },
+      "backuprelay": {
+        "routes": [
+          "10.90.10.0/24 dev eth0 proto kernel scope link",
+          "10.90.40.0/24 via 10.90.10.1 dev eth0"
+        ],
+        "installed_tools": [
+          "ssh",
+          "curl",
+          "nmap",
+          "ip",
+          "ss",
+          "chisel"
+        ],
+        "groups": [
+          "maintenance"
+        ],
+        "processes": [
+          "root 301 /usr/sbin/sshd"
+        ],
+        "services": {
+          "ssh": "active (running)"
+        }
+      },
+      "apprelay": {
+        "installed_tools": [
+          "ssh",
+          "nmap",
+          "curl",
+          "ip",
+          "ss",
+          "chisel"
+        ],
+        "routes": [
+          "10.90.40.0/24 dev eth0",
+          "10.92.10.0/24 via 10.90.40.1 dev eth0",
+          "10.90.10.0/24 via 10.90.40.1 dev eth0"
+        ]
+      },
+      "control": {
+        "hotfixes": [
+          "KB5030216"
+        ],
+        "groups": [
+          "BUILTIN\\Administrators"
+        ]
+      }
+    },
+    "organization": "Lenoir / Aster",
+    "briefing_host": "maintenance",
+    "known_contact": "traverse",
+    "sector": "Industrie et maintenance",
+    "timezone": "Europe/Paris",
+    "business_hours": "09:00–18:00",
+    "initial_time": "10:00",
+    "context": "Le SOC a prévenu : une sonde SMB vers LENOIR-ADMIN .60.10 depuis le premier relais déclenchera son isolement dans cet exercice. Observe cette coupure, puis reprends le bordereau Recherche par ASTER-SECOURS .12. Ne tente pas de désisoler le relais : la reprise doit venir d’un autre chemin.",
+    "operator_ip": "10.10.14.2",
+    "winrm": {
+      "winrm": {
+        "users": [
+          "audit",
+          "ops.local"
+        ],
+        "port": 5985,
+        "tls": false
+      },
+      "control": {
+        "users": [
+          "ops.local"
+        ],
+        "port": 5985,
+        "tls": false
+      }
+    },
+    "domains": [
+      {
+        "name": "lenoir.lab",
+        "trusts": []
+      },
+      {
+        "name": "aster.lab",
+        "trusts": []
+      }
+    ],
+    "defender_profiles": {
+      "winrm": {
+        "version": "4.18.24090.11",
+        "tamper": true,
+        "realtime": true,
+        "blocked_artifacts": [
+          "sharphound"
+        ],
+        "exclusions": []
+      },
+      "control": {
+        "version": "4.18.23080.2006",
+        "tamper": false,
+        "realtime": true,
+        "blocked_artifacts": [
+          "sharphound"
+        ],
+        "exclusions": []
+      }
+    },
+    "directory": {
+      "host": "10.90.30.10",
+      "base": "DC=lenoir,DC=lab",
+      "entries": [
+        {
+          "dn": "CN=audit,CN=Users,DC=lenoir,DC=lab",
+          "objectClass": [
+            "top",
+            "person",
+            "user"
+          ],
+          "sAMAccountName": "audit",
+          "memberOf": [
+            "CN=Lecteurs maintenance,CN=Users,DC=lenoir,DC=lab"
+          ]
+        },
+        {
+          "dn": "CN=Lecteurs maintenance,CN=Users,DC=lenoir,DC=lab",
+          "objectClass": [
+            "top",
+            "group"
+          ],
+          "cn": "Lecteurs maintenance",
+          "member": [
+            "CN=audit,CN=Users,DC=lenoir,DC=lab"
+          ],
+          "description": "Lecture annuaire et WinRM LENOIR-MAINT-WIN ; pas WinRM sur LENOIR-CONTROLE, pas Domain Admins."
+        }
+      ]
+    },
+    "scan_responses": [
+      {
+        "source": "maintenance",
+        "target": "admin",
+        "port": 445
+      }
+    ]
+  },
+  "domain": {
+    "name": "lenoir.lab",
+    "sid": "S-1-5-21-900-910-920"
+  },
+  "defender": {
+    "enabled": false
+  }
+}

@@ -22,8 +22,8 @@
   "required_completed": [
     "act2_pivot"
   ],
-  "success_message": "Preuves vérifiées. {reward} ₵ réglés dans ColdVault ; tes choix sont conservés.",
-  "failure_message": "Dossier interrompu, sans prime. Les accès acquis et les observations sauvegardées restent disponibles pour une reprise.",
+  "success_message": "Le passage est contrôlé depuis la bonne origine. Je peux retirer le point d’interrogation de mes notes. La prime annoncée est de {reward} ₵ ; le règlement exact figure dans ColdVault.",
+  "failure_message": "Le passage n’a pas tenu jusqu’au résultat. Garde le débriefing, on saura au moins depuis où reprendre les vérifications au prochain essai.",
   "guide": [],
   "investigation_steps": [
     {
@@ -43,8 +43,8 @@
           "path": "/diagnostic.txt"
         }
       ],
-      "response": "Contre-vérification reçue.",
-      "already": "Cette preuve est déjà enregistrée.",
+      "response": "Le passage est contrôlé depuis la bonne origine. Je peux retirer le point d’interrogation de mes notes.",
+      "already": "Oui, reçu. On garde ce point de départ pour la suite.",
       "missing": "Vérifie les observations et la version des pièces ; demande indice si nécessaire.",
       "hint": "Ouvre le tunnel SSH du laboratoire dans une console, puis `curl http://127.0.0.1:8080/diagnostic.txt` dans une autre. Confirme rapport act2_side_tunnel.",
       "hints": [
@@ -60,8 +60,13 @@
     "/home/operator/mission/brief-act2.txt": "Récupère OR-NET-205 du portail interne 10.72.0.20 par un passage local SSH. Le port HTTP ne répond pas directement depuis Kali. Le tunnel doit rester ouvert dans sa propre console.\n"
   },
   "private_offer": true,
-  "intro": "Vérifie le diagnostic OR-DIAG-213 sur le portail interne par un tunnel SSH ; un ancien fichier de registre ne convient pas.",
+  "intro": "J’ai un passage à recontrôler. Je te laisse le détail au dossier, on pourra comparer depuis la même origine. Je reste sur Telegrid.",
   "relaxed_clock": true,
   "terminal_revision": 1,
-  "side_job": true
+  "side_job": true,
+  "dialogue": {
+    "greeting": "Salut ! Je venais de quitter le terminal. Deux minutes, je suis à toi.",
+    "ack": "Ça marche. Et merci d’avoir dit d’où venait le problème, on s’épargne un tour.",
+    "fallback": "Tu m’as perdu. Reprends juste le point qui te gêne."
+  }
 }

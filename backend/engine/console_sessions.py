@@ -3,13 +3,13 @@ from contextlib import contextmanager
 from copy import deepcopy
 from .models import GameState
 
-FIELDS = ("terminal_host", "terminal_user", "terminal_access", "terminal_shell", "terminal_last_exit", "terminal_last_native_exit", "terminal_return_stack", "terminal_auth", "terminal_cwd", "terminal_env", "terminal_foreground")
+FIELDS = ("terminal_host", "terminal_user", "terminal_access", "terminal_shell", "terminal_last_exit", "terminal_last_native_exit", "terminal_return_stack", "terminal_auth", "terminal_cwd", "terminal_env", "terminal_foreground", "terminal_network_path")
 
 
 def initial() -> dict:
     return {"terminal_host": None, "terminal_user": "operator", "terminal_access": "USER", "terminal_shell": "bash", "terminal_last_exit": 0, "terminal_last_native_exit": 0, "terminal_return_stack": [], "terminal_auth": {},
             "terminal_cwd": "/home/operator", "terminal_env": {"HOME": "/home/operator", "PATH": "/usr/bin:/bin:/opt/gophish"},
-            "terminal_foreground": None}
+            "terminal_foreground": None, "terminal_network_path": {}}
 
 
 @contextmanager
@@ -97,7 +97,7 @@ def close(state: GameState, console_id: str) -> None:
         for key, value in initial().items(): setattr(state, key, value)
 
 
-SESSION_FIELDS = ("terminal_host", "terminal_user", "terminal_access", "terminal_shell", "terminal_cwd", "terminal_env", "terminal_last_exit", "terminal_last_native_exit")
+SESSION_FIELDS = ("terminal_host", "terminal_user", "terminal_access", "terminal_shell", "terminal_cwd", "terminal_env", "terminal_last_exit", "terminal_last_native_exit", "terminal_network_path")
 
 
 def enter(state: GameState, host, user: str, access: str) -> None:
@@ -114,7 +114,7 @@ def enter(state: GameState, host, user: str, access: str) -> None:
 def leave(state: GameState) -> None:
     if state.terminal_return_stack:
         previous = state.terminal_return_stack.pop()
-        for key in SESSION_FIELDS: setattr(state, key, deepcopy(previous[key]))
+        for key in SESSION_FIELDS: setattr(state, key, deepcopy(previous.get(key, initial()[key])))
     elif state.terminal_host is not None:
         # Ancienne session distante sans pile de retour : retour au shell local par défaut.
         for key, value in initial().items(): setattr(state, key, deepcopy(value))

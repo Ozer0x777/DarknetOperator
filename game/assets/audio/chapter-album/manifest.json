@@ -1,0 +1,102 @@
+{
+  "source_url": "https://www.youtube.com/watch?v=_Gajv2yJt5M",
+  "end": 2541,
+  "tracks": [
+    {
+      "id": "chapter_01",
+      "title": "Pulse Reconnected",
+      "start": 0,
+      "file": "01-pulse-reconnected.ogg",
+      "menu": false,
+      "seconds": 207
+    },
+    {
+      "id": "chapter_02",
+      "title": "Wake Sequence",
+      "start": 207,
+      "file": "02-wake-sequence.ogg",
+      "menu": true,
+      "seconds": 199
+    },
+    {
+      "id": "chapter_03",
+      "title": "Lost Frequency",
+      "start": 406,
+      "file": "03-lost-frequency.ogg",
+      "menu": false,
+      "seconds": 208
+    },
+    {
+      "id": "chapter_04",
+      "title": "Echo of Earth",
+      "start": 614,
+      "file": "04-echo-of-earth.ogg",
+      "menu": false,
+      "seconds": 195
+    },
+    {
+      "id": "chapter_05",
+      "title": "Drift Into Memory",
+      "start": 809,
+      "file": "05-drift-into-memory.ogg",
+      "menu": false,
+      "seconds": 223
+    },
+    {
+      "id": "chapter_06",
+      "title": "Signal From the Past",
+      "start": 1032,
+      "file": "06-signal-from-the-past.ogg",
+      "menu": false,
+      "seconds": 229
+    },
+    {
+      "id": "chapter_07",
+      "title": "Cyber Tears",
+      "start": 1261,
+      "file": "07-cyber-tears.ogg",
+      "menu": false,
+      "seconds": 214
+    },
+    {
+      "id": "chapter_08",
+      "title": "Reclaim The Moment",
+      "start": 1475,
+      "file": "08-reclaim-the-moment.ogg",
+      "menu": false,
+      "seconds": 240
+    },
+    {
+      "id": "chapter_09",
+      "title": "Cold Starlight",
+      "start": 1715,
+      "file": "09-cold-starlight.ogg",
+      "menu": false,
+      "seconds": 227
+    },
+    {
+      "id": "chapter_10",
+      "title": "Archive Chamber",
+      "start": 1942,
+      "file": "10-archive-chamber.ogg",
+      "menu": false,
+      "seconds": 132
+    },
+    {
+      "id": "chapter_11",
+      "title": "The Halcyon Dream",
+      "start": 2074,
+      "file": "11-the-halcyon-dream.ogg",
+      "menu": false,
+      "seconds": 280
+    },
+    {
+      "id": "chapter_12",
+      "title": "The Human Algorithm",
+      "start": 2354,
+      "file": "12-the-human-algorithm.ogg",
+      "menu": false,
+      "seconds": 187
+    }
+  ]
+}

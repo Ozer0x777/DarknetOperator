@@ -1,6 +1,11 @@
-# Plan de Claude : suivi de réalisation
+# Feuille de route : suivi de réalisation
 
-## État courant - 0.5.2, 12 novembre 2026
+La proposition [Acte III : Les frontières invisibles](ACTE_III_PROPOSITION.md)
+décrit douze missions sur huit segments, les outils de transport prévus et
+l'exigence de résolution sans recherche sur Internet. La [couverture livrée](ACTE_III_COUVERTURE.md) décrit les douze dossiers
+jouables et les limites des outils et de l'infrastructure.
+
+## État courant - 0.6.0, passe narrative du 15 novembre 2026
 
 L’acte I courant comporte sept exercices privés, dix chapitres et sept petits
 contrats facultatifs, sans achat payant obligatoire. Les anciennes sauvegardes
@@ -10,8 +15,25 @@ facultatifs, avec inventaire système, Polkit, tunnel SSH, LDAP, analyse de grap
 et outils simulés ; les limites sont décrites dans
 [ACTE_II_COUVERTURE.md](ACTE_II_COUVERTURE.md).
 La [passe de finition](FINITION_ACTE_I.md) couvre les consignes, les offres et la réserve de route.
-Les actes III et IV, l’intégration Steam et les essais graphiques natifs restent
-à poursuivre. Les sections suivantes conservent l’historique du plan.
+L’acte III livre douze missions : découverte, Chisel, ProxyChains, Evil-WinRM,
+droits LDAP, profils Defender, anti-tamper, second pivot, repli et lot industriel.
+Les six derniers dossiers déclarent 38 machines sur huit segments ; les systèmes
+secondaires et le domaine Aster ont une couverture limitée, détaillée dans le guide.
+La persistance continue du réseau, l’acte IV, Steam et les essais humains restent à poursuivre. Les sections suivantes conservent l’historique du plan.
+
+La passe narrative reprend les sujets du forum, les contacts, les événements
+sociaux et les échanges des clients. Madame_TLS prépare un intérêt amoureux
+possible dont la proximité sert sa mission d'espionne contre le joueur.
+Trente et une scènes à trois réponses et les liens persistants sont présents.
+Un premier arc de cinq scènes avec Madame_TLS relie goûts, désaccord, veille
+économique, transmission de pièces et soupçon vérifiable, pour les trois liens.
+La révélation et les conséquences de la trahison restent à développer. Voir
+[RELATIONS_NARRATIVES.md](RELATIONS_NARRATIVES.md) pour la séparation entre
+contenu livré et branches futures.
+
+Les [forums et portraits orbitaux](FORUMS_ET_AVATARS.md) disposent de catégories,
+de repères de lecture persistants, de dix-neuf avatars et de trois bannières avec
+personnage féminin. Les portraits des sujets larges et des profils font 200 pixels.
 
 
 Le document `03-red-progression.md` décrit la vision d'origine. Ce suivi distingue

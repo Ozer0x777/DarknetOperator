@@ -44,10 +44,10 @@ def test_scenario_without_fog_field_knows_everything():
     assert state.scanned == set(state.hosts)
 
 
-def test_red_cannot_target_undiscovered_host():
+def test_intrusive_action_still_requires_discovery():
     state = fogged_state()
     ctx = ActionContext(actor="red", target=state.hosts["file-01"], tick=1)
-    result = ability_engine.resolve(ABILITIES["red.recon_scan"], state, ctx)
+    result = ability_engine.resolve(ABILITIES["red.psexec_lateral"], state, ctx)
     assert result.success is False
     assert result.reason == "prerequisite failed: target_discovered"
 
@@ -98,12 +98,14 @@ def test_terminal_builds_action_from_ip_or_hostname():
         assert result.action.target_id == "pc-01"
 
 
-def test_terminal_hides_undiscovered_hosts_like_missing_ones():
+def test_scan_can_probe_an_undiscovered_address_without_opening_a_session():
     state = fogged_state()
-    hidden = run("nmap 192.168.1.20", state)        # FILE-01 existe mais n'est pas découvert
-    missing = run("nmap 192.168.1.250", state)      # n'existe pas
-    assert not hidden.ok and not missing.ok
-    assert hidden.output[0].replace("192.168.1.20", "X") == missing.output[0].replace("192.168.1.250", "X")
+    loop = GameLoop(state, ABILITIES)
+    command(state, loop, "nmap -p 445 192.168.1.20")
+    assert 'file-01' in state.discovered
+    assert state.hosts['file-01'].status == 'HEALTHY'
+    assert state.terminal_host is None
+    assert '445/tcp  open' in state.history[-1].message
 
 
 def test_terminal_checks_transport_before_authentication():

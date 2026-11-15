@@ -1,0 +1,4 @@
+interface:
+  display_name: "Narration — Darknet Operator"
+  short_description: "Dialogues, personnages et relations du jeu"
+  default_prompt: "Utilise $redteam-narrative pour écrire ou réviser une scène de Darknet Operator."

@@ -178,6 +178,8 @@ def _get_session(game_id: str) -> GameSession:
     session = GAMES.get(game_id)
     if session is None:
         raise HTTPException(404, f"Partie inconnue: {game_id}")
+    from engine.conversation_scenes import provision_files
+    provision_files(session.state, career().data)
     return session
 
 
@@ -205,7 +207,7 @@ class TerminalRequest(BaseModel):
 
 @app.get("/api/health")
 async def health():
-    return {"status": "ok", "application": "RedTeamSimulator", "version": "0.5.4-dev"}
+    return {"status": "ok", "application": "RedTeamSimulator", "version": "0.6.0"}
 
 
 @app.get("/api/abilities")
@@ -708,6 +710,8 @@ def workspace() -> GameState:
         _WORKSPACE = state_from_dict(saved) if saved else GameState(hosts={}, users={})
         _WORKSPACE.available_abilities = {"red": list(ABILITIES)}
         shell_tools.prepare(_WORKSPACE)
+    from engine.conversation_scenes import provision_files
+    provision_files(_WORKSPACE, career().data)
     return _WORKSPACE
 
 
@@ -884,7 +888,13 @@ async def get_thread(thread_id: str, refresh: bool = False):
         counts=career().data.setdefault('thread_views',{})
         counts[thread_id]=counts.get(thread_id,0)+1
         dirty = True
-    social.prepare(career())
+    world = social.prepare(career())
+    posts = career().data.get('forum_posts', {}).get(thread_id, [])
+    marker = posts[-1]['id'] if posts else 'root'
+    seen = world.setdefault('forum_seen', {})
+    if seen.get(thread_id) != marker:
+        seen[thread_id] = marker
+        dirty = True
     active_id = (career().data.get('active') or {}).get('conversation_id')
     for session in GAMES.values():
         if session.state.conversation_id != active_id or session.state.status != 'RUNNING': continue
@@ -926,6 +936,7 @@ async def reply_thread(thread_id: str, req: ForumReplyRequest):
     local_forum = topic.get("forum", _load_contracts().get(thread_id, {}).get("bounty", {}).get("forum", "breachboard"))
     posts.append({"author": req.handle, "text": req.text.strip(), "reputation": scores(career().data)[local_forum], "time": social.stamp(career().data["social"]["minute"]), "minute": career().data["social"]["minute"]})
     social.queue_forum_reply(career(), thread_id, identity)
+    career().data["social"].setdefault("forum_seen", {})[thread_id] = posts[-1]["id"]
     career().save()
     return posts
 
@@ -954,6 +965,33 @@ async def social_chat(req: SocialChatRequest):
         raise HTTPException(400, str(exc))
     career().save()
     return social.view(career(), _load_contracts())
+
+
+class DialogueChoiceRequest(BaseModel):
+    handle: str
+    peer: str
+    channel: Literal['chordly', 'telegrid', 'sessyon']
+    scene_id: str
+    option_id: str
+
+
+@app.post('/api/social/choice')
+async def choose_dialogue(req: DialogueChoiceRequest):
+    from copy import deepcopy
+    from engine.conversation_scenes import choose
+    identity = _community_identity(req.handle)
+    profile = career()
+    before = deepcopy(profile.data)
+    try:
+        choose(profile, req.channel, req.peer, req.scene_id, req.option_id, identity)
+        profile.save()
+    except ValueError as exc:
+        profile.data = before
+        raise HTTPException(409, str(exc))
+    except OSError:
+        profile.data = before
+        raise HTTPException(503, 'Impossible de sauvegarder ta réponse. Le choix reste ouvert, réessaie dans un instant.')
+    return social.view(profile, _load_contracts())
 
 
 class WaitWorldRequest(BaseModel):

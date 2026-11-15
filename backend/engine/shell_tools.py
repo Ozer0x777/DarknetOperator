@@ -7,7 +7,7 @@ import shlex
 from urllib.parse import urlsplit, parse_qs
 from .models import GameState
 
-BINARIES = {
+BINARIES = {"chisel": "/usr/bin/chisel", "proxychains4": "/usr/bin/proxychains4", "proxychains": "/usr/bin/proxychains", "evil-winrm": "/usr/bin/evil-winrm",
     "scp": "/usr/bin/scp", "smbclient": "/usr/bin/smbclient",
     "nmap": "/usr/bin/nmap", "gophish": "/opt/gophish/gophish", "curl": "/usr/bin/curl",
     "ssh": "/usr/bin/ssh", "impacket-psexec": "/usr/bin/impacket-psexec",
@@ -142,7 +142,7 @@ def parse(line: str, state: GameState, abilities):
                 if posixpath.dirname(filename) not in directories(state): return TerminalResult(False,['shell: No such file or directory'])
                 files = state.hosts[state.terminal_host].files if state.terminal_host else state.terminal_files
                 before = files.get(filename)
-                content = "\n".join(result.output) + ("\n" if result.output else "")
+                content = result.stdout if result.stdout is not None else "\n".join(result.output) + ("\n" if result.output else "")
                 files[filename] = (before or "" if operator == ">>" else "") + content
                 audit(state,'append' if operator == '>>' else 'write',filename,before,files[filename])
                 result.output = []
@@ -171,7 +171,7 @@ def parse(line: str, state: GameState, abilities):
     if tool == "kill":
         value = args[-1] if args else ""
         if not value.isdigit(): return TerminalResult(False, ["usage: kill [-INT|-TERM] pid"])
-        service = next((s for s in state.tool_services.values() if s.get("pid") == int(value) and s.get("running")), None)
+        service = next((s for s in state.tool_services.values() if s.get("pid") == int(value) and s.get("running") and s.get("process_host") == state.terminal_host), None)
         if not service: return TerminalResult(False, [f"kill: ({value}) - No such process"])
         service["running"] = False
         owner, pid = service.get("owner"), int(value)
@@ -290,13 +290,15 @@ def _curl(args, state, abilities):
     result=_curl_request(normalized,state,abilities)
     if destination and result.ok:
         from .virtual_files import audit
-        content='\n'.join(result.output)
-        content+=('\n' if content and not content.endswith('\n') else '')
+        content = result.stdout if result.stdout is not None else '\n'.join(result.output)
+        if result.stdout is None:
+            content+=('\n' if content and not content.endswith('\n') else '')
         files=state.hosts[state.terminal_host].files if state.terminal_host else state.terminal_files
         before=files.get(destination)
         files[destination]=content
         audit(state,'write',destination,before,content)
         result.output=[]
+        result.stdout=""
     return result
 
 

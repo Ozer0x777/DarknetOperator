@@ -16,14 +16,14 @@ if not godot:
     raise SystemExit('Godot 4 est requis pour les tests d’interface.')
 python=str(root/'backend/.venv/bin/python')
 VALIDATIONS=['validation_suite.py','act1_validation.py','journey_validation.py','first_hour_validation.py','mission_review_validation.py',
-             'save_review_validation.py','demo_validation.py','act2_validation.py','curriculum_validation.py']
+             'save_review_validation.py','demo_validation.py','act2_validation.py','curriculum_validation.py','tls_arc_validation.py','act3_validation.py']
 GODOT_TESTS=['tests/test_audio.gd','tests/test_music_player.gd','tests/test_main_menu.gd','tests/test_desktop.gd','tests/test_window_input.gd',
              'tests/test_menu_over_windows.gd','tests/test_console_restore.gd','tests/test_review_fixes.gd','tests/test_terminal_input.gd',
-             'tests/test_social_life.gd','tests/test_social_layout.gd','tests/test_social_workflow.gd','tests/test_progression_wallet.gd',
-             'tests/test_journey.gd','tests/test_demo.gd','tests/test_act2.gd','tests/test_first_hour.gd','tests/test_tool_forms.gd',
+             'tests/test_social_life.gd','tests/test_forum_community.gd','tests/test_social_layout.gd','tests/test_social_workflow.gd','tests/test_dialogue_choices.gd','tests/test_tls_arc.gd','tests/test_progression_wallet.gd',
+             'tests/test_journey.gd','tests/test_demo.gd','tests/test_act2.gd','tests/test_act3.gd','tests/test_first_hour.gd','tests/test_tool_forms.gd',
              'tests/test_scenario_replays.gd','tests/test_act1_replays.gd']
 # Les rejeux complets prennent environ deux minutes sur une machine chargée.
-LONG={'tests/test_scenario_replays.gd':300,'tests/test_act1_replays.gd':300}
+LONG={'tests/test_scenario_replays.gd':300,'tests/test_act1_replays.gd':300,'tests/test_tls_arc.gd':120}
 failures=[]
 started=time.monotonic()
 

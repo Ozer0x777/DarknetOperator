@@ -263,6 +263,8 @@ func _run() -> void:
 		desktop.apps[app_name].close_window()
 	if FileAccess.file_exists(social_path):
 		var compact_world: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(social_path))
+		desktop._profile = {"tier":3,"route":"relay","forum_unlocked":true,"handle":"NightShift","reputation":465,"forum_reputation":{"breachboard":465,"exployt":120,"xsx":40},"access":{"forums":{"breachboard":{"unlocked":true,"reason":""},"exployt":{"unlocked":true,"reason":""},"xsx":{"unlocked":true,"reason":""}}},"campaign":{"invitation_accepted":true}}
+
 		desktop.forum_view.update_data(data.contracts, {"tier": 3, "route": "relay", "forum_unlocked": true}, "nightshift", false)
 		desktop.forum_view.set_world(compact_world)
 		desktop._open("BreachBoard")
@@ -278,6 +280,30 @@ func _run() -> void:
 		desktop.apps.BreachBoard.size.x = 1040
 		desktop.apps.BreachBoard.position.x = 120
 		await _capture(desktop, "39-forum-reponse-1040")
+		desktop.forum_view.set_replies("musee-dimanche", compact_world.get("culture_posts", []))
+		desktop.forum_view.navigate("breachboard", "musee-dimanche", "Discussion")
+		await _capture(desktop, "72-forum-culture-1040")
+		desktop.apps.BreachBoard.size = Vector2(600, 600)
+		desktop.apps.BreachBoard.position = Vector2(280, 60)
+		await _capture(desktop, "73-forum-culture-600")
+		desktop.forum_view._show_member("Madame_TLS")
+		await _capture(desktop, "74-forum-profil-tls")
+		desktop.forum_view._member_dialog.hide()
+		desktop.forum_view.navigate("breachboard", "", "Discussion")
+		desktop.forum_view._category = "Culture & pauses"
+		desktop.forum_view.render()
+		await _capture(desktop, "75-forum-categorie-600")
+		desktop.forum_view._category = ""
+		desktop.apps.BreachBoard.size = Vector2(1040, 650)
+		desktop.apps.BreachBoard.position = Vector2(120, 40)
+		desktop.forum_view.navigate("exployt", "", "Discussion")
+		await _capture(desktop, "76-forum-exployt-banniere")
+		desktop.forum_view.navigate("xsx", "", "Discussion")
+		await _capture(desktop, "77-forum-xsx-banniere")
+		desktop.forum_view.navigate("breachboard", "", "Discussion")
+		await _capture(desktop, "78-forum-breachboard-banniere")
+
+
 	for frame: Control in desktop.apps.values(): frame.close_window()
 	var search_chat: Control = desktop.messengers.chordly
 	search_chat._select_peer("atelier_preview")
@@ -475,6 +501,37 @@ func _run() -> void:
 	await _capture(desktop,"63-lecteur-audio")
 	desktop.apps["Lecteur audio"].size = Vector2(520,420)
 	await _capture(desktop,"64-lecteur-audio-compact")
+	if FileAccess.file_exists(social_path):
+		for frame: Control in desktop.apps.values(): frame.close_window()
+		var tls_data: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(social_path))
+		var tls_chat: Control = desktop.messengers.chordly
+		tls_chat.messages.clear()
+		tls_chat._ids.clear()
+		tls_chat.set_mission_context({})
+		desktop._update_social(tls_data.tls_world)
+		tls_chat.set_offers([])
+		tls_chat.set_journey({})
+		tls_chat._select_peer("Madame_TLS")
+		desktop._open("Chordly")
+		desktop.apps.Chordly.position = Vector2(250, 60)
+		desktop.apps.Chordly.size = Vector2(760, 600)
+		await _capture(desktop,"65-madame-tls-reponses")
+		desktop.apps.Chordly.size = Vector2(600, 600)
+		await _capture(desktop,"66-madame-tls-reponses-600")
+		desktop.apps.Chordly.size = Vector2(600, 420)
+		await _capture(desktop,"67-madame-tls-reponses-compact")
+		for arc: Dictionary in tls_data.get("tls_arc_previews", []):
+			tls_chat.messages.clear()
+			tls_chat._ids.clear()
+			desktop._update_social(arc.world)
+			tls_chat._select_peer("Madame_TLS")
+			tls_chat.set_offers([])
+			tls_chat.set_journey({})
+			desktop.apps.Chordly.size = Vector2(600,600)
+			var id: String = "68-tls-arc-desaccord"
+			if arc.scene_id == "tls-arc-limite": id = "69-tls-arc-note-privee"
+			elif arc.scene_id == "tls-arc-retour": id = "70-tls-arc-incoherence" if arc.stance == "professionnel" else "71-tls-arc-transmission"
+			await _capture(desktop,id)
 	print("Géométrie des vues exportée dans " + output)
 	desktop.queue_free()
 	await process_frame

@@ -13,12 +13,12 @@
     "title": "02 - Une porte oubliée",
     "body": "Retrouver le bon NC-26-041 de novembre sur le partage annoncé à 10.61.2.10. Une ancienne version ne convient pas."
   },
-  "brief": "Retrouver le bon NC-26-041 de novembre sur le partage annoncé à 10.61.2.10. Une ancienne version ne convient pas.\n\nNouveau : consulter un partage SMB. Commence par `nmap -sV 10.61.2.10`, puis `smbclient -L 10.61.2.10 -N`. -L liste les partages ; -N essaie une session invitée, sans donner de droits administrateur. Compare les répertoires et les dates, puis conserve et lis le bon document dans ~/loot. Tu peux consulter le fil « Un partage ne donne pas tous les droits ». Confirme ensuite une livraison en citant NC-26-041. Écris indice si tu bloques, ou rappel détaillé pour la syntaxe.",
+  "brief": "Retrouver le bon NC-26-041 de novembre sur le partage annoncé à 10.61.2.10. Une ancienne version ne convient pas.\n\nOn prend ça dans l’ordre.\n\nNouveau : consulter un partage SMB. Commence par `nmap -sV 10.61.2.10`, puis `smbclient -L 10.61.2.10 -N`. -L liste les partages ; -N essaie une session invitée, sans donner de droits administrateur. Compare les répertoires et les dates, puis conserve et lis le bon document dans ~/loot. Tu peux consulter le fil « Un partage ne donne pas tous les droits ». Confirme ensuite une livraison en citant NC-26-041. Écris indice si tu bloques, ou rappel détaillé pour la syntaxe.",
   "reward": 160,
   "reputation": 45,
   "required_items": [],
-  "success_message": "Livraison vérifiée. {reward} ₵ annoncés au contrat ; le règlement exact figure dans ton profil. Merci {handle}, je conserve tes preuves.",
-  "failure_message": "Dossier interrompu. Reprends une sauvegarde ou relance le contrat pour retenter le parcours.",
+  "success_message": "C’est bien le NC-26-041 de novembre. J’avais laissé l’ancienne version exprès à côté, il fallait la voir. Garde tes notes, on réutilisera ça. La prime annoncée est de {reward} ₵ ; le règlement exact figure dans ColdVault.",
+  "failure_message": "On s’arrête là pour ce dossier. Garde le débriefing, on reprendra ce qui a coincé au prochain essai.",
   "guide": [],
   "investigation_steps": [
     {
@@ -35,9 +35,9 @@
           "inspected": true
         }
       ],
-      "response": "Le bon de novembre est intact et correspond à NC-26-041. Travail vérifié.",
+      "response": "NC-26-041, novembre, copie intacte. C’est la bonne version. Tu as bien fait de regarder à côté de l’archive.",
       "missing": "Il manque une observation vérifiable. Liste le partage public avec smbclient //10.61.2.10/public -N -c \"ls\" ; get copie un fichier vers /home/operator/loot/. Lis les versions avant de livrer.",
-      "already": "Cette étape est déjà enregistrée.",
+      "already": "Oui, j’ai gardé cette vérification. Tu peux passer à la suite.",
       "hint": "Liste le partage public avec smbclient //10.61.2.10/public -N -c \"ls\" ; get copie un fichier vers /home/operator/loot/. Lis les versions avant de livrer.",
       "hints": [
         "Compare la référence et la date du document ; la présence d’un fichier portant un nom proche ne suffit pas.",
@@ -84,12 +84,17 @@
     "act1-partages"
   ],
   "private_offer": false,
-  "intro": "On m’a recommandé ton pseudo. Retrouver le bon NC-26-041 de novembre sur le partage annoncé à 10.61.2.10. Une ancienne version ne convient pas. Ouvre le dossier pour recevoir les pièces ; la suite se passe dans notre conversation Chordly.",
+  "intro": "J’ai vu ton travail sur Ravelle. J’ai besoin du bon NC-26-041 de novembre, sur le partage de 10.61.2.10. Il traîne une ancienne version à côté, alors prends le temps de comparer. Les pièces arrivent quand tu ouvres le dossier. On reste sur Chordly.",
   "relaxed_clock": true,
   "side_job": false,
   "chapter": 2,
   "required_completed": [
     "tuto_p0"
   ],
-  "terminal_revision": 2
+  "terminal_revision": 2,
+  "dialogue": {
+    "greeting": "Salut {handle}. Je finis un compte rendu. Qu’est-ce qu’il y a ?",
+    "ack": "Garde tes remerciements pour quand tu sauras refaire sans moi. Mais oui, j’ai lu.",
+    "fallback": "Je ne suis pas sûr de ce que tu me demandes. Tu peux préciser ?"
+  }
 }

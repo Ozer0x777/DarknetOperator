@@ -22,8 +22,8 @@
   "required_completed": [
     "act2_passation"
   ],
-  "success_message": "Preuves vérifiées. {reward} ₵ réglés dans ColdVault ; tes choix sont conservés.",
-  "failure_message": "Dossier interrompu, sans prime. Les accès acquis et les observations sauvegardées restent disponibles pour une reprise.",
+  "success_message": "Comparaison relue. Je garde le résultat avec la liste utilisée, sinon on ne sait plus ce qu’on a réellement testé. La prime annoncée est de {reward} ₵ ; le règlement exact figure dans ColdVault.",
+  "failure_message": "On s’arrête ici. Je préfère garder ce qu’on a vraiment observé plutôt que compléter de mémoire. Relis le débriefing avant de retenter.",
   "guide": [],
   "investigation_steps": [
     {
@@ -38,8 +38,8 @@
           "source": "/home/operator/mission/secours.ntlm"
         }
       ],
-      "response": "Contre-vérification reçue.",
-      "already": "Cette preuve est déjà enregistrée.",
+      "response": "Comparaison relue. Je garde le résultat avec la liste utilisée, sinon on ne sait plus ce qu’on a réellement testé.",
+      "already": "Je l’ai conservé avec les pièces. Pas besoin de refaire cette vérification pour moi.",
       "missing": "Vérifie les observations et la version des pièces ; demande indice si nécessaire.",
       "hint": "`hashcat -m 1000 ~/mission/secours.ntlm ~/mission/secours.txt`, puis `hashcat -m 1000 --show ~/mission/secours.ntlm`. Confirme rapport act2_side_empreinte.",
       "hints": [
@@ -57,8 +57,13 @@
     "/home/operator/mission/secours.txt": "Secours2025!\nSecours2026!\n"
   },
   "private_offer": true,
-  "intro": "Vérifier une empreinte de secours distincte de la passation initiale. Pièces : ~/mission/secours.ntlm et secours.txt. Aucun accès réseau demandé.",
+  "intro": "Cendre. Une petite comparaison hors ligne si tu as du temps. Je fournis les pièces, rien à acheter. Le détail est dans le dossier sur Telegrid.",
   "relaxed_clock": true,
   "terminal_revision": 1,
-  "side_job": true
+  "side_job": true,
+  "dialogue": {
+    "greeting": "Salut. J’avais gardé le fil ouvert au cas où tu repassais.",
+    "ack": "Merci à toi d’avoir attendu. Je sais que je peux être lent.",
+    "fallback": "Je relis et je ne suis pas certain de comprendre. On reprend depuis quel point ?"
+  }
 }

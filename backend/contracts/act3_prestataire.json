@@ -1,0 +1,86 @@
+{
+  "contract_id": "act3_prestataire",
+  "scenario": "act3_prestataire",
+  "tier": 2,
+  "act": 3,
+  "act_chapter": 2,
+  "channel": "telegrid",
+  "client": {
+    "handle": "traverse",
+    "forum_rep": 80,
+    "account_age_days": 650
+  },
+  "bounty": {
+    "forum": "exployt",
+    "title": "Acte III · 02 — La porte du prestataire",
+    "body": "J’ai deux passations Aster sur le bureau. L’ancienne vise .11, l’actuelle .10. Les comptes n’ont jamais donné accès à tout Lenoir. Compare les passerelles, ouvre la session de lecture annoncée et lis la passation sur place. Le secret est joint au dossier."
+  },
+  "brief": "J’ai deux passations Aster sur le bureau. L’ancienne vise .11, l’actuelle .10. Les comptes n’ont jamais donné accès à tout Lenoir. Compare les passerelles, ouvre la session de lecture annoncée et lis la passation sur place. Le secret est joint au dossier.\n\nDocumentation dans ~/docs, pièces dans ~/mission. Demande indice ou rappel détaillé ici. Confirme ton constat dans cette conversation après les vérifications.",
+  "reward": 410,
+  "reputation": 20,
+  "required_items": [],
+  "required_completed": [
+    "act3_decouverte"
+  ],
+  "success_message": "La nouvelle passation tient : bonne machine, bon compte et droits limités. L’ancienne adresse ne fournit plus SSH. Règlement de {reward} ₵ dans ColdVault.",
+  "failure_message": "On reprend depuis les constats enregistrés au débriefing. Pas besoin d’inventer un accès pour conclure.",
+  "guide": [],
+  "investigation_steps": [
+    {
+      "id": "constat",
+      "tokens": [
+        "preuve"
+      ],
+      "requires": [
+        {
+          "type": "scan_observed",
+          "host": "old",
+          "source": "operator",
+          "discovery": true,
+          "port": 22,
+          "port_state": "closed"
+        },
+        {
+          "type": "scan_observed",
+          "host": "maintenance",
+          "source": "operator",
+          "discovery": false,
+          "port": 22,
+          "port_state": "open",
+          "skip_discovery": true
+        },
+        {
+          "type": "session_on_host",
+          "host": "maintenance"
+        },
+        {
+          "type": "file_read",
+          "host": "maintenance",
+          "path": "/home/maintenance/passation.txt"
+        }
+      ],
+      "response": "La nouvelle passation tient : bonne machine, bon compte et droits limités. L’ancienne adresse ne fournit plus SSH.",
+      "already": "Oui, constat reçu.",
+      "missing": "Il manque une observation vérifiable. Demande indice pour reprendre le point bloquant.",
+      "hint": "nmap -Pn -p 22 10.90.10.11 ; nmap -Pn -p 22 10.90.10.10 ; ssh maintenance@10.90.10.10 ; secret AsterLecture2026! ; cat /home/maintenance/passation.txt. Confirme « constat » depuis la session.",
+      "hints": [
+        "Compare les deux adresses, puis vérifie l’identité de la session et la pièce distante. Le document actuel donne le compte.",
+        "Les réponses dépendent de la console, de la découverte et du port. Vérifie ces trois points."
+      ]
+    }
+  ],
+  "local_files": {
+    "/home/operator/docs/reconnaissance.txt": "Reconnaissance — documentation locale du simulateur\nnmap --help : options couvertes. -Pn saute la découverte préalable ; il ne traverse pas un pare-feu et ne crée aucune route.\nUn port open répond, closed refuse la connexion, filtered ne fournit pas de réponse exploitable. La découverte peut échouer alors que TCP/22 répond.\nExercice de syntaxe, adresses différentes du dossier : nmap -sV -p 22,80 192.0.2.10 ; puis nmap -Pn -sV -p 22,80 192.0.2.10.\nSur un relais : ip addr ; ip route ; ss -lnt ; nmap -sV -p 80 192.0.2.20.\nSSH : ssh utilisateur@adresse ; saisir le secret au prompt ; whoami ; hostname ; exit.\nUne nouvelle console reste locale. Les droits de lecture SSH ne sont pas des droits administrateur du domaine.\n",
+    "/home/operator/mission/ticket.txt": "LN-FW-301 : sondes de découverte usuelles filtrées depuis opérateur vers 10.90.10.10 ; TCP/22 maintenu pour maintenance. Cette règle ne décrit aucun accès aux réseaux internes.\n",
+    "/home/operator/mission/passations.txt": "Ancienne passation : ASTER-ANCIEN 10.90.10.11, retirée du service.\nActuelle : ASTER-MAINT 10.90.10.10 ; compte maintenance ; secret AsterLecture2026! ; lecture uniquement.\n"
+  },
+  "private_offer": true,
+  "intro": "J’ai deux passations Aster sur le bureau. L’ancienne vise .11, l’actuelle .10. Les comptes n’ont jamais donné accès à tout Lenoir. Compare les passerelles, ouvre la session de lecture annoncée et lis la passation sur place. Le secret est joint au dossier.",
+  "relaxed_clock": true,
+  "terminal_revision": 1,
+  "dialogue": {
+    "greeting": "Salut. J’ai les pièces Aster ouvertes, on peut comparer.",
+    "ack": "D’accord, je garde ça avec les observations.",
+    "fallback": "Tu parles de quelle machine, et depuis quelle console ?"
+  }
+}
