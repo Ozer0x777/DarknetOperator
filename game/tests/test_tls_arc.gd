@@ -24,7 +24,7 @@ func check(value: bool, message: String) -> void:
 func settle() -> void:
 	for index: int in range(8): await process_frame
 func run() -> void:
-	var path: String = "res://../build/validation/tls-arc-replays.json"
+	var path: String = (OS.get_environment("REDTEAM_VALIDATION_DIR") if not OS.get_environment("REDTEAM_VALIDATION_DIR").is_empty() else ProjectSettings.globalize_path("res://../build/validation")).path_join("tls-arc-replays.json")
 	if not FileAccess.file_exists(path):
 		push_error("Corpus absent : lance backend/tls_arc_validation.py.")
 		quit(1)
